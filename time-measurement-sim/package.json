@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "postinstall": "jspm install",
+    "dist": "rm -rf dist; mkdir dist; jspm bundle-sfx app/main dist/app.min.js --minify;./node_modules/.bin/html-dist index.html --remove-all --minify --insert app.min.js -o dist/index.html"
+  },
+  "jspm": {
+    "dependencies": {
+      "angular2": "npm:angular2@^2.0.0-alpha.44",
+      "bootstrap": "github:twbs/bootstrap@^3.3.5",
+      "css": "github:systemjs/plugin-css@^0.1.19",
+      "reflect-metadata": "npm:reflect-metadata@^0.1.2"
+    },
+    "devDependencies": {
+      "clean-css": "npm:clean-css@^3.4.6",
+      "typescript": "npm:typescript@^1.6.2"
+    }
+  },
+  "devDependencies": {
+    "html-dist": "^0.1.0",
+    "jspm": "^0.16.13",
+    "live-server": "^0.8.2"
+  }
+}
