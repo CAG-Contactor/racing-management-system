@@ -1,11 +1,10 @@
-package se.cag.springboottry.usermanager;
+package se.cag.labs.usermanager;
 
 import org.springframework.data.annotation.Id;
 
 public class User {
     @Id
     private String id;
-
     private String name;
     private String email;
     private String password;
@@ -17,6 +16,10 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getEmail() {
