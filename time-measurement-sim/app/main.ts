@@ -21,9 +21,9 @@ import {
     template: `
 <div class="container">
   <h1>CAG Time Measurement Manager Simulator</h1>
-  <button type="button" class="btn btn-danger" (click)="passageStart()">Start</button>
-  <button type="button" class="btn btn-warning" (click)="passageSplit()">Mellan</button>
-  <button type="button" class="btn btn-success" (click)="passageFinish()">Mål</button>
+  <button type="button" class="btn btn-danger" (click)="passage('START')">Start</button>
+  <button type="button" class="btn btn-warning" (click)="passage('SPLIT')">Mellan</button>
+  <button type="button" class="btn btn-success" (click)="passage('FINISH')">Mål</button>
 </div>
 `
 })
@@ -34,22 +34,15 @@ class Main {
         this.http = http;
     }
 
-    passageStart() {
+    passage(sensorId:string) {
         const data = {
-            sensorID: 'START',
+            sensorID: sensorId,
             timestamp: new Date().getTime()
         };
         this.http.post('http://localhost:12080/passageDetected', JSON.stringify(data))
             .subscribe(res => console.debug('response', res));
-        console.debug('Start');
-    }
+        console.debug(sensorId);
 
-    passageSplit() {
-        console.debug('Mellan');
-    }
-
-    passageFinish() {
-        console.debug('Slut');
     }
 }
 
