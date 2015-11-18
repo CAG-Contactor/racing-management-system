@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "postinstall": "jspm install",
-    "dist": "rm -rf dist; mkdir dist; jspm bundle-sfx app/main dist/app.min.js --minify;./node_modules/.bin/html-dist index.html --remove-all --minify --insert app.min.js -o dist/index.html"
+    "start": "./node_modules/.bin/live-server --port=10080",
+    "postinstall": "./node_modules/.bin/jspm install",
+    "dist": "rm -rf dist; mkdir dist; ./node_modules/.bin/jspm bundle-sfx app/main dist/app.min.js --minify;./node_modules/.bin/html-dist index.html --remove-all --minify --insert app.min.js -o dist/index.html"
   },
   "jspm": {
     "dependencies": {

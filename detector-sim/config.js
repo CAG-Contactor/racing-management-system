@@ -2,7 +2,7 @@ System.config({
   baseURL: "/",
   defaultJSExtensions: true,
   transpiler: "typescript",
-  typescriptOptions: { // https://github.com/frankwallis/plugin-typescript
+  typescriptOptions: {
     "noImplicitAny": true,
     "typeCheck": "strict",
     "tsconfig": true,
