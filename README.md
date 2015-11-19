@@ -8,6 +8,7 @@ https://docs.google.com/document/d/1XGBgplnsUNRDbRJNK4cv8ZI62qq4Ehvje5bfcnJsEsQ/
 
 Mongo DB
 --------
-https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/
-http://3t.io/mongochef/download/
+Install MongoDB: https://docs.mongodb.org/manual/installation/
+
+MongoDB GUI, 3T MongoChef: http://3t.io/mongochef/download/
 
