@@ -12,3 +12,7 @@ Install MongoDB: https://docs.mongodb.org/manual/installation/
 
 MongoDB GUI, 3T MongoChef: http://3t.io/mongochef/download/
 
+Tools
+-----
+REST Test tool:<br>
+Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en
