@@ -72,4 +72,17 @@ public class RaceStatus {
     public enum State {
         ACTIVE, INACTIVE
     }
+
+    @Override
+    public String toString() {
+        return "RaceStatus{" +
+                "id='" + id + '\'' +
+                ", raceId='" + raceId + '\'' +
+                ", event=" + event +
+                ", startTime=" + startTime +
+                ", middleTime=" + middleTime +
+                ", finishTime=" + finishTime +
+                ", state=" + state +
+                '}';
+    }
 }

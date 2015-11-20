@@ -31,8 +31,8 @@ public class CurrentRaceController {
     }
 
     @RequestMapping("/cancelRace")
-    public String cancelRace() {
-        return cancelRaceService.cancelRace();
+    public void cancelRace() {
+        cancelRaceService.cancelRace();
     }
 
     @RequestMapping("/passageDetected")
