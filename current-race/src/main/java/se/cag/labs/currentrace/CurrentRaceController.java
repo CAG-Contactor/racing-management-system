@@ -6,39 +6,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
+import se.cag.labs.currentrace.services.CancelRaceService;
+import se.cag.labs.currentrace.services.PassageDetectedService;
+import se.cag.labs.currentrace.services.StartRaceService;
+import se.cag.labs.currentrace.services.StatusService;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET})
 public class CurrentRaceController {
     @Autowired
     private CurrentRaceRepository repository;
+    @Autowired
+    private StartRaceService startRaceService;
+    @Autowired
+    private CancelRaceService cancelRaceService;
+    @Autowired
+    private PassageDetectedService passageDetectedService;
+    @Autowired
+    private StatusService statusService;
 
     @RequestMapping("/startRace")
     public String startRace(@RequestParam String callbackUrl) {
-        RaceStatus activeRaceStatus = repository.findByState(RaceStatus.State.ACTIVE);
-
-        if(activeRaceStatus == null) {
-            repository.save(new RaceStatus(RaceStatus.Event.START, new Date(), null, null, RaceStatus.State.ACTIVE));
-            return "Starting race: " + callbackUrl;
-        } else {
-            return "Race is already started";
-        }
+        return startRaceService.startRace(callbackUrl);
     }
 
     @RequestMapping("/cancelRace")
     public String cancelRace() {
-        return "Cancelling race";
+        return cancelRaceService.cancelRace();
     }
 
     @RequestMapping("/passageDetected")
     public String passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
-        return "passageDetected on : " + sensorID + " at: " + timestamp;
+        return passageDetectedService.passageDetected(sensorID, timestamp);
     }
 
     @RequestMapping("/status")
     public RaceStatus status() {
-        return repository.findByRaceId(RaceStatus.ID);
+        return statusService.status();
     }
 }
