@@ -10,15 +10,15 @@ public class RaceStatus {
     private String id;
     private String raceId = ID;
     private Event event;
-    private Date startTime;
-    private Date middleTime;
-    private Date finishTime;
+    private Long startTime;
+    private Long middleTime;
+    private Long finishTime;
     private State state;
 
     public RaceStatus() {
     }
 
-    public RaceStatus(Event event, Date startTime, Date middleTime, Date finishTime, State state) {
+    public RaceStatus(Event event, Long startTime, Long middleTime, Long finishTime, State state) {
         this.event = event;
         this.startTime = startTime;
         this.middleTime = middleTime;
@@ -34,27 +34,27 @@ public class RaceStatus {
         this.event = event;
     }
 
-    public Date getStartTime() {
+    public Long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Long startTime) {
         this.startTime = startTime;
     }
 
-    public Date getMiddleTime() {
+    public Long getMiddleTime() {
         return middleTime;
     }
 
-    public void setMiddleTime(Date middleTime) {
+    public void setMiddleTime(Long middleTime) {
         this.middleTime = middleTime;
     }
 
-    public Date getFinishTime() {
+    public Long getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Date finishTime) {
+    public void setFinishTime(Long finishTime) {
         this.finishTime = finishTime;
     }
 

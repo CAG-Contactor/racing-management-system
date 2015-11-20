@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.CurrentRaceRepository;
 import se.cag.labs.currentrace.RaceStatus;
 
-import java.util.Date;
-
 @Service
 public class StartRaceService {
 
