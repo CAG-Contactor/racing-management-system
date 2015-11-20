@@ -1,6 +1,8 @@
 package se.cag.labs.currentrace;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,17 +32,18 @@ public class CurrentRaceController {
         return startRaceService.startRace(callbackUrl);
     }
 
-    @RequestMapping("/cancelRace")
-    public void cancelRace() {
+    @RequestMapping(value = "/cancelRace", method = RequestMethod.POST)
+    public ResponseEntity cancelRace() {
         cancelRaceService.cancelRace();
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping("/passageDetected")
-    public String passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
+    @RequestMapping(value = "/passageDetected", method = RequestMethod.POST)
+    public ResponseEntity passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
         return passageDetectedService.passageDetected(sensorID, timestamp);
     }
 
-    @RequestMapping("/status")
+    @RequestMapping(value = "/status", method = RequestMethod.GET)
     public RaceStatus status() {
         return statusService.status();
     }
