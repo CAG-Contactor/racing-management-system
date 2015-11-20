@@ -7,11 +7,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET})
 public class CurrentRaceController {
 
     @RequestMapping("/startRace")
-    public void startRace(@RequestParam String callbackUrl) {
-        System.out.println("Starting race: " + callbackUrl);
+    public String startRace(@RequestParam String callbackUrl) {
+        return "Starting race: " + callbackUrl;
+    }
+
+    @RequestMapping("/cancelRace")
+    public String cancelRace() {
+        return "Cancelling race";
+    }
+
+    @RequestMapping("/passageDetected")
+    public String passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
+        return "passageDetected on : " + sensorID + " at: " + timestamp;
+    }
+
+    @RequestMapping("/status")
+    public String status() {
+        return "Status";
     }
 }
