@@ -13,5 +13,6 @@
 
 	<modules>
 		<module>user-manager</module>
+		<module>leaderboard</module>
 	</modules>
 </project>
