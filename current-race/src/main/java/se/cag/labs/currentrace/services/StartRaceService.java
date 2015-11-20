@@ -1,6 +1,8 @@
 package se.cag.labs.currentrace.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.CurrentRaceRepository;
 import se.cag.labs.currentrace.RaceStatus;
@@ -12,12 +14,13 @@ public class StartRaceService {
     @Autowired
     private CurrentRaceRepository repository;
 
-    public String startRace(String callbackUrl) {
+    public ResponseEntity startRace(String callbackUrl) {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
 
         if(activeRaceStatus == null) {
             repository.save(new RaceStatus(RaceStatus.Event.START, new Date(), null, null, RaceStatus.State.ACTIVE));
-            return "Starting race: " + callbackUrl;
+            System.out.println("Starting race: " + callbackUrl);
+            return new ResponseEntity(HttpStatus.ACCEPTED);
         } else if(RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.START);
             activeRaceStatus.setState(RaceStatus.State.ACTIVE);
@@ -26,9 +29,11 @@ public class StartRaceService {
             activeRaceStatus.setFinishTime(null);
 
             repository.save(activeRaceStatus);
-            return "Restarting race";
+            System.out.println("Restarting race");
+            return new ResponseEntity(HttpStatus.ACCEPTED);
         } else {
-            return "Race is already started";
+            System.out.println("Race is already started");
+            return new ResponseEntity(HttpStatus.FOUND);
         }
     }
 }

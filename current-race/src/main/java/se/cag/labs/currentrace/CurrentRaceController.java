@@ -27,8 +27,8 @@ public class CurrentRaceController {
     @Autowired
     private StatusService statusService;
 
-    @RequestMapping("/startRace")
-    public String startRace(@RequestParam String callbackUrl) {
+    @RequestMapping(value = "/startRace",  method = RequestMethod.POST)
+    public ResponseEntity startRace(@RequestParam String callbackUrl) {
         return startRaceService.startRace(callbackUrl);
     }
 
