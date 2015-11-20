@@ -105,13 +105,10 @@ export class Main {
             sensorID: sensorId,
             timestamp: time
         });
-        this.http.post(
-                'http://' + this.serverAddress + '/passageDetected',
-            data
-            )
+        this.http.post('http://' + this.serverAddress + '/passageDetected', data)
             .subscribe(
-                data => {
-                    console.debug('res:', data);
+                response => {
+                    console.debug('res:', response);
                 },
                 err => {
                     console.warn('err:', err);
