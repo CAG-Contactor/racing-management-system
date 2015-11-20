@@ -16,14 +16,6 @@ public class RaceStatus {
     public RaceStatus() {
     }
 
-    public RaceStatus(Event event, Long startTime, Long middleTime, Long finishTime, State state) {
-        this.event = event;
-        this.startTime = startTime;
-        this.middleTime = middleTime;
-        this.finishTime = finishTime;
-        this.state = state;
-    }
-
     public Event getEvent() {
         return event;
     }
@@ -70,18 +62,5 @@ public class RaceStatus {
 
     public enum State {
         ACTIVE, INACTIVE
-    }
-
-    @Override
-    public String toString() {
-        return "RaceStatus{" +
-                "id='" + id + '\'' +
-                ", raceId='" + raceId + '\'' +
-                ", event=" + event +
-                ", startTime=" + startTime +
-                ", middleTime=" + middleTime +
-                ", finishTime=" + finishTime +
-                ", state=" + state +
-                '}';
     }
 }

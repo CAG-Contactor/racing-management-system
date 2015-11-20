@@ -12,6 +12,11 @@ import se.cag.labs.currentrace.services.StatusService;
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class CurrentRaceController {
+    public static final String START_RACE_URL = "/startRace";
+    public static final String CANCEL_RACE_URL = "/cancelRace";
+    public static final String PASSAGE_DETECTED_URL = "/passageDetected";
+    public static final String STATUS_URL = "/status";
+
     @Autowired
     private StartRaceService startRaceService;
     @Autowired
@@ -21,7 +26,7 @@ public class CurrentRaceController {
     @Autowired
     private StatusService statusService;
 
-    @RequestMapping(value = "/startRace", method = RequestMethod.POST)
+    @RequestMapping(value = START_RACE_URL, method = RequestMethod.POST)
     public ResponseEntity startRace(@RequestParam String callbackUrl) {
         switch (startRaceService.startRace(callbackUrl)) {
             case FOUND:
@@ -33,7 +38,7 @@ public class CurrentRaceController {
         }
     }
 
-    @RequestMapping(value = "/cancelRace", method = RequestMethod.POST)
+    @RequestMapping(value = CANCEL_RACE_URL, method = RequestMethod.POST)
     public ResponseEntity cancelRace() {
         switch (cancelRaceService.cancelRace()) {
             case ACCEPTED:
@@ -45,7 +50,7 @@ public class CurrentRaceController {
         }
     }
 
-    @RequestMapping(value = "/passageDetected", method = RequestMethod.POST)
+    @RequestMapping(value = PASSAGE_DETECTED_URL, method = RequestMethod.POST)
     public ResponseEntity passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
         switch (passageDetectedService.passageDetected(sensorID, timestamp)) {
             case ACCEPTED:
@@ -57,7 +62,7 @@ public class CurrentRaceController {
         }
     }
 
-    @RequestMapping(value = "/status", method = RequestMethod.GET)
+    @RequestMapping(value = STATUS_URL, method = RequestMethod.GET)
     public RaceStatus status() {
         return statusService.status();
     }
