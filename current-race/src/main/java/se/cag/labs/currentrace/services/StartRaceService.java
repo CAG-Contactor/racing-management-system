@@ -22,12 +22,14 @@ public class StartRaceService {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
 
         if (activeRaceStatus == null) {
-            repository.save(new RaceStatus());
+            RaceStatus status = new RaceStatus();
+            status.setState(RaceStatus.State.ACTIVE);
+            repository.save(status);
             System.out.println("Starting race: " + callbackUrl);
             return StartRaceReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.NONE);
-            activeRaceStatus.setState(null);
+            activeRaceStatus.setState(RaceStatus.State.ACTIVE);
             activeRaceStatus.setStartTime(null);
             activeRaceStatus.setMiddleTime(null);
             activeRaceStatus.setFinishTime(null);
