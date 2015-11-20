@@ -32,7 +32,8 @@ public class PassageDetectedService {
                 case "FINISH_ID":
                     if (!RaceStatus.Event.FINISH.equals(raceStatus.getEvent())) {
                         raceStatus.setFinishTime(new Date(timestamp));
-                        raceStatus.setEvent(RaceStatus.Event.FINISH);
+                        RaceStatus.Event event = raceStatus.getMiddleTime() == null ? RaceStatus.Event.DISQUALIFIED : RaceStatus.Event.FINISH;
+                        raceStatus.setEvent(event);
                         raceStatus.setState(RaceStatus.State.INACTIVE);
                     }
                     break;
