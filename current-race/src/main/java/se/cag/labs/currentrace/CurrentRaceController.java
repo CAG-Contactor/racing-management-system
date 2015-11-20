@@ -53,7 +53,14 @@ public class CurrentRaceController {
 
     @RequestMapping(value = "/passageDetected", method = RequestMethod.POST)
     public ResponseEntity passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
-        return passageDetectedService.passageDetected(sensorID, timestamp);
+        switch (passageDetectedService.passageDetected(sensorID, timestamp)) {
+            case ACCEPTED:
+                return new ResponseEntity(HttpStatus.ACCEPTED);
+            case ERROR:
+                return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            default:
+                return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     @RequestMapping(value = "/status", method = RequestMethod.GET)
