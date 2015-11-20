@@ -12,7 +12,11 @@ public class CancelRaceService {
     @Autowired
     private CurrentRaceRepository repository;
 
-    public ResponseEntity cancelRace() {
+    public enum CancelRaceServiceReturnStatus {
+        ACCEPTED,
+        NOT_FOUND
+    }
+    public CancelRaceServiceReturnStatus cancelRace() {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
         if(raceStatus != null) {
@@ -23,9 +27,9 @@ public class CancelRaceService {
             raceStatus.setState(RaceStatus.State.INACTIVE);
 
             repository.save(raceStatus);
-            return new ResponseEntity(HttpStatus.ACCEPTED);
+            return CancelRaceServiceReturnStatus.ACCEPTED;
         }
 
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return CancelRaceServiceReturnStatus.NOT_FOUND;
     }
 }

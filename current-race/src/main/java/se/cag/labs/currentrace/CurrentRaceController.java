@@ -41,7 +41,14 @@ public class CurrentRaceController {
 
     @RequestMapping(value = "/cancelRace", method = RequestMethod.POST)
     public ResponseEntity cancelRace() {
-        return cancelRaceService.cancelRace();
+        switch (cancelRaceService.cancelRace()) {
+            case ACCEPTED:
+                return new ResponseEntity(HttpStatus.ACCEPTED);
+            case NOT_FOUND:
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            default:
+                return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     @RequestMapping(value = "/passageDetected", method = RequestMethod.POST)
