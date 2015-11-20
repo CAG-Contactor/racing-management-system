@@ -1,10 +1,13 @@
 package se.cag.labs.usermanager;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Created by dawi on 2015-11-20.
  */
 public class Token {
-    private String token;
+	@ApiModelProperty(value = "Session ID", required = true)
+	private String token;
 
     public Token() {
 
