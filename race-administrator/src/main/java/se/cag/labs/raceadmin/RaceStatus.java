@@ -1,13 +1,18 @@
 package se.cag.labs.raceadmin;
 
 import org.springframework.data.annotation.Id;
+import se.cag.labs.usermanager.User;
 
 public class RaceStatus {
+    public enum RaceState {
+        QUEUEING
+    }
+
     @Id
     private String id;
-    private String userId;
+    private User user;
     private String event;
-    private String state;
+    private RaceState state;
     private Long startTime;
     private Long middleTime;
     private Long finishTime;
@@ -15,8 +20,13 @@ public class RaceStatus {
     public RaceStatus() {
     }
 
-    public RaceStatus(String userId, String event, String state, Long startTime, Long middleTime, Long finishTime) {
-        this.userId = userId;
+    public RaceStatus(User user, RaceState state) {
+        this.user = user;
+        this.state = state;
+    }
+
+    public RaceStatus(User user, String event, RaceState state, Long startTime, Long middleTime, Long finishTime) {
+        this.user = user;
         this.event = event;
         this.state = state;
         this.startTime = startTime;
@@ -28,15 +38,15 @@ public class RaceStatus {
         return id;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public String getEvent() {
         return event;
     }
 
-    public String getState() {
+    public RaceState     getState() {
         return state;
     }
 

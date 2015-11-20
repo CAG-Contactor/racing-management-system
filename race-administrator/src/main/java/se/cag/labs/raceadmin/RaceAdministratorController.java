@@ -1,13 +1,11 @@
 package se.cag.labs.raceadmin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.cag.labs.usermanager.User;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -15,8 +13,12 @@ public class RaceAdministratorController {
     @Autowired
     private RaceRepository repository;
 
-    @RequestMapping("/registerforrace")
-    public void registerForRace(User user) {
+    @RequestMapping(value = "/registerforrace", method = RequestMethod.POST)
+    public void registerForRace(@RequestBody User user) {
+        Queue<RaceStatus> sfsd = new ArrayBlockingQueue<RaceStatus>(10);
+        sfsd.addAll(repository.findAll());
+        sfsd.add(new RaceStatus(user, RaceStatus.RaceState.QUEUEING));
+        repository.save(sfsd);
         // TODO: Implement
     }
 
