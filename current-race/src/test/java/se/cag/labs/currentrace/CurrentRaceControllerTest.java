@@ -14,6 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static com.jayway.restassured.RestAssured.given;
+import static com.jayway.restassured.RestAssured.when;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,11 +35,6 @@ public class CurrentRaceControllerTest {
         repository.deleteAll();
 
         RestAssured.port = port;
-    }
-
-    @After
-    public void tearDown() {
-        repository.deleteAll();
     }
 
     @Test
@@ -61,5 +59,26 @@ public class CurrentRaceControllerTest {
                 statusCode(405);
 
         assertTrue(repository.findByRaceId(RaceStatus.ID) == null);
+    }
+
+    @Test
+    public void canCancelRaceIfStarted() {
+        given().param("callbackUrl", "asd").
+                when().post("/startRace");
+
+        RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
+
+        assertNotNull(raceStatus);
+        assertEquals(RaceStatus.State.ACTIVE, raceStatus.getState());
+
+        when().
+                post("/cancelRace").
+        then().
+                statusCode(202);
+
+        raceStatus = repository.findByRaceId(RaceStatus.ID);
+
+        assertNotNull(raceStatus);
+        assertEquals(RaceStatus.State.INACTIVE, raceStatus.getState());
     }
 }
