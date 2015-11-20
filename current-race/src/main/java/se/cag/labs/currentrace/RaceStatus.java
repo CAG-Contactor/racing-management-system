@@ -2,8 +2,6 @@ package se.cag.labs.currentrace;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.Date;
-
 public class RaceStatus {
     public static final String ID = "ID";
     @Id

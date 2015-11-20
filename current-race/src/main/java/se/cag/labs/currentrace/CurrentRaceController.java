@@ -10,7 +10,7 @@ import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET})
+@CrossOrigin(origins = "*")
 public class CurrentRaceController {
     @Autowired
     private CurrentRaceRepository repository;
