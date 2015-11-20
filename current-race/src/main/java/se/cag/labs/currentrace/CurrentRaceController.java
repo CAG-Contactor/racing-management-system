@@ -29,7 +29,14 @@ public class CurrentRaceController {
 
     @RequestMapping(value = "/startRace",  method = RequestMethod.POST)
     public ResponseEntity startRace(@RequestParam String callbackUrl) {
-        return startRaceService.startRace(callbackUrl);
+        switch (startRaceService.startRace(callbackUrl)) {
+            case FOUND:
+                return new ResponseEntity(HttpStatus.FOUND);
+            case STARTED:
+                return new ResponseEntity(HttpStatus.ACCEPTED);
+            default:
+                return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     @RequestMapping(value = "/cancelRace", method = RequestMethod.POST)

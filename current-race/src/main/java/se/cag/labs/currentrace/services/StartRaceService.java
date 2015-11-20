@@ -11,16 +11,22 @@ import java.util.Date;
 
 @Service
 public class StartRaceService {
+
     @Autowired
     private CurrentRaceRepository repository;
 
-    public ResponseEntity startRace(String callbackUrl) {
+    public enum StartRaceReturnStatus {
+        STARTED,
+        FOUND
+    }
+
+    public StartRaceReturnStatus startRace(String callbackUrl) {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
 
         if(activeRaceStatus == null) {
-            repository.save(new RaceStatus(RaceStatus.Event.START, new Date(), null, null, RaceStatus.State.ACTIVE));
+            repository.save(new RaceStatus());
             System.out.println("Starting race: " + callbackUrl);
-            return new ResponseEntity(HttpStatus.ACCEPTED);
+            return StartRaceReturnStatus.STARTED;
         } else if(RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.START);
             activeRaceStatus.setState(RaceStatus.State.ACTIVE);
@@ -30,10 +36,10 @@ public class StartRaceService {
 
             repository.save(activeRaceStatus);
             System.out.println("Restarting race");
-            return new ResponseEntity(HttpStatus.ACCEPTED);
+            return StartRaceReturnStatus.STARTED;
         } else {
             System.out.println("Race is already started");
-            return new ResponseEntity(HttpStatus.FOUND);
+            return StartRaceReturnStatus.FOUND;
         }
     }
 }
