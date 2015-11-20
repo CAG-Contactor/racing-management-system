@@ -1,8 +1,6 @@
 package se.cag.labs.currentrace.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.CurrentRaceRepository;
 import se.cag.labs.currentrace.RaceStatus;
@@ -16,10 +14,11 @@ public class CancelRaceService {
         ACCEPTED,
         NOT_FOUND
     }
+
     public CancelRaceServiceReturnStatus cancelRace() {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
-        if(raceStatus != null) {
+        if (raceStatus != null) {
             raceStatus.setFinishTime(null);
             raceStatus.setMiddleTime(null);
             raceStatus.setStartTime(null);

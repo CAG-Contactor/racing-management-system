@@ -1,4 +1,3 @@
-
 package se.cag.labs.currentrace.config;
 
 import org.springframework.context.annotation.Bean;
@@ -15,24 +14,24 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableSwagger2
 public class SwaggerConfig {
 
-	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.apis(RequestHandlerSelectors.any())
-				.paths(regex("/.*"))
-				.build()
-				.apiInfo(apiInfo());
-	}
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(regex("/.*"))
+                .build()
+                .apiInfo(apiInfo());
+    }
 
     private ApiInfo apiInfo() {
-		ApiInfo apiInfo = new ApiInfo(
-				"Current Race! API", "API for Current Race",
-				"0.1",
-				"",
-				"",
-				"",
-				"");
+        ApiInfo apiInfo = new ApiInfo(
+                "Current Race! API", "API for Current Race",
+                "0.1",
+                "",
+                "",
+                "",
+                "");
         return apiInfo;
     }
 }

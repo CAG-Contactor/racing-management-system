@@ -15,7 +15,8 @@ public class RaceStatus {
     private Date finishTime;
     private State state;
 
-    public RaceStatus() {}
+    public RaceStatus() {
+    }
 
     public RaceStatus(Event event, Date startTime, Date middleTime, Date finishTime, State state) {
         this.event = event;
@@ -66,7 +67,7 @@ public class RaceStatus {
     }
 
     public enum Event {
-        NONE,START,MIDDLE,FINISH,TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED,DISQUALIFIED
+        NONE, START, MIDDLE, FINISH, TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED, DISQUALIFIED
     }
 
     public enum State {

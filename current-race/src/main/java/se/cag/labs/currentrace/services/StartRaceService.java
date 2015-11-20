@@ -1,8 +1,6 @@
 package se.cag.labs.currentrace.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.CurrentRaceRepository;
 import se.cag.labs.currentrace.RaceStatus;
@@ -23,11 +21,11 @@ public class StartRaceService {
     public StartRaceReturnStatus startRace(String callbackUrl) {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
 
-        if(activeRaceStatus == null) {
+        if (activeRaceStatus == null) {
             repository.save(new RaceStatus());
             System.out.println("Starting race: " + callbackUrl);
             return StartRaceReturnStatus.STARTED;
-        } else if(RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
+        } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.START);
             activeRaceStatus.setState(RaceStatus.State.ACTIVE);
             activeRaceStatus.setStartTime(new Date());

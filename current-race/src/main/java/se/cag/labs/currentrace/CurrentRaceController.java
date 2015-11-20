@@ -3,11 +3,7 @@ package se.cag.labs.currentrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.cag.labs.currentrace.services.CancelRaceService;
 import se.cag.labs.currentrace.services.PassageDetectedService;
 import se.cag.labs.currentrace.services.StartRaceService;
@@ -27,7 +23,7 @@ public class CurrentRaceController {
     @Autowired
     private StatusService statusService;
 
-    @RequestMapping(value = "/startRace",  method = RequestMethod.POST)
+    @RequestMapping(value = "/startRace", method = RequestMethod.POST)
     public ResponseEntity startRace(@RequestParam String callbackUrl) {
         switch (startRaceService.startRace(callbackUrl)) {
             case FOUND:
