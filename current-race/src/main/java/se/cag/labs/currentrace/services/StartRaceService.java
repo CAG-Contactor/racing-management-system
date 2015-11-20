@@ -26,9 +26,9 @@ public class StartRaceService {
             System.out.println("Starting race: " + callbackUrl);
             return StartRaceReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
-            activeRaceStatus.setEvent(RaceStatus.Event.START);
-            activeRaceStatus.setState(RaceStatus.State.ACTIVE);
-            activeRaceStatus.setStartTime(new Date());
+            activeRaceStatus.setEvent(RaceStatus.Event.NONE);
+            activeRaceStatus.setState(null);
+            activeRaceStatus.setStartTime(null);
             activeRaceStatus.setMiddleTime(null);
             activeRaceStatus.setFinishTime(null);
 
