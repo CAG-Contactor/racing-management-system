@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>user-manager</module>
+		<module>leaderboard</module>
 		<module>current-race</module>
 	</modules>
 </project>
