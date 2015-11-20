@@ -1,12 +1,13 @@
 package se.cag.labs.leaderboard;
 
 import org.springframework.data.annotation.Id;
+import se.cag.labs.usermanager.User;
 
 public class UserResult {
     @Id
     private String id;
     private long created;
-    private String user;
+    private User user;
     private long time;
     private long middleTime;
     private java.lang.String result;
@@ -15,7 +16,7 @@ public class UserResult {
         this.created = System.currentTimeMillis();
     }
 
-    public UserResult(String user, long time, long middleTime, String result) {
+    public UserResult(User user, long time, long middleTime, String result) {
         this.created = System.currentTimeMillis();
         this.user = user;
         this.time = time;
@@ -31,12 +32,8 @@ public class UserResult {
         return created;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public long getTime() {
@@ -52,7 +49,7 @@ public class UserResult {
     }
 
     @Override
-    public java.lang.String toString() {
+    public String toString() {
         return "UserResult{" +
                 "created=" + created +
                 ", user=" + ((user != null) ? user : "") +
