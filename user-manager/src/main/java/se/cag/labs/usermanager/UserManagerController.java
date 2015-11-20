@@ -22,7 +22,9 @@ public class UserManagerController {
 
     @RequestMapping("/users")
     public List<User> getUsers() {
-        return userRepository.findAll();
+        List<User> result = userRepository.findAll();
+        result.stream().forEach(u -> u.setPassword(""));
+        return result;
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
