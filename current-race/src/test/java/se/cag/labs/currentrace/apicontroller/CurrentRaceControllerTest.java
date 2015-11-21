@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace;
+package se.cag.labs.currentrace.apicontroller;
 
 import com.jayway.restassured.RestAssured;
 import org.junit.Before;
@@ -12,9 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import se.cag.labs.currentrace.apicontroller.CurrentRaceController;
-import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.CurrentRaceApplication;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
