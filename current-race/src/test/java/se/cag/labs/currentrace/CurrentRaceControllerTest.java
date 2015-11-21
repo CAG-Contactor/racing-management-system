@@ -13,8 +13,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import se.cag.labs.currentrace.apicontroller.CurrentRaceController;
-import se.cag.labs.currentrace.datamodel.RaceStatus;
-import se.cag.labs.currentrace.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;

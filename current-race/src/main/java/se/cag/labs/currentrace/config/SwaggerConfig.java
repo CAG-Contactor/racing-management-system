@@ -26,13 +26,12 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                 "Current Race! API", "API for Current Race",
                 BuildInfo.getVersion(),
                 "",
                 "",
                 "",
                 "");
-        return apiInfo;
     }
 }

@@ -1,7 +1,7 @@
-package se.cag.labs.currentrace.apimodel;
+package se.cag.labs.currentrace.apicontroller.apimodel;
 
 
-import se.cag.labs.currentrace.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
 import java.util.Date;
 

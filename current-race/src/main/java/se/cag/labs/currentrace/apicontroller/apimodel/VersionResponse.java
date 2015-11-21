@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace.apimodel;
+package se.cag.labs.currentrace.apicontroller.apimodel;
 
 import io.swagger.annotations.ApiModelProperty;
 

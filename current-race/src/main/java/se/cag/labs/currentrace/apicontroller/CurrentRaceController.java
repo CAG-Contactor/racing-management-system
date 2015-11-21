@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.cag.labs.currentrace.apimodel.StatusResponse;
+import se.cag.labs.currentrace.apicontroller.apimodel.StatusResponse;
 import se.cag.labs.currentrace.services.CancelRaceService;
 import se.cag.labs.currentrace.services.PassageDetectedService;
 import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
-import se.cag.labs.currentrace.mapper.ModelMapper;
+import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
