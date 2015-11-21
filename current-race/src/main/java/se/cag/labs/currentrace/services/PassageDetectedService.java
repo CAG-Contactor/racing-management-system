@@ -5,15 +5,41 @@ import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 public class PassageDetectedService {
-    private static final String START_ID = "START_ID";
-    private static final String MIDDLE_ID = "MIDDLE_ID";
-    private static final String FINISH_ID = "FINISH_ID";
-
     @Autowired
     private CurrentRaceRepository repository;
+
+    public enum SensorType {
+        START("START_ID"),
+        MIDDLE("MIDDLE_ID"),
+        FINISH("FINISH_ID");
+
+        private final String id;
+        private static final Map<String, SensorType> lookup = new HashMap<>();
+
+        static {
+            for (SensorType type : SensorType.values()) {
+                lookup.put(type.getId(), type);
+            }
+        }
+
+        SensorType(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public static SensorType get(String id) {
+            return lookup.get(id);
+        }
+    }
 
     public enum PassageDetectedStatus {
         ACCEPTED,
@@ -24,37 +50,15 @@ public class PassageDetectedService {
     public PassageDetectedStatus passageDetected(String sensorID, long timestamp) {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
-        if (RaceStatus.State.ACTIVE.equals(raceStatus.getState())) {
-            boolean isModified = false;
-            switch (sensorID) {
-                case START_ID:
-                    if (!RaceStatus.Event.START.equals(raceStatus.getEvent())) {
-                        raceStatus.setStartTime(timestamp);
-                        raceStatus.setEvent(RaceStatus.Event.START);
-                        isModified = true;
-                    }
-                    break;
-                case MIDDLE_ID:
-                    if (!RaceStatus.Event.MIDDLE.equals(raceStatus.getEvent())) {
-                        raceStatus.setMiddleTime(timestamp);
-                        raceStatus.setEvent(RaceStatus.Event.MIDDLE);
-                        isModified = true;
-                    }
-                    break;
-                case FINISH_ID:
-                    if (!RaceStatus.Event.FINISH.equals(raceStatus.getEvent())) {
-                        raceStatus.setFinishTime(timestamp);
-                        RaceStatus.Event event = raceStatus.getMiddleTime() == null ? RaceStatus.Event.DISQUALIFIED : RaceStatus.Event.FINISH;
-                        raceStatus.setEvent(event);
-                        raceStatus.setState(RaceStatus.State.INACTIVE);
-                        isModified = true;
-                    }
-                    break;
-                default:
-                    return PassageDetectedStatus.ERROR;
-            }
+        SensorType sensorType = SensorType.get(sensorID);
 
-            if (isModified) {
+        if (sensorType == null) {
+            return PassageDetectedStatus.ERROR;
+        }
+
+        if (RaceStatus.State.ACTIVE.equals(raceStatus.getState())) {
+            RegisterSensor sensor = RegisterSensorFactory.INSTANCE.createRegisterSensorObject(sensorType);
+            if (sensor.updateStatus(raceStatus, timestamp)) {
                 repository.save(raceStatus);
                 return PassageDetectedStatus.ACCEPTED;
             }
