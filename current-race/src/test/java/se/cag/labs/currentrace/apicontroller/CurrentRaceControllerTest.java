@@ -151,4 +151,20 @@ public class CurrentRaceControllerTest {
         given().param("sensorID", "FAULTY").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.EXPECTATION_FAILED.value());
     }
+
+    @Test
+    public void secondPassageOfMiddleSensorIsIgnored() {
+        RaceStatus raceStatus = new RaceStatus();
+        raceStatus.setState(RaceStatus.State.ACTIVE);
+        repository.save(raceStatus);
+
+        given().param("sensorID", "MIDDLE_ID").param("timestamp", 1234).
+                when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
+        given().param("sensorID", "MIDDLE_ID").param("timestamp", 12345).
+                when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ALREADY_REPORTED.value());
+
+        raceStatus = repository.findByRaceId(RaceStatus.ID);
+        assertNotNull(raceStatus);
+        assertEquals(new Long(1234), raceStatus.getMiddleTime());
+    }
 }
