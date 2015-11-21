@@ -1,42 +1,20 @@
 package se.cag.labs.currentrace.apicontroller.apimodel;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
 import java.util.Date;
 
+@Data
+@RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatusResponse {
-    private RaceStatus.Event event;
-    private Date startTime;
-    private Date middleTime;
-    private Date finishTime;
-    private RaceStatus.State state;
-
-    public StatusResponse(RaceStatus.Event event, Date startTime, Date middleTime, Date finishTime, RaceStatus.State state) {
-        this.event = event;
-        this.startTime = startTime;
-        this.middleTime = middleTime;
-        this.finishTime = finishTime;
-        this.state = state;
-    }
-
-    public RaceStatus.Event getEvent() {
-        return event;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public Date getMiddleTime() {
-        return middleTime;
-    }
-
-    public Date getFinishTime() {
-        return finishTime;
-    }
-
-    public RaceStatus.State getState() {
-        return state;
-    }
+    private final RaceStatus.Event event;
+    private final Date startTime;
+    private final Date middleTime;
+    private final Date finishTime;
+    private final RaceStatus.State state;
 }
