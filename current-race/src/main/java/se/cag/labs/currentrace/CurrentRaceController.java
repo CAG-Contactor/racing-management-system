@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.cag.labs.currentrace.apimodel.StatusResponse;
 import se.cag.labs.currentrace.services.CancelRaceService;
 import se.cag.labs.currentrace.services.PassageDetectedService;
 import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
+import se.cag.labs.currentrace.util.ModelMapper;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
@@ -63,7 +65,7 @@ public class CurrentRaceController {
     }
 
     @RequestMapping(value = STATUS_URL, method = RequestMethod.GET)
-    public RaceStatus status() {
-        return statusService.status();
+    public StatusResponse status() {
+        return ModelMapper.createStatusResponse(statusService.status());
     }
 }

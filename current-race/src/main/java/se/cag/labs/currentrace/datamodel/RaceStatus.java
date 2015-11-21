@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace;
+package se.cag.labs.currentrace.datamodel;
 
 import org.springframework.data.annotation.Id;
 
