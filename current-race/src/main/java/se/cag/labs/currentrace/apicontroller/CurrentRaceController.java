@@ -57,6 +57,8 @@ public class CurrentRaceController {
         switch (passageDetectedService.passageDetected(sensorID, timestamp)) {
             case ACCEPTED:
                 return new ResponseEntity(HttpStatus.ACCEPTED);
+            case IGNORED:
+                return new ResponseEntity(HttpStatus.ALREADY_REPORTED);
             case ERROR:
                 return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
             default:

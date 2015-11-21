@@ -17,6 +17,7 @@ public class PassageDetectedService {
 
     public enum PassageDetectedStatus {
         ACCEPTED,
+        IGNORED,
         ERROR
     }
 
@@ -24,17 +25,20 @@ public class PassageDetectedService {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
         if (RaceStatus.State.ACTIVE.equals(raceStatus.getState())) {
+            boolean isModified = false;
             switch (sensorID) {
                 case START_ID:
                     if (!RaceStatus.Event.START.equals(raceStatus.getEvent())) {
                         raceStatus.setStartTime(timestamp);
                         raceStatus.setEvent(RaceStatus.Event.START);
+                        isModified = true;
                     }
                     break;
                 case MIDDLE_ID:
                     if (!RaceStatus.Event.MIDDLE.equals(raceStatus.getEvent())) {
                         raceStatus.setMiddleTime(timestamp);
                         raceStatus.setEvent(RaceStatus.Event.MIDDLE);
+                        isModified = true;
                     }
                     break;
                 case FINISH_ID:
@@ -43,15 +47,19 @@ public class PassageDetectedService {
                         RaceStatus.Event event = raceStatus.getMiddleTime() == null ? RaceStatus.Event.DISQUALIFIED : RaceStatus.Event.FINISH;
                         raceStatus.setEvent(event);
                         raceStatus.setState(RaceStatus.State.INACTIVE);
+                        isModified = true;
                     }
                     break;
                 default:
                     return PassageDetectedStatus.ERROR;
             }
+
+            if (isModified) {
+                repository.save(raceStatus);
+                return PassageDetectedStatus.ACCEPTED;
+            }
         }
 
-        repository.save(raceStatus);
-
-        return PassageDetectedStatus.ACCEPTED;
+        return PassageDetectedStatus.IGNORED;
     }
 }
