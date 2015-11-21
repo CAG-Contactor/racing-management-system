@@ -21,37 +21,32 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
     public void run() {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
         System.out.println("raceStatus = " + raceStatus);
-        if (raceStatus != null && raceStatus.getState() == RaceStatus.State.ACTIVE) {
-            long currentTime = System.currentTimeMillis();
+        if (isActiveAndConsistent(raceStatus)) {
+            long raceActivatedTime = raceStatus.getRaceActivatedTime();
             RaceStatus.Event eventStatus = RaceStatus.Event.NONE;
-            if (currentTime - raceStatus.getRaceActivatedTime() >= TIME_LIMIT && raceStatus.getStartTime() == null) {
-                eventStatus = RaceStatus.Event.TIME_OUT_NOT_STARTED;
-            }
-
-            if (raceStatus.getStartTime() != null) {
-                if (currentTime - raceStatus.getStartTime() >= TIME_LIMIT) {
+            if (raceStatus.getStartTime() == null) {
+                if (raceActivatedTime - raceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
                     eventStatus = RaceStatus.Event.TIME_OUT_NOT_STARTED;
-                } else {
-                    eventStatus = RaceStatus.Event.START;
                 }
             }
-            if (raceStatus.getMiddleTime() != null) {
-                if (currentTime - raceStatus.getMiddleTime() >= TIME_LIMIT) {
+            if (raceStatus.getMiddleTime() == null && raceStatus.getStartTime() != null)  {
+                if (raceStatus.getStartTime() - raceStatus.getMiddleTime() >= TIME_LIMIT) {
                     eventStatus = RaceStatus.Event.DISQUALIFIED;
-                } else {
-                    eventStatus = RaceStatus.Event.MIDDLE;
                 }
             }
-            if (raceStatus.getFinishTime() != null) {
-                if (currentTime - raceStatus.getFinishTime() >= TIME_LIMIT) {
+            if (raceStatus.getFinishTime() == null && raceStatus.getMiddleTime() != null) {
+                if (raceStatus.getMiddleTime() - raceStatus.getFinishTime() >= TIME_LIMIT) {
                     eventStatus = RaceStatus.Event.TIME_OUT_NOT_FINISHED;
-                } else {
-                    eventStatus = RaceStatus.Event.FINISH;
                 }
             }
             System.out.println("raceStatus: " + raceStatus);
             repository.save(raceStatus);
         }
     }
+
+    private boolean isActiveAndConsistent(RaceStatus raceStatus) {
+        return raceStatus != null && raceStatus.getRaceActivatedTime() != null && raceStatus.getState() == RaceStatus.State.ACTIVE;
+    }
+
 
  }
