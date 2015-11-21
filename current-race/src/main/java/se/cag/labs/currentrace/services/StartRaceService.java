@@ -10,6 +10,8 @@ public class StartRaceService {
 
     @Autowired
     private CurrentRaceRepository repository;
+    @Autowired
+    private TimerService timerService;
 
     public enum StartRaceReturnStatus {
         STARTED,
@@ -18,16 +20,18 @@ public class StartRaceService {
 
     public StartRaceReturnStatus startRace(String callbackUrl) {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
-
+        timerService.startTimer();
         if (activeRaceStatus == null) {
             RaceStatus status = new RaceStatus();
             status.setState(RaceStatus.State.ACTIVE);
+            status.setRaceActivatedTime(System.currentTimeMillis());
             repository.save(status);
             System.out.println("Starting race: " + callbackUrl);
             return StartRaceReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.NONE);
             activeRaceStatus.setState(RaceStatus.State.ACTIVE);
+            activeRaceStatus.setRaceActivatedTime(System.currentTimeMillis());
             activeRaceStatus.setStartTime(null);
             activeRaceStatus.setMiddleTime(null);
             activeRaceStatus.setFinishTime(null);

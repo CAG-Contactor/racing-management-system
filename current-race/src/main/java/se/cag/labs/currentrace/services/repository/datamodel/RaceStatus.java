@@ -18,6 +18,7 @@ public class RaceStatus {
     private String id;
     private String raceId = ID;
     private Event event;
+    private Long raceActivatedTime;
     private Long startTime;
     private Long middleTime;
     private Long finishTime;

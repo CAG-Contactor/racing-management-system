@@ -19,6 +19,7 @@ public class CancelRaceService {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
         if (raceStatus != null) {
+            raceStatus.setRaceActivatedTime(null);
             raceStatus.setFinishTime(null);
             raceStatus.setMiddleTime(null);
             raceStatus.setStartTime(null);
