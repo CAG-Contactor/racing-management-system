@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace;
+package se.cag.labs.currentrace.apicontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import se.cag.labs.currentrace.services.CancelRaceService;
 import se.cag.labs.currentrace.services.PassageDetectedService;
 import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
-import se.cag.labs.currentrace.util.ModelMapper;
+import se.cag.labs.currentrace.mapper.ModelMapper;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})

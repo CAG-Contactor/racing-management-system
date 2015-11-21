@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import se.cag.labs.currentrace.apicontroller.CurrentRaceController;
 import se.cag.labs.currentrace.datamodel.RaceStatus;
+import se.cag.labs.currentrace.repository.CurrentRaceRepository;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
@@ -24,7 +26,7 @@ import static org.junit.Assert.assertNotNull;
 @SpringApplicationConfiguration(classes = CurrentRaceApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
-@TestPropertySource(locations="classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class CurrentRaceControllerTest {
     @Autowired
     private CurrentRaceRepository repository;
@@ -47,7 +49,7 @@ public class CurrentRaceControllerTest {
 
         given().param("callbackUrl", "asd").
                 when().post(CurrentRaceController.START_RACE_URL).
-                    then().statusCode(HttpStatus.ACCEPTED.value());
+                then().statusCode(HttpStatus.ACCEPTED.value());
 
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
@@ -63,7 +65,7 @@ public class CurrentRaceControllerTest {
 
         given().param("callbackUrl", "asd").
                 when().post(CurrentRaceController.START_RACE_URL).
-                    then().statusCode(HttpStatus.FOUND.value());
+                then().statusCode(HttpStatus.FOUND.value());
     }
 
     @Test
@@ -111,13 +113,13 @@ public class CurrentRaceControllerTest {
     @Test
     public void canUpdatePassageTime_OnlyByPost() {
         given().param("sensorID", "START_ID").param("timestamp", 1234).
-            when().get(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
+                when().get(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         given().param("sensorID", "START_ID").param("timestamp", 1234).
-            when().delete(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
+                when().delete(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         given().param("sensorID", "START_ID").param("timestamp", 1234).
-            when().put(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
+                when().put(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         given().param("sensorID", "START_ID").param("timestamp", 1234).
-            when().patch(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
+                when().patch(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
 
 
         RaceStatus raceStatus = new RaceStatus();

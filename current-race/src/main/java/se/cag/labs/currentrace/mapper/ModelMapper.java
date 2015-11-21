@@ -1,7 +1,7 @@
-package se.cag.labs.currentrace.util;
+package se.cag.labs.currentrace.mapper;
 
-import se.cag.labs.currentrace.datamodel.RaceStatus;
 import se.cag.labs.currentrace.apimodel.StatusResponse;
+import se.cag.labs.currentrace.datamodel.RaceStatus;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace;
+package se.cag.labs.currentrace.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import se.cag.labs.currentrace.datamodel.RaceStatus;
