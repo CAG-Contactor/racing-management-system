@@ -51,12 +51,11 @@ public class PassageDetectedService {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
 
         SensorType sensorType = SensorType.get(sensorID);
-
         if (sensorType == null) {
             return PassageDetectedStatus.ERROR;
         }
 
-        if (RaceStatus.State.ACTIVE.equals(raceStatus.getState())) {
+        if (raceStatus != null && RaceStatus.State.ACTIVE.equals(raceStatus.getState())) {
             RegisterSensor sensor = RegisterSensorFactory.INSTANCE.createRegisterSensorObject(sensorType);
             if (sensor.updateStatus(raceStatus, timestamp)) {
                 repository.save(raceStatus);

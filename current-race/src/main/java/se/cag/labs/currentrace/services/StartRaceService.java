@@ -1,11 +1,13 @@
 package se.cag.labs.currentrace.services;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
 @Service
+@Log
 public class StartRaceService {
 
     @Autowired
@@ -26,7 +28,7 @@ public class StartRaceService {
             status.setState(RaceStatus.State.ACTIVE);
             status.setRaceActivatedTime(System.currentTimeMillis());
             repository.save(status);
-            System.out.println("Starting race: " + callbackUrl);
+            log.info("Starting race: " + callbackUrl);
             return StartRaceReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.NONE);
@@ -37,10 +39,10 @@ public class StartRaceService {
             activeRaceStatus.setFinishTime(null);
 
             repository.save(activeRaceStatus);
-            System.out.println("Restarting race");
+            log.info("Restarting race");
             return StartRaceReturnStatus.STARTED;
         } else {
-            System.out.println("Race is already started");
+            log.info("Race is already started");
             return StartRaceReturnStatus.FOUND;
         }
     }
