@@ -13,21 +13,20 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import se.cag.labs.currentrace.CurrentRaceApplication;
+import se.cag.labs.currentrace.services.repository.AbstractMongoDBTest;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CurrentRaceApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 @TestPropertySource(locations = "classpath:application-test.properties")
-public class CurrentRaceControllerTest {
+public class CurrentRaceControllerTest extends AbstractMongoDBTest {
     @Autowired
     private CurrentRaceRepository repository;
     @Value("${local.server.port}")
