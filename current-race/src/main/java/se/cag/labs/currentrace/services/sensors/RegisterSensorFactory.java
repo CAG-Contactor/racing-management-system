@@ -8,7 +8,7 @@ public enum RegisterSensorFactory {
 
     INSTANCE;
 
-    public RegisterSensor createRegisterSensorObject(SensorType type) {
+    public RegisterSensor createRegisterSensorObject(RegisterSensorType type) {
         switch (type) {
             case START:
                 return new RegisterSensorStart();
