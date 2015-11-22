@@ -23,7 +23,8 @@ public final class BuildInfo {
         } finally {
             try {
                 in.close();
-            } catch (IOException ignore) {}
+            } catch (IOException ignore) {
+            }
         }
     }
 

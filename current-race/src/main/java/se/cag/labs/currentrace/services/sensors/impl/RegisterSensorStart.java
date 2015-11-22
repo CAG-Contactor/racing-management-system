@@ -1,7 +1,7 @@
 package se.cag.labs.currentrace.services.sensors.impl;
 
-import se.cag.labs.currentrace.services.RegisterSensor;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.sensors.RegisterSensor;
 
 public class RegisterSensorStart implements RegisterSensor {
     @Override
