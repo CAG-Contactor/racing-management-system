@@ -5,13 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
-import se.cag.labs.currentrace.services.statuses.StartRaceReturnStatus;
 
 @Service
 @Log
 public class StartRaceService {
     @Autowired
     private CurrentRaceRepository repository;
+
+    public enum StartRaceReturnStatus {
+        STARTED,
+        FOUND
+    }
 
     public StartRaceReturnStatus startRace(String callbackUrl) {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);

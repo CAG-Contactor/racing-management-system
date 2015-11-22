@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace.services.statuses;
+package se.cag.labs.currentrace.services.sensors;
 
 import java.util.HashMap;
 import java.util.Map;

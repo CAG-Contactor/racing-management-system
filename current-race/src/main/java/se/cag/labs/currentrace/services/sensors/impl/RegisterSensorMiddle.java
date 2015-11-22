@@ -1,5 +1,6 @@
-package se.cag.labs.currentrace.services;
+package se.cag.labs.currentrace.services.sensors.impl;
 
+import se.cag.labs.currentrace.services.RegisterSensor;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
 public class RegisterSensorMiddle implements RegisterSensor {

@@ -1,6 +1,9 @@
-package se.cag.labs.currentrace.services;
+package se.cag.labs.currentrace.services.sensors;
 
-import se.cag.labs.currentrace.services.statuses.SensorType;
+import se.cag.labs.currentrace.services.RegisterSensor;
+import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorFinish;
+import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorMiddle;
+import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorStart;
 
 public enum RegisterSensorFactory {
 
