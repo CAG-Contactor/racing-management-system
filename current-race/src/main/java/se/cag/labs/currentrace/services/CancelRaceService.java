@@ -4,16 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.statuses.CancelRaceServiceReturnStatus;
 
 @Service
 public class CancelRaceService {
     @Autowired
     private CurrentRaceRepository repository;
-
-    public enum CancelRaceServiceReturnStatus {
-        ACCEPTED,
-        NOT_FOUND
-    }
 
     public CancelRaceServiceReturnStatus cancelRace() {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);

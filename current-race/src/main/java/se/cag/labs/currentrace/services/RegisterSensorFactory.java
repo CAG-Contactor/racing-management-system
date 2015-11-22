@@ -1,10 +1,12 @@
 package se.cag.labs.currentrace.services;
 
+import se.cag.labs.currentrace.services.statuses.SensorType;
+
 public enum RegisterSensorFactory {
 
     INSTANCE;
 
-    public RegisterSensor createRegisterSensorObject(PassageDetectedService.SensorType type) {
+    public RegisterSensor createRegisterSensorObject(SensorType type) {
         switch (type) {
             case START:
                 return new RegisterSensorStart();
