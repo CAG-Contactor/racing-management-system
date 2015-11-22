@@ -25,7 +25,6 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
         if (isActiveAndConsistent(raceStatus)) {
             long currentTime = System.currentTimeMillis();
             if (raceStatus.getStartTime() == null) {
-                log.info("No start time.");
                 if (currentTime - raceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
                     raceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_STARTED);
                     raceStatus.setState(RaceStatus.State.INACTIVE);
@@ -43,7 +42,7 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
                     raceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            log.info("raceStatus: " + raceStatus);
+            log.info(raceStatus.toString());
             repository.save(raceStatus);
         }
     }
