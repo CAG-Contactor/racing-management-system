@@ -1,6 +1,7 @@
 package se.cag.labs.currentrace.timer;
 
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
@@ -9,6 +10,7 @@ import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 import java.util.TimerTask;
 
 @Component
+@Log
 public class VerifyRacePassagesTimerTask extends TimerTask {
 
     public static final long TIME_INTERVAL = 10 * 1000;
@@ -20,26 +22,28 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
     @Override
     public void run() {
         RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
-        System.out.println("raceStatus = " + raceStatus);
         if (isActiveAndConsistent(raceStatus)) {
-            long raceActivatedTime = raceStatus.getRaceActivatedTime();
-            RaceStatus.Event eventStatus = RaceStatus.Event.NONE;
+            long currentTime = System.currentTimeMillis();
             if (raceStatus.getStartTime() == null) {
-                if (raceActivatedTime - raceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
-                    eventStatus = RaceStatus.Event.TIME_OUT_NOT_STARTED;
+                log.info("No start time.");
+                if (currentTime - raceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
+                    raceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_STARTED);
+                    raceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
             if (raceStatus.getMiddleTime() == null && raceStatus.getStartTime() != null)  {
-                if (raceStatus.getStartTime() - raceStatus.getMiddleTime() >= TIME_LIMIT) {
-                    eventStatus = RaceStatus.Event.DISQUALIFIED;
+                if (currentTime - raceStatus.getStartTime() >= TIME_LIMIT) {
+                    raceStatus.setEvent(RaceStatus.Event.DISQUALIFIED);
+                    raceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
             if (raceStatus.getFinishTime() == null && raceStatus.getMiddleTime() != null) {
-                if (raceStatus.getMiddleTime() - raceStatus.getFinishTime() >= TIME_LIMIT) {
-                    eventStatus = RaceStatus.Event.TIME_OUT_NOT_FINISHED;
+                if (currentTime - raceStatus.getMiddleTime() >= TIME_LIMIT) {
+                    raceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_FINISHED);
+                    raceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            System.out.println("raceStatus: " + raceStatus);
+            log.info("raceStatus: " + raceStatus);
             repository.save(raceStatus);
         }
     }
