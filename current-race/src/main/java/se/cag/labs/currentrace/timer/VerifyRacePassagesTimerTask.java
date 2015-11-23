@@ -30,7 +30,7 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
                     raceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            if (raceStatus.getMiddleTime() == null && raceStatus.getStartTime() != null)  {
+            if (raceStatus.getMiddleTime() == null && raceStatus.getStartTime() != null) {
                 if (currentTime - raceStatus.getStartTime() >= TIME_LIMIT) {
                     raceStatus.setEvent(RaceStatus.Event.DISQUALIFIED);
                     raceStatus.setState(RaceStatus.State.INACTIVE);
@@ -52,4 +52,4 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
     }
 
 
- }
+}
