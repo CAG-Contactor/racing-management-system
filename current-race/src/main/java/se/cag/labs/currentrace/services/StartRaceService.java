@@ -26,10 +26,12 @@ public class StartRaceService {
             RaceStatus status = new RaceStatus();
             status.setState(RaceStatus.State.ACTIVE);
             status.setRaceActivatedTime(System.currentTimeMillis());
+            status.setCallbackUrl(callbackUrl);
             repository.save(status);
             log.info("Starting race: " + callbackUrl);
             return ReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
+            activeRaceStatus.setCallbackUrl(callbackUrl);
             activeRaceStatus.setEvent(RaceStatus.Event.NONE);
             activeRaceStatus.setState(RaceStatus.State.ACTIVE);
             activeRaceStatus.setRaceActivatedTime(System.currentTimeMillis());
