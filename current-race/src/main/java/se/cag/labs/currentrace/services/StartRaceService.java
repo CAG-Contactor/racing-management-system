@@ -9,18 +9,17 @@ import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 @Service
 @Log
 public class StartRaceService {
-
     @Autowired
     private CurrentRaceRepository repository;
     @Autowired
     private TimerService timerService;
 
-    public enum StartRaceReturnStatus {
+    public enum ReturnStatus {
         STARTED,
         FOUND
     }
 
-    public StartRaceReturnStatus startRace(String callbackUrl) {
+    public ReturnStatus startRace(String callbackUrl) {
         RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
         timerService.startTimer();
         if (activeRaceStatus == null) {
@@ -29,7 +28,7 @@ public class StartRaceService {
             status.setRaceActivatedTime(System.currentTimeMillis());
             repository.save(status);
             log.info("Starting race: " + callbackUrl);
-            return StartRaceReturnStatus.STARTED;
+            return ReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
             activeRaceStatus.setEvent(RaceStatus.Event.NONE);
             activeRaceStatus.setState(RaceStatus.State.ACTIVE);
@@ -40,10 +39,10 @@ public class StartRaceService {
 
             repository.save(activeRaceStatus);
             log.info("Restarting race");
-            return StartRaceReturnStatus.STARTED;
+            return ReturnStatus.STARTED;
         } else {
             log.info("Race is already started");
-            return StartRaceReturnStatus.FOUND;
+            return ReturnStatus.FOUND;
         }
     }
 }
