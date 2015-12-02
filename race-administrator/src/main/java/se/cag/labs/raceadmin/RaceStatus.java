@@ -1,8 +1,13 @@
 package se.cag.labs.raceadmin;
 
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import se.cag.labs.usermanager.User;
 
+@Data
+@RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RaceStatus {
     public enum RaceState {
         ACTIVE, INACTIVE
@@ -13,56 +18,11 @@ public class RaceStatus {
     }
 
     @Id
-    private String id;
+    @Setter(AccessLevel.PRIVATE) private String id;
     private User user;
     private RaceEvent event;
     private RaceState state;
     private Long startTime;
     private Long middleTime;
     private Long finishTime;
-
-    public RaceStatus() {
-    }
-
-    public RaceStatus(User user, RaceState state) {
-        this.user = user;
-        this.state = state;
-    }
-
-    public RaceStatus(User user, RaceEvent event, RaceState state, Long startTime, Long middleTime, Long finishTime) {
-        this.user = user;
-        this.event = event;
-        this.state = state;
-        this.startTime = startTime;
-        this.middleTime = middleTime;
-        this.finishTime = finishTime;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public RaceEvent getEvent() {
-        return event;
-    }
-
-    public RaceState getState() {
-        return state;
-    }
-
-    public Long getStartTime() {
-        return startTime;
-    }
-
-    public Long getMiddleTime() {
-        return middleTime;
-    }
-
-    public Long getFinishTime() {
-        return finishTime;
-    }
 }

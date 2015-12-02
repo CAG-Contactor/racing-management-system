@@ -1,7 +1,7 @@
 package se.cag.labs.raceadmin;
 
 import io.swagger.annotations.*;
-import lombok.extern.java.*;
+import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import se.cag.labs.raceadmin.services.*;
@@ -10,7 +10,7 @@ import se.cag.labs.usermanager.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-@Log
+@Log4j
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class RaceAdministratorController {
@@ -20,13 +20,19 @@ public class RaceAdministratorController {
     @Autowired
     private LeaderBoardService leaderBoardService;
 
-    @RequestMapping(value = "/registerforrace", method = RequestMethod.POST)
+    @RequestMapping(value = "/userqueue", method = RequestMethod.POST)
     public void registerForRace(@RequestBody User user) {
-        log.fine("registerforrace:" + user);
+        log.debug("POST /userqueue:" + user);
         Queue<User> sfsd = new ArrayBlockingQueue<>(10);
         sfsd.addAll(repository.findAll());
         sfsd.add(user);
         repository.save(sfsd);
+        // TODO: Implement
+    }
+
+    @RequestMapping(value = "/userqueue", method = RequestMethod.GET)
+    public void getQueue() {
+        log.debug("GET /userqueue");
         // TODO: Implement
     }
 
@@ -35,7 +41,7 @@ public class RaceAdministratorController {
     public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
         // TODO kontrollera att användaren finns och är aktiv
         // TODO ersätt med en builder?
-        log.fine("onracestatusupdate:" + status);
+        log.debug("onracestatusupdate:" + status);
         if (status.getState() == RaceStatus.RaceState.INACTIVE) {
             UserResult userResult = new UserResult();
             if (status.getEvent() == RaceStatus.RaceEvent.FINISH) {

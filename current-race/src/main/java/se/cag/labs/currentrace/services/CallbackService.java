@@ -5,19 +5,19 @@
  */
 package se.cag.labs.currentrace.services;
 
-import lombok.extern.java.*;
+import lombok.extern.log4j.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.client.*;
-import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
+import se.cag.labs.currentrace.apicontroller.mapper.*;
 import se.cag.labs.currentrace.services.repository.datamodel.*;
 
 @Component
-@Log
+@Log4j
 public class CallbackService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public void reportStatus(RaceStatus status) {
-        log.fine("Report status:"+status);
+        log.debug("Report status:"+status);
         restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
     }
 }
