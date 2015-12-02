@@ -1,18 +1,18 @@
 package se.cag.labs.currentrace.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
-import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
-import se.cag.labs.currentrace.services.sensors.RegisterSensor;
-import se.cag.labs.currentrace.services.sensors.RegisterSensorFactory;
-import se.cag.labs.currentrace.services.sensors.RegisterSensorType;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import se.cag.labs.currentrace.services.repository.*;
+import se.cag.labs.currentrace.services.repository.datamodel.*;
+import se.cag.labs.currentrace.services.sensors.*;
 
 
 @Service
 public class PassageDetectedService {
     @Autowired
     private CurrentRaceRepository repository;
+    @Autowired
+    private CallbackService callbackService;
 
     public enum ReturnStatus {
         ACCEPTED,
@@ -32,6 +32,7 @@ public class PassageDetectedService {
             RegisterSensor sensor = RegisterSensorFactory.INSTANCE.createRegisterSensorObject(registerSensorType);
             if (sensor.updateStatus(raceStatus, timestamp)) {
                 repository.save(raceStatus);
+                callbackService.reportStatus(raceStatus);
                 return ReturnStatus.ACCEPTED;
             }
         }
