@@ -16,3 +16,10 @@ Tools
 -----
 REST Test tool:<br>
 Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en
+
+Portar
+------
+current-race: 10080
+leaderboard: 10180
+user-manager: 10280
+race-administrator: 10380
