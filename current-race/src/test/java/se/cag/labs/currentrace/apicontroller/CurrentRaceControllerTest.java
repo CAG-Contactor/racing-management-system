@@ -28,10 +28,12 @@ public class CurrentRaceControllerTest {
     @Value("${local.server.port}")
     private int port;
 
+    private String callbackUrl;
+
     @Before
     public void setup() {
         repository.deleteAll();
-
+        callbackUrl = "http://localhost:10380/onracestatusupdate";
         RestAssured.port = port;
     }
 
@@ -72,6 +74,7 @@ public class CurrentRaceControllerTest {
 
         RaceStatus raceStatus = new RaceStatus();
         raceStatus.setState(RaceStatus.State.ACTIVE);
+        raceStatus.setCallbackUrl(callbackUrl);
         repository.save(raceStatus);
 
         when().post(CurrentRaceController.CANCEL_RACE_URL).
@@ -119,6 +122,7 @@ public class CurrentRaceControllerTest {
 
         RaceStatus raceStatus = new RaceStatus();
         raceStatus.setState(RaceStatus.State.ACTIVE);
+        raceStatus.setCallbackUrl(callbackUrl);
         repository.save(raceStatus);
 
         given().param("sensorID", "START_ID").param("timestamp", 1234).
@@ -151,6 +155,7 @@ public class CurrentRaceControllerTest {
     public void secondPassageOfMiddleSensorIsIgnored() {
         RaceStatus raceStatus = new RaceStatus();
         raceStatus.setState(RaceStatus.State.ACTIVE);
+        raceStatus.setCallbackUrl(callbackUrl);
         repository.save(raceStatus);
 
         given().param("sensorID", "MIDDLE_ID").param("timestamp", 1234).
