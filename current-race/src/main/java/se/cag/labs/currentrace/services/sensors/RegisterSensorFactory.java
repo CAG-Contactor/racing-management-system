@@ -1,10 +1,14 @@
-package se.cag.labs.currentrace.services;
+package se.cag.labs.currentrace.services.sensors;
+
+import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorFinish;
+import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorMiddle;
+import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorStart;
 
 public enum RegisterSensorFactory {
 
     INSTANCE;
 
-    public RegisterSensor createRegisterSensorObject(PassageDetectedService.SensorType type) {
+    public RegisterSensor createRegisterSensorObject(RegisterSensorType type) {
         switch (type) {
             case START:
                 return new RegisterSensorStart();

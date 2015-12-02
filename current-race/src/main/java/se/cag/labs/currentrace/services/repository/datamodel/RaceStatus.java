@@ -17,7 +17,9 @@ public class RaceStatus {
     @Id
     private String id;
     private String raceId = ID;
+    private String callbackUrl;
     private Event event;
+    private Long raceActivatedTime;
     private Long startTime;
     private Long middleTime;
     private Long finishTime;

@@ -1,5 +1,9 @@
 package se.cag.labs.currentrace.apicontroller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +15,7 @@ import se.cag.labs.currentrace.services.PassageDetectedService;
 import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
 
+@Api(basePath = "*", value = "Current race", description = "Current race services", produces = "application/json")
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class CurrentRaceController {
@@ -29,6 +34,13 @@ public class CurrentRaceController {
     private StatusService statusService;
 
     @RequestMapping(value = START_RACE_URL, method = RequestMethod.POST)
+    @ApiOperation(value = "Start new race", notes = "Start new race")
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Race is starting"),
+            @ApiResponse(code = 302, message = "Race is already started"),
+            @ApiResponse(code = 404, message = "ASD"),
+            @ApiResponse(code = 418, message = "Something went terribly wrong")
+    })
     public ResponseEntity startRace(@RequestParam String callbackUrl) {
         switch (startRaceService.startRace(callbackUrl)) {
             case FOUND:
