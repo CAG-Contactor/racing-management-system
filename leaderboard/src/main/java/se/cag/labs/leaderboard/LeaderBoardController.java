@@ -16,12 +16,12 @@ public class LeaderBoardController {
     @Autowired
     private LeaderBoardRepository repository;
 
-    @RequestMapping(value = "/newResult", method = RequestMethod.POST)
+    @RequestMapping(value = "/results", method = RequestMethod.POST)
     public void newResult(@RequestBody UserResult userResult) {
         repository.insert(userResult);
     }
 
-    @RequestMapping("/results")
+    @RequestMapping(value="/results", method = RequestMethod.GET)
     public UserResult[] results() {
         List<UserResult> all = repository.findAll();
         return all.toArray(new UserResult[all.size()]);
