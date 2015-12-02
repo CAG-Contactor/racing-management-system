@@ -23,7 +23,7 @@ Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcdd
 
 Portar
 ------
-current-race: 10080
-leaderboard: 10180
-user-manager: 10280
-race-administrator: 10380
+* current-race: 10080
+* leaderboard: 10180
+* user-manager: 10280
+* race-administrator: 10380
