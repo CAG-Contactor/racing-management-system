@@ -12,6 +12,7 @@
 	<description>The CAG race manager system</description>
 
 	<modules>
+		<module>race-administrator</module>
 		<module>user-manager</module>
 		<module>leaderboard</module>
 		<module>current-race</module>

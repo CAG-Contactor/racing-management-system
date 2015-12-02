@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace.services;
+package se.cag.labs.currentrace.services.sensors;
 
 import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 
