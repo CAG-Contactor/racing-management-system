@@ -17,6 +17,7 @@ public class CallbackService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public void reportStatus(RaceStatus status) {
+        log.fine("Report status:"+status);
         restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
     }
 }

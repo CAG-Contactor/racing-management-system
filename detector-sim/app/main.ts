@@ -18,7 +18,9 @@ import {
 import {
     HTTP_PROVIDERS,
     Http,
-    Response
+    Response,
+    RequestOptions,
+    RequestMethods
 } from "angular2/http";
 import {NgClass} from "../jspm_packages/npm/angular2@2.0.0-alpha.44/ts/src/core/directives/ng_class";
 
@@ -105,7 +107,7 @@ export class Main {
             sensorID: sensorId,
             timestamp: time
         });
-        this.http.post('http://' + this.serverAddress + '/passageDetected', data)
+        this.http.post('http://' + this.serverAddress + '/passageDetected?sensorID='+sensorId+'&timestamp='+time)
             .subscribe(
                 response => {
                     console.debug('res:', response);
