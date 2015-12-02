@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum RegisterSensorType {
-    START("START_ID"),
-    MIDDLE("MIDDLE_ID"),
-    FINISH("FINISH_ID");
+    START("START"),
+    MIDDLE("SPLIT"),
+    FINISH("FINISH");
 
     private final String id;
     private static final Map<String, RegisterSensorType> lookup = new HashMap<>();
