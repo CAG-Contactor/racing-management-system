@@ -5,7 +5,9 @@ import se.cag.labs.usermanager.User;
 
 public class RaceStatus {
     public enum RaceState {
-        QUEUEING
+        QUEUEING,
+        FINISH,
+        TIME_OUT_NOT_STARTED
     }
 
     @Id
@@ -46,7 +48,7 @@ public class RaceStatus {
         return event;
     }
 
-    public RaceState     getState() {
+    public RaceState getState() {
         return state;
     }
 
