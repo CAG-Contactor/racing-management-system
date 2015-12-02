@@ -9,6 +9,8 @@ import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
 public class CancelRaceService {
     @Autowired
     private CurrentRaceRepository repository;
+    @Autowired
+    private CallbackService callbackService;
 
     public enum ReturnStatus {
         ACCEPTED,
@@ -27,6 +29,7 @@ public class CancelRaceService {
             raceStatus.setState(RaceStatus.State.INACTIVE);
 
             repository.save(raceStatus);
+            callbackService.reportStatus(raceStatus);
             return ReturnStatus.ACCEPTED;
         }
 
