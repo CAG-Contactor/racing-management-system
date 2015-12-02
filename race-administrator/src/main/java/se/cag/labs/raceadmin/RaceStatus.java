@@ -5,15 +5,17 @@ import se.cag.labs.usermanager.User;
 
 public class RaceStatus {
     public enum RaceState {
-        QUEUEING,
-        FINISH,
-        TIME_OUT_NOT_STARTED
+        ACTIVE, INACTIVE
+    }
+
+    public enum RaceEvent {
+        NONE,START,MIDDLE,FINISH,TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED,DISQUALIFIED
     }
 
     @Id
     private String id;
     private User user;
-    private String event;
+    private RaceEvent event;
     private RaceState state;
     private Long startTime;
     private Long middleTime;
@@ -27,7 +29,7 @@ public class RaceStatus {
         this.state = state;
     }
 
-    public RaceStatus(User user, String event, RaceState state, Long startTime, Long middleTime, Long finishTime) {
+    public RaceStatus(User user, RaceEvent event, RaceState state, Long startTime, Long middleTime, Long finishTime) {
         this.user = user;
         this.event = event;
         this.state = state;
@@ -44,7 +46,7 @@ public class RaceStatus {
         return user;
     }
 
-    public String getEvent() {
+    public RaceEvent getEvent() {
         return event;
     }
 
