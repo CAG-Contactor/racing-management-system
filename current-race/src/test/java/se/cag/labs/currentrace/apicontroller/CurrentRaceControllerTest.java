@@ -33,7 +33,7 @@ public class CurrentRaceControllerTest {
     @Before
     public void setup() {
         repository.deleteAll();
-        callbackUrl = "http://localhost:10380/onracestatusupdate";
+        callbackUrl = "http://localhost:" + port + "/onracestatusupdate";
         RestAssured.port = port;
     }
 
