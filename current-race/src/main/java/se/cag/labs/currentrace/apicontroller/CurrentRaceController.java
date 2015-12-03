@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.cag.labs.common.apimodel.RaceStatus;
 import se.cag.labs.currentrace.apicontroller.apimodel.StatusResponse;
 import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
 import se.cag.labs.currentrace.services.CancelRaceService;
@@ -79,7 +80,7 @@ public class CurrentRaceController {
     }
 
     @RequestMapping(value = STATUS_URL, method = RequestMethod.GET)
-    public StatusResponse status() {
+    public RaceStatus status() {
         return ModelMapper.createStatusResponse(statusService.status());
     }
 }

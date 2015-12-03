@@ -2,11 +2,11 @@ package se.cag.labs.currentrace.services.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.*;
-import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 @Repository
-public interface CurrentRaceRepository extends MongoRepository<RaceStatus, String> {
-    RaceStatus findByState(RaceStatus.State state);
+public interface CurrentRaceRepository extends MongoRepository<CurrentRaceStatus, String> {
+    CurrentRaceStatus findByState(CurrentRaceStatus.State state);
 
-    RaceStatus findByRaceId(String id);
+    CurrentRaceStatus findByRaceId(String id);
 }

@@ -48,17 +48,17 @@ public class CurrentRaceControllerTest {
                 when().post(CurrentRaceController.START_RACE_URL).
                 then().statusCode(HttpStatus.ACCEPTED.value());
 
-        RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
+        CurrentRaceStatus currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
-        assertNotNull(raceStatus);
-        assertEquals(RaceStatus.State.ACTIVE, raceStatus.getState());
+        assertNotNull(currentRaceStatus);
+        assertEquals(CurrentRaceStatus.State.ACTIVE, currentRaceStatus.getState());
     }
 
     @Test
     public void startRace_returnFoundIfAlreadyActive() {
-        RaceStatus raceStatus = new RaceStatus();
-        raceStatus.setState(RaceStatus.State.ACTIVE);
-        repository.save(raceStatus);
+        CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
+        currentRaceStatus.setState(CurrentRaceStatus.State.ACTIVE);
+        repository.save(currentRaceStatus);
 
         given().param("callbackUrl", "asd").
                 when().post(CurrentRaceController.START_RACE_URL).
@@ -72,18 +72,18 @@ public class CurrentRaceControllerTest {
         when().delete(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         when().patch(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
 
-        RaceStatus raceStatus = new RaceStatus();
-        raceStatus.setState(RaceStatus.State.ACTIVE);
-        raceStatus.setCallbackUrl(callbackUrl);
-        repository.save(raceStatus);
+        CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
+        currentRaceStatus.setState(CurrentRaceStatus.State.ACTIVE);
+        currentRaceStatus.setCallbackUrl(callbackUrl);
+        repository.save(currentRaceStatus);
 
         when().post(CurrentRaceController.CANCEL_RACE_URL).
                 then().statusCode(HttpStatus.ACCEPTED.value());
 
-        raceStatus = repository.findByRaceId(RaceStatus.ID);
+        currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
-        assertNotNull(raceStatus);
-        assertEquals(RaceStatus.State.INACTIVE, raceStatus.getState());
+        assertNotNull(currentRaceStatus);
+        assertEquals(CurrentRaceStatus.State.INACTIVE, currentRaceStatus.getState());
     }
 
     @Test
@@ -99,13 +99,13 @@ public class CurrentRaceControllerTest {
         when().put(CurrentRaceController.STATUS_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         when().patch(CurrentRaceController.STATUS_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
 
-        RaceStatus raceStatus = new RaceStatus();
-        raceStatus.setState(RaceStatus.State.ACTIVE);
-        repository.save(raceStatus);
+        CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
+        currentRaceStatus.setState(CurrentRaceStatus.State.ACTIVE);
+        repository.save(currentRaceStatus);
 
         when().get(CurrentRaceController.STATUS_URL).
                 then().statusCode(HttpStatus.OK.value()).
-                body("state", is(RaceStatus.State.ACTIVE.name()));
+                body("state", is(CurrentRaceStatus.State.ACTIVE.name()));
     }
 
     @Test
@@ -120,10 +120,10 @@ public class CurrentRaceControllerTest {
                 when().patch(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
 
 
-        RaceStatus raceStatus = new RaceStatus();
-        raceStatus.setState(RaceStatus.State.ACTIVE);
-        raceStatus.setCallbackUrl(callbackUrl);
-        repository.save(raceStatus);
+        CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
+        currentRaceStatus.setState(CurrentRaceStatus.State.ACTIVE);
+        currentRaceStatus.setCallbackUrl(callbackUrl);
+        repository.save(currentRaceStatus);
 
         given().param("sensorID", "START_ID").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
@@ -132,20 +132,20 @@ public class CurrentRaceControllerTest {
         given().param("sensorID", "FINISH_ID").param("timestamp", 123456).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
 
-        raceStatus = repository.findByRaceId(RaceStatus.ID);
-        assertNotNull(raceStatus);
-        assertEquals(new Long(1234), raceStatus.getStartTime());
-        assertEquals(new Long(12345), raceStatus.getMiddleTime());
-        assertEquals(new Long(123456), raceStatus.getFinishTime());
-        assertEquals(RaceStatus.Event.FINISH, raceStatus.getEvent());
-        assertEquals(RaceStatus.State.INACTIVE, raceStatus.getState());
+        currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+        assertNotNull(currentRaceStatus);
+        assertEquals(new Long(1234), currentRaceStatus.getStartTime());
+        assertEquals(new Long(12345), currentRaceStatus.getMiddleTime());
+        assertEquals(new Long(123456), currentRaceStatus.getFinishTime());
+        assertEquals(CurrentRaceStatus.Event.FINISH, currentRaceStatus.getEvent());
+        assertEquals(CurrentRaceStatus.State.INACTIVE, currentRaceStatus.getState());
     }
 
     @Test
     public void canNotUpdatePassageTime_WithFaultySensorID() {
-        RaceStatus raceStatus = new RaceStatus();
-        raceStatus.setState(RaceStatus.State.ACTIVE);
-        repository.save(raceStatus);
+        CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
+        currentRaceStatus.setState(CurrentRaceStatus.State.ACTIVE);
+        repository.save(currentRaceStatus);
 
         given().param("sensorID", "FAULTY").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.EXPECTATION_FAILED.value());
@@ -153,18 +153,18 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void secondPassageOfMiddleSensorIsIgnored() {
-        RaceStatus raceStatus = new RaceStatus();
-        raceStatus.setState(RaceStatus.State.ACTIVE);
-        raceStatus.setCallbackUrl(callbackUrl);
-        repository.save(raceStatus);
+        CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
+        currentRaceStatus.setState(CurrentRaceStatus.State.ACTIVE);
+        currentRaceStatus.setCallbackUrl(callbackUrl);
+        repository.save(currentRaceStatus);
 
         given().param("sensorID", "MIDDLE_ID").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
         given().param("sensorID", "MIDDLE_ID").param("timestamp", 12345).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ALREADY_REPORTED.value());
 
-        raceStatus = repository.findByRaceId(RaceStatus.ID);
-        assertNotNull(raceStatus);
-        assertEquals(new Long(1234), raceStatus.getMiddleTime());
+        currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+        assertNotNull(currentRaceStatus);
+        assertEquals(new Long(1234), currentRaceStatus.getMiddleTime());
     }
 }

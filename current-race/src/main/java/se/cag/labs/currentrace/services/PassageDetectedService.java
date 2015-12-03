@@ -21,18 +21,18 @@ public class PassageDetectedService {
     }
 
     public ReturnStatus passageDetected(String sensorID, long timestamp) {
-        RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
+        CurrentRaceStatus currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
         RegisterSensorType registerSensorType = RegisterSensorType.get(sensorID);
         if (registerSensorType == null) {
             return ReturnStatus.ERROR;
         }
 
-        if (raceStatus != null && RaceStatus.State.ACTIVE.equals(raceStatus.getState())) {
+        if (currentRaceStatus != null && CurrentRaceStatus.State.ACTIVE.equals(currentRaceStatus.getState())) {
             RegisterSensor sensor = RegisterSensorFactory.INSTANCE.createRegisterSensorObject(registerSensorType);
-            if (sensor.updateStatus(raceStatus, timestamp)) {
-                repository.save(raceStatus);
-                callbackService.reportStatus(raceStatus);
+            if (sensor.updateStatus(currentRaceStatus, timestamp)) {
+                repository.save(currentRaceStatus);
+                callbackService.reportStatus(currentRaceStatus);
                 return ReturnStatus.ACCEPTED;
             }
         }
