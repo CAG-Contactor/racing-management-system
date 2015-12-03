@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.cag.labs.common.apimodel.RaceStatus;
-import se.cag.labs.currentrace.apicontroller.apimodel.StatusResponse;
 import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
 import se.cag.labs.currentrace.services.CancelRaceService;
 import se.cag.labs.currentrace.services.PassageDetectedService;
