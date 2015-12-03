@@ -110,13 +110,13 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void canUpdatePassageTime_OnlyByPost() {
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().get(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().delete(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().put(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().patch(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
 
 
@@ -125,11 +125,11 @@ public class CurrentRaceControllerTest {
         currentRaceStatus.setCallbackUrl(callbackUrl);
         repository.save(currentRaceStatus);
 
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
-        given().param("sensorID", "MIDDLE_ID").param("timestamp", 12345).
+        given().param("sensorID", "SPLIT").param("timestamp", 12345).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
-        given().param("sensorID", "FINISH_ID").param("timestamp", 123456).
+        given().param("sensorID", "FINISH").param("timestamp", 123456).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
@@ -158,9 +158,9 @@ public class CurrentRaceControllerTest {
         currentRaceStatus.setCallbackUrl(callbackUrl);
         repository.save(currentRaceStatus);
 
-        given().param("sensorID", "MIDDLE_ID").param("timestamp", 1234).
+        given().param("sensorID", "SPLIT").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
-        given().param("sensorID", "MIDDLE_ID").param("timestamp", 12345).
+        given().param("sensorID", "SPLIT").param("timestamp", 12345).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ALREADY_REPORTED.value());
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
