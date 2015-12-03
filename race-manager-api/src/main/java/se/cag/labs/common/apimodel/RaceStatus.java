@@ -2,10 +2,7 @@ package se.cag.labs.common.apimodel;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
@@ -26,7 +23,8 @@ public class RaceStatus {
         ACTIVE, INACTIVE
     }
 
-    public RaceStatus() {}
+    public RaceStatus() {
+    }
 
     public RaceStatus(Event event, Date startTime, Date middleTime, Date finishTime, State state) {
         this.event = event;
