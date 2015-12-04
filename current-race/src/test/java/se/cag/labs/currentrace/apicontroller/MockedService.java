@@ -14,6 +14,7 @@ import se.cag.labs.common.apimodel.RaceStatus;
 public class MockedService {
     @RequestMapping(value = "/onracestatusupdate", method = RequestMethod.POST)
     public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
-        log.fine(String.valueOf(status));
+        log.entering(MockedService.class.getName(), "onRaceStatusUpdate");
+        log.info(String.valueOf(status));
     }
 }

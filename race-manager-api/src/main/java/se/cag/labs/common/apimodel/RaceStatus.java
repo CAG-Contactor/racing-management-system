@@ -5,23 +5,25 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Builder
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = RaceStatus.RaceStatusBuilder.class)
 public class RaceStatus {
     @JsonProperty
-    private Event event;
+    private final Event event;
     @JsonProperty
-    private Date startTime;
+    private final Date startTime;
     @JsonProperty
-    private Date middleTime;
+    private final Date middleTime;
     @JsonProperty
-    private Date finishTime;
+    private final Date finishTime;
     @JsonProperty
-    private State state;
+    private final State state;
 
     public enum Event {
         NONE, START, MIDDLE, FINISH, TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED, DISQUALIFIED
@@ -30,6 +32,4 @@ public class RaceStatus {
     public enum State {
         ACTIVE, INACTIVE
     }
-
-
 }
