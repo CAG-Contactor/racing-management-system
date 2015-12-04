@@ -2,6 +2,7 @@ package se.cag.labs.currentrace.apicontroller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,13 @@ public class CurrentRaceController {
             @ApiResponse(code = 404, message = "ASD"),
             @ApiResponse(code = 418, message = "Something went terribly wrong")
     })
-    public ResponseEntity startRace(@RequestParam String callbackUrl) {
+    public ResponseEntity startRace(
+            @RequestParam
+            @ApiParam(value = "The callback to use to report status changes when the race stars",
+                    defaultValue = "http://localhost:10380/onracestatusupdate",
+                    required = true)
+            String callbackUrl) {
+
         switch (startRaceService.startRace(callbackUrl)) {
             case FOUND:
                 return new ResponseEntity(HttpStatus.FOUND);
