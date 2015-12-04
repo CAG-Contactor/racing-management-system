@@ -8,4 +8,4 @@ Installera och starta
     $ npm install
     $ npm start
     
-Öppna browser på http://localhost:10080.
+Öppna browser på http://localhost:9080.
