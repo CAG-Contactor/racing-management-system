@@ -7,6 +7,10 @@ import java.util.Date;
 
 public final class ModelMapper {
     public static RaceStatus createStatusResponse(CurrentRaceStatus currentRaceStatus) {
+        if (currentRaceStatus == null) {
+            return new RaceStatus();
+        }
+        
         return new RaceStatus(currentRaceStatus.getEvent() == null ? null : RaceStatus.Event.valueOf(currentRaceStatus.getEvent().name()),
                 currentRaceStatus.getStartTime() == null ? null : new Date(currentRaceStatus.getStartTime()),
                 currentRaceStatus.getMiddleTime() == null ? null : new Date(currentRaceStatus.getMiddleTime()),

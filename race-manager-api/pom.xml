@@ -14,7 +14,6 @@
         <groupId>se.cag.labs</groupId>
         <artifactId>race-manager-system</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
