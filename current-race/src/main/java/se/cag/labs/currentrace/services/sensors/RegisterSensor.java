@@ -1,7 +1,7 @@
 package se.cag.labs.currentrace.services.sensors;
 
-import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 public interface RegisterSensor {
-    boolean updateStatus(RaceStatus raceStatus, long timestamp);
+    boolean updateStatus(CurrentRaceStatus currentRaceStatus, long timestamp);
 }

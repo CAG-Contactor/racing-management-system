@@ -3,8 +3,9 @@ package se.cag.labs.currentrace.services;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
-import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 @Service
 @Log
@@ -20,26 +21,26 @@ public class StartRaceService {
     }
 
     public ReturnStatus startRace(String callbackUrl) {
-        RaceStatus activeRaceStatus = repository.findByRaceId(RaceStatus.ID);
+        CurrentRaceStatus activeCurrentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
         timerService.startTimer();
-        if (activeRaceStatus == null) {
-            RaceStatus status = new RaceStatus();
+        if (activeCurrentRaceStatus == null) {
+            CurrentRaceStatus status = new CurrentRaceStatus();
             status.setState(RaceStatus.State.ACTIVE);
             status.setRaceActivatedTime(System.currentTimeMillis());
             status.setCallbackUrl(callbackUrl);
             repository.save(status);
             log.info("Starting race: " + callbackUrl);
             return ReturnStatus.STARTED;
-        } else if (RaceStatus.State.INACTIVE.equals(activeRaceStatus.getState())) {
-            activeRaceStatus.setCallbackUrl(callbackUrl);
-            activeRaceStatus.setEvent(RaceStatus.Event.NONE);
-            activeRaceStatus.setState(RaceStatus.State.ACTIVE);
-            activeRaceStatus.setRaceActivatedTime(System.currentTimeMillis());
-            activeRaceStatus.setStartTime(null);
-            activeRaceStatus.setMiddleTime(null);
-            activeRaceStatus.setFinishTime(null);
+        } else if (RaceStatus.State.INACTIVE.equals(activeCurrentRaceStatus.getState())) {
+            activeCurrentRaceStatus.setCallbackUrl(callbackUrl);
+            activeCurrentRaceStatus.setEvent(RaceStatus.Event.NONE);
+            activeCurrentRaceStatus.setState(RaceStatus.State.ACTIVE);
+            activeCurrentRaceStatus.setRaceActivatedTime(System.currentTimeMillis());
+            activeCurrentRaceStatus.setStartTime(null);
+            activeCurrentRaceStatus.setMiddleTime(null);
+            activeCurrentRaceStatus.setFinishTime(null);
 
-            repository.save(activeRaceStatus);
+            repository.save(activeCurrentRaceStatus);
             log.info("Restarting race");
             return ReturnStatus.STARTED;
         } else {

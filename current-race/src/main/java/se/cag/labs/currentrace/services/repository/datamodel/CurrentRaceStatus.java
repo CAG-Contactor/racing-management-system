@@ -6,30 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 
 @Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RaceStatus {
+public class CurrentRaceStatus {
     public static final String ID = "ID";
     @Id
     private String id;
     private String raceId = ID;
     private String callbackUrl;
-    private Event event;
+    private RaceStatus.Event event;
     private Long raceActivatedTime;
     private Long startTime;
     private Long middleTime;
     private Long finishTime;
-    private State state;
-
-    public enum Event {
-        NONE, START, MIDDLE, FINISH, TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED, DISQUALIFIED
-    }
-
-    public enum State {
-        ACTIVE, INACTIVE
-    }
+    private RaceStatus.State state;
 }
