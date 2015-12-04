@@ -12,7 +12,7 @@ Install MongoDB: https://docs.mongodb.org/manual/installation/
 
 MongoDB GUI, 3T MongoChef: http://3t.io/mongochef/download/
 
-Starta mongod: 
+Start mongod: 
 
     $ mongod --dbpath <path to DB>
 
