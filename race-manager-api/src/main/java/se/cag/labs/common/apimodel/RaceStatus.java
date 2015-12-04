@@ -2,17 +2,25 @@ package se.cag.labs.common.apimodel;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Builder;
 
 import java.util.Date;
 
-@Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(builder = RaceStatus.RaceStatusBuilder.class)
 public class RaceStatus {
+    @JsonProperty
     private Event event;
+    @JsonProperty
     private Date startTime;
+    @JsonProperty
     private Date middleTime;
+    @JsonProperty
     private Date finishTime;
+    @JsonProperty
     private State state;
 
     public enum Event {
@@ -23,14 +31,5 @@ public class RaceStatus {
         ACTIVE, INACTIVE
     }
 
-    public RaceStatus() {
-    }
 
-    public RaceStatus(Event event, Date startTime, Date middleTime, Date finishTime, State state) {
-        this.event = event;
-        this.startTime = startTime;
-        this.middleTime = middleTime;
-        this.finishTime = finishTime;
-        this.state = state;
-    }
 }

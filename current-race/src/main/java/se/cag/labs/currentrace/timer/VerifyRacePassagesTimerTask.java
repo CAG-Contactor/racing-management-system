@@ -4,7 +4,7 @@ package se.cag.labs.currentrace.timer;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.cag.labs.currentrace.services.*;
+import se.cag.labs.currentrace.services.CallbackService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 

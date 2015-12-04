@@ -1,10 +1,12 @@
 package se.cag.labs.currentrace.services;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import se.cag.labs.currentrace.services.repository.*;
-import se.cag.labs.currentrace.services.repository.datamodel.*;
-import se.cag.labs.currentrace.services.sensors.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
+import se.cag.labs.currentrace.services.sensors.RegisterSensor;
+import se.cag.labs.currentrace.services.sensors.RegisterSensorFactory;
+import se.cag.labs.currentrace.services.sensors.RegisterSensorType;
 
 
 @Service
