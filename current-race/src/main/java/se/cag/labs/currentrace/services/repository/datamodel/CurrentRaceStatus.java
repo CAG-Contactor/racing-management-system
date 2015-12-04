@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RaceStatus {
+public class CurrentRaceStatus {
     public static final String ID = "ID";
     @Id
     private String id;
