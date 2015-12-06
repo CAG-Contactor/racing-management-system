@@ -7,6 +7,13 @@ import org.springframework.stereotype.*;
 import se.cag.labs.currentrace.services.*;
 import se.cag.labs.currentrace.services.repository.*;
 import se.cag.labs.currentrace.services.repository.datamodel.*;
+import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.currentrace.services.CallbackService;
+import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 import java.util.*;
 
@@ -25,38 +32,38 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
-        if (isActiveAndConsistent(raceStatus)) {
+        CurrentRaceStatus currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+        if (isActiveAndConsistent(currentRaceStatus)) {
             long currentTime = System.currentTimeMillis();
-            if (raceStatus.getStartTime() == null) {
-                if (currentTime - raceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
+            if (currentRaceStatus.getStartTime() == null) {
+                if (currentTime - currentRaceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
                     log.debug(RaceStatus.Event.TIME_OUT_NOT_STARTED.name());
-                    raceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_STARTED);
-                    raceStatus.setState(RaceStatus.State.INACTIVE);
+                    currentRaceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_STARTED);
+                    currentRaceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            if (raceStatus.getMiddleTime() == null && raceStatus.getStartTime() != null) {
-                if (currentTime - raceStatus.getStartTime() >= TIME_LIMIT) {
+            if (currentRaceStatus.getMiddleTime() == null && currentRaceStatus.getStartTime() != null) {
+                if (currentTime - currentRaceStatus.getStartTime() >= TIME_LIMIT) {
                     log.debug(RaceStatus.Event.DISQUALIFIED.name());
-                    raceStatus.setEvent(RaceStatus.Event.DISQUALIFIED);
-                    raceStatus.setState(RaceStatus.State.INACTIVE);
+                    currentRaceStatus.setEvent(RaceStatus.Event.DISQUALIFIED);
+                    currentRaceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            if (raceStatus.getFinishTime() == null && raceStatus.getMiddleTime() != null) {
-                if (currentTime - raceStatus.getMiddleTime() >= TIME_LIMIT) {
+            if (currentRaceStatus.getFinishTime() == null && currentRaceStatus.getMiddleTime() != null) {
+                if (currentTime - currentRaceStatus.getMiddleTime() >= TIME_LIMIT) {
                     log.debug(RaceStatus.Event.TIME_OUT_NOT_FINISHED.name());
-                    raceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_FINISHED);
-                    raceStatus.setState(RaceStatus.State.INACTIVE);
+                    currentRaceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_FINISHED);
+                    currentRaceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            log.info(raceStatus.toString());
-            repository.save(raceStatus);
-            callbackService.reportStatus(raceStatus);
+            log.info(currentRaceStatus.toString());
+            repository.save(currentRaceStatus);
+            callbackService.reportStatus(currentRaceStatus);
         }
     }
 
-    private boolean isActiveAndConsistent(RaceStatus raceStatus) {
-        return raceStatus != null && raceStatus.getRaceActivatedTime() != null && raceStatus.getState() == RaceStatus.State.ACTIVE;
+    private boolean isActiveAndConsistent(CurrentRaceStatus currentRaceStatus) {
+        return currentRaceStatus != null && currentRaceStatus.getRaceActivatedTime() != null && currentRaceStatus.getState() == RaceStatus.State.ACTIVE;
     }
 
 

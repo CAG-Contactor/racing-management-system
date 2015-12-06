@@ -2,13 +2,18 @@ package se.cag.labs.currentrace.apicontroller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import se.cag.labs.currentrace.apicontroller.apimodel.StatusResponse;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
 import se.cag.labs.currentrace.services.CancelRaceService;
 import se.cag.labs.currentrace.services.PassageDetectedService;
@@ -41,7 +46,13 @@ public class CurrentRaceController {
             @ApiResponse(code = 404, message = "ASD"),
             @ApiResponse(code = 418, message = "Something went terribly wrong")
     })
-    public ResponseEntity startRace(@RequestParam String callbackUrl) {
+    public ResponseEntity startRace(
+            @RequestParam
+            @ApiParam(value = "The callback to use to report status changes when the race stars",
+                    defaultValue = "http://localhost:10380/onracestatusupdate",
+                    required = true)
+            String callbackUrl) {
+
         switch (startRaceService.startRace(callbackUrl)) {
             case FOUND:
                 return new ResponseEntity(HttpStatus.FOUND);
@@ -79,7 +90,7 @@ public class CurrentRaceController {
     }
 
     @RequestMapping(value = STATUS_URL, method = RequestMethod.GET)
-    public StatusResponse status() {
+    public RaceStatus status() {
         return ModelMapper.createStatusResponse(statusService.status());
     }
 }

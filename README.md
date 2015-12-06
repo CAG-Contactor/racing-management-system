@@ -12,7 +12,7 @@ Install MongoDB: https://docs.mongodb.org/manual/installation/
 
 MongoDB GUI, 3T MongoChef: http://3t.io/mongochef/download/
 
-Starta mongod: 
+Start mongod: 
 
     $ mongod --dbpath <path to DB>
 
@@ -23,7 +23,7 @@ Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcdd
 
 Portar
 ------
-current-race: 10080
-leaderboard: 10180
-user-manager: 10280
-race-administrator: 10380
+* current-race: 10080
+* leaderboard: 10180
+* user-manager: 10280
+* race-administrator: 10380
