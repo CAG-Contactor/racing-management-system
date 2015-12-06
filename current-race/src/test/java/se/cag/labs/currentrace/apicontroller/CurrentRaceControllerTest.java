@@ -8,14 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import se.cag.labs.currentrace.CurrentRaceApplication;
 import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.currentrace.apicontroller.apimodel.User;
+import se.cag.labs.currentrace.services.UserManagerService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
+
+import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
@@ -172,5 +177,16 @@ public class CurrentRaceControllerTest {
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getMiddleTime());
+    }
+
+    @Test
+    public void getUsersFromExternalService() {
+        UserManagerService userManagerService = new UserManagerService();
+
+
+         List<User> userList = userManagerService.getUsers();
+
+        assertNotNull(userList);
+        //assertEquals("string", userList.get(0).getName());
     }
 }

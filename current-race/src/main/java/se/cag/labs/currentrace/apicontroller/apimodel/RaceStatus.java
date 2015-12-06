@@ -2,28 +2,27 @@ package se.cag.labs.currentrace.apicontroller.apimodel;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.Date;
 
 @Builder
-@ToString
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = RaceStatus.RaceStatusBuilder.class)
-public class RaceStatus {
-    @JsonProperty
+public final class RaceStatus {
     private final Event event;
-    @JsonProperty
     private final Date startTime;
-    @JsonProperty
     private final Date middleTime;
-    @JsonProperty
     private final Date finishTime;
-    @JsonProperty
     private final State state;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static final class RaceStatusBuilder {
+    }
 
     public enum Event {
         NONE, START, MIDDLE, FINISH, TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED, DISQUALIFIED
