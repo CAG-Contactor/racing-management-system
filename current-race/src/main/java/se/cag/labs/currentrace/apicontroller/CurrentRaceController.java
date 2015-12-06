@@ -48,7 +48,7 @@ public class CurrentRaceController {
     })
     public ResponseEntity startRace(
             @RequestParam
-            @ApiParam(value = "The callback to use to report status changes when the race stars",
+            @ApiParam(value = "The callback to use to report status changes when the race starts",
                     defaultValue = "http://localhost:10380/onracestatusupdate",
                     required = true)
             String callbackUrl) {
