@@ -2,8 +2,9 @@ package se.cag.labs.currentrace.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
-import se.cag.labs.currentrace.services.repository.datamodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 @Service
 public class CancelRaceService {
@@ -18,18 +19,18 @@ public class CancelRaceService {
     }
 
     public ReturnStatus cancelRace() {
-        RaceStatus raceStatus = repository.findByRaceId(RaceStatus.ID);
+        CurrentRaceStatus currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
-        if (raceStatus != null) {
-            raceStatus.setRaceActivatedTime(null);
-            raceStatus.setFinishTime(null);
-            raceStatus.setMiddleTime(null);
-            raceStatus.setStartTime(null);
-            raceStatus.setEvent(null);
-            raceStatus.setState(RaceStatus.State.INACTIVE);
+        if (currentRaceStatus != null) {
+            currentRaceStatus.setRaceActivatedTime(null);
+            currentRaceStatus.setFinishTime(null);
+            currentRaceStatus.setMiddleTime(null);
+            currentRaceStatus.setStartTime(null);
+            currentRaceStatus.setEvent(null);
+            currentRaceStatus.setState(RaceStatus.State.INACTIVE);
 
-            repository.save(raceStatus);
-            callbackService.reportStatus(raceStatus);
+            repository.save(currentRaceStatus);
+            callbackService.reportStatus(currentRaceStatus);
             return ReturnStatus.ACCEPTED;
         }
 
