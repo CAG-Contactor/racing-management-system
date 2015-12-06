@@ -5,6 +5,6 @@ import org.springframework.stereotype.*;
 import se.cag.labs.usermanager.*;
 
 @Repository
-public interface RaceRepository extends MongoRepository<User, String> {
+public interface UserQueueRepository extends MongoRepository<User, String> {
     
 }

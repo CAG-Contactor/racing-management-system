@@ -25,4 +25,8 @@ public class RaceStatus {
     private Long startTime;
     private Long middleTime;
     private Long finishTime;
+
+    public RaceStatus(User user) {
+        this.user = user;
+    }
 }
