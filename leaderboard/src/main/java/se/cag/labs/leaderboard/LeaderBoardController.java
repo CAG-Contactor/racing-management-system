@@ -5,6 +5,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.java.*;
+import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Log4j
 @Api(basePath = "*", value = "Leaderboard", description = "Leaderboard for all races", produces = "application/json")
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -29,6 +32,7 @@ public class LeaderBoardController {
             @ApiResponse(code = 201, message = "The results where saved successfully"),
     })
     public void newResult(@RequestBody UserResult userResult) {
+        log.debug("POST /results:" + userResult);
         repository.insert(userResult);
     }
 
@@ -43,6 +47,7 @@ public class LeaderBoardController {
     })
     public List<UserResult> results() {
         // TODO sort on time
+        log.debug("GET /results");
         return repository.findAll();
     }
 }

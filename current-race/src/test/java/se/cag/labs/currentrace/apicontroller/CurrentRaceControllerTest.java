@@ -1,43 +1,59 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import com.jayway.restassured.RestAssured;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import se.cag.labs.currentrace.CurrentRaceApplication;
-import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
-import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
-import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
+import com.jayway.restassured.*;
+import org.jmock.*;
+import org.jmock.integration.junit4.*;
+import org.jmock.lib.concurrent.*;
+import org.jmock.lib.legacy.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.test.*;
+import org.springframework.context.annotation.*;
+import org.springframework.http.*;
+import org.springframework.test.annotation.*;
+import org.springframework.test.context.*;
+import org.springframework.test.context.junit4.*;
+import org.springframework.test.context.web.*;
+import org.springframework.test.util.*;
+import org.springframework.web.client.*;
+import se.cag.labs.currentrace.*;
+import se.cag.labs.currentrace.apicontroller.apimodel.*;
+import se.cag.labs.currentrace.services.*;
+import se.cag.labs.currentrace.services.repository.*;
+import se.cag.labs.currentrace.services.repository.datamodel.*;
 
-import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.RestAssured.when;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.*;
+
+import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.core.Is.*;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = CurrentRaceApplication.class)
+@SpringApplicationConfiguration(classes = {CurrentRaceApplication.class,CurrentRaceControllerTest.Config.class}) // NOTE!! order is important
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 @TestPropertySource(locations = "classpath:application-test.properties")
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CurrentRaceControllerTest {
+    @Rule
+    @Autowired
+    public JUnitRuleMockery context;
     @Autowired
     private CurrentRaceRepository repository;
+    @Autowired
+    private CallbackService callbackService; // This is a singleton and is the same instance as injected into application services
+
     @Value("${local.server.port}")
     private int port;
 
     private String callbackUrl;
+    private RestTemplate restTemplateMock;
 
     @Before
     public void setup() {
+        restTemplateMock = context.mock(RestTemplate.class);
+        ReflectionTestUtils.setField(callbackService, "restTemplate", restTemplateMock);
         repository.deleteAll();
         callbackUrl = "http://localhost:" + port + "/onracestatusupdate";
         RestAssured.port = port;
@@ -73,6 +89,20 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void canCancelRaceIfStartedAndOnlyPost() {
+        context.checking(new Expectations(){{
+            oneOf(restTemplateMock).postForLocation(
+                    with(equal("http://localhost:8080/onracestatusupdate")),
+                    with(equal(new RaceStatus(
+                            null,
+                            null,
+                            null,
+                            null,
+                            RaceStatus.State.INACTIVE
+                    ))),
+                    with(equal(new Object[0]))
+            );
+        }});
+
         when().get(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         when().put(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         when().delete(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -116,6 +146,41 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void canUpdatePassageTime_OnlyByPost() {
+        context.checking(new Expectations(){{
+            oneOf(restTemplateMock).postForLocation(
+                    with(equal("http://localhost:8080/onracestatusupdate")),
+                    with(equal(new RaceStatus(
+                            RaceStatus.Event.START,
+                            new Date(1234),
+                            null,
+                            null,
+                            RaceStatus.State.ACTIVE
+                    ))),
+                    with(equal(new Object[0]))
+            );
+            oneOf(restTemplateMock).postForLocation(
+                    with(equal("http://localhost:8080/onracestatusupdate")),
+                    with(equal(new RaceStatus(
+                            RaceStatus.Event.MIDDLE,
+                            new Date(1234),
+                            new Date(12345),
+                            null,
+                            RaceStatus.State.ACTIVE
+                    ))),
+                    with(equal(new Object[0]))
+            );
+            oneOf(restTemplateMock).postForLocation(
+                    with(equal("http://localhost:8080/onracestatusupdate")),
+                    with(equal(new RaceStatus(
+                            RaceStatus.Event.FINISH,
+                            new Date(1234),
+                            new Date(12345),
+                            new Date(123456),
+                            RaceStatus.State.INACTIVE
+                    ))),
+                    with(equal(new Object[0]))
+            );
+        }});
         given().param("sensorID", "START").param("timestamp", 1234).
                 when().get(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         given().param("sensorID", "START_ID").param("timestamp", 1234).
@@ -139,6 +204,8 @@ public class CurrentRaceControllerTest {
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+
+        context.assertIsSatisfied();
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getStartTime());
         assertEquals(new Long(12345), currentRaceStatus.getMiddleTime());
@@ -159,6 +226,19 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void secondPassageOfMiddleSensorIsIgnored() {
+        context.checking(new Expectations(){{
+            oneOf(restTemplateMock).postForLocation(
+                    with(equal("http://localhost:8080/onracestatusupdate")),
+                    with(equal(new RaceStatus(
+                            RaceStatus.Event.MIDDLE,
+                            null,
+                            new Date(1234),
+                            null,
+                            RaceStatus.State.ACTIVE
+                    ))),
+                    with(equal(new Object[0]))
+            );
+        }});
         CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
         currentRaceStatus.setState(RaceStatus.State.ACTIVE);
         currentRaceStatus.setCallbackUrl(callbackUrl);
@@ -172,5 +252,16 @@ public class CurrentRaceControllerTest {
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getMiddleTime());
+    }
+
+
+    public static class Config {
+        @Bean
+        public JUnitRuleMockery context() {
+            JUnitRuleMockery jUnitRuleMockery = new JUnitRuleMockery();
+            jUnitRuleMockery.setImposteriser(ClassImposteriser.INSTANCE);
+            jUnitRuleMockery. setThreadingPolicy(new Synchroniser());
+            return jUnitRuleMockery;
+        }
     }
 }

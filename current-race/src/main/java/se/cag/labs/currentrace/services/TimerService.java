@@ -1,15 +1,14 @@
 package se.cag.labs.currentrace.services;
 
-import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import se.cag.labs.currentrace.timer.VerifyRacePassagesTimerTask;
+import lombok.extern.log4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import se.cag.labs.currentrace.timer.*;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 @Service
-@Log
+@Log4j
 public class TimerService {
 
     @Autowired

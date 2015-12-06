@@ -1,6 +1,12 @@
 package se.cag.labs.currentrace.timer;
 
 
+import lombok.extern.log4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import se.cag.labs.currentrace.services.*;
+import se.cag.labs.currentrace.services.repository.*;
+import se.cag.labs.currentrace.services.repository.datamodel.*;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,10 +15,10 @@ import se.cag.labs.currentrace.services.CallbackService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
-import java.util.TimerTask;
+import java.util.*;
 
 @Component
-@Log
+@Log4j
 public class VerifyRacePassagesTimerTask extends TimerTask {
 
     public static final long TIME_INTERVAL = 10 * 1000;
@@ -31,21 +37,21 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
             long currentTime = System.currentTimeMillis();
             if (currentRaceStatus.getStartTime() == null) {
                 if (currentTime - currentRaceStatus.getRaceActivatedTime() >= TIME_LIMIT) {
-                    log.fine(RaceStatus.Event.TIME_OUT_NOT_STARTED.name());
+                    log.debug(RaceStatus.Event.TIME_OUT_NOT_STARTED.name());
                     currentRaceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_STARTED);
                     currentRaceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
             if (currentRaceStatus.getMiddleTime() == null && currentRaceStatus.getStartTime() != null) {
                 if (currentTime - currentRaceStatus.getStartTime() >= TIME_LIMIT) {
-                    log.fine(RaceStatus.Event.DISQUALIFIED.name());
+                    log.debug(RaceStatus.Event.DISQUALIFIED.name());
                     currentRaceStatus.setEvent(RaceStatus.Event.DISQUALIFIED);
                     currentRaceStatus.setState(RaceStatus.State.INACTIVE);
                 }
             }
             if (currentRaceStatus.getFinishTime() == null && currentRaceStatus.getMiddleTime() != null) {
                 if (currentTime - currentRaceStatus.getMiddleTime() >= TIME_LIMIT) {
-                    log.fine(RaceStatus.Event.TIME_OUT_NOT_FINISHED.name());
+                    log.debug(RaceStatus.Event.TIME_OUT_NOT_FINISHED.name());
                     currentRaceStatus.setEvent(RaceStatus.Event.TIME_OUT_NOT_FINISHED);
                     currentRaceStatus.setState(RaceStatus.State.INACTIVE);
                 }
