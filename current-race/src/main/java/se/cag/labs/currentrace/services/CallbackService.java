@@ -12,11 +12,11 @@ public class CallbackService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public void reportStatus(CurrentRaceStatus status) {
-        log.fine("Report status:" + status);
+        log.debug("Report status:" + status);
         try {
             restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
         } catch (RestClientException e) {
-            log.warning("Rest call failed: " + e.getLocalizedMessage());
+            log.warn("Rest call failed: " + e.getLocalizedMessage());
         }
     }
 }
