@@ -1,6 +1,8 @@
 package se.cag.labs.currentrace.services;
 
-import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Log
+@Scope("singleton")
+@Log4j
 public class UserManagerService {
-    private final static String URI = "http://localhost:10280";
+    @Value("${server.usermanager.base.uri}")
+    private String userManagerBaseUri;
+
     private RestTemplate restTemplate = new RestTemplate();
 
     public List<User> getUsers() {
@@ -24,10 +29,10 @@ public class UserManagerService {
 
         ResponseEntity<List<User>> response;
         try {
-            response = restTemplate.exchange(URI + "/users", HttpMethod.GET, null, user);
+            response = restTemplate.exchange(userManagerBaseUri + "/users", HttpMethod.GET, null, user);
             return response.getBody();
         } catch (RestClientException e) {
-            log.warning("Rest call failed");
+            log.error("Rest call failed");
         }
 
         return new ArrayList<>();
