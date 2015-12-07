@@ -18,7 +18,7 @@ public class CallbackService {
         try {
             restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
         } catch (RestClientException e) {
-            log.warn("Rest call failed: " + e.getLocalizedMessage());
+            log.error("Rest call failed: " + e.getLocalizedMessage());
         }
     }
 }
