@@ -24,6 +24,9 @@
             <li ng-class="{active:vm.selection === 'example'}">
               <a href="#example" ng-click="vm.selection='example'">Exempel</a>
             </li>
+            <li ng-class="{active:vm.selection === 'queue'}">
+              <a href="#queue" ng-click="vm.selection='queue'">Kö</a>
+            </li>
             <li ng-class="{active:vm.selection === 'leaderboard'}">
               <a href="#leaderboard" ng-click="vm.selection='leaderboard'">Resultattavla</a>
             </li>
@@ -89,6 +92,11 @@
     </div>
     <div ng-switch-when="example">
       <example-directive></example-directive>
+    </div>
+    <div ng-switch-when="queue">
+      <h1>
+        Här ska vy för kön in.
+      </h1>
     </div>
     <div ng-switch-when="leaderboard">
       <h1>
