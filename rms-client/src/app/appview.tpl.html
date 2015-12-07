@@ -1,5 +1,5 @@
 <div class="container">
-  <nav class="navbar navbar-inverse navbar-fixed-top" ng-init="selection='home'">
+  <nav class="navbar navbar-inverse navbar-fixed-top" ng-init="vm.selection='home'">
     <div class="container">
       <div class="navbar-header">
         <button type="button"
@@ -13,29 +13,37 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">CAG Race</a>
+        <a class="navbar-brand" href="#" ng-click="vm.selection='home'">CAG Race</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li ng-class="{active:selection === 'home'}">
-            <a href="#" ng-click="selection='home'">Översikt</a>
-          </li>
-          <li ng-class="{active:selection === 'example'}">
-            <a href="#example" ng-click="selection='example'">Exempel</a>
-          </li>
-        </ul>
-        <ul ng-if="vm.signedIn" class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle"
-               data-toggle="dropdown"
-               role="button">
-              {{vm.userid}}<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Inställningar</a></li>
-              <li><a href="#" ng-click="vm.signOut()">Logga ut</a></li>
-            </ul>
-          </li>
-        </ul>
+        <div ng-if="vm.signedIn">
+          <ul class="nav navbar-nav">
+            <li ng-class="{active:vm.selection === 'home'}">
+              <a href="#" ng-click="vm.selection='home'">Översikt</a>
+            </li>
+            <li ng-class="{active:vm.selection === 'example'}">
+              <a href="#example" ng-click="vm.selection='example'">Exempel</a>
+            </li>
+            <li ng-class="{active:vm.selection === 'leaderboard'}">
+              <a href="#leaderboard" ng-click="vm.selection='leaderboard'">Resultattavla</a>
+            </li>
+            <li ng-class="{active:vm.selection === 'currentrace'}">
+              <a href="#currentrace" ng-click="vm.selection='currentrace'">Aktuellt lopp</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button">
+                {{vm.userid}}<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#usersettings" ng-click="vm.selection='usersettings'">Inställningar</a></li>
+                <li><a href="#" ng-click="vm.signOut();vm.selection='home'">Logga ut</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
         <div ng-if="!vm.signedIn">
           <form class="navbar-form navbar-right css-form"
                 ng-submit="vm.signIn(userid,password)">
@@ -62,13 +70,40 @@
       </div><!--/.navbar-collapse -->
     </div>
   </nav>
-  <div ng-switch on="selection">
+  <div ng-switch on="vm.selection">
     <div ng-switch-when="home">
       <h1>CAG Race Management System</h1>
+
+      <p>Semiotics venmo lo-fi messenger bag, hella wayfarers pug aesthetic chicharrones butcher humblebrag cliche.
+        Chillwave intelligentsia beard, viral brunch DIY chicharrones fixie gastropub twee. Helvetica humblebrag plaid
+        chartreuse flexitarian, slow-carb williamsburg waistcoat ramps cronut iPhone kombucha ennui. Asymmetrical
+        stumptown quinoa, truffaut sartorial banh mi portland venmo kinfolk whatever vegan. Paleo letterpress ennui deep
+        v, bushwick neutra occupy forage tousled slow-carb viral. Put a bird on it bespoke forage whatever, art party
+        pinterest selfies try-hard cronut disrupt slow-carb meggings shabby chic. 3 wolf moon neutra PBR&B lomo.</p>
+
+      <p>Viral etsy literally celiac gentrify gluten-free normcore, selvage selfies franzen plaid pop-up. Keytar
+        mumblecore salvia shabby chic, cardigan austin vice tumblr. Deep v meh pop-up before they sold out, mustache
+        letterpress skateboard distillery pinterest. Viral jean shorts kitsch, PBR&B ethical actually mlkshk tofu.
+        Organic kitsch kale chips quinoa plaid, messenger bag twee PBR&B keffiyeh. Shoreditch biodiesel leggings vinyl
+        8-bit, iPhone twee. Authentic intelligentsia scenester lomo.</p>
     </div>
     <div ng-switch-when="example">
       <example-directive></example-directive>
     </div>
-    <!-- Add more directives for the other views -->
+    <div ng-switch-when="leaderboard">
+      <h1>
+        Här ska vy för resultattavlan in.
+      </h1>
+    </div>
+    <div ng-switch-when="currentrace">
+      <h1>
+        Här ska vyn för aktuellt lopp in.
+      </h1>
+    </div>
+    <div ng-switch-when="usersettings">
+      <h1>
+        Här ska vyn för användarinfo in.
+      </h1>
+    </div>
   </div>
 </div>
