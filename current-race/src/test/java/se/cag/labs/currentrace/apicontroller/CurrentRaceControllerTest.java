@@ -14,7 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,6 +33,7 @@ import se.cag.labs.currentrace.services.UserManagerService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +58,8 @@ public class CurrentRaceControllerTest {
     private CurrentRaceRepository repository;
     @Autowired
     private CallbackService callbackService; // This is a singleton and is the same instance as injected into application services
+    @Autowired
+    private UserManagerService userManagerService; // This is a singleton and is the same instance as injected into application services
 
     @Value("${local.server.port}")
     private int port;
@@ -64,6 +71,7 @@ public class CurrentRaceControllerTest {
     public void setup() {
         restTemplateMock = context.mock(RestTemplate.class);
         ReflectionTestUtils.setField(callbackService, "restTemplate", restTemplateMock);
+        ReflectionTestUtils.setField(userManagerService, "restTemplate", restTemplateMock);
         repository.deleteAll();
         callbackUrl = "http://localhost:" + port + "/onracestatusupdate";
         RestAssured.port = port;
@@ -184,7 +192,7 @@ public class CurrentRaceControllerTest {
         }});
         given().param("sensorID", "START").param("timestamp", 1234).
                 when().get(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().delete(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         given().param("sensorID", "START").param("timestamp", 1234).
                 when().put(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -255,13 +263,21 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void getUsersFromExternalService() {
-        UserManagerService userManagerService = new UserManagerService();
-
+        context.checking(new Expectations() {{
+            oneOf(restTemplateMock).exchange(
+                    with(equal("http://localhost:10280/users")),
+                    with(equal(HttpMethod.GET)),
+                    with(aNull(HttpEntity.class)),
+                    with(any(ParameterizedTypeReference.class)),
+                    with(equal(new Object[0]))
+            );
+            will(returnValue(new ResponseEntity<>(Arrays.asList(User.builder().name("nisse").build()), HttpStatus.OK)));
+        }});
 
         List<User> userList = userManagerService.getUsers();
-
+        context.assertIsSatisfied();
         assertNotNull(userList);
-        //assertEquals("string", userList.get(0).getName());
+        assertEquals("nisse", userList.get(0).getName());
     }
 
 
