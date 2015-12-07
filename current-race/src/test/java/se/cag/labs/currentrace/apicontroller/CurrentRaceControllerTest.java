@@ -130,6 +130,7 @@ public class CurrentRaceControllerTest {
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
+        context.assertIsSatisfied();
         assertNotNull(currentRaceStatus);
         assertEquals(RaceStatus.State.INACTIVE, currentRaceStatus.getState());
     }
@@ -257,6 +258,7 @@ public class CurrentRaceControllerTest {
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ALREADY_REPORTED.value());
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+        context.assertIsSatisfied();
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getMiddleTime());
     }
