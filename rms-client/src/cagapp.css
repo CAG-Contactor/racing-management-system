@@ -1,0 +1,16 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.css-form input.ng-invalid.ng-touched {
+    background-color: #FA787E;
+}
+
+.css-form input.ng-valid.ng-touched {
+    background-color: #78FA89;
+}
+
+.css-form input.ng-valid.ng-empty {
+    background-color: white;
+}

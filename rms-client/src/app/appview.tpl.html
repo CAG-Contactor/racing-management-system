@@ -1,0 +1,74 @@
+<div class="container">
+  <nav class="navbar navbar-inverse navbar-fixed-top" ng-init="selection='home'">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#navbar"
+                aria-expanded="false"
+                aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">CAG Race</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li ng-class="{active:selection === 'home'}">
+            <a href="#" ng-click="selection='home'">Översikt</a>
+          </li>
+          <li ng-class="{active:selection === 'example'}">
+            <a href="#example" ng-click="selection='example'">Exempel</a>
+          </li>
+        </ul>
+        <ul ng-if="vm.signedIn" class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle"
+               data-toggle="dropdown"
+               role="button">
+              {{vm.userid}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Inställningar</a></li>
+              <li><a href="#" ng-click="vm.signOut()">Logga ut</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div ng-if="!vm.signedIn">
+          <form class="navbar-form navbar-right css-form"
+                ng-submit="vm.signIn(userid,password)">
+            <div class="form-group">
+              <input type="email"
+                     placeholder="Mäjl"
+                     class="form-control"
+                     name="userid"
+                     ng-model="userid">
+            </div>
+            <div class="form-group">
+              <input type="password"
+                     placeholder="Lösen"
+                     class="form-control"
+                     name="password"
+                     ng-model="password">
+            </div>
+            <button type="submit"
+                    class="btn btn-success">
+              Logga in
+            </button>
+          </form>
+        </div>
+      </div><!--/.navbar-collapse -->
+    </div>
+  </nav>
+  <div ng-switch on="selection">
+    <div ng-switch-when="home">
+      <h1>CAG Race Management System</h1>
+    </div>
+    <div ng-switch-when="example">
+      <example-directive></example-directive>
+    </div>
+    <!-- Add more directives for the other views -->
+  </div>
+</div>
