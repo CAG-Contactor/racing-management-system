@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +37,7 @@ import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -246,20 +243,21 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void getUsersFromExternalService() {
-        ResponseEntity responseEntity = new ResponseEntity<>(Arrays.asList(User.builder().name("nisse").build()), HttpStatus.OK);
+        ResponseEntity<List<User>> responseEntity = new ResponseEntity<>(Arrays.asList(User.builder().name("nisse").build()), HttpStatus.OK);
         org.mockito.Mockito.when(restTemplateMock.exchange(
-                anyString(),
-                any(HttpMethod.class),
-                any(HttpEntity.class),
-                any(ParameterizedTypeReference.class))).thenReturn(responseEntity);
+                eq("http://localhost:10280/users"),
+                eq(HttpMethod.GET),
+                eq(null),
+                eq(new ParameterizedTypeReference<List<User>>() {})))
+                .thenReturn(responseEntity);
 
         List<User> userList = userManagerService.getUsers();
-        verify(restTemplateMock, times(1)).exchange(eq("http://localhost:10280/users"),
-                any(HttpMethod.class),
-                any(HttpEntity.class),
-                any(ParameterizedTypeReference.class));
+        verify(restTemplateMock, times(1)).exchange(
+                eq("http://localhost:10280/users"),
+                eq(HttpMethod.GET),
+                eq(null),
+                eq(new ParameterizedTypeReference<List<User>>() {}));
         assertNotNull(userList);
         assertEquals("nisse", userList.get(0).getName());
     }
-
 }
