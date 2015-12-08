@@ -1,0 +1,63 @@
+/************************************************
+ * CALLOUTS
+ */
+.bs-callout {
+  margin: 0;/*10px 0;*/
+  padding:5px 15px;
+  border: none;
+  margin: 0 0 15px 0;
+  /* border-left: 13px solid #eee;*/
+  /*
+  @media(min-width: @screen-sm) {
+    margin: 0 0 15px 0;
+  }*/
+
+}
+.bs-callout-default {
+  color: #222222;
+  background: -webkit-gradient(linear, left 0%, left 10%, from(#f0f0f0), to(#ffffff));
+  background: -webkit-linear-gradient(top, #f0f0f0 0%, #ffffff 10%);
+  background: -moz-linear-gradient(top, #f0f0f0 0%, #ffffff 10%);
+  background: linear-gradient(to bottom, #f0f0f0 0%, #ffffff 10%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffffffff', GradientType=0);
+  border: 1px solid #f0f0f0 !important;
+}
+.bs-callout-info {
+  background-color: #fff5cc;
+  border-color: #f6bf00;
+  border-left-width:5px;
+}
+
+.bs-callout-jour {
+  margin-bottom:0px;
+  margin-top: -15px;
+  &.bs-callout-jour h5 {color:#000; margin-bottom:0; line-height:120%;}
+  &.bs-callout-jour p {color:#000; margin-bottom:0; line-height:120%; margin-top: 10px; }
+  a.phone-number {font-weight:bold; color:#d70079; font-size:1.3em;margin-bottom:10px; display:block;}
+  a.phone-number:hover,
+  a.phone-number:active {text-decoration:none;}
+
+/*  @media (min-width: 600px){*/
+ @media (min-width: @screen-fsm-4){
+    margin-bottom:15px;
+    border-left:0;
+    background:#d70079;
+    margin-top:0;
+    &.bs-callout-jour h5 {color:#fff;}
+    &.bs-callout-jour p {color:#fff;}
+    &.bs-callout-jour a {color:#fff;}
+  }
+}
+
+
+p.callout-short {margin:0;}
+.alert { padding: 0 15px; border-radius: 0;}
+
+.fsm-searchfield-summary-container {
+  padding: 5px 10px;
+  margin-top: -9px;
+  @media (max-width: @screen-fsm-4) {
+    background: #fff;
+  }
+}

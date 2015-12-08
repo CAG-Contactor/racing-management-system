@@ -1,0 +1,51 @@
+
+
+/***/
+.animate-show {
+  opacity: 1;
+  /*
+  line-height: 20px;
+  opacity: 1;
+  padding: 10px;
+  border: 1px solid black;
+  background: white;
+  */
+  top:0;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+ -webkit-transition: all linear 0.5s;
+ transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+  opacity: 0;
+  /*
+  line-height: 0;
+  padding: 0 10px;
+  */
+  height: 0 !important;
+
+}
+
+.check-element {
+  padding: 10px;
+  border: 1px solid black;
+  background: white;
+}
+
+div[id].tst{
+  display: block;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  border-radius: 50%;
+  margin: 10px;
+  background: rgb( 255, 90, 180) !important;
+
+}
+div.tst:target {
+  background: rgb( 0, 180, 255) !important;
+}
