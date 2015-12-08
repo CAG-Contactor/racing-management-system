@@ -1,7 +1,12 @@
 package se.cag.labs.currentrace.apicontroller;
 
 import com.jayway.restassured.RestAssured;
+import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -10,11 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -34,13 +46,12 @@ import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
+import static com.lordofthejars.nosqlunit.mongodb.MongoDbConfigurationBuilder.mongoDb;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
@@ -49,7 +60,12 @@ import static org.mockito.Mockito.verify;
 @IntegrationTest("server.port:0")
 @TestPropertySource(locations = "classpath:application-test.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@ActiveProfiles("int-test")
 public class CurrentRaceControllerIT {
+    @Rule
+    public MongoDbRule mongoDbRule = new MongoDbRule(mongoDb().databaseName("test").build());
+    @Autowired
+    private ApplicationContext applicationContext; //Needed by nosqlunit
     @Autowired
     private CurrentRaceRepository repository;
     @Autowired
@@ -248,7 +264,8 @@ public class CurrentRaceControllerIT {
                 eq("http://localhost:10280/users"),
                 eq(HttpMethod.GET),
                 eq(null),
-                eq(new ParameterizedTypeReference<List<User>>() {})))
+                eq(new ParameterizedTypeReference<List<User>>() {
+                })))
                 .thenReturn(responseEntity);
 
         List<User> userList = userManagerService.getUsers();
@@ -256,8 +273,33 @@ public class CurrentRaceControllerIT {
                 eq("http://localhost:10280/users"),
                 eq(HttpMethod.GET),
                 eq(null),
-                eq(new ParameterizedTypeReference<List<User>>() {}));
+                eq(new ParameterizedTypeReference<List<User>>() {
+                }));
         assertNotNull(userList);
         assertEquals("nisse", userList.get(0).getName());
+    }
+
+    @Configuration
+    @EnableMongoRepositories
+    @Profile("int-test")
+    static class MongoConfiguration extends AbstractMongoConfiguration {
+        @Value("${spring.data.mongodb.uri}")
+        String mongoUri;
+
+        @Override
+        protected String getDatabaseName() {
+            return "test";
+        }
+
+        @Bean
+        @Override
+        public Mongo mongo() {
+            return new MongoClient(new MongoClientURI(mongoUri));
+        }
+
+        @Override
+        protected String getMappingBasePackage() {
+            return "se.cag.labs.currentrace.services.repository";
+        }
     }
 }
