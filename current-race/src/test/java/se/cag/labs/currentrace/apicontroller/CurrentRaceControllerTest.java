@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -49,9 +51,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
@@ -60,9 +60,10 @@ import static org.mockito.Mockito.verify;
 @IntegrationTest("server.port:0")
 @TestPropertySource(locations = "classpath:application-test.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@ActiveProfiles("test")
 public class CurrentRaceControllerTest {
     @Rule
-    public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("test");
+    public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("fongo-test");
     @Autowired
     private ApplicationContext applicationContext; //Needed by nosqlunit
 
@@ -281,6 +282,7 @@ public class CurrentRaceControllerTest {
         assertEquals("nisse", userList.get(0).getName());
     }
 
+    @Profile("test")
     @Configuration
     @EnableMongoRepositories
     @ComponentScan(basePackageClasses = {CurrentRaceRepository.class})
@@ -288,7 +290,7 @@ public class CurrentRaceControllerTest {
 
         @Override
         protected String getDatabaseName() {
-            return "test";
+            return "fongo-test";
         }
 
         @Bean
