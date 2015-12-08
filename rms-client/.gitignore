@@ -1,9 +1,10 @@
 .idea
 .idea/workspace.xml
-/node_modules/
-/vendor/
-/target/
-/webapp/
-/webapp_build/
+node_modules/
+vendor/
+target/
+webapp/
+webapp_build/
+node/
 npm-debug.log
-/~/
+~/
