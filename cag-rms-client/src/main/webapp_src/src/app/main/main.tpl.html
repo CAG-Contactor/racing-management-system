@@ -1,113 +1,111 @@
-<div class="container">
-  <nav class="navbar navbar-inverse navbar-fixed-top" ng-init="vm.selection='home'">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button"
-                class="navbar-toggle collapsed"
-                data-toggle="collapse"
-                data-target="#navbar"
-                aria-expanded="false"
-                aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#" ng-click="vm.setSelection('home')">CAG Race</a>
+<nav class="navbar navbar-inverse navbar-static-top" ng-init="vm.selection='home'">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button"
+              class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#navbar"
+              aria-expanded="false"
+              aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" ng-click="vm.setSelection('home')">CAG Race</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <div ng-if="vm.userid">
+        <ul class="nav navbar-nav">
+          <li ng-class="{active:vm.selection === 'home'}">
+            <a href="#" ng-click="vm.selection='home'">Översikt</a>
+          </li>
+          <li ng-class="{active:vm.selection === 'queue'}">
+            <a href="#queue" ng-click="vm.setSelection('queue')">Kö</a>
+          </li>
+          <li ng-class="{active:vm.selection === 'leaderboard'}">
+            <a href="#leaderboard" ng-click="vm.setSelection('leaderboard')">Resultattavla</a>
+          </li>
+          <li ng-class="{active:vm.selection === 'currentrace'}">
+            <a href="#currentrace" ng-click="vm.setSelection('currentrace')">Aktuellt lopp</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle"
+               data-toggle="dropdown"
+               role="button"
+               aria-haspopup="true"
+               aria-expanded="false">
+              {{vm.userid}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#usersettings" ng-click="vm.setSelection('usersettings')">Inställningar</a></li>
+              <li><a href="#" ng-click="vm.signOut()">Logga ut</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <div ng-if="vm.userid">
-          <ul class="nav navbar-nav">
-            <li ng-class="{active:vm.selection === 'home'}">
-              <a href="#" ng-click="vm.selection='home'">Översikt</a>
-            </li>
-            <li ng-class="{active:vm.selection === 'queue'}">
-              <a href="#queue" ng-click="vm.setSelection('queue')">Kö</a>
-            </li>
-            <li ng-class="{active:vm.selection === 'leaderboard'}">
-              <a href="#leaderboard" ng-click="vm.setSelection('leaderboard')">Resultattavla</a>
-            </li>
-            <li ng-class="{active:vm.selection === 'currentrace'}">
-              <a href="#currentrace" ng-click="vm.setSelection('currentrace')">Aktuellt lopp</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown"
-                 role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                {{vm.userid}}<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#usersettings" ng-click="vm.setSelection('usersettings')">Inställningar</a></li>
-                <li><a href="#" ng-click="vm.signOut()">Logga ut</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div ng-if="!vm.userid">
-          <form class="navbar-form navbar-right css-form"
-                ng-submit="vm.signIn(userid,password)">
-            <div class="form-group">
-              <input type="email"
-                     placeholder="Mäjl"
-                     class="form-control"
-                     name="userid"
-                     ng-model="userid">
-            </div>
-            <div class="form-group">
-              <input type="password"
-                     placeholder="Lösen"
-                     class="form-control"
-                     name="password"
-                     ng-model="password">
-            </div>
-            <button type="submit"
-                    class="btn btn-success">
-              Logga in
-            </button>
-          </form>
-        </div>
-      </div><!--/.navbar-collapse -->
-    </div>
-  </nav>
-  <div ng-switch on="vm.selection">
-    <div ng-switch-when="home">
-      <h1>CAG Race Management System</h1>
+      <div ng-if="!vm.userid">
+        <form class="navbar-form navbar-right css-form transparent"
+              ng-submit="vm.signIn(userid,password)">
+          <div class="form-group">
+            <input type="email"
+                   placeholder="Mäjl"
+                   class="form-control"
+                   name="userid"
+                   ng-model="userid">
+          </div>
+          <div class="form-group">
+            <input type="password"
+                   placeholder="Lösen"
+                   class="form-control"
+                   name="password"
+                   ng-model="password">
+          </div>
+          <button type="submit"
+                  class="btn btn-success">
+            Logga in
+          </button>
+        </form>
+      </div>
+    </div><!--/.navbar-collapse -->
+  </div>
+</nav>
+<div ng-switch on="vm.selection" class="container">
+  <div ng-switch-when="home">
+    <h1>CAG Race Management System</h1>
 
-      <p>Semiotics venmo lo-fi messenger bag, hella wayfarers pug aesthetic chicharrones butcher humblebrag cliche.
-        Chillwave intelligentsia beard, viral brunch DIY chicharrones fixie gastropub twee. Helvetica humblebrag plaid
-        chartreuse flexitarian, slow-carb williamsburg waistcoat ramps cronut iPhone kombucha ennui. Asymmetrical
-        stumptown quinoa, truffaut sartorial banh mi portland venmo kinfolk whatever vegan. Paleo letterpress ennui deep
-        v, bushwick neutra occupy forage tousled slow-carb viral. Put a bird on it bespoke forage whatever, art party
-        pinterest selfies try-hard cronut disrupt slow-carb meggings shabby chic. 3 wolf moon neutra PBR&B lomo.</p>
+    <p>Semiotics venmo lo-fi messenger bag, hella wayfarers pug aesthetic chicharrones butcher humblebrag cliche.
+      Chillwave intelligentsia beard, viral brunch DIY chicharrones fixie gastropub twee. Helvetica humblebrag plaid
+      chartreuse flexitarian, slow-carb williamsburg waistcoat ramps cronut iPhone kombucha ennui. Asymmetrical
+      stumptown quinoa, truffaut sartorial banh mi portland venmo kinfolk whatever vegan. Paleo letterpress ennui deep
+      v, bushwick neutra occupy forage tousled slow-carb viral. Put a bird on it bespoke forage whatever, art party
+      pinterest selfies try-hard cronut disrupt slow-carb meggings shabby chic. 3 wolf moon neutra PBR&B lomo.</p>
 
-      <p>Viral etsy literally celiac gentrify gluten-free normcore, selvage selfies franzen plaid pop-up. Keytar
-        mumblecore salvia shabby chic, cardigan austin vice tumblr. Deep v meh pop-up before they sold out, mustache
-        letterpress skateboard distillery pinterest. Viral jean shorts kitsch, PBR&B ethical actually mlkshk tofu.
-        Organic kitsch kale chips quinoa plaid, messenger bag twee PBR&B keffiyeh. Shoreditch biodiesel leggings vinyl
-        8-bit, iPhone twee. Authentic intelligentsia scenester lomo.</p>
-    </div>
-    <div ng-switch-when="queue">
-      <h1>
-        Här ska vy för kön in.
-      </h1>
-    </div>
-    <div ng-switch-when="leaderboard">
-      <h1>
-        Här ska vy för resultattavlan in.
-      </h1>
-    </div>
-    <div ng-switch-when="currentrace">
-      <h1>
-        Här ska vyn för aktuellt lopp in.
-      </h1>
-    </div>
-    <div ng-switch-when="usersettings">
-      <h1>
-        Här ska vyn för användarinfo in.
-      </h1>
-    </div>
+    <p>Viral etsy literally celiac gentrify gluten-free normcore, selvage selfies franzen plaid pop-up. Keytar
+      mumblecore salvia shabby chic, cardigan austin vice tumblr. Deep v meh pop-up before they sold out, mustache
+      letterpress skateboard distillery pinterest. Viral jean shorts kitsch, PBR&B ethical actually mlkshk tofu.
+      Organic kitsch kale chips quinoa plaid, messenger bag twee PBR&B keffiyeh. Shoreditch biodiesel leggings vinyl
+      8-bit, iPhone twee. Authentic intelligentsia scenester lomo.</p>
+  </div>
+  <div ng-switch-when="queue">
+    <h1>
+      Här ska vy för kön in.
+    </h1>
+  </div>
+  <div ng-switch-when="leaderboard">
+    <h1>
+      Här ska vy för resultattavlan in.
+    </h1>
+  </div>
+  <div ng-switch-when="currentrace">
+    <h1>
+      Här ska vyn för aktuellt lopp in.
+    </h1>
+  </div>
+  <div ng-switch-when="usersettings">
+    <h1>
+      Här ska vyn för användarinfo in.
+    </h1>
   </div>
 </div>

@@ -5,7 +5,6 @@
   angular.module('cag-rms-client').directive('cagMain', factory);
 
   function factory() {
-    console.debug('Invoke cag-rm factory');
     return {
       restrict: 'E',
       templateUrl: 'main/main.tpl.html',
