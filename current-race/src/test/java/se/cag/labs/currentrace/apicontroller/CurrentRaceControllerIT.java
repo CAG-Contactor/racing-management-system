@@ -1,11 +1,7 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import com.github.fakemongo.Fongo;
 import com.jayway.restassured.RestAssured;
-import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
-import com.mongodb.Mongo;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -14,13 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +34,6 @@ import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
-import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -56,23 +45,17 @@ import static org.mockito.Mockito.verify;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
 // NOTE!! order is important
-@WebAppConfiguration()
+@WebAppConfiguration
 @IntegrationTest("server.port:0")
 @TestPropertySource(locations = "classpath:application-test.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-public class CurrentRaceControllerTest {
-    @Rule
-    public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("test");
-    @Autowired
-    private ApplicationContext applicationContext; //Needed by nosqlunit
-
+public class CurrentRaceControllerIT {
     @Autowired
     private CurrentRaceRepository repository;
     @Autowired
     private CallbackService callbackService; // This is a singleton and is the same instance as injected into application services
     @Autowired
     private UserManagerService userManagerService; // This is a singleton and is the same instance as injected into application services
-
 
     @Value("${local.server.port}")
     private int port;
@@ -183,7 +166,6 @@ public class CurrentRaceControllerTest {
         currentRaceStatus.setCallbackUrl(callbackUrl);
         repository.save(currentRaceStatus);
 
-        assertEquals(1, repository.findAll().size());
         given().param("sensorID", "START").param("timestamp", 1234).
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ACCEPTED.value());
         given().param("sensorID", "SPLIT").param("timestamp", 12345).
@@ -266,8 +248,7 @@ public class CurrentRaceControllerTest {
                 eq("http://localhost:10280/users"),
                 eq(HttpMethod.GET),
                 eq(null),
-                eq(new ParameterizedTypeReference<List<User>>() {
-                })))
+                eq(new ParameterizedTypeReference<List<User>>() {})))
                 .thenReturn(responseEntity);
 
         List<User> userList = userManagerService.getUsers();
@@ -275,31 +256,8 @@ public class CurrentRaceControllerTest {
                 eq("http://localhost:10280/users"),
                 eq(HttpMethod.GET),
                 eq(null),
-                eq(new ParameterizedTypeReference<List<User>>() {
-                }));
+                eq(new ParameterizedTypeReference<List<User>>() {}));
         assertNotNull(userList);
         assertEquals("nisse", userList.get(0).getName());
-    }
-
-    @Configuration
-    @EnableMongoRepositories
-    @ComponentScan(basePackageClasses = {CurrentRaceRepository.class})
-    static class MongoConfiguration extends AbstractMongoConfiguration {
-
-        @Override
-        protected String getDatabaseName() {
-            return "test";
-        }
-
-        @Bean
-        @Override
-        public Mongo mongo() {
-            return new Fongo("test-db").getMongo();
-        }
-
-        @Override
-        protected String getMappingBasePackage() {
-            return "se.cag.labs.currentrace.services.repository";
-        }
     }
 }
