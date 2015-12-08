@@ -23,6 +23,7 @@
         <java.version>1.8</java.version>
         <artifactFinalName>cag-${project.artifactId}</artifactFinalName>
         <tomcat.version>8.0.28</tomcat.version>
+        <skipITs>true</skipITs>
     </properties>
 
     <dependencies>
@@ -228,6 +229,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.19</version>
+                <configuration>
+                    <skipITs>false</skipITs>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
