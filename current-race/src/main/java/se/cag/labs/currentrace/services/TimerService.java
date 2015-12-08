@@ -16,8 +16,6 @@ public class TimerService {
 
     private Timer timer;
 
-    private String message;
-
     public void startTimer() {
         log.info("Start timer.");
         if (timer == null) {

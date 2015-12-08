@@ -1,59 +1,74 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import com.jayway.restassured.*;
-import org.jmock.*;
-import org.jmock.integration.junit4.*;
-import org.jmock.lib.concurrent.*;
-import org.jmock.lib.legacy.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.*;
-import org.springframework.context.annotation.*;
-import org.springframework.http.*;
-import org.springframework.test.annotation.*;
-import org.springframework.test.context.*;
-import org.springframework.test.context.junit4.*;
-import org.springframework.test.context.web.*;
-import org.springframework.test.util.*;
-import org.springframework.web.client.*;
-import se.cag.labs.currentrace.*;
-import se.cag.labs.currentrace.apicontroller.apimodel.*;
-import se.cag.labs.currentrace.services.*;
-import se.cag.labs.currentrace.services.repository.*;
-import se.cag.labs.currentrace.services.repository.datamodel.*;
+import com.jayway.restassured.RestAssured;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.RestTemplate;
+import se.cag.labs.currentrace.CurrentRaceApplication;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.currentrace.apicontroller.apimodel.User;
+import se.cag.labs.currentrace.services.CallbackService;
+import se.cag.labs.currentrace.services.UserManagerService;
+import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import static com.jayway.restassured.RestAssured.*;
-import static org.hamcrest.core.Is.*;
-import static org.junit.Assert.*;
+import static com.jayway.restassured.RestAssured.given;
+import static com.jayway.restassured.RestAssured.when;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {CurrentRaceApplication.class,CurrentRaceControllerTest.Config.class}) // NOTE!! order is important
+@SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
+// NOTE!! order is important
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 @TestPropertySource(locations = "classpath:application-test.properties")
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class CurrentRaceControllerTest {
-    @Rule
-    @Autowired
-    public JUnitRuleMockery context;
     @Autowired
     private CurrentRaceRepository repository;
     @Autowired
     private CallbackService callbackService; // This is a singleton and is the same instance as injected into application services
+    @Autowired
+    private UserManagerService userManagerService; // This is a singleton and is the same instance as injected into application services
 
     @Value("${local.server.port}")
     private int port;
 
     private String callbackUrl;
+    @Mock
     private RestTemplate restTemplateMock;
 
     @Before
     public void setup() {
-        restTemplateMock = context.mock(RestTemplate.class);
+        MockitoAnnotations.initMocks(this);
         ReflectionTestUtils.setField(callbackService, "restTemplate", restTemplateMock);
+        ReflectionTestUtils.setField(userManagerService, "restTemplate", restTemplateMock);
         repository.deleteAll();
         callbackUrl = "http://localhost:" + port + "/onracestatusupdate";
         RestAssured.port = port;
@@ -89,20 +104,6 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void canCancelRaceIfStartedAndOnlyPost() {
-        context.checking(new Expectations(){{
-            oneOf(restTemplateMock).postForLocation(
-                    with(equal("http://localhost:8080/onracestatusupdate")),
-                    with(equal(new RaceStatus(
-                            null,
-                            null,
-                            null,
-                            null,
-                            RaceStatus.State.INACTIVE
-                    ))),
-                    with(equal(new Object[0]))
-            );
-        }});
-
         when().get(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         when().put(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         when().delete(CurrentRaceController.CANCEL_RACE_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -117,6 +118,10 @@ public class CurrentRaceControllerTest {
                 then().statusCode(HttpStatus.ACCEPTED.value());
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+
+        verify(restTemplateMock, atLeastOnce()).postForLocation(
+                "http://localhost:" + port + "/onracestatusupdate",
+                RaceStatus.builder().state(RaceStatus.State.INACTIVE).build());
 
         assertNotNull(currentRaceStatus);
         assertEquals(RaceStatus.State.INACTIVE, currentRaceStatus.getState());
@@ -146,44 +151,9 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void canUpdatePassageTime_OnlyByPost() {
-        context.checking(new Expectations(){{
-            oneOf(restTemplateMock).postForLocation(
-                    with(equal("http://localhost:8080/onracestatusupdate")),
-                    with(equal(new RaceStatus(
-                            RaceStatus.Event.START,
-                            new Date(1234),
-                            null,
-                            null,
-                            RaceStatus.State.ACTIVE
-                    ))),
-                    with(equal(new Object[0]))
-            );
-            oneOf(restTemplateMock).postForLocation(
-                    with(equal("http://localhost:8080/onracestatusupdate")),
-                    with(equal(new RaceStatus(
-                            RaceStatus.Event.MIDDLE,
-                            new Date(1234),
-                            new Date(12345),
-                            null,
-                            RaceStatus.State.ACTIVE
-                    ))),
-                    with(equal(new Object[0]))
-            );
-            oneOf(restTemplateMock).postForLocation(
-                    with(equal("http://localhost:8080/onracestatusupdate")),
-                    with(equal(new RaceStatus(
-                            RaceStatus.Event.FINISH,
-                            new Date(1234),
-                            new Date(12345),
-                            new Date(123456),
-                            RaceStatus.State.INACTIVE
-                    ))),
-                    with(equal(new Object[0]))
-            );
-        }});
         given().param("sensorID", "START").param("timestamp", 1234).
                 when().get(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        given().param("sensorID", "START_ID").param("timestamp", 1234).
+        given().param("sensorID", "START").param("timestamp", 1234).
                 when().delete(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
         given().param("sensorID", "START").param("timestamp", 1234).
                 when().put(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -205,7 +175,30 @@ public class CurrentRaceControllerTest {
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
-        context.assertIsSatisfied();
+        verify(restTemplateMock, times(1)).postForLocation(
+                "http://localhost:" + port + "/onracestatusupdate",
+                RaceStatus.builder()
+                        .event(RaceStatus.Event.START)
+                        .startTime(new Date(1234))
+                        .state(RaceStatus.State.ACTIVE)
+                        .build());
+        verify(restTemplateMock, times(1)).postForLocation(
+                "http://localhost:" + port + "/onracestatusupdate",
+                RaceStatus.builder()
+                        .event(RaceStatus.Event.MIDDLE)
+                        .startTime(new Date(1234))
+                        .middleTime(new Date(12345))
+                        .state(RaceStatus.State.ACTIVE)
+                        .build());
+        verify(restTemplateMock, times(1)).postForLocation(
+                "http://localhost:" + port + "/onracestatusupdate",
+                RaceStatus.builder()
+                        .event(RaceStatus.Event.FINISH)
+                        .startTime(new Date(1234))
+                        .middleTime(new Date(12345))
+                        .finishTime(new Date(123456))
+                        .state(RaceStatus.State.INACTIVE)
+                        .build());
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getStartTime());
         assertEquals(new Long(12345), currentRaceStatus.getMiddleTime());
@@ -226,19 +219,6 @@ public class CurrentRaceControllerTest {
 
     @Test
     public void secondPassageOfMiddleSensorIsIgnored() {
-        context.checking(new Expectations(){{
-            oneOf(restTemplateMock).postForLocation(
-                    with(equal("http://localhost:8080/onracestatusupdate")),
-                    with(equal(new RaceStatus(
-                            RaceStatus.Event.MIDDLE,
-                            null,
-                            new Date(1234),
-                            null,
-                            RaceStatus.State.ACTIVE
-                    ))),
-                    with(equal(new Object[0]))
-            );
-        }});
         CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
         currentRaceStatus.setState(RaceStatus.State.ACTIVE);
         currentRaceStatus.setCallbackUrl(callbackUrl);
@@ -250,18 +230,34 @@ public class CurrentRaceControllerTest {
                 when().post(CurrentRaceController.PASSAGE_DETECTED_URL).then().statusCode(HttpStatus.ALREADY_REPORTED.value());
 
         currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
+        verify(restTemplateMock, times(1)).postForLocation(
+                "http://localhost:" + port + "/onracestatusupdate",
+                RaceStatus.builder()
+                        .event(RaceStatus.Event.MIDDLE)
+                        .middleTime(new Date(1234))
+                        .state(RaceStatus.State.ACTIVE)
+                        .build());
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getMiddleTime());
     }
 
+    @Test
+    public void getUsersFromExternalService() {
+        ResponseEntity<List<User>> responseEntity = new ResponseEntity<>(Arrays.asList(User.builder().name("nisse").build()), HttpStatus.OK);
+        org.mockito.Mockito.when(restTemplateMock.exchange(
+                eq("http://localhost:10280/users"),
+                eq(HttpMethod.GET),
+                eq(null),
+                eq(new ParameterizedTypeReference<List<User>>() {})))
+                .thenReturn(responseEntity);
 
-    public static class Config {
-        @Bean
-        public JUnitRuleMockery context() {
-            JUnitRuleMockery jUnitRuleMockery = new JUnitRuleMockery();
-            jUnitRuleMockery.setImposteriser(ClassImposteriser.INSTANCE);
-            jUnitRuleMockery. setThreadingPolicy(new Synchroniser());
-            return jUnitRuleMockery;
-        }
+        List<User> userList = userManagerService.getUsers();
+        verify(restTemplateMock, times(1)).exchange(
+                eq("http://localhost:10280/users"),
+                eq(HttpMethod.GET),
+                eq(null),
+                eq(new ParameterizedTypeReference<List<User>>() {}));
+        assertNotNull(userList);
+        assertEquals("nisse", userList.get(0).getName());
     }
 }
