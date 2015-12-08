@@ -1,0 +1,88 @@
+/**
+ * This is the main application stylesheet. It should include or import all
+ * stylesheets used throughout the application as this is the only stylesheet in
+ * the Grunt configuration that is automatically processed.
+ */
+
+
+/**
+ * First, we include the Twitter Bootstrap LESS files. Only the ones used in the
+ * project should be imported as the rest are just wasting space.
+ */
+
+// Bootstrap Core variables and mixins
+@import "../../vendor/bootstrap/less/variables";
+@import "../../vendor/bootstrap/less/mixins";
+
+// Bootstrap Reset
+@import "../../vendor/bootstrap/less/normalize";
+@import "../../vendor/bootstrap/less/print";
+
+// Bootstrap Core CSS
+@import "../../vendor/bootstrap/less/scaffolding";
+@import "../../vendor/bootstrap/less/type";
+@import "../../vendor/bootstrap/less/grid";
+@import "../../vendor/bootstrap/less/tables";
+@import "../../vendor/bootstrap/less/forms";
+@import "../../vendor/bootstrap/less/buttons";
+
+// Bootstrap Components
+@import "../../vendor/bootstrap/less/component-animations";
+@import "../../vendor/bootstrap/less/navs";
+@import "../../vendor/bootstrap/less/navbar";
+@import "../../vendor/bootstrap/less/jumbotron";
+@import "../../vendor/bootstrap/less/alerts";
+@import "../../vendor/bootstrap/less/media";
+@import "../../vendor/bootstrap/less/list-group";
+@import "../../vendor/bootstrap/less/tooltip";
+@import "../../vendor/bootstrap/less/popovers";
+@import "../../vendor/bootstrap/less/modals";
+@import "../../vendor/bootstrap/less/glyphicons";
+@import "../../vendor/bootstrap/less/pagination";
+@import "../../vendor/bootstrap/less/panels";
+@import "../../vendor/bootstrap/less/button-groups";
+@import "../../vendor/bootstrap/less/input-groups";
+@import "../../vendor/bootstrap/less/dropdowns";
+
+// Bootstrap Utility classes
+@import "../../vendor/bootstrap/less/utilities";
+@import "../../vendor/bootstrap/less/responsive-utilities";
+
+// Angular validation combined with bootstrap form styles
+@import 'angular/validation';
+
+/**
+ * This is our main variables file. We must include it last so we can overwrite any variable
+ * definitions in our imported stylesheets.
+ */
+@import 'variables';
+
+/**
+ * Bootstrap overwrites and extensions
+ */
+
+
+
+@import 'bootstrap-extensions/headers';
+@import 'bootstrap-extensions/load-bar';
+
+@import 'bootstrap-extensions/fileupload';
+@import 'bootstrap-extensions/accordion';
+@import 'bootstrap-extensions/panels';
+@import "bootstrap-extensions/pop-up";
+@import "bootstrap-extensions/callouts";
+@import "bootstrap-extensions/addons";
+
+@import 'bootstrap-extensions/datepicker';
+
+
+@import "bootstrap-extensions/animate";
+
+/**
+ * Our styles
+ */
+
+/**
+ * Base styles, colors and such
+ */
+@import 'base';

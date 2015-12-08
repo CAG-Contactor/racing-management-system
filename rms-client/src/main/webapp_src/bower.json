@@ -1,0 +1,22 @@
+{
+  "name": "log-reader",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.4.4",
+    "angular-mocks": "~1.4.4",
+    "angular-sanitize": "~1.4.4",
+    "angular-animate": "~1.4.4",
+    "angular-resource": "~1.4.4",
+    "angular-messages": "~1.4.4",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "#3.3.4",
+    "angular-bootstrap": "~0.13.3",
+    "angular-ui-bootstrap": "~0.13.3",
+    "jquery": "jquery#1.11.3",
+    "lodash": "~3.10.0",
+    "angular-local-storage": "~0.2.1",
+    "angular-translate": "~2.7.0",
+    "angular-translate-loader-static-files": "~2.7.0",
+    "ngDialog": "~0.5.0"
+  }
+}

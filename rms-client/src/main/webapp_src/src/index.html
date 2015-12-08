@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sv_SE" ng-app="cag-rms-client">
+  <!-- id="ng-app" IE<8 -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/ui/favicon.png">
+
+    <meta name="Access-Control-Allow-Origin" content="http://localhost:9090">
+    <title>CAG RMS</title>
+    <title ng-bind="appCtrl.pageTitle"></title>
+
+    <!-- not compiled CSS -->
+
+    <!-- compiled CSS -->
+    <% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>"/>
+    <% }); %>
+
+    <!-- compiled JavaScript -->
+    <% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script>
+    <% }); %>
+
+
+  </head>
+  <body class="html body">
+    <cag-main></cag-main>
+  </body>
+</html>
