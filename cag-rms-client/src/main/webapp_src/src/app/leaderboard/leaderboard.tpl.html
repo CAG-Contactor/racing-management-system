@@ -1,2 +1,16 @@
-hej hopp
-{{vm.results()}}
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Namn</th>
+            <th>Tid</th>
+            <th>Mellantid</th>
+            <th>Resultat</th>
+        </tr>
+        <tr ng-repeat="result in vm.results | orderBy : 'user.name'">
+            <td>{{result.user.name}}</td>
+            <td>{{result.time}}</td>
+            <td>{{result.middleTime}}</td>
+            <td>{{result.result}}</td>
+        </tr>
+    </table>
+</div>

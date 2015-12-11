@@ -21,13 +21,8 @@
     };
   }
 
-  function Ctrl(localStorageService) {
+  function Ctrl() {
     var vm = this;
-    vm.results = results;
-
-    function results() {
-      console.debug('Results:');
-      return 'Kalle';
-    }
+    vm.results = angular.fromJson('[{"id":"564f1bd9d4c64ebeaf277d6a","created":1448025049594,"user":{"id":null,"name":"kalle","email":"kalle@acme.com","password":null},"time":1111111,"middleTime":2222222,"result":"FINISHED"}]');
   }
 }());
