@@ -63,7 +63,7 @@ module.exports = {
         js: [
             'vendor/jquery/dist/jquery.js',
             'vendor/bootstrap/dist/js/bootstrap.js',
-            'vendor/lodash/dist/lodash.js',
+            'vendor/lodash/lodash.js',
             'vendor/angular/angular.js',
             'vendor/angular-sanitize/angular-sanitize.js',
             'vendor/angular-messages/angular-messages.js',
