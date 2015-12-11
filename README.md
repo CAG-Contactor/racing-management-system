@@ -1,6 +1,6 @@
-CAG Race Management System
+CAG Racing Management System
 ==========================
-The ultimate race management system.
+The ultimate racing management system.
 
 Spec
 ----
