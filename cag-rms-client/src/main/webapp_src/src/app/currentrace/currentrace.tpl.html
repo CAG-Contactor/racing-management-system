@@ -6,16 +6,20 @@
                 <td style="text-align: left">{{currentUser.name}}</td>
             </tr>
             <tr>
-                <td style="text-align: right; padding-right: 5px;">Tid</td>
-                <td style="text-align: left">{{currentUser.startTime | date:'mm:ss.sss'}}</td>
+                <td style="text-align: right; padding-right: 5px;">Starttid</td>
+                <td style="text-align: left">{{startTime | date:'HH:mm:ss.sss'}}</td>
             </tr>
             <tr>
                 <td style="text-align: right;  padding-right: 5px;">Mellantid</td>
-                <td style="text-align: left">{{currentUser.splitTime | date:'mm:ss.sss'}}</td>
+                <td style="text-align: left">{{splitTime | date:'HH:mm:ss.sss'}}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;  padding-right: 5px;">Sluttid</td>
+                <td style="text-align: left">{{finishTime | date:'HH:mm:ss.sss'}}</td>
             </tr>
         </table>
     </div>
     <div style="text-align: center; padding: 20px;">
-        Klar
+        {{isActive ? 'Pågår!' : 'Klart'}}
     </div>
 </div>
