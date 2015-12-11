@@ -77,13 +77,14 @@
   </div>
   <div ng-switch-when="queue">
     <h1>
-      Här ska vy för kön in.
+      <cag-queue></cag-queue>
     </h1>
   </div>
   <div ng-switch-when="leaderboard">
     <h1>
-      Här ska vy för resultattavlan in.
+      Resultattavla
     </h1>
+    <leaderboard></leaderboard>
   </div>
   <div ng-switch-when="currentrace">
     <current-race></current-race>
