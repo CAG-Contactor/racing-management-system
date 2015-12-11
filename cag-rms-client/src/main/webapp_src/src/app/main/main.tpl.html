@@ -73,9 +73,7 @@
 </nav>
 <div ng-switch on="vm.selection" class="container">
   <div ng-switch-when="home">
-    <h1>
-      Här ska vy för översikt in.
-    </h1>
+    <overview></overview>
   </div>
   <div ng-switch-when="queue">
     <h1>
@@ -89,9 +87,7 @@
     <leaderboard></leaderboard>
   </div>
   <div ng-switch-when="currentrace">
-    <h1>
-      Här ska vyn för aktuellt lopp in.
-    </h1>
+    <current-race></current-race>
   </div>
   <div ng-switch-when="usersettings">
     <h1>
