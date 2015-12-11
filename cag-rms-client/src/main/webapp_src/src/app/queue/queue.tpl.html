@@ -1,0 +1,16 @@
+<div>
+
+  <button class="btn btn-success" ng-click="vm.enterMe()" ng-if="!vm.hasEntered()">
+    Anmäl mig
+  </button>
+
+  <button class="btn btn-error" ng-click="vm.removeMe()" ng-if="vm.hasEntered()">
+    Fega ur
+  </button>
+
+  <table class="table table-bordered">
+    <tr ng-repeat="racer in vm.enteredRacers">
+      <td>{{racer.name}}</td>
+    </tr>
+  </table>
+</div>
