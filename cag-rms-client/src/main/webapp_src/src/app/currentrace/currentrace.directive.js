@@ -1,13 +1,21 @@
 'use strict';
 (function () {
+    angular.module('cag-rms-client').directive('currentRace', ['$timeout', function ($timeout) {
+        return {
+            scope: {},
+            restrict: 'E',
+            link: function (scope, elems, attrs) {
+                scope.currentUser = {name: 'Nisse', startTime: 0, splitTime: new Date(), finishTime: new Date()};
+                console.log("time started");
+                timer();
 
-  angular.module('cag-rms-client').directive('currentRace', factory);
+                function timer() {
+                    scope.currentUser.startTime++;
+                    $timeout(timer, 1);
+                }
+            },
 
-  function factory() {
-    return {
-      restrict: 'E',
-      templateUrl: 'currentrace/currentrace.tpl.html'
-    };
-  }
-
+            templateUrl: 'currentrace/currentrace.tpl.html'
+        };
+    }]);
 }());
