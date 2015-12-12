@@ -5,23 +5,33 @@
             scope: {},
             restrict: 'E',
             link: function (scope, elems, attrs) {
-                scope.isActive = false;
-                scope.runningTime = 0;
                 var timerHandle, statusTimerHandle;
+
+                scope.isRaceActive = false;
+                scope.runningTime = 0;
+                delete scope.startTime;
+                delete scope.startTimeInMillis;
+                delete scope.splitTime;
+                delete scope.finishTime;
+
+                if (attrs.hasOwnProperty('user')) {
+                    scope.username = attrs['user'];
+                }
+
                 getStatus();
                 timer();
 
                 scope.$on(
                     '$destroy',
-                    function( event ) {
+                    function (event) {
                         console.debug('destroy called');
-                        $timeout.cancel( timerHandle );
-                        $timeout.cancel( statusTimerHandle );
+                        $timeout.cancel(timerHandle);
+                        $timeout.cancel(statusTimerHandle);
                     }
                 );
 
                 function timer() {
-                    if (scope.isActive) {
+                    if (scope.isRaceActive && scope.startTimeInMillis) {
                         scope.runningTime = Date.now() - scope.startTimeInMillis;
                     }
                     timerHandle = $timeout(timer, 100);
@@ -33,21 +43,28 @@
                         url: 'http://localhost:10080/status'
                     }).then(function successCallback(response) {
                         console.debug(response.data);
-
-                        var newActiveState = response.data.state === 'ACTIVE';
-                        if(scope.isActive != newActiveState) {
-                            console.debug('isActive changed to ' + newActiveState);
-                            scope.isActive = newActiveState;
-                            if (response.data.startTime) {
-                                scope.startTime = new Date(response.data.startTime);
-                                scope.startTimeInMillis = +scope.startTime;
-                            }
-                            if (response.data.middleTime) {
-                                scope.splitTime = new Date(response.data.middleTime);
-                            }
-                            if (response.data.finishTime) {
-                                scope.finishTime = new Date(response.data.finishTime);
-                            }
+                        scope.isRaceActive = response.data.state === 'ACTIVE';
+                        scope.raceEvent = response.data.event;
+                        if (response.data.startTime) {
+                            scope.startTime = new Date(response.data.startTime);
+                            scope.startTimeInMillis = +scope.startTime;
+                        }
+                        else {
+                            delete scope.startTime;
+                            delete scope.startTimeInMillis;
+                        }
+                        if (response.data.middleTime) {
+                            scope.splitTime = new Date(response.data.middleTime);
+                        }
+                        else {
+                            delete scope.splitTime;
+                        }
+                        if (response.data.finishTime) {
+                            scope.finishTime = new Date(response.data.finishTime);
+                            scope.runningTime = +scope.finishTime - +scope.startTime;
+                        }
+                        else {
+                            delete scope.finishTime;
                         }
                     }, function errorCallback(response) {
                     });

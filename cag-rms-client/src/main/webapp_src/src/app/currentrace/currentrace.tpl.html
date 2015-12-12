@@ -3,7 +3,7 @@
         <table style="width: 100%;">
             <tr>
                 <td style="text-align: right; padding-right: 5px;">Tävlande</td>
-                <td style="text-align: left">{{currentUser.name}}</td>
+                <td style="text-align: left">{{username}}</td>
             </tr>
             <tr>
                 <td style="text-align: right; padding-right: 5px;">Starttid</td>
@@ -15,7 +15,12 @@
             </tr>
             <tr>
                 <td style="text-align: right;  padding-right: 5px;">Mellantid</td>
-                <td style="text-align: left">{{splitTime | date:'HH:mm:ss.sss'}}</td>
+                <td style="text-align: left">
+                    <div ng-if="splitTime">
+                        {{splitTime | date:'HH:mm:ss.sss'}}
+                    </div>
+                    <div ng-if="!splitTime">--:--.---</div>
+                </td>
             </tr>
             <tr>
                 <td style="text-align: right;  padding-right: 5px;">Sluttid</td>
@@ -24,6 +29,13 @@
         </table>
     </div>
     <div style="text-align: center; padding: 20px;">
-        {{isActive ? 'Pågår!' : 'Klart'}}
+        <div ng-if="isRaceActive">Lopp Pågår!</div>
+        <div ng-switch="raceEvent">
+            <div ng-switch-when="DISQUALIFIED">
+                Sucker! diskad!
+            </div>
+            <div ng-switch-default>Inget event värt att notera</div>
+        </div>
+        <div ng-if="!isRaceActive">Klart</div>
     </div>
 </div>
