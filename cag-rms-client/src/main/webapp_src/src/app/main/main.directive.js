@@ -12,12 +12,27 @@
     };
   }
 
-  function Ctrl(localStorageService, clientApiService) {
+  function Ctrl(clientApiService) {
     var vm = this;
+    var connectionStyle = {
+      color:'red'
+    };
+    clientApiService.setConnectionListener(connectionListener);
     vm.signIn = signIn;
     vm.signOut = signOut;
     vm.setSelection = setSelection;
+    vm.connectionStyle = connectionStyle;
     vm.currentUser = clientApiService.getCurrentUser();
+
+    function connectionListener(state) {
+        if (state === 'CONNECTED') {
+          connectionStyle.color = 'green';
+        } else if (state === 'CONNECTING') {
+            connectionStyle.color = 'green';
+        } else {
+          connectionStyle.color = 'red';
+        }
+    }
 
     function signIn(userid, password) {
       clientApiService.login(userid,password)
