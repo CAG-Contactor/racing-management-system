@@ -22,15 +22,14 @@
     vm.signOut = signOut;
     vm.setSelection = setSelection;
     vm.connectionStyle = connectionStyle;
+    vm.connected = false;
     vm.currentUser = clientApiService.getCurrentUser();
 
     function connectionListener(state) {
         if (state === 'CONNECTED') {
-          connectionStyle.color = 'green';
-        } else if (state === 'CONNECTING') {
-            connectionStyle.color = 'green';
+          vm.connected = true;
         } else {
-          connectionStyle.color = 'red';
+          vm.connected = false;
         }
     }
 
