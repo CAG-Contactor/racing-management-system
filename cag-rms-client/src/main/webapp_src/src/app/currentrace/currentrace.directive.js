@@ -7,11 +7,13 @@
             link: function (scope, elems, attrs) {
                 scope.currentUser = {name: 'Nisse', startTime: 0, splitTime: new Date(), finishTime: new Date()};
                 console.log("time started");
+                var start = new Date().getTime();
                 timer();
 
                 function timer() {
-                    scope.currentUser.startTime++;
-                    $timeout(timer, 1);
+                    var now = new Date().getTime();
+                    scope.currentUser.startTime = now - start;
+                    $timeout(timer, 337);
                 }
             },
 

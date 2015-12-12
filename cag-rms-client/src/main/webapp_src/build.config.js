@@ -64,6 +64,7 @@ module.exports = {
             'vendor/jquery/dist/jquery.js',
             'vendor/bootstrap/dist/js/bootstrap.js',
             'vendor/lodash/lodash.js',
+            'vendor/sockjs/sockjs.js',
             'vendor/angular/angular.js',
             'vendor/angular-sanitize/angular-sanitize.js',
             'vendor/angular-messages/angular-messages.js',
@@ -84,7 +85,7 @@ module.exports = {
 
         ],
         assets: [
-            'vendor/bootstrap/dist/css/bootstrap.min.css',
+            'vendor/bootstrap/dist/css/bootstrap.min.css'
         ],
        ng_animate_font_assets: [
             'vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.*'

@@ -16,6 +16,7 @@
 		<module>user-manager</module>
 		<module>leaderboard</module>
 		<module>current-race</module>
+		<module>client-api</module>
 		<module>cag-rms-client</module>
 	</modules>
 </project>

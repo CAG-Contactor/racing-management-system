@@ -2,16 +2,14 @@
 (function () {
   angular.module('cag-rms-client').directive('leaderboard', factory);
 
-  function factory($log, $http) {
+  function factory($log, clientApiService) {
     $log.log("in leaderboard");
 
-    $http({
-      method: 'GET',
-      url: 'http://localhost:10180/results'
-    }).then(function successCallback(response) {
-      console.debug(response.data);
-    }, function errorCallback(response) {
-    });
+    clientApiService.getResults()
+      .then(function successCallback(response) {
+        console.debug(response.data);
+      }, function errorCallback(response) {
+      });
 
     return {
       restrict: 'E',
