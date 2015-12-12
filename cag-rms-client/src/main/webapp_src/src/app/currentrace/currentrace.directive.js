@@ -6,15 +6,25 @@
             restrict: 'E',
             link: function (scope, elems, attrs) {
                 scope.isActive = false;
-                scope.startTime = 0;
+                scope.runningTime = 0;
+                var timerHandle, statusTimerHandle;
                 getStatus();
                 timer();
 
+                scope.$on(
+                    '$destroy',
+                    function( event ) {
+                        console.debug('destroy called');
+                        $timeout.cancel( timerHandle );
+                        $timeout.cancel( statusTimerHandle );
+                    }
+                );
+
                 function timer() {
                     if (scope.isActive) {
-                        scope.startTime = Date.now() - scope.startTimeInMillis;
+                        scope.runningTime = Date.now() - scope.startTimeInMillis;
                     }
-                    $timeout(timer, 100);
+                    timerHandle = $timeout(timer, 100);
                 }
 
                 function getStatus() {
@@ -30,12 +40,8 @@
                             scope.isActive = newActiveState;
                             if (response.data.startTime) {
                                 scope.startTime = new Date(response.data.startTime);
+                                scope.startTimeInMillis = +scope.startTime;
                             }
-                            else {
-                                scope.startTime = new Date();
-                            }
-                            scope.startTimeInMillis = +scope.startTime;
-
                             if (response.data.middleTime) {
                                 scope.splitTime = new Date(response.data.middleTime);
                             }
@@ -45,7 +51,7 @@
                         }
                     }, function errorCallback(response) {
                     });
-                    $timeout(getStatus, 1000);
+                    statusTimerHandle = $timeout(getStatus, 1000);
                 }
             },
             templateUrl: 'currentrace/currentrace.tpl.html'
