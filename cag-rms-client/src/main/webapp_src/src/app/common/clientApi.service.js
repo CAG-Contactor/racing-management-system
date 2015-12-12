@@ -9,9 +9,26 @@
     });
 
   function Service($resource, $q, $http, APP_CONFIG, localStorageService) {
+    var USER_INFO_KEY = 'cagrms.userinfo';
+    var TOKEN_KEY = 'cagrms.token';
+
     this.login = function (userId, password) {
       console.debug('Logging in:', userId);
-      return $q.when({displayName: 'Kalle Banan', email: 'kallebanan@bageriet.se'});
+      return $q.when({displayName: 'Kalle Banan', email: 'kallebanan@bageriet.se'})
+        .then(function(userInfo) {
+          localStorageService.set(USER_INFO_KEY, userInfo);
+          localStorageService.set(TOKEN_KEY, 'abc-123');
+          return userInfo;
+        });
+    };
+    this.logout = function () {
+      console.debug('Logging out');
+      localStorageService.set(USER_INFO_KEY, null);
+      localStorageService.set(TOKEN_KEY, null);
+      return $q.when({});
+    };
+    this.getCurrentUser = function() {
+      return localStorageService.get(USER_INFO_KEY);
     };
     this.getResults = function () {
       //$http({

@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var USER_ID_KEY = 'cagrms.userid';
 
   angular.module('cag-rms-client').directive('cagMain', factory);
 
@@ -13,24 +12,25 @@
     };
   }
 
-  function Ctrl(localStorageService) {
+  function Ctrl(localStorageService, clientApiService) {
     var vm = this;
     vm.signIn = signIn;
     vm.signOut = signOut;
     vm.setSelection = setSelection;
-    vm.userid = localStorageService.get(USER_ID_KEY);
+    vm.currentUser = clientApiService.getCurrentUser();
 
     function signIn(userid, password) {
-      console.debug('Sign in:', userid, password);
-      vm.userid = userid;
-      localStorageService.set(USER_ID_KEY, userid);
+      clientApiService.login(userid,password)
+      .then(function(userInfo){
+        vm.currentUser = userInfo;
+      });
     }
 
     function signOut() {
       console.debug('Sign out');
-      vm.userid = undefined;
+      vm.currentUser = undefined;
       vm.selection = 'home';
-      localStorageService.set(USER_ID_KEY, null);
+      clientApiService.logout();
     }
 
     function setSelection(selection) {
