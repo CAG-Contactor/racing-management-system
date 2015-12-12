@@ -115,6 +115,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
                 <executions>
                     <!-- Build client using Grunt.js. This will execute the command
                         "grunt deploy" with a few parameters. The built app will then get deployed
