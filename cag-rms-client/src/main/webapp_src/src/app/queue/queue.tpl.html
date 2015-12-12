@@ -1,12 +1,13 @@
 <div>
 
-  <button class="btn btn-success" ng-click="vm.enterMe()" ng-if="!vm.hasEntered()">
-    Anmäl mig
-  </button>
-
-  <button class="btn btn-error" ng-click="vm.removeMe()" ng-if="vm.hasEntered()">
-    Fega ur
-  </button>
+  <div class="margin-bottom-sm">
+    <button class="btn btn-success " ng-click="vm.enterMe()" ng-if="!vm.hasEntered()">
+      Anmäl mig
+    </button>
+    <button class="btn btn-danger" ng-click="vm.removeMe()" ng-if="vm.hasEntered()">
+      Fega ur
+    </button>
+  </div>
 
   <table class="table table-bordered">
     <tr ng-repeat="racer in vm.enteredRacers">

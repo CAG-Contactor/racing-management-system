@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var USER_ID_KEY = 'cagrms.userid';
 
   angular.module('cag-rms-client').directive('cagMain', factory);
 
@@ -13,24 +12,39 @@
     };
   }
 
-  function Ctrl(localStorageService) {
+  function Ctrl(clientApiService) {
     var vm = this;
+    var connectionStyle = {
+      color:'red'
+    };
+    clientApiService.setConnectionListener(connectionListener);
     vm.signIn = signIn;
     vm.signOut = signOut;
     vm.setSelection = setSelection;
-    vm.userid = localStorageService.get(USER_ID_KEY);
+    vm.connectionStyle = connectionStyle;
+    vm.connected = false;
+    vm.currentUser = clientApiService.getCurrentUser();
+
+    function connectionListener(state) {
+        if (state === 'CONNECTED') {
+          vm.connected = true;
+        } else {
+          vm.connected = false;
+        }
+    }
 
     function signIn(userid, password) {
-      console.debug('Sign in:', userid, password);
-      vm.userid = userid;
-      localStorageService.set(USER_ID_KEY, userid);
+      clientApiService.login(userid,password)
+      .then(function(userInfo){
+        vm.currentUser = userInfo;
+      });
     }
 
     function signOut() {
       console.debug('Sign out');
-      vm.userid = undefined;
+      vm.currentUser = undefined;
       vm.selection = 'home';
-      localStorageService.set(USER_ID_KEY, null);
+      clientApiService.logout();
     }
 
     function setSelection(selection) {

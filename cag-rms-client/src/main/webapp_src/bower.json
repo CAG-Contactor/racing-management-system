@@ -17,6 +17,8 @@
     "angular-local-storage": "~0.2.1",
     "angular-translate": "~2.7.0",
     "angular-translate-loader-static-files": "~2.7.0",
-    "ngDialog": "~0.5.0"
+    "ngDialog": "~0.5.0",
+    "ng-resource": "~0.0.2",
+    "sockjs": "~0.3.4"
   }
 }

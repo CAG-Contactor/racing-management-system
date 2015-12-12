@@ -1,9 +1,9 @@
-'use strict';
-angular.module('services', []);
-
-angular.module('cag-rms-client', [
-  'templates-app',
-  'templates-common',
-  'LocalStorageModule'
-]);
-
+(function(){
+  'use strict';
+  var cagRmsClientModule = angular.module('cag-rms-client', [
+    'templates-app',
+    'templates-common',
+    'LocalStorageModule',
+    'ngResource'
+  ]);
+}());
