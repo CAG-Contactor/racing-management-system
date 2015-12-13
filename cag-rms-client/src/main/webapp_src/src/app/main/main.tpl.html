@@ -89,7 +89,7 @@
     <leaderboard></leaderboard>
   </div>
   <div ng-switch-when="currentrace">
-    <current-race data-user="{{vm.userid}}"></current-race>
+    <current-race data-user="{{vm.currentUser.displayName}}"></current-race>
   </div>
   <div ng-switch-when="usersettings">
     <h1>
