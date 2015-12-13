@@ -21,9 +21,25 @@ Tools
 REST Test tool:<br>
 Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en
 
+Build from root pom.xml:
+------------------------
+Without integration-tests (doesn't require mongod installed locally):
+
+```sh
+mvn package
+```
+
+With integration-tests (requires local mongod running on port 27017):
+
+```sh
+mvn install
+```
+
+
 Portar
 ------
 * current-race: 10080
 * leaderboard: 10180
 * user-manager: 10280
 * race-administrator: 10380
+* client-api: 10580
