@@ -1,5 +1,6 @@
 package se.cag.labs.cagrms.clientapi.eventbus;
 
+import com.fasterxml.jackson.databind.*;
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
@@ -10,8 +11,7 @@ import java.io.*;
 
 @Api(basePath = "*",
         value = "Client API",
-        description = "The back-end service facade for the web client of the CAG Racing Management System",
-        produces = "application/json"
+        description = "The back-end service facade for the web client of the CAG Racing Management System"
 )
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
@@ -19,32 +19,34 @@ import java.io.*;
 public class EventBusController {
     @Autowired
     private EventBusSocketHandler eventBus;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    @RequestMapping(value = "/event", method = RequestMethod.POST, consumes = "application/octet-stream")
-    @ApiOperation(value = "Send an event via the event bus",
-            notes = "Send an event via the event bus")
+    @RequestMapping(value = "/event", method = RequestMethod.POST, consumes = {"application/json"})
+    @ApiOperation(value = "Send an event to the client, via the event bus",
+            notes = "Send an event to the client, via the event bus.<br>"+
+                    "The event shall be a JSON object with at least one field:<br>"+
+                    "<pre>\n  {\n    \"eventName\":&lt;string&gt;\n  }\n</pre>")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "The event was sent successfully"),
+            @ApiResponse(code = 200, message = "The event object was sent successfully"),
+            @ApiResponse(code = 400, message = "The event object was not a JSON object containing \"eventType\""),
             @ApiResponse(code = 500, message = "Something went wrong when sending the event")
     })
     public ResponseEntity startRace(
             @ApiParam(value = "The message to send",
-                    defaultValue = "Empty string",
+                    defaultValue = "{\"test\":42}",
                     required = false)
             InputStream stream) {
 
-        StringBuilder sb = new StringBuilder();
-        final LineNumberReader reader = new LineNumberReader(new InputStreamReader(stream));
-        String line;
         try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
+            final JsonNode jsonTree = objectMapper.readTree(stream);
+            if (!jsonTree.has("eventType")) {
+                return ResponseEntity.badRequest().build();
             }
+            eventBus.broadcastMessage(jsonTree.toString());
+            return ResponseEntity.ok().build();
         } catch (IOException e) {
-            log.warn("Failed to read message", e);
+            return ResponseEntity.badRequest().build();
         }
-
-        eventBus.broadcastMessage(sb.toString());
-        return ResponseEntity.ok().build();
     }
 }
