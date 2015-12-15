@@ -8,11 +8,11 @@ import se.cag.labs.cagrms.clientapi.eventbus.*;
 @Configuration
 public class WebsocketConfig implements WebSocketConfigurer {
     @Autowired
-    private EventBusSocketHandler eventBus;
+    private EventChannelSocketHandler eventBus;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(eventBus, EventBusSocketHandler.CHANNEL_NAME)
+        registry.addHandler(eventBus, EventChannelSocketHandler.CHANNEL_NAME)
                 .setAllowedOrigins("*")
                 .withSockJS()
         ;

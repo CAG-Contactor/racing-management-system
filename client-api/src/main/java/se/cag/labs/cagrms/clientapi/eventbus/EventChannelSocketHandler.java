@@ -12,12 +12,12 @@ import static com.google.common.collect.Maps.*;
 
 @Log4j
 @Component
-public class EventBusSocketHandler extends TextWebSocketHandler {
+public class EventChannelSocketHandler extends TextWebSocketHandler {
 
-    public static final String CHANNEL_NAME = "/eventbus";
+    public static final String CHANNEL_NAME = "/eventchannel";
     private Map<String, WebSocketSession> activeSessions = newConcurrentMap();
 
-    public EventBusSocketHandler() {
+    public EventChannelSocketHandler() {
         log.debug("Created:" + this);
     }
 
