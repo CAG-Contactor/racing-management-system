@@ -75,7 +75,7 @@
 
     function connect() {
       state = 'CONNECTING';
-      var wsUri = 'http://' + APP_CONFIG.clientApi + '/eventbus';
+      var wsUri = 'http://' + APP_CONFIG.clientApi + '/eventchannel';
       notifyConnectionListener();
 
       var eventBusWS = new SockJS(wsUri);

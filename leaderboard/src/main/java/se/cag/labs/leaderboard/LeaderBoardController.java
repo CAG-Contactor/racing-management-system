@@ -1,23 +1,18 @@
 package se.cag.labs.leaderboard;
 
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import lombok.extern.java.*;
+import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @Log4j
-@Api(basePath = "*", value = "Leaderboard", description = "Leaderboard for all races", produces = "application/json")
+@Api(basePath = "*",
+        value = "Leaderboard",
+        description = "This service keeps track of the results from the races."
+)
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class LeaderBoardController {
@@ -36,10 +31,11 @@ public class LeaderBoardController {
         repository.insert(userResult);
     }
 
-    @RequestMapping(value="/results", method = RequestMethod.GET)
+    @RequestMapping(value = "/results", method = RequestMethod.GET)
     @ApiOperation(
             value = "Returns the leaderboard",
-            notes = "This will return the leaderboard sorted on fastest result time first. All results that doesn't have the result status FINISHED are sorted last.",
+            notes = "This will return the leaderboard sorted on fastest result time first. " +
+                    "All results that doesn't have the result status FINISHED are sorted last.",
             response = UserResult.class,
             responseContainer = "List")
     @ApiResponses(value = {
