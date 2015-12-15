@@ -13,6 +13,10 @@ import java.util.concurrent.*;
 
 @Log4j
 @RestController
+@Api(basePath = "*",
+        value = "Race Administrator",
+        description = "This service administrates the races.",
+        produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class RaceAdministratorController {
     @Autowired
@@ -27,6 +31,10 @@ public class RaceAdministratorController {
     private RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping(value = "/userqueue", method = RequestMethod.POST)
+    @ApiOperation(value = "Registers a user as a competitor in a race.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "User is registered for race.")
+    })
     public void registerForRace(@RequestBody User user) {
         log.debug("POST /userqueue:" + user);
         Queue<User> sfsd = new ArrayBlockingQueue<>(10);
@@ -48,13 +56,17 @@ public class RaceAdministratorController {
     }
 
     @RequestMapping(value = "/userqueue", method = RequestMethod.GET)
+    @ApiOperation(value = "Get the contents of the queue.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The queued users.")
+    })
     public List<User> getQueue() {
         log.debug("GET /userqueue");
         return userQueueRepository.findAll();
     }
 
     @RequestMapping(value = "/onracestatusupdate", method = RequestMethod.POST)
-    @ApiOperation(value = "Updates the status for a user")
+    @ApiOperation(value = "Handle status updates for the current race.")
     public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
         // TODO kontrollera att användaren finns och är aktiv
         // TODO ersätt med en builder?

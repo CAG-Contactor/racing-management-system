@@ -4,7 +4,7 @@ The ultimate racing management system.
 
 Spec
 ----
-https://docs.google.com/document/d/1XGBgplnsUNRDbRJNK4cv8ZI62qq4Ehvje5bfcnJsEsQ/edit?usp=sharing
+https://docs.google.com/document/d/1U0zHYvEPcVbiDV0DH9tzJArNnOec-c7YbB-wD7Sztss/edit?usp=sharing
 
 Mongo DB
 --------
