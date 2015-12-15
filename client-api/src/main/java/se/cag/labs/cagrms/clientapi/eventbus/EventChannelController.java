@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 
 @Api(basePath = "*",
-        value = "Client API",
-        description = "The back-end service facade for the web client of the CAG Racing Management System"
+        value = "Client Event Channel",
+        description = "The internal API for back-end services to be used for " +
+                "sending events to the web client."
 )
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @Log4j
-public class EventBusController {
+public class EventChannelController {
     @Autowired
-    private EventBusSocketHandler eventBus;
+    private EventChannelSocketHandler eventChannelSocketHandler;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -43,7 +44,7 @@ public class EventBusController {
             if (!jsonTree.has("eventType")) {
                 return ResponseEntity.badRequest().build();
             }
-            eventBus.broadcastMessage(jsonTree.toString());
+            eventChannelSocketHandler.broadcastMessage(jsonTree.toString());
             return ResponseEntity.ok().build();
         } catch (IOException e) {
             return ResponseEntity.badRequest().build();
