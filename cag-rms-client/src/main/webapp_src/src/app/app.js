@@ -4,6 +4,7 @@
     'templates-app',
     'templates-common',
     'LocalStorageModule',
-    'ngResource'
+    'ngResource',
+    'ui.bootstrap'
   ]);
 }());
