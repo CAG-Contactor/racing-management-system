@@ -45,6 +45,39 @@
     this.removeEventListener = function (eventListener) {
       eventBus.removeListener(eventListener);
     };
+    this.postUsers = function(user) {
+      backendRequest('POST', '/users', {body:user});
+    };
+
+    /**
+     * Send a request to backend.
+     * @param method the HTTP method
+     * @param resourcePath the path to the resource, must start with '/'
+     * @param contents object containing data to be sent:
+     *
+     *     {
+     *       body: <optional javascript object, which will be sent as JSON>,
+     *       headers: { <optional set of headers>
+     *        <name>:<value>
+     *        :
+     *       },
+     *       params: { <optional set of query parameters>
+     *        <name>:<value>,
+     *        :
+     *
+     *       }
+     *     }
+     */
+    function backendRequest(method, resourcePath, contents) {
+      contents = contents || {};
+      return $http({
+        method: method,
+        url: 'http://' + APP_CONFIG.clientApi + resourcePath,
+        params: contents.params,
+        headers: contents.headers,
+        data: contents.body
+      });
+    }
   }
 
   function EventBus($rootScope, $timeout, APP_CONFIG) {
