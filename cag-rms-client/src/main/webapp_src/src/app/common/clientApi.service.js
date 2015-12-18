@@ -46,7 +46,7 @@
       eventBus.removeListener(eventListener);
     };
     this.postUsers = function(user) {
-      backendRequest('POST', '/users', {body:user});
+      return backendRequest('POST', '/users', {body:user});
     };
 
     /**
