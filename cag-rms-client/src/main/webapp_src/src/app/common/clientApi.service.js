@@ -45,7 +45,7 @@
     this.removeEventListener = function (eventListener) {
       eventBus.removeListener(eventListener);
     };
-    this.postUsers = function(user) {
+    this.addUser = function(user) {
       return backendRequest('POST', '/users', {body:user});
     };
 

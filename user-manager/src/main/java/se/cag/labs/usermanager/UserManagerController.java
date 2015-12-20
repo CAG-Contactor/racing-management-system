@@ -1,6 +1,7 @@
 package se.cag.labs.usermanager;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.data.mongodb.repository.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class UserManagerController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<Token> login(@RequestBody NewUser user) {
-        User u = userRepository.findByNameAndPassword(user.getUsername(), user.getPassword());
+        User u = userRepository.findByNameAndPassword(user.getUserId(), user.getPassword());
         if (u == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -53,8 +54,8 @@ public class UserManagerController {
         return ResponseEntity.ok().body(t);
     }
 
-    @RequestMapping(path = "/getUserForToken", method=RequestMethod.POST)
-    public ResponseEntity<User> getUserForToken(@RequestBody Token token) {
+    @RequestMapping(path = "/users", method=RequestMethod.GET)
+    public ResponseEntity<User> getUserForToken(@RequestParam Token token) {
         Session s = sessionRepository.findByToken(token.getToken());
         if (s == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -70,19 +71,17 @@ public class UserManagerController {
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/registerNewUser", method=RequestMethod.POST)
+    @RequestMapping(path = "/users", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ErrorMessage> registerNewUser(@RequestBody NewUser user) {
-        User existing = userRepository.findByName(user.getUsername());
+        User existing = userRepository.findByName(user.getUserId());
         if (existing != null) {
             return ResponseEntity.badRequest().body(new ErrorMessage("Username already exists"));
         }
         if (user.getPassword() == null || user.getPassword().length() < 4) {
             return ResponseEntity.badRequest().body(new ErrorMessage("Password must be at least 4 characters long"));
         }
-        User u = new User();
-        u.setName(user.getUsername());
-        u.setPassword(user.getPassword());
+        User u = new User(user.getDisplayName(), user.getUserId(), user.getPassword());
         userRepository.save(u);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }

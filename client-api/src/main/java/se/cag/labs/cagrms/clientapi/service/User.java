@@ -1,11 +1,10 @@
-package se.cag.labs.usermanager;
+package se.cag.labs.cagrms.clientapi.service;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
-public class NewUser {
+public class User {
     private String userId;
     private String displayName;
     private String password;
