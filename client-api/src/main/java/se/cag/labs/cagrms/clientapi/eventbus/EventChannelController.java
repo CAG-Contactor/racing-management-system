@@ -33,7 +33,7 @@ public class EventChannelController {
             @ApiResponse(code = 400, message = "The event object was not a JSON object containing \"eventType\""),
             @ApiResponse(code = 500, message = "Something went wrong when sending the event")
     })
-    public ResponseEntity startRace(
+    public ResponseEntity sendEvent(
             @ApiParam(value = "The message to send",
                     defaultValue = "{\"test\":42}",
                     required = false)

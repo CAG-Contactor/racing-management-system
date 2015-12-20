@@ -18,7 +18,7 @@ Say that there exists a REST-method:
 
 then the service shall have a method:
  
-    postStuff(anObject)
+    addStuff(anObject)
 
 #### Common method for REST-access    
 All the service methods for REST access are implemented using a common method 
@@ -44,7 +44,7 @@ _contents_: an object:
     
 The method returns a _promise_ object.
 
-Thus the _postStuff(anObject)_ would be implemented:
+Thus the _addStuff(anObject)_ would be implemented:
 
     backendRequest('POST', '/stuff', {body: anObject}) 
     

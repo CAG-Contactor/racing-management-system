@@ -7,7 +7,10 @@ package se.cag.labs.cagrms.clientapi.controller;
 
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import se.cag.labs.cagrms.clientapi.service.*;
 
 @Api(basePath = "*",
         value = "Client API",
@@ -21,4 +24,21 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @Log4j
 public class ClientApiController {
+    @Autowired
+    private ForwardingService forwardingService;
+
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @ApiOperation(value = "Registers a new user",
+            notes = "Registers a new user by forwarding this request to the user-manager")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "The user was created successfully"),
+            @ApiResponse(code = 400, message = "The user was not accepeted due to that the user-ID was already in use"),
+            @ApiResponse(code = 500, message = "Something went wrong when sending the event")
+    })
+    public ResponseEntity<Void> registerUser(
+            @ApiParam(value = "The new user", required = true)
+            @RequestBody User user) {
+        log.debug("Add user: " + user);
+        return forwardingService.registerUser(user);
+    }
 }

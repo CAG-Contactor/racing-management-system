@@ -12,7 +12,7 @@
     };
   }
 
-  function Ctrl($uibModal, clientApiService) {
+  function Ctrl(registerModal, clientApiService) {
     var vm = this;
     var connectionStyle = {
       color: 'red'
@@ -50,55 +50,14 @@
     }
 
     function showRegisterModal() {
-      var modalInstance = $uibModal.open({
-        templateUrl: 'main/registerModal.tpl.html',
-        controllerAs: 'vm',
-        controller: function ($uibModalInstance) {
-          var vm = this;
-          vm.submit = submit;
-          vm.cancel = cancel;
-          vm.checkPassword = checkPassword;
-          vm.password2 = undefined;
-          vm.user = {
-            userId: undefined,
-            displayName: undefined,
-            password: undefined
-          };
-
-          function checkPassword(userInfoForm) {
-            if (userInfoForm.password.$dirty && userInfoForm.password2.$dirty) {
-              userInfoForm.password.$setValidity('passwordMismatch', vm.password2 === vm.user.password);
-              userInfoForm.password2.$setValidity('passwordMismatch', vm.password2 === vm.user.password);
-              return userInfoForm.password.$valid && userInfoForm.password2.$valid;
-            }
-            return true;
-          }
-
-          function submit(userInfoForm) {
-            vm.submitted = true;
-            checkPassword(userInfoForm);
-            if (userInfoForm.$valid) {
-              $uibModalInstance.close(vm.user);
-            } else {
-
-            }
-          }
-
-          function cancel() {
-            $uibModalInstance.dismiss('cancel');
-          }
-        },
-        size: 'sm'
-      });
-
-      modalInstance.result
+      registerModal.show()
         .then(function (newUser) {
           console.debug('Save new user:', newUser);
+          clientApiService.addUser(newUser);
         })
         .catch(function () {
-          console.debug('Modal dismissed at: ' + new Date());
+          console.debug('Cancel adding of user');
         });
     }
-
   }
 }());
