@@ -1,12 +1,14 @@
 package se.cag.labs.usermanager;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
-public class NewUser {
-    private String userId;
-    private String displayName;
+public class NewUser extends UserInfo {
     private String password;
+
+    public NewUser(final String userId, final String displayName, final String password) {
+        super(userId, displayName);
+        this.password = password;
+    }
 }
