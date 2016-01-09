@@ -1,16 +1,17 @@
 package se.cag.labs.usermanager;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.data.mongodb.repository.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.*;
 import java.time.*;
 import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserManagerController {
+    public static final String X_AUTH_TOKEN = "X-AuthToken";
     @Autowired
     private UserRepository userRepository;
 
@@ -25,8 +26,8 @@ public class UserManagerController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Token> login(@RequestBody NewUser user) {
-        User u = userRepository.findByNameAndPassword(user.getUserId(), user.getPassword());
+    public ResponseEntity<UserInfo> login(@RequestBody NewUser user) {
+        User u = userRepository.findByUserIdAndPassword(user.getUserId(), obfuscated(user.getPassword()));
         if (u == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -50,9 +51,19 @@ public class UserManagerController {
                 sessionRepository.save(s);
             }
         }
-        Token t = new Token(s.getToken());
-        return ResponseEntity.ok().body(t);
+        return ResponseEntity.ok()
+                .header("Access-Control-Expose-Headers",X_AUTH_TOKEN)
+                .header(X_AUTH_TOKEN, s.getToken())
+                .body(new UserInfo(u.getUserId(), u.getDisplayName()));
     }
+
+    @RequestMapping(path = "/logout", method=RequestMethod.GET)
+    public ResponseEntity<Void> logout(@RequestParam Token token) {
+        Session s = sessionRepository.findByToken(token.getToken());
+        sessionRepository.delete(s);
+        return ResponseEntity.ok().build();
+    }
+
 
     @RequestMapping(path = "/users", method=RequestMethod.GET)
     public ResponseEntity<User> getUserForToken(@RequestParam Token token) {
@@ -73,17 +84,27 @@ public class UserManagerController {
 
     @RequestMapping(path = "/users", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ErrorMessage> registerNewUser(@RequestBody NewUser user) {
-        User existing = userRepository.findByName(user.getUserId());
+    public ResponseEntity<UserInfo> registerNewUser(@RequestBody NewUser user) {
+        User existing = userRepository.findByUserId(user.getUserId());
         if (existing != null) {
-            return ResponseEntity.badRequest().body(new ErrorMessage("Username already exists"));
+            return ResponseEntity.badRequest().body(null);
         }
         if (user.getPassword() == null || user.getPassword().length() < 4) {
-            return ResponseEntity.badRequest().body(new ErrorMessage("Password must be at least 4 characters long"));
+            return ResponseEntity.badRequest().body(null);
         }
-        User u = new User(user.getDisplayName(), user.getUserId(), user.getPassword());
+        User u = new User(user.getUserId(), user.getDisplayName(), obfuscated(user.getPassword()));
         userRepository.save(u);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserInfo(u.getUserId(), u.getDisplayName()));
+    }
+
+    private String obfuscated(final String password) {
+        try {
+            final MessageDigest md5 = MessageDigest.getInstance("MD5");
+            return Base64.getEncoder().encodeToString(md5.digest(password.getBytes()));
+        } catch (NoSuchAlgorithmException e) {
+            // Shall never happen
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -33,12 +33,38 @@ public class ClientApiController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "The user was created successfully"),
             @ApiResponse(code = 400, message = "The user was not accepeted due to that the user-ID was already in use"),
-            @ApiResponse(code = 500, message = "Something went wrong when sending the event")
+            @ApiResponse(code = 500, message = "Something went wrong when processing the request")
     })
     public ResponseEntity<Void> registerUser(
             @ApiParam(value = "The new user", required = true)
             @RequestBody User user) {
         log.debug("Add user: " + user);
         return forwardingService.registerUser(user);
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "Login",
+            notes = "Login the specified user using the specified credentials")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The user was logged in successfully"),
+            @ApiResponse(code = 401, message = "The user was logged in"),
+            @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public ResponseEntity<User> login(
+            @ApiParam(value = "The new user", required = true)
+            @RequestBody User user) {
+        log.debug("Login user: " + user);
+        return forwardingService.login(user);
+    }
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ApiOperation(value = "Logout",
+            notes = "Logout the user associated with the token specified in the X-AuthToken header.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The user was logged out successfully"),
+            @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public ResponseEntity<Void> logout(
+            @RequestHeader String token) {
+        log.debug("Logout: " + token);
+        return forwardingService.logout(token);
     }
 }
