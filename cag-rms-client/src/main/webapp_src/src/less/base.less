@@ -10,12 +10,30 @@
   font-family: "Starwars";
 }
 
+html {
+  height: 100%;
+}
 body {
-  background: url(../../img/ui/stars.jpg);
+  height: 100%;
+  background: url(../../img/ui/stars.jpg) no-repeat;
+  //border: red solid 2px;
+}
+
+.site-footer {
+  background: url(../../img/ui/bb8.png) no-repeat center bottom 20px;
+  position: absolute;
+  bottom: 0;
+  height: 300px;
+  width: 100%;
+  //border: green solid 2px;
 }
 
 a {
   cursor: pointer;
+}
+
+input {
+  font-family:"Lucida Console", Monaco, monospace;
 }
 
 .dn-timepicker-popup {
