@@ -18,6 +18,7 @@
     "angular-translate-loader-static-files": "~2.7.0",
     "ngDialog": "~0.5.0",
     "ng-resource": "~0.0.2",
-    "sockjs": "~0.3.4"
+    "sockjs": "~0.3.4",
+    "angular-md5": "~0.1.10"
   }
 }

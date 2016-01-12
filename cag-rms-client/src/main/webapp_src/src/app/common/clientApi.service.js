@@ -5,15 +5,15 @@
   var X_AUTH_TOKEN = 'X-AuthToken';
 
   angular.module('cag-rms-client')
-    .config(function($httpProvider){
+    .config(function ($httpProvider) {
       $httpProvider.defaults.headers.common[X_AUTH_TOKEN] = null;
     })
-    .service('clientApiService', function ($rootScope, $resource, $q, $http, $timeout, APP_CONFIG, localStorageService) {
-      var service = new Service($rootScope, $resource, $q, $http, $timeout, APP_CONFIG, localStorageService);
+    .service('clientApiService', function ($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService) {
+      var service = new Service($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService);
       return service;
     });
 
-  function Service($rootScope, $resource, $q, $http, $timeout, APP_CONFIG, localStorageService) {
+  function Service($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService) {
 
     var eventBus = new EventBus($rootScope, $timeout, APP_CONFIG);
 
@@ -22,7 +22,7 @@
       var loginCredentials = {
         body: {
           userId: userId,
-          password: password
+          password: md5.createHash(password)
         }
       };
       return backendRequest('POST', '/login', loginCredentials)
@@ -66,7 +66,12 @@
       eventBus.removeListener(eventListener);
     };
     this.addUser = function (user) {
-      return backendRequest('POST', '/users', {body: user});
+      var userToSend = {
+        userId: user.userId,
+        displayName: user.displayName,
+        password: md5.createHash(user.password)
+      };
+      return backendRequest('POST', '/users', {body: userToSend});
     };
 
     /**
@@ -90,7 +95,7 @@
      */
     function backendRequest(method, resourcePath, contents) {
       contents = contents || {headers: {}};
-      contents.headers = contents.headers || {};
+      contents.headers = contents.headers || {};
       contents.headers[X_AUTH_TOKEN] = localStorageService.get(TOKEN_KEY);
       return $http({
         method: method,

@@ -76,7 +76,9 @@ module.exports = {
             'vendor/angular-local-storage/dist/angular-local-storage.js',
             'vendor/angular-translate/angular-translate.js',
             'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-            'vendor/ngDialog/js/ngDialog.js'
+            'vendor/ngDialog/js/ngDialog.js',
+            'vendor/angular-md5/angular-md5.js'
+
         ],
         // goes for minifying
         css: [
