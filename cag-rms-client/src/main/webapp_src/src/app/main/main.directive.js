@@ -34,6 +34,9 @@
       clientApiService.login(userid, password)
         .then(function (userInfo) {
           vm.currentUser = userInfo;
+        })
+        .catch(function (error) {
+          console.log(error);
         });
     }
 
