@@ -27,7 +27,7 @@ public class UserManagerController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<UserInfo> login(@RequestBody NewUser user) {
-        User u = userRepository.findByUserIdAndPassword(user.getUserId(), obfuscated(user.getPassword()));
+        User u = userRepository.findByUserIdAndPassword(user.getUserId(), user.getPassword());
         if (u == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -92,19 +92,8 @@ public class UserManagerController {
         if (user.getPassword() == null || user.getPassword().length() < 4) {
             return ResponseEntity.badRequest().body(null);
         }
-        User u = new User(user.getUserId(), user.getDisplayName(), obfuscated(user.getPassword()));
+        User u = new User(user.getUserId(), user.getDisplayName(), user.getPassword());
         userRepository.save(u);
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserInfo(u.getUserId(), u.getDisplayName()));
     }
-
-    private String obfuscated(final String password) {
-        try {
-            final MessageDigest md5 = MessageDigest.getInstance("MD5");
-            return Base64.getEncoder().encodeToString(md5.digest(password.getBytes()));
-        } catch (NoSuchAlgorithmException e) {
-            // Shall never happen
-            throw new RuntimeException(e);
-        }
-    }
-
 }
