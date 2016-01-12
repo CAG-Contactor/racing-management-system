@@ -18,6 +18,7 @@
       <div class="form-group">
         <input type="password" name="password2" ng-model="vm.password2" class="form-control" required placeholder="Lösenord igen" ng-blur="vm.checkPassword(userInfoForm)">
         <div ng-if="userInfoForm.$error.passwordMismatch" class="danger" role="alert"><small>Lösenord matchar inte</small></div>
+        <div ng-if="userInfoForm.$error.passwordTooSmall" class="danger" role="alert"><small>Lösenord måste vara minst 4 tecken</small></div>
         <div ng-if="(userInfoForm.password.$touched && userInfoForm.password.$error.required) || (userInfoForm.password2.$touched && userInfoForm.password2.$error.required)" class="danger" role="alert"><small>Lösenord måste anges</small></div>
       </div>
     </div>

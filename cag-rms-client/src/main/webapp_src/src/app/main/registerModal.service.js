@@ -27,6 +27,9 @@
         };
 
         function checkPassword(userInfoForm) {
+          if (userInfoForm.password.$dirty) {
+            userInfoForm.password.$setValidity('passwordTooSmall', vm.user.password !== undefined && vm.user.password.length >= 4);
+          }
           if (userInfoForm.password.$dirty && userInfoForm.password2.$dirty) {
             userInfoForm.password.$setValidity('passwordMismatch', vm.password2 === vm.user.password);
             userInfoForm.password2.$setValidity('passwordMismatch', vm.password2 === vm.user.password);
