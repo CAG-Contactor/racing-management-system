@@ -26,6 +26,16 @@ Om tjänsten redan har en session för denna användare, samt sessionen ej har l
 Om tjänsten ej har en session, eller om sessionen har löpt ut för denna användare och lösenordet är korrekt skapas ett nytt _Session_-objekt och sparas. Sedan svarar tjänsten med 200 OK + token för session.
 Om lösenordet inte är korrekt svarar tjänsten med 401 Unauthorized.
 
+### Logga ut användare
+#### Resurs
+POST /logout?token=<string>
+
+#### Query parameters
+_token_: godtycklig sträng som identifierar session
+
+#### Beskrivning
+Om tjänsten har en session för angivet _token_, radera sessionen. I annat fall, gör ingenting.
+
 ### Hämta användare för token (=session)
 #### Resurs
 GET /users?token=<string>

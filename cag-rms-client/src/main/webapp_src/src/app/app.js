@@ -4,6 +4,9 @@
     'templates-app',
     'templates-common',
     'LocalStorageModule',
-    'ngResource'
+    'ngResource',
+    'ngAnimate',
+    'ui.bootstrap',
+    'angular-md5'
   ]);
 }());

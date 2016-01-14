@@ -1,7 +1,42 @@
+@import "../../vendor/bootstrap/less/variables";
 @import "./variables";
+
+@font-face {
+  font-family: "Starwars";
+  src: url(../../fonts/starwars.ttf) format("truetype");
+}
+
+* {
+  font-family: "Starwars", Arial, sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background: url(../../img/ui/stars.jpg);
+  //border: red solid 2px;
+}
+
+.site-footer {
+  background: url(../../img/ui/bb8.png) no-repeat center bottom 20px;
+  opacity: 0.5;
+  position: absolute;
+  bottom: 0;
+  height: 300px;
+  width: 100%;
+  z-index: -1;
+  //border: green solid 2px;
+}
 
 a {
   cursor: pointer;
+}
+
+input {
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 .dn-timepicker-popup {
@@ -21,6 +56,36 @@ a {
   margin-left: @margin-sm;
 }
 
-.margin-ri-sm {
+.margin-right-sm {
   margin-right: @margin-sm;
+}
+
+.danger {
+  color: @state-danger-text
+}
+
+.slide.ng-enter {
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  position: relative;
+  top: -1000px;
+}
+
+.slide.ng-enter.ng-enter-active {
+  top: 0;
+}
+
+.slide.ng-leave {
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  position: relative;
+  left: 0;
+}
+
+.slide.ng-leave.ng-leave-active {
+  left: -1000px;
 }

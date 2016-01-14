@@ -1,0 +1,30 @@
+<div>
+  <form name="userInfoForm" ng-submit="vm.submit(userInfoForm)">
+    <div class="modal-header">
+      <h4 class="modal-title">Användarinfo</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <input type="email" name="userId" ng-model="vm.user.userId" class="form-control" required placeholder="Mäjl" ng-blur="userIdEntered=true">
+        <div ng-if="userIdEntered && userInfoForm.userId.$error.email" class="danger" role="alert"><small>Ogiltig mäjladress</small></div>
+        <div ng-if="userInfoForm.userId.$touched && userInfoForm.userId.$error.required" class="danger" role="alert"><small>Mäjladress måste anges</small></div>
+      </div>
+      <div class="form-group">
+        <input type="text" name="displayName" ng-model="vm.user.displayName" class="form-control" placeholder="Visningsnamn">
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" ng-model="vm.user.password" class="form-control" required placeholder="Lösenord" ng-blur="vm.checkPassword(userInfoForm)">
+      </div>
+      <div class="form-group">
+        <input type="password" name="password2" ng-model="vm.password2" class="form-control" required placeholder="Lösenord igen" ng-blur="vm.checkPassword(userInfoForm)">
+        <div ng-if="userInfoForm.$error.passwordMismatch" class="danger" role="alert"><small>Lösenord matchar inte</small></div>
+        <div ng-if="userInfoForm.$error.passwordTooSmall" class="danger" role="alert"><small>Lösenord måste vara minst 4 tecken</small></div>
+        <div ng-if="(userInfoForm.password.$touched && userInfoForm.password.$error.required) || (userInfoForm.password2.$touched && userInfoForm.password2.$error.required)" class="danger" role="alert"><small>Lösenord måste anges</small></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="submit" ng-disabled="userInfoForm.$invalid">Spara</button>
+      <button class="btn btn-default" type="reset" ng-click="vm.cancel()">Avbryt</button>
+    </div>
+  </form>
+</div>

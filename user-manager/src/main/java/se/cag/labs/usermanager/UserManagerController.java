@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.*;
 import java.time.*;
 import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserManagerController {
+    public static final String X_AUTH_TOKEN = "X-AuthToken";
     @Autowired
     private UserRepository userRepository;
 
@@ -24,8 +26,8 @@ public class UserManagerController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Token> login(@RequestBody NewUser user) {
-        User u = userRepository.findByNameAndPassword(user.getUsername(), user.getPassword());
+    public ResponseEntity<UserInfo> login(@RequestBody NewUser user) {
+        User u = userRepository.findByUserIdAndPassword(user.getUserId(), user.getPassword());
         if (u == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -49,12 +51,22 @@ public class UserManagerController {
                 sessionRepository.save(s);
             }
         }
-        Token t = new Token(s.getToken());
-        return ResponseEntity.ok().body(t);
+        return ResponseEntity.ok()
+                .header("Access-Control-Expose-Headers",X_AUTH_TOKEN)
+                .header(X_AUTH_TOKEN, s.getToken())
+                .body(new UserInfo(u.getUserId(), u.getDisplayName()));
     }
 
-    @RequestMapping(path = "/getUserForToken", method=RequestMethod.POST)
-    public ResponseEntity<User> getUserForToken(@RequestBody Token token) {
+    @RequestMapping(path = "/logout", method=RequestMethod.GET)
+    public ResponseEntity<Void> logout(@RequestParam Token token) {
+        Session s = sessionRepository.findByToken(token.getToken());
+        sessionRepository.delete(s);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @RequestMapping(path = "/users", method=RequestMethod.GET)
+    public ResponseEntity<User> getUserForToken(@RequestParam Token token) {
         Session s = sessionRepository.findByToken(token.getToken());
         if (s == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -70,21 +82,18 @@ public class UserManagerController {
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/registerNewUser", method=RequestMethod.POST)
+    @RequestMapping(path = "/users", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ErrorMessage> registerNewUser(@RequestBody NewUser user) {
-        User existing = userRepository.findByName(user.getUsername());
+    public ResponseEntity<UserInfo> registerNewUser(@RequestBody NewUser user) {
+        User existing = userRepository.findByUserId(user.getUserId());
         if (existing != null) {
-            return ResponseEntity.badRequest().body(new ErrorMessage("Username already exists"));
+            return ResponseEntity.badRequest().body(null);
         }
         if (user.getPassword() == null || user.getPassword().length() < 4) {
-            return ResponseEntity.badRequest().body(new ErrorMessage("Password must be at least 4 characters long"));
+            return ResponseEntity.badRequest().body(null);
         }
-        User u = new User();
-        u.setName(user.getUsername());
-        u.setPassword(user.getPassword());
+        User u = new User(user.getUserId(), user.getDisplayName(), user.getPassword());
         userRepository.save(u);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserInfo(u.getUserId(), u.getDisplayName()));
     }
-
 }
