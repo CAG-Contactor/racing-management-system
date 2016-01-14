@@ -13,6 +13,7 @@
 html {
   height: 100%;
 }
+
 body {
   height: 100%;
   background: url(../../img/ui/stars.jpg);
@@ -26,6 +27,7 @@ body {
   bottom: 0;
   height: 300px;
   width: 100%;
+  z-index: -1;
   //border: green solid 2px;
 }
 
@@ -34,7 +36,7 @@ a {
 }
 
 input {
-  font-family:"Lucida Console", Monaco, monospace;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 .dn-timepicker-popup {
@@ -60,4 +62,30 @@ input {
 
 .danger {
   color: @state-danger-text
+}
+
+.slide.ng-enter {
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  position: relative;
+  top: -1000px;
+}
+
+.slide.ng-enter.ng-enter-active {
+  top: 0;
+}
+
+.slide.ng-leave {
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  position: relative;
+  left: 0;
+}
+
+.slide.ng-leave.ng-leave-active {
+  left: -1000px;
 }

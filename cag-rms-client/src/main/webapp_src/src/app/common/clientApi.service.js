@@ -96,7 +96,9 @@
     function backendRequest(method, resourcePath, contents) {
       contents = contents || {headers: {}};
       contents.headers = contents.headers || {};
+      contents.params = contents.params || {};
       contents.headers[X_AUTH_TOKEN] = localStorageService.get(TOKEN_KEY);
+      contents.params.reqver=new Date().getTime();
       return $http({
         method: method,
         url: 'http://' + APP_CONFIG.clientApi + resourcePath,

@@ -12,7 +12,7 @@
     };
   }
 
-  function Ctrl(registerModal, clientApiService) {
+  function Ctrl(registerModal, clientApiService, notificationService) {
     var vm = this;
     var connectionStyle = {
       color: 'red'
@@ -37,6 +37,7 @@
         })
         .catch(function (error) {
           console.log(error);
+          notificationService.showErrorMessage('Var det verkligen rätt inloggningsuppgifter!?');
         });
     }
 
@@ -56,7 +57,13 @@
       registerModal.show()
         .then(function (newUser) {
           console.debug('Save new user:', newUser);
-          clientApiService.addUser(newUser);
+          clientApiService.addUser(newUser)
+          .then(function(){
+            notificationService.showInfoMessage('Fixat, nu är du reggad!');
+          })
+          .catch(function(){
+            notificationService.showErrorMessage('Nä, det det gick inge bra att regga det användarnamnet, det är nog upptaget.');
+          });
         })
         .catch(function () {
           console.debug('Cancel adding of user');

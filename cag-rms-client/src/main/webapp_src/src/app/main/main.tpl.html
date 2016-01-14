@@ -1,101 +1,105 @@
-<nav class="navbar navbar-inverse navbar-static-top" ng-init="vm.selection='home'">
-  <div>
-    <div class="navbar-header">
-      <button type="button"
-              class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#navbar"
-              aria-expanded="false"
-              aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#" ng-click="vm.setSelection('home')">CAG Droid Race <span ng-style="{color:(vm.connected?'green':'red')}">{{vm.connected?'&#9901;':'&#9902;'}} </span>
-      </a>
+<div>
+  <nav class="navbar navbar-inverse navbar-static-top" ng-init="vm.selection='home'">
+    <div>
+      <div class="navbar-header">
+        <button type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#navbar"
+                aria-expanded="false"
+                aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#" ng-click="vm.setSelection('home')">CAG Droid Race
+          <span ng-style="{color:(vm.connected?'green':'red')}">{{vm.connected?'&#9901;':'&#9902;'}} </span>
+        </a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <div ng-if="vm.currentUser">
+          <ul class="nav navbar-nav">
+            <li ng-class="{active:vm.selection === 'home'}">
+              <a href="#" ng-click="vm.selection='home'">Översikt</a>
+            </li>
+            <li ng-class="{active:vm.selection === 'queue'}">
+              <a href="#queue" ng-click="vm.setSelection('queue')">Kö</a>
+            </li>
+            <li ng-class="{active:vm.selection === 'leaderboard'}">
+              <a href="#leaderboard" ng-click="vm.setSelection('leaderboard')">Resultattavla</a>
+            </li>
+            <li ng-class="{active:vm.selection === 'currentrace'}">
+              <a href="#currentrace" ng-click="vm.setSelection('currentrace')">Aktuellt lopp</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right margin-right-sm">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                <span>{{vm.currentUser.displayName}}</span>
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#usersettings" ng-click="vm.setSelection('usersettings')">inställningar</a></li>
+                <li><a href="#" ng-click="vm.signOut()">Logga ut</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div ng-if="!vm.currentUser">
+          <form class="navbar-form navbar-right css-form transparent margin-right-sm"
+                ng-submit="vm.signIn(currentUser,password)">
+            <div class="form-group">
+              <input type="email"
+                     placeholder="Mäjl"
+                     class="form-control"
+                     name="currentUser"
+                     ng-model="currentUser">
+            </div>
+            <div class="form-group">
+              <input type="password"
+                     placeholder="Lösen"
+                     class="form-control"
+                     name="password"
+                     ng-model="password">
+            </div>
+            <button type="submit"
+                    class="btn btn-success">
+              Logga in
+            </button>
+            <span>&nbsp;</span>
+            <a href="#" ng-click="vm.showRegisterModal()" style="font-family: sans-serif;">Registrera</a>
+          </form>
+        </div>
+      </div><!--/.navbar-collapse -->
     </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <div ng-if="vm.currentUser">
-        <ul class="nav navbar-nav">
-          <li ng-class="{active:vm.selection === 'home'}">
-            <a href="#" ng-click="vm.selection='home'">Översikt</a>
-          </li>
-          <li ng-class="{active:vm.selection === 'queue'}">
-            <a href="#queue" ng-click="vm.setSelection('queue')">Kö</a>
-          </li>
-          <li ng-class="{active:vm.selection === 'leaderboard'}">
-            <a href="#leaderboard" ng-click="vm.setSelection('leaderboard')">Resultattavla</a>
-          </li>
-          <li ng-class="{active:vm.selection === 'currentrace'}">
-            <a href="#currentrace" ng-click="vm.setSelection('currentrace')">Aktuellt lopp</a>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right margin-right-sm">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle"
-               data-toggle="dropdown"
-               role="button"
-               aria-haspopup="true"
-               aria-expanded="false">
-              <span>{{vm.currentUser.displayName}}</span>
-              <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#usersettings" ng-click="vm.setSelection('usersettings')">inställningar</a></li>
-              <li><a href="#" ng-click="vm.signOut()">Logga ut</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <div ng-if="!vm.currentUser">
-        <form class="navbar-form navbar-right css-form transparent"
-              ng-submit="vm.signIn(currentUser,password)">
-          <div class="form-group">
-            <input type="email"
-                   placeholder="Mäjl"
-                   class="form-control"
-                   name="currentUser"
-                   ng-model="currentUser">
-          </div>
-          <div class="form-group">
-            <input type="password"
-                   placeholder="Lösen"
-                   class="form-control"
-                   name="password"
-                   ng-model="password">
-          </div>
-          <button type="submit"
-                  class="btn btn-success">
-            Logga in
-          </button>
-          <span>&nbsp;</span>
-          <a href="#" ng-click="vm.showRegisterModal()">Registrera</a>
-        </form>
-      </div>
-    </div><!--/.navbar-collapse -->
+  </nav>
+  <div ng-switch on="vm.selection" class="container">
+    <div ng-switch-when="home">
+      <overview></overview>
+    </div>
+    <div ng-switch-when="queue">
+      <h1>
+        <cag-queue></cag-queue>
+      </h1>
+    </div>
+    <div ng-switch-when="leaderboard">
+      <h1>
+        Resultattavla
+      </h1>
+      <leaderboard></leaderboard>
+    </div>
+    <div ng-switch-when="currentrace">
+      <current-race data-user="{{vm.currentUser.displayName}}"></current-race>
+    </div>
+    <div ng-switch-when="usersettings">
+      <h1>
+        Här ska vyn för användarinfo in.
+      </h1>
+    </div>
   </div>
-</nav>
-<div ng-switch on="vm.selection" class="container">
-  <div ng-switch-when="home">
-    <overview></overview>
-  </div>
-  <div ng-switch-when="queue">
-    <h1>
-      <cag-queue></cag-queue>
-    </h1>
-  </div>
-  <div ng-switch-when="leaderboard">
-    <h1>
-      Resultattavla
-    </h1>
-    <leaderboard></leaderboard>
-  </div>
-  <div ng-switch-when="currentrace">
-    <current-race data-user="{{vm.currentUser.displayName}}"></current-race>
-  </div>
-  <div ng-switch-when="usersettings">
-    <h1>
-      Här ska vyn för användarinfo in.
-    </h1>
-  </div>
+  <notification-tray style="position: absolute; left:20px; bottom: 20px;"></notification-tray>
 </div>
