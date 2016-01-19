@@ -93,9 +93,9 @@ public class ClientApiController {
         @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
         @ApiResponse(code = 500, message = "Something went wrong when processing the request")
     })
-    public List<User> getUserQueue() {
+    public ResponseEntity<List<User>> getUserQueue() {
         log.debug("Get user queue");
-        return newArrayList(User.builder().displayName("Banan").build());
+        return forwardingService.getQueue();
     }
 
     @RequestMapping(value = "/currentrace", method = RequestMethod.GET)
@@ -105,8 +105,8 @@ public class ClientApiController {
         @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
         @ApiResponse(code = 500, message = "Something went wrong when processing the request")
     })
-    public List<RaceStatus> getCurrentRace() {
+    public ResponseEntity<RaceStatus> getCurrentRace() {
         log.debug("Get current race");
-        return newArrayList(RaceStatus.builder().event(RaceStatus.Event.START).build());
+        return forwardingService.getStatus();
     }
 }
