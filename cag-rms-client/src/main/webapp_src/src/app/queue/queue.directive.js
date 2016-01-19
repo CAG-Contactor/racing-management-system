@@ -13,38 +13,40 @@
     };
   }
 
-  function Ctrl() {
+  function Ctrl(clientApiService) {
     var vm = this;
 
-    vm.enteredRacers = [ {name: 'Kalle Anka'}, {name: 'Arne Anka'}];
+    vm.enteredRacers = [];
     vm.enterMe = enterMe;
     vm.removeMe = removeMe;
     vm.hasEntered = hasEntered;
 
+    loadUserQueue();
+
+    function loadUserQueue() {
+      return clientApiService.getUserQueue()
+        .then(function (response) {
+          vm.enteredRacers = response.data;
+        });
+    }
+
     function enterMe() {
-        // Get current logged in user
-        var user = loggedInUser();
-        vm.enteredRacers.push(user);
+      clientApiService.registerForRace()
+        .then(loadUserQueue);
     }
 
     function removeMe() {
-       var loggedIn = loggedInUser();
-       vm.enteredRacers = _.filter(vm.enteredRacers, function(comp) {
-          return comp.name !== loggedIn.name;
-       });
+      clientApiService.unregisterFromRace()
+        .then(loadUserQueue);
     }
 
     function hasEntered() {
-       var loggedIn = loggedInUser();
-       var result = _.find(vm.enteredRacers, function(comp) {
-          return comp.name === loggedIn.name;
-       });
+      var loggedIn = clientApiService.getCurrentUser();
+      var result = _.find(vm.enteredRacers, function (comp) {
+        return comp.userId === loggedIn.userId;
+      });
 
-       return result !== undefined;
-    }
-
-    function loggedInUser() {
-        return {name:'nyagubben@slasktratt.se'};
+      return result !== undefined;
     }
   }
 

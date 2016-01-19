@@ -11,7 +11,8 @@
 
   <table class="table table-bordered">
     <tr ng-repeat="racer in vm.enteredRacers">
-      <td>{{racer.name}}</td>
+      <td class="user-queue-item">{{racer.displayName}}</td>
+      <td class="user-queue-item">{{racer.userId}}</td>
     </tr>
   </table>
 </div>

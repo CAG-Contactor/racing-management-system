@@ -14,7 +14,7 @@
     });
 
   function Service($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService) {
-
+    var self = this;
     var eventBus = new EventBus($rootScope, $timeout, APP_CONFIG);
 
     this.login = function (userId, password) {
@@ -72,6 +72,23 @@
         password: md5.createHash(user.password)
       };
       return backendRequest('POST', '/users', {body: userToSend});
+    };
+    this.getUserQueue = function() {
+      return backendRequest('GET','/userqueue');
+    };
+    this.registerForRace = function() {
+      var userToSend = {
+        userId: self.getCurrentUser().userId,
+        displayName: self.getCurrentUser().displayName
+      };
+      return backendRequest('POST','/userqueue', {body: userToSend});
+    };
+    this.unregisterFromRace = function() {
+      var userToSend = {
+        userId: self.getCurrentUser().userId,
+        displayName: self.getCurrentUser().displayName
+      };
+      return backendRequest('DELETE','/userqueue', {body: userToSend});
     };
 
     /**
