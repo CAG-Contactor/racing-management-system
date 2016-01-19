@@ -46,7 +46,7 @@ public class RaceAdministratorController {
         }
     }
 
-    private void startNextRace() {
+        private void startNextRace() {
         Queue<User> sfsd = new ArrayBlockingQueue<>(10);
         sfsd.addAll(userQueueRepository.findAll());
         User user = sfsd.remove();
@@ -98,5 +98,18 @@ public class RaceAdministratorController {
                 activeRaceRepository.save(activeRace.get());
             }
         }
+    }
+
+    @RequestMapping(value = "/userqueueunregister", method = RequestMethod.POST)
+    @ApiOperation(value = "Unegisters a user as a competitor in a race.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User is unregistered for race.")
+    })
+    public void unregisterForRace(@RequestBody User user) {
+        log.debug("POST /userqueueunregister:" + user);
+        Queue<User> sfsd = new ArrayBlockingQueue<>(10);
+        sfsd.addAll(userQueueRepository.findAll());
+        sfsd.remove(user);
+        userQueueRepository.save(sfsd);
     }
 }
