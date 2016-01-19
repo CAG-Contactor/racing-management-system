@@ -43,3 +43,7 @@ Portar
 * user-manager: 10280
 * race-administrator: 10380
 * client-api: 10580
+
+Tidtagningsenheten
+-------------------
+Foto resistor spec: https://tkkrlab.nl/wiki/Arduino_KY-018_Photo_resistor_module
