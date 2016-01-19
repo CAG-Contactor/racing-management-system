@@ -4,6 +4,8 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class User {
     private String userId;
     private String displayName;

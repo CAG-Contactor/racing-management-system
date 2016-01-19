@@ -12,6 +12,10 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import se.cag.labs.cagrms.clientapi.service.*;
 
+import java.util.*;
+
+import static com.google.common.collect.Lists.newArrayList;
+
 @Api(basePath = "*",
         value = "Client API",
         description = "The back-end service facade for the web client of the " +
@@ -41,6 +45,7 @@ public class ClientApiController {
         log.debug("Add user: " + user);
         return forwardingService.registerUser(user);
     }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "Login",
             notes = "Login the specified user using the specified credentials")
@@ -55,6 +60,7 @@ public class ClientApiController {
         log.debug("Login user: " + user);
         return forwardingService.login(user);
     }
+
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ApiOperation(value = "Logout",
             notes = "Logout the user associated with the token specified in the X-AuthToken header.")
@@ -66,5 +72,41 @@ public class ClientApiController {
             @RequestHeader String token) {
         log.debug("Logout: " + token);
         return forwardingService.logout(token);
+    }
+
+    @RequestMapping(value = "/leaderboard", method = RequestMethod.GET)
+    @ApiOperation(value = "The leaderboard",
+        notes = "Gets the current leaderboards")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
+        @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public ResponseEntity<List<UserResult>> getLeaderBoard() {
+        log.debug("Get leaderboard");
+        return forwardingService.getResults();
+    }
+
+    @RequestMapping(value = "/userqueue", method = RequestMethod.GET)
+    @ApiOperation(value = "The user queue",
+        notes = "Gets the current queue of registered competitors")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
+        @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public List<User> getUserQueue() {
+        log.debug("Get user queue");
+        return newArrayList(User.builder().displayName("Banan").build());
+    }
+
+    @RequestMapping(value = "/currentrace", method = RequestMethod.GET)
+    @ApiOperation(value = "The current race",
+        notes = "Gets information about the current race")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
+        @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public List<RaceStatus> getCurrentRace() {
+        log.debug("Get current race");
+        return newArrayList(RaceStatus.builder().event(RaceStatus.Event.START).build());
     }
 }
