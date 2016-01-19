@@ -3,12 +3,14 @@ package se.cag.labs.cagrms.clientapi.service;
 import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.core.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.client.*;
 import org.springframework.web.util.*;
 
 import java.net.*;
+import java.util.*;
 
 @Component
 @Scope("singleton")
@@ -16,6 +18,8 @@ import java.net.*;
 public class ForwardingService {
     @Value("${server.usermanager.base.uri}")
     private String userManagerBaseUri;
+    @Value("${server.leaderboard.base.uri}")
+    private String leaderBoardBaseUri;
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -48,6 +52,19 @@ public class ForwardingService {
             return response;
         } catch (HttpStatusCodeException e) {
             return ResponseEntity.status(e.getStatusCode()).build();
+        }
+    }
+
+    public ResponseEntity<List<UserResult>> getResults() {
+        final URI uri = UriComponentsBuilder
+            .fromHttpUrl(leaderBoardBaseUri + "/results")
+            .build()
+            .toUri();
+        try {
+            final ResponseEntity<List<UserResult>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<UserResult>>() {});
+            return response;
+        } catch (HttpStatusCodeException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(null);
         }
     }
 }

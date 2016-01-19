@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ( grunt ) {
+module.exports = function (grunt) {
 
   // Reads package.json and loads grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -8,10 +8,12 @@ module.exports = function ( grunt ) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  var clientApiBaseUrl = grunt.option('clientapibase') || 'localhost:10580';
+
   /**
    * Load in our build configuration file.
    */
-  var userConfig = require( './build.config.js' );
+  var userConfig = require('./build.config.js');
 
   // optional flags, pass `--flag=value` to set
   // where "flag" is name of the flag
@@ -40,16 +42,15 @@ module.exports = function ( grunt ) {
      * pairs are evaluated based on this very configuration object.
      */
     meta: {
-      banner:
-        '/**\n' +
-        ' * <%= pkg.name %> - v<%= flag.appVersion || pkg.version %> - <%= grunt.template.today("yyyy-mm-dd (HH:MM:ss)") %>\n' +
-        ' */\n'
+      banner: '/**\n' +
+      ' * <%= pkg.name %> - v<%= flag.appVersion || pkg.version %> - <%= grunt.template.today("yyyy-mm-dd (HH:MM:ss)") %>\n' +
+      ' */\n'
     },
 
     /**
      * The directories to delete when `grunt clean` is executed.
      */
-    clean:  {
+    clean: {
       options: {
         force: true
       },
@@ -85,7 +86,7 @@ module.exports = function ( grunt ) {
           var middlewares = [require('grunt-connect-proxy/lib/utils').proxyRequest];
 
           // Serve static files.
-          options.base.forEach(function(base) {
+          options.base.forEach(function (base) {
             middlewares.push(connect.static(base));
           });
 
@@ -107,10 +108,10 @@ module.exports = function ( grunt ) {
           // If you have your backend on a different context path
           // you can use rewrites to direct calls appropriately
           rewrite: {
-          //   // This rewrite has the following effect:
-          //   // Calls made to: http:/localhost:9000/resources
-          //   // Will be redirected to: http:/localhost:8080/i84ds03/resources
-             '/resources': '/i84ds03/resources'
+            //   // This rewrite has the following effect:
+            //   // Calls made to: http:/localhost:9000/resources
+            //   // Will be redirected to: http:/localhost:8080/i84ds03/resources
+            '/resources': '/i84ds03/resources'
           },
           headers: {
             "x-custom-added-header": "Delivered by Grunt.js awesomeness"
@@ -139,7 +140,7 @@ module.exports = function ( grunt ) {
       build_app_assets: {
         files: [
           {
-            src: [ '**', '!**/*.md' ],
+            src: ['**', '!**/*.md'],
             dest: '<%= build_dir %>/assets/',
             cwd: 'src/assets',
             expand: true
@@ -149,7 +150,7 @@ module.exports = function ( grunt ) {
       build_vendor_assets: {
         files: [
           {
-            src: [ '<%= vendor_files.assets %>', '!**/*.md' ],
+            src: ['<%= vendor_files.assets %>', '!**/*.md'],
             dest: '<%= build_dir %>/assets/',
             cwd: '.',
             expand: true,
@@ -161,12 +162,12 @@ module.exports = function ( grunt ) {
         files: [
           {
 
-               //*This is a workaround for file upload to work in IE 8, 9
-               //* that uses flash API to upload files
+            //*This is a workaround for file upload to work in IE 8, 9
+            //* that uses flash API to upload files
 
-               // this is a bad solution, though, since it assumes that the users have flash installed.
+            // this is a bad solution, though, since it assumes that the users have flash installed.
 
-            src: [ '<%= vendor_files.ng_file_upload_assets %>', '!**/*.md' ],
+            src: ['<%= vendor_files.ng_file_upload_assets %>', '!**/*.md'],
             dest: '<%= build_dir %>/vendor/ng-file-upload/',
             cwd: '.',
             expand: true,
@@ -178,9 +179,9 @@ module.exports = function ( grunt ) {
         files: [
           {
 
-               // this is a special case, where we want the glyph-icon fonts to be in
-              // a special folder so ng-animate can access them on the client.
-            src: [ '<%= vendor_files.ng_animate_font_assets %>', '!**/*.md' ],
+            // this is a special case, where we want the glyph-icon fonts to be in
+            // a special folder so ng-animate can access them on the client.
+            src: ['<%= vendor_files.ng_animate_font_assets %>', '!**/*.md'],
             dest: '<%= build_dir %>/assets/styles/css/vendor/bootstrap/fonts/',
             cwd: '.',
             expand: true,
@@ -191,17 +192,28 @@ module.exports = function ( grunt ) {
       build_appjs: {
         files: [
           {
-            src: [ '<%= app_files.js %>' ],
+            src: ['<%= app_files.js %>'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
           }
         ]
       },
+      config_js: {
+        src: 'src/app/config.js',
+        dest: '<%= build_dir %>/',
+        options: {
+          process: function (content, srcpath) {
+            var newContent = content.replace(/clientApi\:.*\'.*\'/g, "clientApi:'"+clientApiBaseUrl+"'");
+            console.log('New content: '+newContent);
+            return newContent;
+          }
+        }
+      },
       build_vendorjs: {
         files: [
           {
-            src: [ '<%= vendor_files.js %>', '!**/*.md' ],
+            src: ['<%= vendor_files.js %>', '!**/*.md'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -211,7 +223,7 @@ module.exports = function ( grunt ) {
       build_vendorcss: {
         files: [
           {
-            src: [ '<%= vendor_files.css %>', '!**/*.md' ],
+            src: ['<%= vendor_files.css %>', '!**/*.md'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -221,7 +233,7 @@ module.exports = function ( grunt ) {
       compile_assets: {
         files: [
           {
-            src: [ '**' ],
+            src: ['**'],
             dest: '<%= compile_dir %>/assets',
             cwd: '<%= build_dir %>/assets',
             expand: true
@@ -240,10 +252,10 @@ module.exports = function ( grunt ) {
        */
       compile_css: {
         /*src: [
-          '<%= vendor_files.css %>',
-          '<%= less.build.dest %>'
-        ],*/
-        src: [ '<%= vendor_files.css %>','<%= less.build.dest %>', '!**/*.png', '!**/*.gif', '!**/*.jpg' ],
+         '<%= vendor_files.css %>',
+         '<%= less.build.dest %>'
+         ],*/
+        src: ['<%= vendor_files.css %>', '<%= less.build.dest %>', '!**/*.png', '!**/*.gif', '!**/*.jpg'],
         dest: '<%= less.build.dest %>'
       },
       /**
@@ -386,7 +398,7 @@ module.exports = function ( grunt ) {
           inject: true,
           spyOn: true
         }
-      },
+      }
     },
 
     /**
@@ -403,7 +415,7 @@ module.exports = function ( grunt ) {
         options: {
           base: 'src/app'
         },
-        src: [ '<%= app_files.atpl %>' ],
+        src: ['<%= app_files.atpl %>'],
         dest: '<%= build_dir %>/templates-app.js'
       },
 
@@ -414,7 +426,7 @@ module.exports = function ( grunt ) {
         options: {
           base: 'src/common'
         },
-        src: [ '<%= app_files.ctpl %>' ],
+        src: ['<%= app_files.ctpl %>'],
         dest: '<%= build_dir %>/templates-common.js'
       }
     },
@@ -516,7 +528,7 @@ module.exports = function ( grunt ) {
        */
       gruntfile: {
         files: 'Gruntfile.js',
-        tasks: [ 'jshint:gruntfile' ],
+        tasks: ['jshint:gruntfile'],
         options: {
           livereload: false
         }
@@ -530,15 +542,15 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
+        tasks: ['jshint:src', 'karma:unit:run', 'copy:build_appjs']
       },
 
       /**
        * When index.html changes, we need to compile it.
        */
       html: {
-        files: [ '<%= app_files.html %>' ],
-        tasks: [ 'index:build' ]
+        files: ['<%= app_files.html %>'],
+        tasks: ['index:build']
       },
 
       /**
@@ -549,15 +561,15 @@ module.exports = function ( grunt ) {
           '<%= app_files.atpl %>',
           '<%= app_files.ctpl %>'
         ],
-        tasks: [ 'html2js' ]
+        tasks: ['html2js']
       },
 
       /**
        * When the CSS files change, we need to compile and minify them.
        */
       less: {
-        files: [ 'src/**/*.less' ],
-        tasks: [ 'less:build', 'postcss' ]
+        files: ['src/**/*.less'],
+        tasks: ['less:build', 'postcss']
       },
 
       /**
@@ -568,7 +580,7 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.jsunit %>'
         ],
-        tasks: [ 'jshint:test', 'karma:unit:run' ],
+        tasks: ['jshint:test', 'karma:unit:run'],
         options: {
           livereload: false
         }
@@ -576,72 +588,73 @@ module.exports = function ( grunt ) {
     }
   };
 
-  grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
+  grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));
 
   /**
    * The development task. By running `serve` your project will be built,
    * opened in the browser with help from the connect-server
    * and watched for changes.
    */
-  grunt.registerTask( 'serve', [ 'build', 'karma:unit', 'configureProxies:server', 'connect:livereload', 'watch' ] );
+  grunt.registerTask('serve', ['build', 'karma:unit', 'configureProxies:server', 'connect:livereload', 'watch']);
 
   /**
    * The default task is to build and compile. When build and compile is finished
    * the project opened in your browser served by the connect-server.
    */
-  grunt.registerTask( 'default', [ 'build', 'compile', 'configureProxies:server', 'connect:dist:keepalive' ] );
+  grunt.registerTask('default', ['build', 'compile', 'configureProxies:server', 'connect:dist:keepalive']);
 
   /**
    * The `deploy` task will do the same tasks as the default task, but will
    * not start a connect-server.
    */
-  grunt.registerTask( 'deploy', [ 'build', 'compile' ] );
+  grunt.registerTask('deploy', ['build', 'compile']);
 
   /**
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask(
-      'build',
-        ['clean',
-        'html2js',
-        'jshint',
-        'less:build',
-        'copy:build_vendorcss',
-        'postcss',
-        'copy:build_app_assets',
-        'copy:build_vendor_assets',
-        //'copy:build_ng_file_upload_assets',
-        'copy:build_ng_animate_font_assets',
-        'copy:build_appjs',
-        'copy:build_vendorjs',
-        'index:build',
-        'karmaconfig',
-    'karma:continuous'
-  ]);
+    'build',
+    ['clean',
+      'html2js',
+      'jshint',
+      'less:build',
+      'copy:build_vendorcss',
+      'postcss',
+      'copy:build_app_assets',
+      'copy:build_vendor_assets',
+      //'copy:build_ng_file_upload_assets',
+      'copy:build_ng_animate_font_assets',
+      'copy:build_appjs',
+      'copy:config_js',
+      'copy:build_vendorjs',
+      'index:build',
+      'karmaconfig',
+      'karma:continuous'
+    ]);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', [
+  grunt.registerTask('compile', [
     'concat:compile_css', 'cssmin:minify', 'copy:compile_assets', 'concat:compile_js', 'ngAnnotate', 'uglify', 'index:compile'
   ]);
 
   /**
    * A utility function to get all app JavaScript sources.
    */
-  function filterForJS ( files ) {
-    return files.filter( function ( file ) {
-      return file.match( /\.js$/ );
+  function filterForJS(files) {
+    return files.filter(function (file) {
+      return file.match(/\.js$/);
     });
   }
 
   /**
    * A utility function to get all app CSS sources.
    */
-  function filterForCSS ( files ) {
-    return files.filter( function ( file ) {
-      return file.match( /\.css$/ );
+  function filterForCSS(files) {
+    return files.filter(function (file) {
+      return file.match(/\.css$/);
     });
   }
 
@@ -651,22 +664,22 @@ module.exports = function ( grunt ) {
    * the list into variables for the template to use and then runs the
    * compilation.
    */
-  grunt.registerMultiTask( 'index', 'Process index.html template', function () {
-    var dirRE = new RegExp( '^('+grunt.config('build_dir')+'|'+grunt.config('compile_dir')+')\/', 'g' );
-    var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
-      return file.replace( dirRE, '' );
+  grunt.registerMultiTask('index', 'Process index.html template', function () {
+    var dirRE = new RegExp('^(' + grunt.config('build_dir') + '|' + grunt.config('compile_dir') + ')\/', 'g');
+    var jsFiles = filterForJS(this.filesSrc).map(function (file) {
+      return file.replace(dirRE, '');
     });
-    var cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
-      return file.replace( dirRE, '' );
+    var cssFiles = filterForCSS(this.filesSrc).map(function (file) {
+      return file.replace(dirRE, '');
     });
 
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
+      process: function (contents, path) {
+        return grunt.template.process(contents, {
           data: {
             scripts: jsFiles,
             styles: cssFiles,
-            version: grunt.config( 'pkg.version' )
+            version: grunt.config('pkg.version')
           }
         });
       }
@@ -678,12 +691,12 @@ module.exports = function ( grunt ) {
    * run, we use grunt to manage the list for us. The `karma/*` files are
    * compiled as grunt templates for use by Karma. Yay!
    */
-  grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
-    var jsFiles = filterForJS( this.filesSrc );
+  grunt.registerMultiTask('karmaconfig', 'Process karma config templates', function () {
+    var jsFiles = filterForJS(this.filesSrc);
 
-    grunt.file.copy( 'karma/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', {
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
+    grunt.file.copy('karma/karma-unit.tpl.js', grunt.config('build_dir') + '/karma-unit.js', {
+      process: function (contents, path) {
+        return grunt.template.process(contents, {
           data: {
             scripts: jsFiles
           }
