@@ -204,8 +204,8 @@ module.exports = function (grunt) {
         dest: '<%= build_dir %>/',
         options: {
           process: function (content, srcpath) {
-            var newContent = content.replace(/clientApi\:.*\'.*\'/g, "clientApi:'"+clientApiBaseUrl+"'");
-            console.log('New content: '+newContent);
+            var newContent = content.replace(/clientApi\:.*\'.*\'/g, "clientApi:'" + clientApiBaseUrl + "'");
+            console.log('New content: ' + newContent);
             return newContent;
           }
         }
@@ -636,9 +636,17 @@ module.exports = function (grunt) {
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask('compile', [
-    'concat:compile_css', 'cssmin:minify', 'copy:compile_assets', 'concat:compile_js', 'ngAnnotate', 'uglify', 'index:compile'
-  ]);
+  grunt.registerTask(
+    'compile',
+    [
+      'concat:compile_css',
+      'cssmin:minify',
+      'copy:compile_assets',
+      'concat:compile_js',
+      'ngAnnotate',
+      'uglify',
+      'index:compile'
+    ]);
 
   /**
    * A utility function to get all app JavaScript sources.
