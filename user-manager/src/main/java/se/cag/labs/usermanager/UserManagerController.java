@@ -84,7 +84,7 @@ public class UserManagerController {
 
     @RequestMapping(path = "/users", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserInfo> registerNewUser(@RequestBody NewUser user) {
+    public ResponseEntity<Void> registerNewUser(@RequestBody NewUser user) {
         User existing = userRepository.findByUserId(user.getUserId());
         if (existing != null) {
             return ResponseEntity.badRequest().body(null);
@@ -94,6 +94,6 @@ public class UserManagerController {
         }
         User u = new User(user.getUserId(), user.getDisplayName(), user.getPassword());
         userRepository.save(u);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserInfo(u.getUserId(), u.getDisplayName()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }
