@@ -39,6 +39,7 @@
 
         <!-- Run tests by default -->
         <skipTests>false</skipTests>
+        <clientapi.base>localhost:10580</clientapi.base>
     </properties>
 
     <dependencies>
@@ -136,6 +137,7 @@
                                 <argument>--skipTests=${skipTests}</argument>
                                 <argument>--appVersion=${project.version}</argument>
                                 <argument>--no-color</argument>
+                                <argument>--clientapibase=${clientapi.base}</argument>
                             </arguments>
                         </configuration>
                     </execution>
