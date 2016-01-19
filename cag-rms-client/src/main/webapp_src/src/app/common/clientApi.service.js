@@ -78,13 +78,15 @@
     };
     this.registerForRace = function() {
       var userToSend = {
-        userId: self.getCurrentUser().userId
+        userId: self.getCurrentUser().userId,
+        displayName: self.getCurrentUser().displayName
       };
       return backendRequest('POST','/userqueue', {body: userToSend});
     };
     this.unregisterFromRace = function() {
       var userToSend = {
-        userId: self.getCurrentUser().userId
+        userId: self.getCurrentUser().userId,
+        displayName: self.getCurrentUser().displayName
       };
       return backendRequest('DELETE','/userqueue', {body: userToSend});
     };

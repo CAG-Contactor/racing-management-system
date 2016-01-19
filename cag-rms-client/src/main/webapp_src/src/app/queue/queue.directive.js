@@ -43,7 +43,7 @@
     function hasEntered() {
       var loggedIn = clientApiService.getCurrentUser();
       var result = _.find(vm.enteredRacers, function (comp) {
-        return comp.name === loggedIn.name;
+        return comp.userId === loggedIn.userId;
       });
 
       return result !== undefined;
