@@ -23,7 +23,7 @@ import java.util.*;
         "them on."
 )
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
 @Log4j
 public class ClientApiController {
   @Autowired
@@ -103,11 +103,25 @@ public class ClientApiController {
       @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
       @ApiResponse(code = 500, message = "Something went wrong when processing the request")
   })
-  public ResponseEntity<User> registerForRace(
-      @ApiParam(value = "The user TO REGISTER", required = true)
+  public ResponseEntity<Void> registerForRace(
+      @ApiParam(value = "The user to register", required = true)
       @RequestBody User user) {
     log.debug("Register user "+user+" for race");
     return forwardingService.registerForRace(user);
+  }
+
+  @RequestMapping(value = "/userqueue", method = RequestMethod.DELETE)
+  @ApiOperation(value = "Remove the user from the queue",
+      notes = "Unregister a competitor")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
+      @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+  })
+  public ResponseEntity<Void> unregisterFromRace(
+      @ApiParam(value = "The user to unregister", required = true)
+      @RequestBody User user) {
+    log.debug("Register user "+user+" for race");
+    return forwardingService.unregisterFromRace(user);
   }
 
   @RequestMapping(value = "/currentrace", method = RequestMethod.GET)

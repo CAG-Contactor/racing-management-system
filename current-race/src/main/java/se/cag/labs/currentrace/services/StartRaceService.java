@@ -7,6 +7,8 @@ import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
+import javax.annotation.*;
+
 @Service
 @Log4j
 public class StartRaceService {
@@ -22,7 +24,6 @@ public class StartRaceService {
 
     public ReturnStatus startRace(String callbackUrl) {
         CurrentRaceStatus activeCurrentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
-        timerService.startTimer();
         if (activeCurrentRaceStatus == null) {
             CurrentRaceStatus status = new CurrentRaceStatus();
             status.setState(RaceStatus.State.ACTIVE);
@@ -30,6 +31,7 @@ public class StartRaceService {
             status.setCallbackUrl(callbackUrl);
             repository.save(status);
             log.info("Starting race: " + callbackUrl);
+            timerService.trigUpdate();
             return ReturnStatus.STARTED;
         } else if (RaceStatus.State.INACTIVE.equals(activeCurrentRaceStatus.getState())) {
             activeCurrentRaceStatus.setCallbackUrl(callbackUrl);
@@ -42,9 +44,11 @@ public class StartRaceService {
 
             repository.save(activeCurrentRaceStatus);
             log.info("Restarting race");
+            timerService.trigUpdate();
             return ReturnStatus.STARTED;
         } else {
             log.info("Race is already started");
+            timerService.trigUpdate();
             return ReturnStatus.FOUND;
         }
     }

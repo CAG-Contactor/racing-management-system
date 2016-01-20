@@ -1,7 +1,6 @@
 package se.cag.labs.raceadmin;
 
 import org.springframework.data.annotation.Id;
-import se.cag.labs.usermanager.User;
 
 public class ActiveRace {
     @Id

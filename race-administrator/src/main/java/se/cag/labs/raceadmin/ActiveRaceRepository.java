@@ -5,5 +5,6 @@ import org.springframework.stereotype.*;
 
 @Repository
 public interface ActiveRaceRepository extends MongoRepository<RaceStatus, String> {
-    
+
+  RaceStatus findByUserUserId();
 }

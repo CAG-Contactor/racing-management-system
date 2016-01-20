@@ -5,11 +5,11 @@ import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.*;
-import se.cag.labs.raceadmin.services.*;
-import se.cag.labs.usermanager.*;
+import se.cag.labs.raceadmin.peerservices.*;
 
 import java.util.*;
-import java.util.concurrent.*;
+
+import static java.util.stream.Collectors.*;
 
 @Log4j
 @RestController
@@ -37,22 +37,17 @@ public class RaceAdministratorController {
     })
     public void registerForRace(@RequestBody User user) {
         log.debug("POST /userqueue:" + user);
-        Queue<User> sfsd = new ArrayBlockingQueue<>(10);
-        sfsd.addAll(userQueueRepository.findAll());
-        sfsd.add(user);
-        userQueueRepository.save(sfsd);
-        if (sfsd.size() == 1) {
+        user.setTimestamp(System.currentTimeMillis());
+        boolean userIsTheActiveRace = activeRaceRepository.findAll().stream().filter(r -> Objects.equals(r.getUser().getUserId(), user.getUserId())).findFirst().isPresent();
+        boolean userIsAlreadyEnqueued = userQueueRepository.findUserByUserId(user.getUserId()) != null;
+        if(userIsAlreadyEnqueued || userIsTheActiveRace) {
+            return;
+        }
+        userQueueRepository.save(user);
+
+        if (userQueueRepository.count() == 1 && activeRaceRepository.count() == 0) {
             startNextRace();
         }
-    }
-
-        private void startNextRace() {
-        Queue<User> sfsd = new ArrayBlockingQueue<>(10);
-        sfsd.addAll(userQueueRepository.findAll());
-        User user = sfsd.remove();
-        userQueueRepository.save(sfsd);
-        activeRaceRepository.save(new RaceStatus(user));
-        currentRaceService.startRace();
     }
 
     @RequestMapping(value = "/userqueue", method = RequestMethod.GET)
@@ -60,17 +55,28 @@ public class RaceAdministratorController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "The queued users.")
     })
-    public List<User> getQueue() {
+    public Queue<User> getQueue() {
         log.debug("GET /userqueue");
-        return userQueueRepository.findAll();
+        return sortedQueue();
     }
 
-    @RequestMapping(value = "/onracestatusupdate", method = RequestMethod.POST)
+    @RequestMapping(value = "/userqueue", method = RequestMethod.DELETE)
+    @ApiOperation(value = "Unegisters a user as a competitor in a race.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "User is unregistered for race.")
+    })
+    public void unregisterForRace(@RequestBody User user) {
+        log.debug("DELETE /userqueue:" + user);
+        final User existingUser = userQueueRepository.findUserByUserId(user.getUserId());
+        userQueueRepository.delete(existingUser.getId());
+    }
+
+    @RequestMapping(value = "/on-race-status-update", method = RequestMethod.POST)
     @ApiOperation(value = "Handle status updates for the current race.")
     public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
         // TODO kontrollera att användaren finns och är aktiv
         // TODO ersätt med en builder?
-        log.debug("onracestatusupdate:" + status);
+        log.debug("on-race-status-update:" + status);
         Optional<RaceStatus> activeRace = activeRaceRepository.findAll().stream().findFirst();
         if (activeRace.isPresent()) {
             if (status.getState() == RaceStatus.RaceState.INACTIVE) {
@@ -79,11 +85,11 @@ public class RaceAdministratorController {
                 if (status.getEvent() == RaceStatus.RaceEvent.FINISH) {
                     userResult.setTime(status.getFinishTime() - status.getStartTime());
                     userResult.setMiddleTime(status.getMiddleTime() - status.getStartTime());
-                    userResult.setResult(ResultType.FINISHED);
+                    userResult.setResult(UserResult.ResultType.FINISHED);
                 } else if (status.getEvent() == RaceStatus.RaceEvent.TIME_OUT_NOT_STARTED) {
-                    userResult.setResult(ResultType.WALKOVER);
+                    userResult.setResult(UserResult.ResultType.WALKOVER);
                 } else {
-                    userResult.setResult(ResultType.DISQUALIFIED);
+                    userResult.setResult(UserResult.ResultType.DISQUALIFIED);
                 }
 
                 leaderBoardService.newResult(userResult);
@@ -100,16 +106,20 @@ public class RaceAdministratorController {
         }
     }
 
-    @RequestMapping(value = "/userqueueunregister", method = RequestMethod.POST)
-    @ApiOperation(value = "Unegisters a user as a competitor in a race.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User is unregistered for race.")
-    })
-    public void unregisterForRace(@RequestBody User user) {
-        log.debug("POST /userqueueunregister:" + user);
-        Queue<User> sfsd = new ArrayBlockingQueue<>(10);
-        sfsd.addAll(userQueueRepository.findAll());
-        sfsd.remove(user);
-        userQueueRepository.save(sfsd);
+    private void startNextRace() {
+        User user = sortedQueue().poll();
+        activeRaceRepository.save(new RaceStatus(user));
+        currentRaceService.startRace();
+        if (user != null) {
+            userQueueRepository.delete(user.getId());
+        }
+    }
+
+    private Queue<User> sortedQueue() {
+        return new ArrayDeque<>(
+            userQueueRepository.findAll().stream()
+            .sorted((a,b)->Long.compare(a.getTimestamp(), b.getTimestamp()))
+            .collect(toList())
+        );
     }
 }

@@ -1,16 +1,16 @@
-package se.cag.labs.raceadmin;
+package se.cag.labs.leaderboard;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import se.cag.labs.raceadmin.*;
+import org.springframework.data.annotation.*;
+import se.cag.labs.usermanager.*;
 
 @Data
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RaceStatus {
     public enum RaceState {
-        ACTIVE, INACTIVE, UNVERIFIED
+        ACTIVE, INACTIVE
     }
 
     public enum RaceEvent {

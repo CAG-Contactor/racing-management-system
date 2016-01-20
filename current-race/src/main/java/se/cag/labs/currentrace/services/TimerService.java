@@ -3,8 +3,10 @@ package se.cag.labs.currentrace.services;
 import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import se.cag.labs.currentrace.services.repository.datamodel.*;
 import se.cag.labs.currentrace.timer.*;
 
+import javax.annotation.*;
 import java.util.*;
 
 @Service
@@ -12,9 +14,14 @@ import java.util.*;
 public class TimerService {
 
     @Autowired
-    private TimerTask raceTimerTask;
+    private VerifyRacePassagesTimerTask raceTimerTask;
 
     private Timer timer;
+
+    @PostConstruct
+    public void init() {
+        startTimer();
+    }
 
     public void startTimer() {
         log.info("Start timer.");
@@ -29,5 +36,14 @@ public class TimerService {
         timer.cancel();
     }
 
+    public void trigUpdate() {
+        new Timer("Oneshot").schedule(new TimerTask() {
+            @Override
+            public void run() {
+                log.info("Trig status update");
+                raceTimerTask.trigUpdate(CurrentRaceStatus.builder().build());
+            }
+        }, 1000);
 
+    }
 }

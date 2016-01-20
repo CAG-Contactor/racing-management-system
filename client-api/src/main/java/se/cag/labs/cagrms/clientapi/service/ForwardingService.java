@@ -85,13 +85,26 @@ public class ForwardingService {
         }
     }
 
-    public ResponseEntity<User> registerForRace(final User user) {
+    public ResponseEntity<Void> registerForRace(final User user) {
         final URI uri = UriComponentsBuilder
                 .fromHttpUrl(raceAdminBaseUri + "/userqueue")
                 .build()
                 .toUri();
         try {
-            final ResponseEntity<User> response = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(user), new ParameterizedTypeReference<User>() {});
+            final ResponseEntity<Void> response = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(user), Void.class);
+            return response;
+        } catch (HttpStatusCodeException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(null);
+        }
+    }
+
+    public ResponseEntity<Void> unregisterFromRace(final User user) {
+        final URI uri = UriComponentsBuilder
+                .fromHttpUrl(raceAdminBaseUri + "/userqueue")
+                .build()
+                .toUri();
+        try {
+            final ResponseEntity<Void> response = restTemplate.exchange(uri, HttpMethod.DELETE, new HttpEntity<>(user), Void.class);
             return response;
         } catch (HttpStatusCodeException e) {
             return ResponseEntity.status(e.getStatusCode()).body(null);

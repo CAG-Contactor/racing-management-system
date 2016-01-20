@@ -1,9 +1,7 @@
 package se.cag.labs.currentrace.services.repository.datamodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
@@ -12,6 +10,7 @@ import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrentRaceStatus {
     public static final String ID = "ID";
