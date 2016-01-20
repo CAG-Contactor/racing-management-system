@@ -36,14 +36,15 @@ public class TimerService {
         timer.cancel();
     }
 
-    public void trigUpdate() {
-        new Timer("Oneshot").schedule(new TimerTask() {
-            @Override
-            public void run() {
-                log.info("Trig status update");
-                raceTimerTask.trigUpdate(CurrentRaceStatus.builder().build());
-            }
-        }, 1000);
-
+    public void trigAsyncStatusUpdate() {
+        new Timer("Oneshot").schedule(
+            new TimerTask() {
+                @Override
+                public void run() {
+                    log.info("Trig status update");
+                    raceTimerTask.trigUpdate(CurrentRaceStatus.builder().build());
+                }
+            },
+            50);
     }
 }
