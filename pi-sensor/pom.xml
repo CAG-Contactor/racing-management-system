@@ -22,7 +22,11 @@
             <artifactId>lombok</artifactId>
             <version>1.16.6</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>3.0.5.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
