@@ -18,5 +18,6 @@
 		<module>current-race</module>
 		<module>client-api</module>
 		<module>cag-rms-client</module>
-	</modules>
+        <module>pi-sensor</module>
+    </modules>
 </project>
