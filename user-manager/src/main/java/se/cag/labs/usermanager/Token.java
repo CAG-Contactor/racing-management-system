@@ -1,8 +1,7 @@
 package se.cag.labs.usermanager;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.annotations.*;
+import lombok.*;
 
 /**
  * Created by dawi on 2015-11-20.

@@ -1,10 +1,10 @@
 package se.cag.labs.currentrace.services.repository.datamodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.mapping.*;
+import se.cag.labs.currentrace.apicontroller.apimodel.*;
 
 @Document
 @Data

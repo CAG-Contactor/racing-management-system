@@ -2,8 +2,8 @@ package se.cag.labs.leaderboard;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import se.cag.labs.usermanager.User;
+import org.springframework.data.annotation.*;
+import se.cag.labs.usermanager.*;
 
 @Data
 @RequiredArgsConstructor

@@ -2,8 +2,7 @@ package se.cag.labs.raceadmin;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import se.cag.labs.raceadmin.*;
+import org.springframework.data.annotation.*;
 
 @Data
 @RequiredArgsConstructor

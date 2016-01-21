@@ -2,7 +2,7 @@ package se.cag.labs.usermanager;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 
 @Data
 @NoArgsConstructor

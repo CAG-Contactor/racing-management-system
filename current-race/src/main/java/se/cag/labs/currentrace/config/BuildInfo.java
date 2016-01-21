@@ -3,9 +3,8 @@
  */
 package se.cag.labs.currentrace.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 
 /**
  * Provides build version.

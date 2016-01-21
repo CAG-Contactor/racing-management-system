@@ -6,18 +6,15 @@
 package se.cag.labs.usermanager.config;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import org.slf4j.*;
+import org.springframework.context.annotation.*;
+import springfox.documentation.service.*;
+import springfox.documentation.spi.*;
+import springfox.documentation.spring.web.plugins.*;
+import springfox.documentation.swagger2.annotations.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import java.io.*;
+import java.util.*;
 
 /**
  *

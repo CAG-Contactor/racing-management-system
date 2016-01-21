@@ -1,9 +1,9 @@
 package se.cag.labs.currentrace.apicontroller.mapper;
 
-import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
-import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
+import se.cag.labs.currentrace.apicontroller.apimodel.*;
+import se.cag.labs.currentrace.services.repository.datamodel.*;
 
-import java.util.Date;
+import java.util.*;
 
 public final class ModelMapper {
     public static RaceStatus createStatusResponse(CurrentRaceStatus currentRaceStatus) {

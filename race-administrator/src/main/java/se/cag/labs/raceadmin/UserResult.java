@@ -1,7 +1,6 @@
 package se.cag.labs.raceadmin;
 
 import lombok.*;
-import se.cag.labs.raceadmin.*;
 
 @Data
 @NoArgsConstructor
