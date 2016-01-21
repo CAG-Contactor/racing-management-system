@@ -40,7 +40,7 @@ public class TimerSensor {
                 if (event.getState() == PinState.HIGH) {
                     startTime = System.currentTimeMillis();
 
-                    System.out.println(" --> CHANGE ON START SENSOR - TIME: 0");
+                    System.out.println(" --> CHANGE ON START SENSOR - TIME: 0" + startTime);
                     registerEvent("START", "0");
                 }
             }
@@ -60,11 +60,9 @@ public class TimerSensor {
         finishSensor.addListener(new GpioPinListenerDigital() {
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-
                 if (event.getState() == PinState.HIGH) {
                     finishTime = System.currentTimeMillis() - startTime;
                     System.out.println(" --> CHANGE ON FINISH SENSOR - TIME: " + finishTime);
-
                     registerEvent("FINISH", String.valueOf(finishTime));
                 }
             }
@@ -75,18 +73,12 @@ public class TimerSensor {
         }
     }
 
-    private static void registerEvent(String Sensor, String time) {
+    private static void registerEvent(String sensor, String time) {
         try {
-            URL url = new URL("http://169.254.230.17:10080/passageDetected?sensorID=" + Sensor + "&timestamp=" + time);
+            URL url = new URL("http://10.0.1.36:10080/passageDetected?sensorID=" + sensor + "&timestamp=" + time);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
-
-
-           /* if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }*/
 
             System.out.println("RESPONSE FROM SERVER: " + conn.getResponseCode());
 
