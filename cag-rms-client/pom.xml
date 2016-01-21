@@ -1,149 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-	<!-- change 'template' to your app's name -->
-    <artifactId>cag-rms-client</artifactId>
-    <groupId>se.cag.labs</groupId>
-    <version>1.2.0-SNAPSHOT</version>
-    <properties>
-        <!-- nodejs -->
-        <webapp.directory>${project.basedir}/src/main/webapp</webapp.directory>
-        <webapp_src.directory>${project.basedir}/src/main/webapp_src</webapp_src.directory>
-        <nodejs.directory>${project.basedir}/src/main/webapp_src/node</nodejs.directory>
-        <!-- sonar -->
-        <sonar.projectName>STP Entrance Web Client - AngularJS application</sonar.projectName>
-        <sonar.projectVersion>${project.version}</sonar.projectVersion>
+  <modelVersion>4.0.0</modelVersion>
+  <!-- change 'template' to your app's name -->
+  <artifactId>cag-rms-client</artifactId>
+  <groupId>se.cag.labs</groupId>
+  <version>1.2.0-SNAPSHOT</version>
+  <properties>
+    <!-- nodejs -->
+    <webapp.directory>${project.basedir}/src/main/webapp</webapp.directory>
+    <webapp_src.directory>${project.basedir}/src/main/webapp_src</webapp_src.directory>
+    <nodejs.directory>${project.basedir}/src/main/webapp_src/node</nodejs.directory>
+    <!-- sonar -->
+    <sonar.projectName>STP Entrance Web Client - AngularJS application</sonar.projectName>
+    <sonar.projectVersion>${project.version}</sonar.projectVersion>
 
-        <!-- Tell SonarQube that this particular Maven module is using the JavaScript language (instead of the default Java) -->
-        <sonar.language>js</sonar.language>
+    <!-- Tell SonarQube that this particular Maven module is using the JavaScript language (instead of the default Java) -->
+    <sonar.language>js</sonar.language>
 
-        <!-- Show SonarQube where information about the executed unit tests can found in "target/surefire-reports" -->
-        <sonar.javascript.jstest.reportsPath>${project.build.directory}/surefire-reports
-        </sonar.javascript.jstest.reportsPath>
+    <!-- Show SonarQube where information about the executed unit tests can found in "target/surefire-reports" -->
+    <sonar.javascript.jstest.reportsPath>${project.build.directory}/surefire-reports
+    </sonar.javascript.jstest.reportsPath>
 
-        <!-- Then we need to tell SonarCube where to find the LCOV unit test coverage report -->
-        <sonar.javascript.lcov.reportPath>${project.build.directory}/lcov.info</sonar.javascript.lcov.reportPath>
+    <!-- Then we need to tell SonarCube where to find the LCOV unit test coverage report -->
+    <sonar.javascript.lcov.reportPath>${project.build.directory}/lcov.info</sonar.javascript.lcov.reportPath>
 
-        <!-- JS source files -->
-        <sonar.sources>${webapp_src.directory}/src/**/*.js</sonar.sources>
+    <!-- JS source files -->
+    <sonar.sources>${webapp_src.directory}/src/**/*.js</sonar.sources>
 
-        <!-- Tell SonarQube that all sources in "src/assets" should be ignored. -->
-        <sonar.exclusions>${webapp_src.directory}/src/assets/**</sonar.exclusions>
+    <!-- Tell SonarQube that all sources in "src/assets" should be ignored. -->
+    <sonar.exclusions>${webapp_src.directory}/src/assets/**</sonar.exclusions>
 
-        <!-- JS test files -->
-        <sonar.tests>${webapp_src.directory}/src/**/*.spec.js</sonar.tests>
+    <!-- JS test files -->
+    <sonar.tests>${webapp_src.directory}/src/**/*.spec.js</sonar.tests>
 
-        <webclient.tomcat.port>9090</webclient.tomcat.port>
+    <webclient.tomcat.port>9090</webclient.tomcat.port>
 
-        <!-- Run tests by default -->
-        <skipTests>false</skipTests>
-        <clientapi.base>localhost:10580</clientapi.base>
-    </properties>
+    <!-- Run tests by default -->
+    <skipTests>false</skipTests>
+    <clientapi.base>localhost:10580</clientapi.base>
+  </properties>
 
-    <dependencies>
-    </dependencies>
+  <dependencies>
+  </dependencies>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <configuration>
-                        <webResources>
-                            <resource>
-                                <directory>${project.basedir}/src/main/versioninfo</directory>
-                                <targetPath>assets</targetPath>
-                                <filtering>true</filtering>
-                            </resource>
-                        </webResources>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                        <archive>
-                            <manifestEntries>
-                                <Folksam-Version>${project.version}</Folksam-Version>
-                                <Version-Tag>${VERSION_TAG}</Version-Tag>
-                                <Build-Tag>${BUILD_TAG}</Build-Tag>
-                                <Build-Number>${BUILD_NUMBER}</Build-Number>
-                                <Build-Id>${BUILD_ID}</Build-Id>
-                            </manifestEntries>
-                        </archive>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <configuration>
-                        <path>/i84ds03</path>
-                        <port>${webclient.tomcat.port}</port>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>0.0.26</version>
-                <configuration>
-                    <workingDirectory>${webapp_src.directory}</workingDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install node and npm</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <configuration>
-                            <nodeVersion>v5.1.1</nodeVersion>
-                            <npmVersion>3.3.12</npmVersion>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <!-- Optional configuration which provides for running any npm command -->
-                        <configuration>
-                            <arguments>install</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.4.0</version>
-                <executions>
-                    <!-- Build client using Grunt.js. This will execute the command
-                        "grunt deploy" with a few parameters. The built app will then get deployed
-                        in the war-file. -->
-                    <execution>
-                        <id>Build client with Grunt.js</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <workingDirectory>${webapp_src.directory}</workingDirectory>
-                            <executable>${nodejs.directory}/node</executable>
-                            <arguments>
-                                <argument>node_modules/grunt-cli/bin/grunt</argument>
-                                <argument>deploy</argument>
-                                <argument>--env=prod</argument>
-                                <argument>--skipTests=${skipTests}</argument>
-                                <argument>--appVersion=${project.version}</argument>
-                                <argument>--no-color</argument>
-                                <argument>--clientapibase=${clientapi.base}</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
+            <webResources>
+              <resource>
+                <directory>${project.basedir}/src/main/versioninfo</directory>
+                <targetPath>assets</targetPath>
+                <filtering>true</filtering>
+              </resource>
+            </webResources>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+            <archive>
+              <manifestEntries>
+                <Folksam-Version>${project.version}</Folksam-Version>
+                <Version-Tag>${VERSION_TAG}</Version-Tag>
+                <Build-Tag>${BUILD_TAG}</Build-Tag>
+                <Build-Number>${BUILD_NUMBER}</Build-Number>
+                <Build-Id>${BUILD_ID}</Build-Id>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <configuration>
+            <path>/i84ds03</path>
+            <port>${webclient.tomcat.port}</port>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>0.0.26</version>
+        <configuration>
+          <workingDirectory>${webapp_src.directory}</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install node and npm</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v5.1.1</nodeVersion>
+              <npmVersion>3.3.12</npmVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- Optional configuration which provides for running any npm command -->
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <!-- Build client using Grunt.js. This will execute the command
+              "grunt deploy" with a few parameters. The built app will then get deployed
+              in the war-file. -->
+          <execution>
+            <id>Build client with Grunt.js</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>${webapp_src.directory}</workingDirectory>
+              <executable>${nodejs.directory}/node</executable>
+              <arguments>
+                <argument>node_modules/grunt-cli/bin/grunt</argument>
+                <argument>deploy</argument>
+                <argument>--env=prod</argument>
+                <argument>--skipTests=${skipTests}</argument>
+                <argument>--appVersion=${project.version}</argument>
+                <argument>--no-color</argument>
+                <argument>--clientapibase=${clientapi.base}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

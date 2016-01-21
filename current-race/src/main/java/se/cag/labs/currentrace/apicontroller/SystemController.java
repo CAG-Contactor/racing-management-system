@@ -7,8 +7,8 @@ import se.cag.labs.currentrace.config.*;
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET})
 public class SystemController {
-    @RequestMapping(value = "/version", method = RequestMethod.GET)
-    public VersionResponse getVersion(@RequestHeader(required = false) String authorization) {
-        return new VersionResponse(BuildInfo.getVersion());
-    }
+  @RequestMapping(value = "/version", method = RequestMethod.GET)
+  public VersionResponse getVersion(@RequestHeader(required = false) String authorization) {
+    return new VersionResponse(BuildInfo.getVersion());
+  }
 }

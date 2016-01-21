@@ -9,11 +9,11 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = User.UserBuilder.class)
 public final class User {
-    private final String id;
-    private final String name;
-    private final String password;
+  private final String id;
+  private final String name;
+  private final String password;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static final class UserBuilder {
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static final class UserBuilder {
+  }
 }

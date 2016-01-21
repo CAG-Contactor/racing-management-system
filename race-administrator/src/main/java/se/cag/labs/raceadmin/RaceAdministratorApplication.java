@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.*;
 @SpringBootApplication
 @EnableMongoRepositories()
 public class RaceAdministratorApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(RaceAdministratorApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(RaceAdministratorApplication.class, args);
+  }
 }

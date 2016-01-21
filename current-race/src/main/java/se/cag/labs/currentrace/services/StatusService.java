@@ -7,10 +7,10 @@ import se.cag.labs.currentrace.services.repository.datamodel.*;
 
 @Service
 public class StatusService {
-    @Autowired
-    private CurrentRaceRepository repository;
+  @Autowired
+  private CurrentRaceRepository repository;
 
-    public CurrentRaceStatus status() {
-        return repository.findByRaceId(CurrentRaceStatus.ID);
-    }
+  public CurrentRaceStatus status() {
+    return repository.findByRaceId(CurrentRaceStatus.ID);
+  }
 }

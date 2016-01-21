@@ -9,10 +9,10 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 public class Token {
-	@ApiModelProperty(value = "Session ID", required = true)
-	private String token;
+  @ApiModelProperty(value = "Session ID", required = true)
+  private String token;
 
-    public Token(String token) {
-        this.token = token;
-    }
+  public Token(String token) {
+    this.token = token;
+  }
 }

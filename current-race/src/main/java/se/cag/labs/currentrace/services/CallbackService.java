@@ -11,14 +11,14 @@ import se.cag.labs.currentrace.services.repository.datamodel.*;
 @Scope("singleton")
 @Log4j
 public class CallbackService {
-    private RestTemplate restTemplate = new RestTemplate();
+  private RestTemplate restTemplate = new RestTemplate();
 
-    public void reportStatus(CurrentRaceStatus status) {
-        log.debug("Report status:" + status);
-        try {
-            restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
-        } catch (RestClientException e) {
-            log.error("Rest call failed: " + e.getLocalizedMessage());
-        }
+  public void reportStatus(CurrentRaceStatus status) {
+    log.debug("Report status:" + status);
+    try {
+      restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
+    } catch (RestClientException e) {
+      log.error("Rest call failed: " + e.getLocalizedMessage());
     }
+  }
 }

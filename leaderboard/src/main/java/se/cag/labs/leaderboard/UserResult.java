@@ -9,11 +9,12 @@ import se.cag.labs.usermanager.*;
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResult {
-    @Id
-    @Setter(AccessLevel.PRIVATE) private String id;
-    private long created = System.currentTimeMillis();
-    private User user;
-    private long time;
-    private long splitTime;
-    private ResultType result;
+  @Id
+  @Setter(AccessLevel.PRIVATE)
+  private String id;
+  private long created = System.currentTimeMillis();
+  private User user;
+  private long time;
+  private long splitTime;
+  private ResultType result;
 }

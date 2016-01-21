@@ -13,38 +13,38 @@ import java.util.*;
 @Log4j
 public class TimerService {
 
-    @Autowired
-    private VerifyRacePassagesTimerTask raceTimerTask;
+  @Autowired
+  private VerifyRacePassagesTimerTask raceTimerTask;
 
-    private Timer timer;
+  private Timer timer;
 
-    @PostConstruct
-    public void init() {
-        startTimer();
+  @PostConstruct
+  public void init() {
+    startTimer();
+  }
+
+  public void startTimer() {
+    log.info("Start timer.");
+    if (timer == null) {
+      timer = new Timer("RacingTimer");
+      timer.schedule(raceTimerTask, 1000, VerifyRacePassagesTimerTask.TIME_INTERVAL);
+      log.info("Timer started");
     }
+  }
 
-    public void startTimer() {
-        log.info("Start timer.");
-        if (timer == null) {
-            timer = new Timer("RacingTimer");
-            timer.schedule(raceTimerTask, 1000, VerifyRacePassagesTimerTask.TIME_INTERVAL);
-            log.info("Timer started");
+  public void stopTimer() {
+    timer.cancel();
+  }
+
+  public void trigAsyncStatusUpdate() {
+    new Timer("Oneshot").schedule(
+      new TimerTask() {
+        @Override
+        public void run() {
+          log.info("Trig status update");
+          raceTimerTask.trigUpdate(CurrentRaceStatus.builder().build());
         }
-    }
-
-    public void stopTimer() {
-        timer.cancel();
-    }
-
-    public void trigAsyncStatusUpdate() {
-        new Timer("Oneshot").schedule(
-            new TimerTask() {
-                @Override
-                public void run() {
-                    log.info("Trig status update");
-                    raceTimerTask.trigUpdate(CurrentRaceStatus.builder().build());
-                }
-            },
-            50);
-    }
+      },
+      50);
+  }
 }

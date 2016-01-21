@@ -1,7 +1,15 @@
-#loading-bar {background-color:rgba(255, 255, 255, 0.8); height: 100%;position: fixed; top:0; left: 0; width: 100%; z-index: 29998;
+#loading-bar {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 29998;
   pointer-events: auto;
   -webkit-pointer-events: auto;
 }
+
 #loading-bar-spinner {
   z-index: 29999;
   top: 50%;
@@ -11,14 +19,17 @@
   */
 
 }
-#loading-bar .bar {height: 4px;}
+
+#loading-bar .bar {
+  height: 4px;
+}
 
 #loading-bar-spinner .spinner-icon {
   width: 28px;
   height: 28px;
 
-  border:  solid 4px transparent;
-  border-top-color:  #29d;
+  border: solid 4px transparent;
+  border-top-color: #29d;
   border-left-color: #29d;
   border-radius: 20px;
 

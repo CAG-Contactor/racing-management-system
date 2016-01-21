@@ -7,7 +7,7 @@ import se.cag.labs.currentrace.services.repository.datamodel.*;
 
 @Repository
 public interface CurrentRaceRepository extends MongoRepository<CurrentRaceStatus, String> {
-    CurrentRaceStatus findByState(RaceStatus.State state);
+  CurrentRaceStatus findByState(RaceStatus.State state);
 
-    CurrentRaceStatus findByRaceId(String id);
+  CurrentRaceStatus findByRaceId(String id);
 }

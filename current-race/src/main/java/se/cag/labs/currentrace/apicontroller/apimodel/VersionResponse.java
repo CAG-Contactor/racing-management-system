@@ -9,7 +9,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VersionResponse {
-    @ApiModelProperty(value = "Application version", required = true)
-    @NonNull
-    private String version;
+  @ApiModelProperty(value = "Application version", required = true)
+  @NonNull
+  private String version;
 }

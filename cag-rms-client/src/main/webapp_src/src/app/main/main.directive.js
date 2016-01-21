@@ -58,12 +58,12 @@
         .then(function (newUser) {
           console.debug('Save new user:', newUser);
           clientApiService.addUser(newUser)
-          .then(function(){
-            notificationService.showInfoMessage('Fixat, nu är du reggad!');
-          })
-          .catch(function(){
-            notificationService.showErrorMessage('Nä, det det gick inge bra att regga det användarnamnet, det är nog upptaget.');
-          });
+            .then(function () {
+              notificationService.showInfoMessage('Fixat, nu är du reggad!');
+            })
+            .catch(function () {
+              notificationService.showErrorMessage('Nä, det det gick inge bra att regga det användarnamnet, det är nog upptaget.');
+            });
         })
         .catch(function () {
           console.debug('Cancel adding of user');

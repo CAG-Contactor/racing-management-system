@@ -11,9 +11,9 @@ import java.time.*;
  */
 @Data
 public class Session {
-    @Id
-    private String id;
-    private String token;
-    private String userId;
-    private LocalDateTime timeout;
+  @Id
+  private String id;
+  private String token;
+  private String userId;
+  private LocalDateTime timeout;
 }

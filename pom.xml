@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>se.cag.labs</groupId>
-	<artifactId>race-manager-system</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <groupId>se.cag.labs</groupId>
+  <artifactId>race-manager-system</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-	<name>Race Manager System</name>
-	<description>The CAG race manager system</description>
+  <name>Race Manager System</name>
+  <description>The CAG race manager system</description>
 
-	<modules>
-		<module>race-administrator</module>
-		<module>user-manager</module>
-		<module>leaderboard</module>
-		<module>current-race</module>
-		<module>client-api</module>
-		<module>cag-rms-client</module>
-	</modules>
+  <modules>
+    <module>race-administrator</module>
+    <module>user-manager</module>
+    <module>leaderboard</module>
+    <module>current-race</module>
+    <module>client-api</module>
+    <module>cag-rms-client</module>
+  </modules>
 </project>

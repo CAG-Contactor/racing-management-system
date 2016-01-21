@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.*;
 @SpringBootApplication
 @EnableMongoRepositories()
 public class LeaderBoardApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(LeaderBoardApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(LeaderBoardApplication.class, args);
+  }
 }

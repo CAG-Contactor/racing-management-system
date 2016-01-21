@@ -7,9 +7,9 @@ import lombok.*;
  */
 @Data
 public class ErrorMessage {
-    private String message;
+  private String message;
 
-    public ErrorMessage(String message) {
-        this.message = message;
-    }
+  public ErrorMessage(String message) {
+    this.message = message;
+  }
 }

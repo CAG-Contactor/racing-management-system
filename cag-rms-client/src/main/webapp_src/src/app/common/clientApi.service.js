@@ -73,22 +73,22 @@
       };
       return backendRequest('POST', '/users', {body: userToSend});
     };
-    this.getUserQueue = function() {
-      return backendRequest('GET','/userqueue');
+    this.getUserQueue = function () {
+      return backendRequest('GET', '/userqueue');
     };
-    this.registerForRace = function() {
+    this.registerForRace = function () {
       var userToSend = {
         userId: self.getCurrentUser().userId,
         displayName: self.getCurrentUser().displayName
       };
-      return backendRequest('POST','/userqueue', {body: userToSend});
+      return backendRequest('POST', '/userqueue', {body: userToSend});
     };
-    this.unregisterFromRace = function() {
+    this.unregisterFromRace = function () {
       var userToSend = {
         userId: self.getCurrentUser().userId,
         displayName: self.getCurrentUser().displayName
       };
-      return backendRequest('DELETE','/userqueue', {body: userToSend});
+      return backendRequest('DELETE', '/userqueue', {body: userToSend});
     };
 
     /**
@@ -116,7 +116,7 @@
       contents.params = contents.params || {};
       contents.headers[X_AUTH_TOKEN] = localStorageService.get(TOKEN_KEY);
       contents.headers['Content-Type'] = 'application/json';
-      contents.params.reqver=new Date().getTime();
+      contents.params.reqver = new Date().getTime();
       return $http({
         method: method,
         url: 'http://' + APP_CONFIG.clientApi + resourcePath,

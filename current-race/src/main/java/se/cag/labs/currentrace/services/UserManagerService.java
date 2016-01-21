@@ -15,24 +15,24 @@ import java.util.*;
 @Scope("singleton")
 @Log4j
 public class UserManagerService {
-    @Value("${server.usermanager.base.uri}")
-    private String userManagerBaseUri;
+  @Value("${server.usermanager.base.uri}")
+  private String userManagerBaseUri;
 
-    private RestTemplate restTemplate = new RestTemplate();
+  private RestTemplate restTemplate = new RestTemplate();
 
-    public List<User> getUsers() {
-        ParameterizedTypeReference<List<User>> user = new ParameterizedTypeReference<List<User>>() {
-        };
+  public List<User> getUsers() {
+    ParameterizedTypeReference<List<User>> user = new ParameterizedTypeReference<List<User>>() {
+    };
 
-        ResponseEntity<List<User>> response;
-        try {
-            response = restTemplate.exchange(userManagerBaseUri + "/users", HttpMethod.GET, null, user);
-            return response.getBody();
-        } catch (RestClientException e) {
-            log.error("Rest call failed");
-        }
-
-        return new ArrayList<>();
+    ResponseEntity<List<User>> response;
+    try {
+      response = restTemplate.exchange(userManagerBaseUri + "/users", HttpMethod.GET, null, user);
+      return response.getBody();
+    } catch (RestClientException e) {
+      log.error("Rest call failed");
     }
+
+    return new ArrayList<>();
+  }
 
 }

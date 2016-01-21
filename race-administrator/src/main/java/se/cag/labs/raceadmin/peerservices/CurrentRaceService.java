@@ -20,9 +20,9 @@ public class CurrentRaceService {
 
   public void startRace() {
     final UriComponents uri = UriComponentsBuilder
-        .fromHttpUrl(currentRaceBaseUri + "/startRace")
-        .queryParam("callbackUrl", "http://" + selfAddress + ":" + selfPort + "/on-race-status-update")
-        .build();
+      .fromHttpUrl(currentRaceBaseUri + "/startRace")
+      .queryParam("callbackUrl", "http://" + selfAddress + ":" + selfPort + "/on-race-status-update")
+      .build();
     restTemplate.postForObject(uri.toUri(), null, Void.class);
   }
 }

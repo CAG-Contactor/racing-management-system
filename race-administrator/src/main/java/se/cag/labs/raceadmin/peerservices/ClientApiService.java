@@ -20,8 +20,8 @@ public class ClientApiService {
 
   public void sendEvent(Event o) {
     final UriComponents uri = UriComponentsBuilder
-        .fromHttpUrl(clientApiBaseUri + "/event")
-        .build();
+      .fromHttpUrl(clientApiBaseUri + "/event")
+      .build();
     restTemplate.postForObject(uri.toUri(), o, Void.class);
   }
 

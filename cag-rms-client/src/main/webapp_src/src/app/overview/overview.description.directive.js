@@ -8,7 +8,7 @@
       restrict: 'E',
       templateUrl: 'overview/overview.description.tpl.html',
       replace: 'true',
-      link: function(scope, elem, attrs) {
+      link: function (scope, elem, attrs) {
       }
     };
   }
