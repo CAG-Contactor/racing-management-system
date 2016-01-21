@@ -98,7 +98,7 @@ public class RaceAdministratorController {
                 }
 
                 leaderBoardService.newResult(userResult);
-                activeRaceRepository.delete(activeRace.get());
+                activeRaceRepository.delete(activeRace.get().getId());
                 startNextRace();
             } else {
                 activeRace.get().setEvent(status.getEvent());
@@ -113,9 +113,9 @@ public class RaceAdministratorController {
 
     private void startNextRace() {
         User user = sortedQueue().poll();
-        activeRaceRepository.save(new RaceStatus(user));
-        currentRaceService.startRace();
         if (user != null) {
+            activeRaceRepository.save(new RaceStatus(user));
+            currentRaceService.startRace();
             userQueueRepository.delete(user.getId());
         }
     }
