@@ -27,6 +27,8 @@ public class RaceAdministratorController {
     private LeaderBoardService leaderBoardService;
     @Autowired
     private CurrentRaceService currentRaceService;
+    @Autowired
+    private ClientApiService clientApiService;
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -84,6 +86,7 @@ public class RaceAdministratorController {
         log.debug("on-race-status-update:" + status);
         Optional<RaceStatus> activeRace = activeRaceRepository.findAll().stream().findFirst();
         if (activeRace.isPresent()) {
+            clientApiService.sendEvent(ClientApiService.Event.builder().data(activeRace.get()).build());
             if (status.getState() == RaceStatus.RaceState.INACTIVE) {
                 UserResult userResult = new UserResult();
                 userResult.setUser(activeRace.get().getUser());
@@ -96,6 +99,7 @@ public class RaceAdministratorController {
                 } else {
                     userResult.setResult(UserResult.ResultType.DISQUALIFIED);
                 }
+                clientApiService.sendEvent(ClientApiService.Event.builder().data(userResult).build());
 
                 leaderBoardService.newResult(userResult);
                 activeRaceRepository.delete(activeRace.get().getId());
