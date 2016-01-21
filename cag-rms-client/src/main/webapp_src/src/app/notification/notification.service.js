@@ -12,9 +12,9 @@
       function cleanMessages() {
         var now = new Date().getTime();
         _.remove(messages, function (msg) {
-          return now - msg.time > 10000;
+          return now - msg.time > 5000;
         });
-        $timeout(cleanMessages, 10000);
+        $timeout(cleanMessages, 5000);
       }
     });
 

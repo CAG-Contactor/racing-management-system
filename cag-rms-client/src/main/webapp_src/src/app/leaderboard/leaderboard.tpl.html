@@ -7,9 +7,9 @@
       <th>Resultat</th>
     </tr>
     <tr ng-repeat="result in vm.results | orderBy : 'user.name'">
-      <td>{{result.user.name}}</td>
-      <td>{{result.time}}</td>
-      <td>{{result.middleTime}}</td>
+      <td>{{result.user.displayName}}</td>
+      <td>{{result.time|date:'mm:ss:sss'}}</td>
+      <td>{{result.splitTime|date:'mm:ss:sss'}}</td>
       <td>{{result.result}}</td>
     </tr>
   </table>

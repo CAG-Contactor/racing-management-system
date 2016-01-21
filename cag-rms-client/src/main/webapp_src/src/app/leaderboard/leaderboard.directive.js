@@ -2,15 +2,7 @@
 (function () {
   angular.module('cag-rms-client').directive('leaderboard', factory);
 
-  function factory($log, clientApiService) {
-    $log.log("in leaderboard");
-
-    clientApiService.getResults()
-      .then(function successCallback(response) {
-        console.debug(response.data);
-      }, function errorCallback(response) {
-      });
-
+  function factory() {
     return {
       restrict: 'E',
       templateUrl: 'leaderboard/leaderboard.tpl.html',
@@ -19,8 +11,29 @@
     };
   }
 
-  function Ctrl() {
+  function Ctrl($scope, clientApiService) {
     var vm = this;
-    vm.results = angular.fromJson('[{"id":"564f1bd9d4c64ebeaf277d6a","created":1448025049594,"user":{"id":null,"name":"kalle","email":"kalle@acme.com","password":null},"time":1111111,"middleTime":2222222,"result":"FINISHED"}]');
+    vm.results = [];
+
+    $scope.$on('$destroy', function(){clientApiService.removeEventListener(handleEvent);});
+    clientApiService.addEventListener(handleEvent);
+    reload();
+
+    function reload() {
+      console.debug('Reload leaderboard');
+      clientApiService.getResults()
+        .then(function (response) {
+          console.debug(response.data);
+          vm.results = _.sortBy(response.data,'time');
+          console.debug('New leaderboard',vm.results);
+        });
+    }
+
+    function handleEvent(event) {
+      console.debug('Event: ',event);
+      if (event.eventType === 'NEW_RESULT') {
+        reload();
+      }
+    }
   }
 }());
