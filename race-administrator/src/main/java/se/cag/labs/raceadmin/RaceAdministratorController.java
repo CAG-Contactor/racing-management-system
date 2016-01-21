@@ -86,7 +86,7 @@ public class RaceAdministratorController {
     log.debug("on-race-status-update:" + status);
     Optional<RaceStatus> activeRace = activeRaceRepository.findAll().stream().findFirst();
     if (activeRace.isPresent()) {
-      clientApiService.sendEvent(ClientApiService.Event.builder().data(activeRace.get()).build());
+      clientApiService.sendEvent(ClientApiService.Event.builder().eventType("CURRENT_RACE_STATUS").data(status).build());
       if (status.getState() == RaceStatus.RaceState.INACTIVE) {
         UserResult userResult = new UserResult();
         userResult.setUser(activeRace.get().getUser());
@@ -99,7 +99,7 @@ public class RaceAdministratorController {
         } else {
           userResult.setResult(UserResult.ResultType.DISQUALIFIED);
         }
-        clientApiService.sendEvent(ClientApiService.Event.builder().data(userResult).build());
+        clientApiService.sendEvent(ClientApiService.Event.builder().eventType("NEW_RESULT").data(userResult).build());
 
         leaderBoardService.newResult(userResult);
         activeRaceRepository.delete(activeRace.get().getId());
