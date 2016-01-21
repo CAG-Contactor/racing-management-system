@@ -7,15 +7,15 @@ import se.cag.labs.cagrms.clientapi.eventbus.*;
 
 @Configuration
 public class WebsocketConfig implements WebSocketConfigurer {
-    @Autowired
-    private EventChannelSocketHandler eventBus;
+  @Autowired
+  private EventChannelSocketHandler eventBus;
 
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(eventBus, EventChannelSocketHandler.CHANNEL_NAME)
-                .setAllowedOrigins("*")
-                .withSockJS()
-        ;
-    }
+  @Override
+  public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+    registry.addHandler(eventBus, EventChannelSocketHandler.CHANNEL_NAME)
+      .setAllowedOrigins("*")
+      .withSockJS()
+    ;
+  }
 
 }

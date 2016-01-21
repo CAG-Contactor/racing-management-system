@@ -8,5 +8,5 @@ const appModule = angular.module('AppModule', [exampleModule.name]);
 appModule.directive(cagAppDirective.selector, cagAppDirective);
 
 
-console.debug('Initialized AppModule:',appModule);
+console.debug('Initialized AppModule:', appModule);
 export default appModule;

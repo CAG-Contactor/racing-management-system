@@ -11,10 +11,10 @@
 
       function cleanMessages() {
         var now = new Date().getTime();
-        _.remove(messages, function(msg){
-          return now - msg.time > 10000;
+        _.remove(messages, function (msg) {
+          return now - msg.time > 5000;
         });
-        $timeout(cleanMessages, 10000);
+        $timeout(cleanMessages, 5000);
       }
     });
 
@@ -28,12 +28,12 @@
 
     function addMessage(type, m) {
       // Async
-      $timeout(function(){
+      $timeout(function () {
         messages.unshift({type: type, msg: m, time: new Date().getTime()});
         if (messages.length > 4) {
           messages.pop();
         }
-      },0);
+      }, 0);
     }
   }
 

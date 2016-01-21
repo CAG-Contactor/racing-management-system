@@ -15,7 +15,7 @@ factory.selector = 'exampleDirective';
 
 function Controller() {
   const vm = this;
-  console.debug('Created controller for:',factory.selector);
+  console.debug('Created controller for:', factory.selector);
   vm.greeting = 'Häpp!'
 }
 export default factory;

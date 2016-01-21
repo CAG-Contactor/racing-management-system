@@ -1,12 +1,12 @@
-(function() {
+(function () {
   "use strict";
   angular
     .module('cag-rms-client')
-    .service('registerModal',registerModalServiceFactory);
+    .service('registerModal', registerModalServiceFactory);
 
-  function registerModalServiceFactory($uibModal){
+  function registerModalServiceFactory($uibModal) {
     return {
-      show: _.partial(showRegisterModal,$uibModal)
+      show: _.partial(showRegisterModal, $uibModal)
     };
   }
 

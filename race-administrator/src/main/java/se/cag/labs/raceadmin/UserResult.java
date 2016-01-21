@@ -1,4 +1,4 @@
-package se.cag.labs.cagrms.clientapi.service;
+package se.cag.labs.raceadmin;
 
 import lombok.*;
 
@@ -12,6 +12,7 @@ public class UserResult {
   private long time;
   private long splitTime;
   private ResultType result;
+
   public enum ResultType {
     FINISHED, WALKOVER, DISQUALIFIED
   }

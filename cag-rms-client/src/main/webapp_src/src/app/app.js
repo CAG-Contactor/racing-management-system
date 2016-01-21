@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
   var cagRmsClientModule = angular.module('cag-rms-client', [
     'templates-app',

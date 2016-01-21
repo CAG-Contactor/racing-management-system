@@ -13,24 +13,24 @@ import static springfox.documentation.builders.PathSelectors.*;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(regex("/.*"))
-                .build()
-                .apiInfo(apiInfo());
-    }
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+      .select()
+      .apis(RequestHandlerSelectors.any())
+      .paths(regex("/.*"))
+      .build()
+      .apiInfo(apiInfo());
+  }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfo(
-                BuildInfo.getTitle(),
-                BuildInfo.getDescription(),
-                BuildInfo.getVersion(),
-                "",
-                "",
-                "",
-                "");
-    }
+  private ApiInfo apiInfo() {
+    return new ApiInfo(
+      BuildInfo.getTitle(),
+      BuildInfo.getDescription(),
+      BuildInfo.getVersion(),
+      "",
+      "",
+      "",
+      "");
+  }
 }

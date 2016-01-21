@@ -1,10 +1,9 @@
 package se.cag.labs.raceadmin;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.*;
 import org.springframework.stereotype.*;
-import se.cag.labs.usermanager.*;
 
 @Repository
 public interface UserQueueRepository extends MongoRepository<User, String> {
-    
+  User findUserByUserId(final String userId);
 }

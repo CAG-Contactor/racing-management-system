@@ -1,8 +1,9 @@
-package se.cag.labs.raceadmin;
+package se.cag.labs.leaderboard;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.data.annotation.*;
+import se.cag.labs.usermanager.*;
 
 @Data
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class RaceStatus {
     this.user = user;
   }
   public enum RaceState {
-    ACTIVE, INACTIVE, UNVERIFIED
+    ACTIVE, INACTIVE
   }
 
   public enum RaceEvent {

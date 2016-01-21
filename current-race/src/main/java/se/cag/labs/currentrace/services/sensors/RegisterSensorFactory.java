@@ -1,23 +1,21 @@
 package se.cag.labs.currentrace.services.sensors;
 
-import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorFinish;
-import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorMiddle;
-import se.cag.labs.currentrace.services.sensors.impl.RegisterSensorStart;
+import se.cag.labs.currentrace.services.sensors.impl.*;
 
 public enum RegisterSensorFactory {
 
-    INSTANCE;
+  INSTANCE;
 
-    public RegisterSensor createRegisterSensorObject(RegisterSensorType type) {
-        switch (type) {
-            case START:
-                return new RegisterSensorStart();
-            case MIDDLE:
-                return new RegisterSensorMiddle();
-            case FINISH:
-                return new RegisterSensorFinish();
-            default:
-                throw new IllegalArgumentException("Type not supported");
-        }
+  public RegisterSensor createRegisterSensorObject(RegisterSensorType type) {
+    switch (type) {
+      case START:
+        return new RegisterSensorStart();
+      case SPLIT:
+        return new RegisterSensorSplit();
+      case FINISH:
+        return new RegisterSensorFinish();
+      default:
+        throw new IllegalArgumentException("Type not supported");
     }
+  }
 }

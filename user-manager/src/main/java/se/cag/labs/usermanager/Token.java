@@ -1,8 +1,7 @@
 package se.cag.labs.usermanager;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.annotations.*;
+import lombok.*;
 
 /**
  * Created by dawi on 2015-11-20.
@@ -10,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Token {
-	@ApiModelProperty(value = "Session ID", required = true)
-	private String token;
+  @ApiModelProperty(value = "Session ID", required = true)
+  private String token;
 
-    public Token(String token) {
-        this.token = token;
-    }
+  public Token(String token) {
+    this.token = token;
+  }
 }

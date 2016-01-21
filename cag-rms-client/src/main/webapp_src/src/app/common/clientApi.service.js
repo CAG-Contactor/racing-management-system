@@ -2,20 +2,21 @@
   "use strict";
   var USER_INFO_KEY = 'cagrms.userinfo';
   var TOKEN_KEY = 'cagrms.token';
+  var DEBUG_EVENTS_KEY = 'droid.showevents';
   var X_AUTH_TOKEN = 'X-AuthToken';
 
   angular.module('cag-rms-client')
     .config(function ($httpProvider) {
       $httpProvider.defaults.headers.common[X_AUTH_TOKEN] = null;
     })
-    .service('clientApiService', function ($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService) {
-      var service = new Service($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService);
+    .service('clientApiService', function ($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageService, notificationService) {
+      var service = new Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageService, notificationService);
       return service;
     });
 
-  function Service($rootScope, $resource, $q, $http, $timeout, md5, APP_CONFIG, localStorageService) {
+  function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageService, notificationService) {
     var self = this;
-    var eventBus = new EventBus($rootScope, $timeout, APP_CONFIG);
+    var eventBus = new EventBus($rootScope, $timeout, APP_CONFIG, localStorageService, notificationService);
 
     this.login = function (userId, password) {
       console.debug('Logging in:', userId);
@@ -50,11 +51,7 @@
       return localStorageService.get(USER_INFO_KEY);
     };
     this.getResults = function () {
-      //$http({
-      //  method: 'GET',
-      //  url: 'http://localhost:10180/results'
-      //})
-      return $q.when(['dummy1', 'dummy2']);
+      return backendRequest('GET','/leaderboard');
     };
     this.setConnectionListener = function (connectionListener) {
       eventBus.setConnectionListener(connectionListener);
@@ -73,22 +70,22 @@
       };
       return backendRequest('POST', '/users', {body: userToSend});
     };
-    this.getUserQueue = function() {
-      return backendRequest('GET','/userqueue');
+    this.getUserQueue = function () {
+      return backendRequest('GET', '/userqueue');
     };
-    this.registerForRace = function() {
+    this.registerForRace = function () {
       var userToSend = {
         userId: self.getCurrentUser().userId,
         displayName: self.getCurrentUser().displayName
       };
-      return backendRequest('POST','/userqueue', {body: userToSend});
+      return backendRequest('POST', '/userqueue', {body: userToSend});
     };
-    this.unregisterFromRace = function() {
+    this.unregisterFromRace = function () {
       var userToSend = {
         userId: self.getCurrentUser().userId,
         displayName: self.getCurrentUser().displayName
       };
-      return backendRequest('DELETE','/userqueue', {body: userToSend});
+      return backendRequest('DELETE', '/userqueue', {body: userToSend});
     };
 
     /**
@@ -115,7 +112,8 @@
       contents.headers = contents.headers || {};
       contents.params = contents.params || {};
       contents.headers[X_AUTH_TOKEN] = localStorageService.get(TOKEN_KEY);
-      contents.params.reqver=new Date().getTime();
+      contents.headers['Content-Type'] = 'application/json';
+      contents.params.reqver = new Date().getTime();
       return $http({
         method: method,
         url: 'http://' + APP_CONFIG.clientApi + resourcePath,
@@ -126,7 +124,7 @@
     }
   }
 
-  function EventBus($rootScope, $timeout, APP_CONFIG) {
+  function EventBus($rootScope, $timeout, APP_CONFIG, localStorageService, notificationService) {
     var state = 'NOT_CONNECTED';
     var listeners = [];
     var connectionListener;
@@ -166,8 +164,12 @@
         var data = event.data;
         state = 'CONNECTED';
         console.debug('Received from WS: ', data, 'state:', state);
+        if (localStorageService.get(DEBUG_EVENTS_KEY) === true) {
+          notificationService.showInfoMessage(data);
+        }
+
         _.forEach(listeners, function (l) {
-          l(data);
+          l(JSON.parse(data));
         });
         notifyConnectionListener();
       };

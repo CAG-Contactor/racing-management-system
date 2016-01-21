@@ -1,9 +1,9 @@
 package se.cag.labs.usermanager;
 
-import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.*;
+import org.springframework.data.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 
 /**
@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
  */
 @Data
 public class Session {
-    @Id
-    private String id;
-    private String token;
-    private String userId;
-    private LocalDateTime timeout;
+  @Id
+  private String id;
+  private String token;
+  private String userId;
+  private LocalDateTime timeout;
 }

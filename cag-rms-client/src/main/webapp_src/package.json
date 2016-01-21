@@ -2,8 +2,8 @@
   "author": "CAG Labs",
   "name": "cag-rms-client",
   "version": "0.0.1",
-  "repository":"https://github.com/CAG-Contactor/race-management-system",
-  "license":"UNLICENSED",
+  "repository": "https://github.com/CAG-Contactor/race-management-system",
+  "license": "UNLICENSED",
   "description": "CAG Race Management System Web Client",
   "dependencies": {},
   "devDependencies": {
