@@ -16,7 +16,7 @@ public final class ModelMapper {
         return RaceStatus.builder()
                 .event(currentRaceStatus.getEvent() == null ? null : currentRaceStatus.getEvent())
                 .startTime(currentRaceStatus.getStartTime() == null ? null : new Date(currentRaceStatus.getStartTime()))
-                .middleTime(currentRaceStatus.getMiddleTime() == null ? null : new Date(currentRaceStatus.getMiddleTime()))
+                .splitTime(currentRaceStatus.getSplitTime() == null ? null : new Date(currentRaceStatus.getSplitTime()))
                 .finishTime(currentRaceStatus.getFinishTime() == null ? null : new Date(currentRaceStatus.getFinishTime()))
                 .state(currentRaceStatus.getState() == null ? null : currentRaceStatus.getState())
                 .build();

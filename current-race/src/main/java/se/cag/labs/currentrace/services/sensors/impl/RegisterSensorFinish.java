@@ -9,7 +9,7 @@ public class RegisterSensorFinish implements RegisterSensor {
     public boolean updateStatus(CurrentRaceStatus currentRaceStatus, long timestamp) {
         if (!RaceStatus.Event.FINISH.equals(currentRaceStatus.getEvent())) {
             currentRaceStatus.setFinishTime(timestamp);
-            RaceStatus.Event event = currentRaceStatus.getMiddleTime() == null ? RaceStatus.Event.DISQUALIFIED : RaceStatus.Event.FINISH;
+            RaceStatus.Event event = currentRaceStatus.getSplitTime() == null ? RaceStatus.Event.DISQUALIFIED : RaceStatus.Event.FINISH;
             currentRaceStatus.setEvent(event);
             currentRaceStatus.setState(RaceStatus.State.INACTIVE);
             return true;

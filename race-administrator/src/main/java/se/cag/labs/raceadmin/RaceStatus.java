@@ -14,7 +14,7 @@ public class RaceStatus {
     }
 
     public enum RaceEvent {
-        NONE,START,MIDDLE,FINISH,TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED,DISQUALIFIED
+        NONE,START,SPLIT,FINISH,TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED,DISQUALIFIED
     }
 
     @Id
@@ -23,7 +23,7 @@ public class RaceStatus {
     private RaceEvent event;
     private RaceState state;
     private Long startTime;
-    private Long middleTime;
+    private Long splitTime;
     private Long finishTime;
 
     public RaceStatus(User user) {

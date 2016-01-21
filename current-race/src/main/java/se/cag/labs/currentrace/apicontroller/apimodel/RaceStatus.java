@@ -16,7 +16,7 @@ import java.util.Date;
 public final class RaceStatus {
     private final Event event;
     private final Date startTime;
-    private final Date middleTime;
+    private final Date splitTime;
     private final Date finishTime;
     private final State state;
 
@@ -25,7 +25,7 @@ public final class RaceStatus {
     }
 
     public enum Event {
-        NONE, START, MIDDLE, FINISH, TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED, DISQUALIFIED
+        NONE, START, SPLIT, FINISH, TIME_OUT_NOT_STARTED, TIME_OUT_NOT_FINISHED, DISQUALIFIED
     }
 
     public enum State {

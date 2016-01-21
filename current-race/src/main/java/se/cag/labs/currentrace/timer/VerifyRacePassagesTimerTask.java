@@ -48,15 +48,15 @@ public class VerifyRacePassagesTimerTask extends TimerTask {
                     newState.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            if (newState.getMiddleTime() == null && newState.getStartTime() != null) {
+            if (newState.getSplitTime() == null && newState.getStartTime() != null) {
                 if (currentTime - newState.getStartTime() >= TIME_LIMIT) {
                     log.debug(RaceStatus.Event.DISQUALIFIED.name());
                     newState.setEvent(RaceStatus.Event.DISQUALIFIED);
                     newState.setState(RaceStatus.State.INACTIVE);
                 }
             }
-            if (newState.getFinishTime() == null && newState.getMiddleTime() != null) {
-                if (currentTime - newState.getMiddleTime() >= TIME_LIMIT) {
+            if (newState.getFinishTime() == null && newState.getSplitTime() != null) {
+                if (currentTime - newState.getSplitTime() >= TIME_LIMIT) {
                     log.debug(RaceStatus.Event.TIME_OUT_NOT_FINISHED.name());
                     newState.setEvent(RaceStatus.Event.TIME_OUT_NOT_FINISHED);
                     newState.setState(RaceStatus.State.INACTIVE);

@@ -92,7 +92,7 @@ public class RaceAdministratorController {
                 userResult.setUser(activeRace.get().getUser());
                 if (status.getEvent() == RaceStatus.RaceEvent.FINISH) {
                     userResult.setTime(status.getFinishTime() - status.getStartTime());
-                    userResult.setMiddleTime(status.getMiddleTime() - status.getStartTime());
+                    userResult.setSplitTime(status.getSplitTime() - status.getStartTime());
                     userResult.setResult(UserResult.ResultType.FINISHED);
                 } else if (status.getEvent() == RaceStatus.RaceEvent.TIME_OUT_NOT_STARTED) {
                     userResult.setResult(UserResult.ResultType.WALKOVER);
@@ -108,7 +108,7 @@ public class RaceAdministratorController {
                 activeRace.get().setEvent(status.getEvent());
                 activeRace.get().setState(status.getState());
                 activeRace.get().setStartTime(status.getStartTime());
-                activeRace.get().setMiddleTime(status.getMiddleTime());
+                activeRace.get().setSplitTime(status.getSplitTime());
                 activeRace.get().setFinishTime(status.getFinishTime());
                 activeRaceRepository.save(activeRace.get());
             }

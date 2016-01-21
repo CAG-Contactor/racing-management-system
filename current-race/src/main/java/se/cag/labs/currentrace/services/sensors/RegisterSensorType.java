@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum RegisterSensorType {
     START("START"),
-    MIDDLE("SPLIT"),
+    SPLIT("SPLIT"),
     FINISH("FINISH");
 
     private final String id;

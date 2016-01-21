@@ -4,12 +4,12 @@ import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 import se.cag.labs.currentrace.services.sensors.RegisterSensor;
 
-public class RegisterSensorMiddle implements RegisterSensor {
+public class RegisterSensorSplit implements RegisterSensor {
     @Override
     public boolean updateStatus(CurrentRaceStatus currentRaceStatus, long timestamp) {
-        if (!RaceStatus.Event.MIDDLE.equals(currentRaceStatus.getEvent())) {
-            currentRaceStatus.setMiddleTime(timestamp);
-            currentRaceStatus.setEvent(RaceStatus.Event.MIDDLE);
+        if (!RaceStatus.Event.SPLIT.equals(currentRaceStatus.getEvent())) {
+            currentRaceStatus.setSplitTime(timestamp);
+            currentRaceStatus.setEvent(RaceStatus.Event.SPLIT);
             return true;
         }
         return false;

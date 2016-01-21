@@ -37,7 +37,7 @@ public class StartRaceService {
             activeCurrentRaceStatus.setState(RaceStatus.State.ACTIVE);
             activeCurrentRaceStatus.setRaceActivatedTime(System.currentTimeMillis());
             activeCurrentRaceStatus.setStartTime(null);
-            activeCurrentRaceStatus.setMiddleTime(null);
+            activeCurrentRaceStatus.setSplitTime(null);
             activeCurrentRaceStatus.setFinishTime(null);
 
             repository.save(activeCurrentRaceStatus);

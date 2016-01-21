@@ -14,6 +14,6 @@ public class UserResult {
     private long created = System.currentTimeMillis();
     private User user;
     private long time;
-    private long middleTime;
+    private long splitTime;
     private ResultType result;
 }

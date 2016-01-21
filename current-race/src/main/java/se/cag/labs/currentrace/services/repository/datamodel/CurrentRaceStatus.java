@@ -21,7 +21,7 @@ public class CurrentRaceStatus {
     private RaceStatus.Event event;
     private Long raceActivatedTime;
     private Long startTime;
-    private Long middleTime;
+    private Long splitTime;
     private Long finishTime;
     private RaceStatus.State state;
 }

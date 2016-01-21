@@ -201,9 +201,9 @@ public class CurrentRaceControllerIT {
         verify(restTemplateMock, times(1)).postForLocation(
                 "http://localhost:" + port + "/onracestatusupdate",
                 RaceStatus.builder()
-                        .event(RaceStatus.Event.MIDDLE)
+                        .event(RaceStatus.Event.SPLIT)
                         .startTime(new Date(1234))
-                        .middleTime(new Date(12345))
+                        .splitTime(new Date(12345))
                         .state(RaceStatus.State.ACTIVE)
                         .build());
         verify(restTemplateMock, times(1)).postForLocation(
@@ -211,13 +211,13 @@ public class CurrentRaceControllerIT {
                 RaceStatus.builder()
                         .event(RaceStatus.Event.FINISH)
                         .startTime(new Date(1234))
-                        .middleTime(new Date(12345))
+                        .splitTime(new Date(12345))
                         .finishTime(new Date(123456))
                         .state(RaceStatus.State.INACTIVE)
                         .build());
         assertNotNull(currentRaceStatus);
         assertEquals(new Long(1234), currentRaceStatus.getStartTime());
-        assertEquals(new Long(12345), currentRaceStatus.getMiddleTime());
+        assertEquals(new Long(12345), currentRaceStatus.getSplitTime());
         assertEquals(new Long(123456), currentRaceStatus.getFinishTime());
         assertEquals(RaceStatus.Event.FINISH, currentRaceStatus.getEvent());
         assertEquals(RaceStatus.State.INACTIVE, currentRaceStatus.getState());
@@ -234,7 +234,7 @@ public class CurrentRaceControllerIT {
     }
 
     @Test
-    public void secondPassageOfMiddleSensorIsIgnored() {
+    public void secondPassageOfSplitSensorIsIgnored() {
         CurrentRaceStatus currentRaceStatus = new CurrentRaceStatus();
         currentRaceStatus.setState(RaceStatus.State.ACTIVE);
         currentRaceStatus.setCallbackUrl(callbackUrl);
@@ -249,12 +249,12 @@ public class CurrentRaceControllerIT {
         verify(restTemplateMock, times(1)).postForLocation(
                 "http://localhost:" + port + "/onracestatusupdate",
                 RaceStatus.builder()
-                        .event(RaceStatus.Event.MIDDLE)
-                        .middleTime(new Date(1234))
+                        .event(RaceStatus.Event.SPLIT)
+                        .splitTime(new Date(1234))
                         .state(RaceStatus.State.ACTIVE)
                         .build());
         assertNotNull(currentRaceStatus);
-        assertEquals(new Long(1234), currentRaceStatus.getMiddleTime());
+        assertEquals(new Long(1234), currentRaceStatus.getSplitTime());
     }
 
     @Test

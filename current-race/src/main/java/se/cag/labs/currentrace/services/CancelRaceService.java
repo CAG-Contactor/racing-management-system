@@ -24,7 +24,7 @@ public class CancelRaceService {
         if (currentRaceStatus != null) {
             currentRaceStatus.setRaceActivatedTime(null);
             currentRaceStatus.setFinishTime(null);
-            currentRaceStatus.setMiddleTime(null);
+            currentRaceStatus.setSplitTime(null);
             currentRaceStatus.setStartTime(null);
             currentRaceStatus.setEvent(null);
             currentRaceStatus.setState(RaceStatus.State.INACTIVE);
