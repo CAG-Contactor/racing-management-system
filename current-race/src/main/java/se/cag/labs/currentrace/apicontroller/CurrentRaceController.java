@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import se.cag.labs.currentrace.services.StatusService;
 @Api(basePath = "*", value = "Current race", description = "Current race services", produces = "application/json")
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@Log4j
 public class CurrentRaceController {
     public static final String START_RACE_URL = "/startRace";
     public static final String CANCEL_RACE_URL = "/cancelRace";
@@ -77,6 +79,7 @@ public class CurrentRaceController {
 
     @RequestMapping(value = PASSAGE_DETECTED_URL, method = RequestMethod.POST)
     public ResponseEntity passageDetected(@RequestParam String sensorID, @RequestParam long timestamp) {
+        log.debug("/passageDetected?sensorId="+sensorID+"&timestamp="+timestamp);
         switch (passageDetectedService.passageDetected(sensorID, timestamp)) {
             case ACCEPTED:
                 return new ResponseEntity(HttpStatus.ACCEPTED);

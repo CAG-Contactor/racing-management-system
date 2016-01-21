@@ -38,7 +38,12 @@ public class RaceAdministratorController {
     public void registerForRace(@RequestBody User user) {
         log.debug("POST /userqueue:" + user);
         user.setTimestamp(System.currentTimeMillis());
-        boolean userIsTheActiveRace = activeRaceRepository.findAll().stream().filter(r -> Objects.equals(r.getUser().getUserId(), user.getUserId())).findFirst().isPresent();
+        boolean userIsTheActiveRace = activeRaceRepository.findAll().stream()
+            .map(RaceStatus::getUser)
+            .filter(u -> u != null)
+            .filter(u -> Objects.equals(u.getUserId(), user.getUserId()))
+            .findFirst()
+            .isPresent();
         boolean userIsAlreadyEnqueued = userQueueRepository.findUserByUserId(user.getUserId()) != null;
         if(userIsAlreadyEnqueued || userIsTheActiveRace) {
             return;
