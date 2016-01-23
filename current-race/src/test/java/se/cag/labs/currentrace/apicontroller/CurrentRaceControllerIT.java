@@ -1,5 +1,6 @@
 package se.cag.labs.currentrace.apicontroller;
 
+import com.github.fakemongo.Fongo;
 import com.jayway.restassured.*;
 import com.lordofthejars.nosqlunit.mongodb.*;
 import com.mongodb.*;
@@ -45,8 +46,6 @@ import static org.mockito.Mockito.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("int-test")
 public class CurrentRaceControllerIT {
-  @Rule
-  public MongoDbRule mongoDbRule = new MongoDbRule(mongoDb().databaseName("test").build());
   @Autowired
   private ApplicationContext applicationContext; //Needed by nosqlunit
   @Autowired
@@ -266,18 +265,16 @@ public class CurrentRaceControllerIT {
   @EnableMongoRepositories
   @Profile("int-test")
   static class MongoConfiguration extends AbstractMongoConfiguration {
-    @Value("${spring.data.mongodb.uri}")
-    String mongoUri;
 
     @Override
     protected String getDatabaseName() {
-      return "test";
+      return "fongo-test";
     }
 
     @Bean
     @Override
     public Mongo mongo() {
-      return new MongoClient(new MongoClientURI(mongoUri));
+      return new Fongo("test-db").getMongo();
     }
 
     @Override
