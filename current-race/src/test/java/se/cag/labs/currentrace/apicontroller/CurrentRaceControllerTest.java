@@ -46,8 +46,6 @@ import static org.mockito.Mockito.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("test")
 public class CurrentRaceControllerTest {
-  @Rule
-  public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("fongo-test");
   @Autowired
   private ApplicationContext applicationContext; //Needed by nosqlunit
 
