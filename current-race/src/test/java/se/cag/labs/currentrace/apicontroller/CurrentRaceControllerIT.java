@@ -46,6 +46,8 @@ import static org.mockito.Mockito.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("int-test")
 public class CurrentRaceControllerIT {
+  @Rule
+  public MongoDbRule mongoDbRule = new MongoDbRule(mongoDb().databaseName("test").build());
   @Autowired
   private ApplicationContext applicationContext; //Needed by nosqlunit
   @Autowired
@@ -265,16 +267,18 @@ public class CurrentRaceControllerIT {
   @EnableMongoRepositories
   @Profile("int-test")
   static class MongoConfiguration extends AbstractMongoConfiguration {
+    @Value("${spring.data.mongodb.uri}")
+    String mongoUri;
 
     @Override
     protected String getDatabaseName() {
-      return "fongo-test";
+      return "test";
     }
 
     @Bean
     @Override
     public Mongo mongo() {
-      return new Fongo("test-db").getMongo();
+      return new MongoClient(new MongoClientURI(mongoUri));
     }
 
     @Override
