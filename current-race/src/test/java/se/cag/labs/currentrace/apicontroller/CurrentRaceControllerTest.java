@@ -31,7 +31,6 @@ import java.util.*;
 
 import static com.jayway.restassured.RestAssured.*;
 import static com.jayway.restassured.RestAssured.when;
-import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.*;
 import static org.hamcrest.core.Is.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
@@ -46,11 +45,8 @@ import static org.mockito.Mockito.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("test")
 public class CurrentRaceControllerTest {
-  @Rule
-  public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("fongo-test");
   @Autowired
   private ApplicationContext applicationContext; //Needed by nosqlunit
-
   @Autowired
   private CurrentRaceRepository repository;
   @Autowired

@@ -1,5 +1,6 @@
 package se.cag.labs.currentrace.apicontroller;
 
+import com.github.fakemongo.Fongo;
 import com.jayway.restassured.*;
 import com.lordofthejars.nosqlunit.mongodb.*;
 import com.mongodb.*;
