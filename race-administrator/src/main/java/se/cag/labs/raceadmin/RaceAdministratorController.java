@@ -78,18 +78,28 @@ public class RaceAdministratorController {
     userQueueRepository.delete(existingUser.getId());
   }
 
+  @RequestMapping(value="/currentrace")
+  @ApiOperation(value = "Gets the status of the active race")
+  public RaceStatus getCurrentRaceStatus() {
+    Optional<RaceStatus> maybeActiveRace = activeRaceRepository.findAll().stream().findFirst();
+    return maybeActiveRace
+      .orElse(new RaceStatus(null));
+  }
+
   @RequestMapping(value = "/on-race-status-update", method = RequestMethod.POST)
   @ApiOperation(value = "Handle status updates for the current race.")
   public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
     // TODO kontrollera att användaren finns och är aktiv
     // TODO ersätt med en builder?
     log.debug("on-race-status-update:" + status);
-    Optional<RaceStatus> activeRace = activeRaceRepository.findAll().stream().findFirst();
-    if (activeRace.isPresent()) {
+    Optional<RaceStatus> maybeActiveRace = activeRaceRepository.findAll().stream().findFirst();
+    if (maybeActiveRace.isPresent()) {
+      RaceStatus activeRaceStatus = maybeActiveRace.get();
+      status.setUser(activeRaceStatus.getUser());
       clientApiService.sendEvent(ClientApiService.Event.builder().eventType("CURRENT_RACE_STATUS").data(status).build());
       if (status.getState() == RaceStatus.RaceState.INACTIVE) {
         UserResult userResult = new UserResult();
-        userResult.setUser(activeRace.get().getUser());
+        userResult.setUser(activeRaceStatus.getUser());
         if (status.getEvent() == RaceStatus.RaceEvent.FINISH) {
           userResult.setTime(status.getFinishTime() - status.getStartTime());
           userResult.setSplitTime(status.getSplitTime() - status.getStartTime());
@@ -102,15 +112,15 @@ public class RaceAdministratorController {
         clientApiService.sendEvent(ClientApiService.Event.builder().eventType("NEW_RESULT").data(userResult).build());
 
         leaderBoardService.newResult(userResult);
-        activeRaceRepository.delete(activeRace.get().getId());
+        activeRaceRepository.delete(activeRaceStatus.getId());
         startNextRace();
       } else {
-        activeRace.get().setEvent(status.getEvent());
-        activeRace.get().setState(status.getState());
-        activeRace.get().setStartTime(status.getStartTime());
-        activeRace.get().setSplitTime(status.getSplitTime());
-        activeRace.get().setFinishTime(status.getFinishTime());
-        activeRaceRepository.save(activeRace.get());
+        activeRaceStatus.setEvent(status.getEvent());
+        activeRaceStatus.setState(status.getState());
+        activeRaceStatus.setStartTime(status.getStartTime());
+        activeRaceStatus.setSplitTime(status.getSplitTime());
+        activeRaceStatus.setFinishTime(status.getFinishTime());
+        activeRaceRepository.save(activeRaceStatus);
       }
     }
   }

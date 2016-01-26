@@ -1,78 +1,90 @@
 'use strict';
 (function () {
-  angular.module('cag-rms-client').directive('currentRace', ['$timeout', '$http', function ($timeout, $http) {
+  angular.module('cag-rms-client').directive('currentRace', ['$timeout', '$http', function ($timeout, clientApiService) {
     return {
       scope: {},
       restrict: 'E',
-      link: function (scope, elems, attrs) {
-        var timerHandle, statusTimerHandle;
-
-        scope.isRaceActive = false;
-        scope.runningTime = 0;
-        delete scope.startTime;
-        delete scope.startTimeInMillis;
-        delete scope.splitTime;
-        delete scope.finishTime;
-
-        if (attrs.hasOwnProperty('user')) {
-          scope.username = attrs['user'];
-        }
-
-        getStatus();
-        timer();
-
-        scope.$on(
-          '$destroy',
-          function (event) {
-            console.debug('destroy called');
-            $timeout.cancel(timerHandle);
-            $timeout.cancel(statusTimerHandle);
-          }
-        );
-
-        function timer() {
-          if (scope.isRaceActive && scope.startTimeInMillis) {
-            scope.runningTime = Date.now() - scope.startTimeInMillis;
-          }
-          timerHandle = $timeout(timer, 100);
-        }
-
-        function getStatus() {
-          $http({
-            method: 'GET',
-            url: 'http://localhost:10080/status'
-          }).then(function successCallback(response) {
-            console.debug(response.data);
-            scope.isRaceActive = response.data.state === 'ACTIVE';
-            scope.raceEvent = response.data.event;
-            if (response.data.startTime) {
-              scope.startTime = new Date(response.data.startTime);
-              scope.startTimeInMillis = +scope.startTime;
-            }
-            else {
-              delete scope.startTime;
-              delete scope.startTimeInMillis;
-            }
-            if (response.data.middleTime) {
-              scope.splitTime = new Date(response.data.middleTime);
-            }
-            else {
-              delete scope.splitTime;
-            }
-            if (response.data.finishTime) {
-              scope.finishTime = new Date(response.data.finishTime);
-              scope.runningTime = +scope.finishTime - +scope.startTime;
-            }
-            else {
-              delete scope.finishTime;
-            }
-          }, function errorCallback(response) {
-          });
-          statusTimerHandle = $timeout(getStatus, 1000);
-        }
-      },
-      templateUrl: 'currentrace/currentrace.tpl.html'
+      templateUrl: 'currentrace/currentrace.tpl.html',
+      controller: Ctrl
     };
+    function Ctrl($scope, clientApiService) {
+      var timerHandle, statusTimerHandle;
+      var tzOffset = new Date(0).getTimezoneOffset() * 1000 * 60;
+      var scope = $scope;
+      scope.isRaceActive = false;
+      scope.runningTime = 0;
+      scope.startTime = undefined;
+      scope.splitTime = undefined;
+      scope.finishTime = undefined;
 
+      timer();
+
+      clientApiService.addEventListener(handleEvent);
+
+      scope.$on(
+        '$destroy',
+        function () {
+          console.debug('destroy called');
+          clientApiService.removeEventListener(handleEvent);
+          $timeout.cancel(timerHandle);
+          $timeout.cancel(statusTimerHandle);
+        }
+      );
+
+      getStatus();
+
+      // --- Local functions ---
+
+      function handleEvent(event) {
+        console.debug('Event: ', event);
+        if (event.eventType === 'CURRENT_RACE_STATUS') {
+          console.debug('New race status:', event.data);
+          handleRaceStatusUpdate(event.data);
+        }
+      }
+
+      function timer() {
+        if (scope.isRaceActive && scope.startTime) {
+          scope.runningTime = Date.now() - scope.startTime + tzOffset;
+        }
+        timerHandle = $timeout(timer, 100);
+      }
+
+      function getStatus() {
+        clientApiService.getStatus()
+          .then(function (response) {
+            handleRaceStatusUpdate(response.data);
+          });
+      }
+
+      function handleRaceStatusUpdate(raceStatus) {
+        console.debug(raceStatus);
+        scope.isRaceActive = raceStatus.state === 'ACTIVE';
+        scope.raceEvent = raceStatus.event;
+        if (raceStatus.state === 'ACTIVE') {
+          scope.username = raceStatus.user.displayName;
+          if (raceStatus.event === 'NONE') {
+            scope.startTime = undefined;
+            scope.splitTime = undefined;
+            scope.runningTime = undefined;
+            scope.finishTime = undefined;
+          } else if (raceStatus.event === 'START') {
+            scope.startTime = Date.now();
+            scope.splitTime = undefined;
+            scope.runningTime = undefined;
+            scope.finishTime = undefined;
+          } else if (raceStatus.event === 'SPLIT') {
+            scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
+            scope.startTime = Date.now() - scope.splitTime + tzOffset;
+          } else if (raceStatus.event === 'FINISH') {
+            scope.finishTime = raceStatus.finishTime - raceStatus.startTime + tzOffset;
+          }
+        } else if (raceStatus.splitTime && raceStatus.startTime && raceStatus.finishTime) {
+          scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
+          scope.finishTime = raceStatus.finishTime - raceStatus.startTime + tzOffset;
+        }
+      }
+    }
   }]);
+
 }());

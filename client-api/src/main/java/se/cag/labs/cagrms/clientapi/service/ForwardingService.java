@@ -115,7 +115,7 @@ public class ForwardingService {
 
   public ResponseEntity<RaceStatus> getStatus() {
     final URI uri = UriComponentsBuilder
-      .fromHttpUrl(currentRaceBaseUri + "/status")
+      .fromHttpUrl(raceAdminBaseUri + "/currentrace")
       .build()
       .toUri();
     try {

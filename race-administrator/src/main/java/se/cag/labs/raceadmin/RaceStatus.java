@@ -13,7 +13,7 @@ public class RaceStatus {
   private String id;
   private User user;
   private RaceEvent event;
-  private RaceState state;
+  private RaceState state = RaceState.INACTIVE;
   private Long startTime;
   private Long splitTime;
   private Long finishTime;
