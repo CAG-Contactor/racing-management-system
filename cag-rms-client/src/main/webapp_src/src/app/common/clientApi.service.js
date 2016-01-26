@@ -87,6 +87,9 @@
       };
       return backendRequest('DELETE', '/userqueue', {body: userToSend});
     };
+    this.getStatus = function() {
+      return backendRequest('GET', '/currentrace');
+    };
 
     /**
      * Send a request to backend.

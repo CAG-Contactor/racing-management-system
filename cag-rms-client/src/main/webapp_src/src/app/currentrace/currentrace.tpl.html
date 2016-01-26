@@ -1,41 +1,62 @@
-<div>
-  <div style="text-align: center; width: 100%;">
-    <table style="width: 100%;">
-      <tr>
-        <td style="text-align: right; padding-right: 5px;">Tävlande</td>
-        <td style="text-align: left">{{username}}</td>
-      </tr>
-      <tr>
-        <td style="text-align: right; padding-right: 5px;">Starttid</td>
-        <td style="text-align: left">{{startTime | date:'HH:mm:ss.sss'}}</td>
-      </tr>
-      <tr>
-        <td style="text-align: right; padding-right: 5px;">Nuvarande tid</td>
-        <td style="text-align: left">{{runningTime | date:'mm:ss.sss'}}</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;  padding-right: 5px;">Mellantid</td>
-        <td style="text-align: left">
-          <div ng-if="splitTime">
-            {{splitTime | date:'HH:mm:ss.sss'}}
-          </div>
-          <div ng-if="!splitTime">--:--.---</div>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: right;  padding-right: 5px;">Sluttid</td>
-        <td style="text-align: left">{{finishTime | date:'HH:mm:ss.sss'}}</td>
-      </tr>
-    </table>
-  </div>
+<div class="row">
   <div style="text-align: center; padding: 20px;">
-    <div ng-if="isRaceActive">Lopp Pågår!</div>
+    <h1 ng-if="isRaceActive">Lopp pågår</h1>
+    <h2 ng-if="!isRaceActive">Inget lopp pågår</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div style="text-align: center; padding: 20px;">
     <div ng-switch="raceEvent">
-      <div ng-switch-when="DISQUALIFIED">
+      <h2 ng-switch-when="DISQUALIFIED">
         Sucker! diskad!
-      </div>
-      <div ng-switch-default>Inget event värt att notera</div>
+      </h2>
+      <h3 ng-switch-when="NONE">
+        Väntar på start...
+      </h3>
+      <h3 ng-switch-when="START">
+        Loppet har startat!
+      </h3>
+      <h3 ng-switch-when="SPLIT">
+        Mellanstation passerad!
+      </h3>
+      <h2 ng-switch-when="FINISH">
+        Målstation passerad!
+      </h2>
+      <div ng-switch-default></div>
     </div>
-    <div ng-if="!isRaceActive">Klart</div>
+  </div>
+</div>
+<div>
+  <div class="row">
+    <div class="col-xs-6"><span class="pull-right">Tävlande</span></div>
+    <div class="col-xs-6">
+      <span ng-if="username">{{username}}</span>
+      <span ng-if="!username">----</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6"><span class="pull-right">
+      <span ng-if="!finishTime">Tid</span>
+      <span ng-if="finishTime">Sluttid</span>
+    </span></div>
+    <div class="col-xs-6">
+      <div ng-if="runningTime && !finishTime">
+        {{runningTime | date:'HH:mm:ss.sss'}}
+      </div>
+      <div ng-if="finishTime">
+        {{finishTime | date:'HH:mm:ss.sss'}}
+      </div>
+      <div ng-if="!runningTime && !finishTime">--:--.---</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6"><span class="pull-right">Mellantid</span></div>
+    <div class="col-xs-6">
+      <div ng-if="splitTime">
+        {{splitTime | date:'HH:mm:ss.sss'}}
+      </div>
+      <div ng-if="!splitTime">--:--.---</div>
+    </div>
   </div>
 </div>
