@@ -97,9 +97,9 @@
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration>
-                <nodeVersion>v5.5.0</nodeVersion>
-                <npmVersion>3.5.3</npmVersion>
-              </configuration>
+              <nodeVersion>v5.5.0</nodeVersion>
+              <npmVersion>3.5.3</npmVersion>
+            </configuration>
           </execution>
           <execution>
             <id>npm install</id>
@@ -145,5 +145,42 @@
       </plugin>
     </plugins>
   </build>
-
+  <profiles>
+    <profile>
+      <id>clean-node</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>src/main</directory>
+                  <includes>
+                    <include>webapp/**</include>
+                    <include>webapp_build/**</include>
+                    <include>etc/**</include>
+                  </includes>
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
+                <fileset>
+                  <directory>src/main/webapp_src</directory>
+                  <includes>
+                    <include>node*/**</include>
+                    <include>vendor/**</include>
+                    <include>etc/**</include>
+                  </includes>
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
+              </filesets>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
