@@ -52,6 +52,8 @@ public class RaceAdministratorController {
     }
     userQueueRepository.save(user);
 
+    clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
+
     if (userQueueRepository.count() == 1 && activeRaceRepository.count() == 0) {
       startNextRace();
     }
@@ -76,6 +78,7 @@ public class RaceAdministratorController {
     log.debug("DELETE /userqueue:" + user);
     final User existingUser = userQueueRepository.findUserByUserId(user.getUserId());
     userQueueRepository.delete(existingUser.getId());
+    clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
   }
 
   @RequestMapping(value="/currentrace")
