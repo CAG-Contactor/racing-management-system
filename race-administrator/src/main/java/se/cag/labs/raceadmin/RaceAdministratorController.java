@@ -24,6 +24,8 @@ public class RaceAdministratorController {
   @Autowired
   private ActiveRaceRepository activeRaceRepository;
   @Autowired
+  private LastRaceRepository lastRaceRepository;
+  @Autowired
   private LeaderBoardService leaderBoardService;
   @Autowired
   private CurrentRaceService currentRaceService;
@@ -86,6 +88,13 @@ public class RaceAdministratorController {
       .orElse(new RaceStatus(null));
   }
 
+  @RequestMapping(value="/lastrace")
+  @ApiOperation(value="Gets the status of the last race")
+  public RaceStatus getLastRaceStatus() {
+    Optional<LastRaceStatus> maybeLastRace = lastRaceRepository.findAll().stream().findFirst();
+    return (RaceStatus) maybeLastRace.orElse(new RaceStatus(null));
+  }
+
   @RequestMapping(value = "/on-race-status-update", method = RequestMethod.POST)
   @ApiOperation(value = "Handle status updates for the current race.")
   public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
@@ -110,8 +119,9 @@ public class RaceAdministratorController {
           userResult.setResult(UserResult.ResultType.DISQUALIFIED);
         }
         clientApiService.sendEvent(ClientApiService.Event.builder().eventType("NEW_RESULT").data(userResult).build());
-
         leaderBoardService.newResult(userResult);
+        lastRaceRepository.deleteAll();
+        lastRaceRepository.save(activeRaceStatus);
         activeRaceRepository.delete(activeRaceStatus.getId());
         startNextRace();
       } else {

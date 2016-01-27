@@ -1,13 +1,16 @@
 package se.cag.labs.raceadmin;
 
-import com.fasterxml.jackson.annotation.*;
-import lombok.*;
-import org.springframework.data.annotation.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 @Data
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RaceStatus {
+public class RaceStatus implements LastRaceStatus {
   @Id
   @Setter(AccessLevel.PRIVATE)
   private String id;

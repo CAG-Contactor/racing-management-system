@@ -126,13 +126,25 @@ public class ClientApiController {
 
   @RequestMapping(value = "/currentrace", method = RequestMethod.GET)
   @ApiOperation(value = "The current race",
-    notes = "Gets information about the current race")
+          notes = "Gets information about the current race")
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
-    @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+          @ApiResponse(code = 200, message = "The request was handled succesfully and a leaderboard is returned in the body."),
+          @ApiResponse(code = 500, message = "Something went wrong when processing the request")
   })
   public ResponseEntity<RaceStatus> getCurrentRace() {
     log.debug("Get current race");
     return forwardingService.getStatus();
+  }
+
+  @RequestMapping(value = "/lastrace", method = RequestMethod.GET)
+  @ApiOperation(value = "The last race",
+          notes = "Gets information about the last race")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "The request was handled succesfully."),
+          @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+  })
+  public ResponseEntity<RaceStatus> getLastRace() {
+    log.debug("Get last race");
+    return forwardingService.getLastStatus();
   }
 }
