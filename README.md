@@ -35,6 +35,12 @@ With integration-tests (requires local mongod running on port 27017):
 mvn install
 ```
 
+To clean all generated files from node.js in the client, use the profile clean-node:
+
+```sh
+mvn -Pclean-node clean
+```
+
 
 Portar
 ------

@@ -3,7 +3,6 @@ package se.cag.labs.leaderboard;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.data.annotation.*;
-import se.cag.labs.usermanager.*;
 
 @Data
 @RequiredArgsConstructor
@@ -18,6 +17,7 @@ public class RaceStatus {
   private Long startTime;
   private Long splitTime;
   private Long finishTime;
+  private Long currentTime;
   public RaceStatus(User user) {
     this.user = user;
   }

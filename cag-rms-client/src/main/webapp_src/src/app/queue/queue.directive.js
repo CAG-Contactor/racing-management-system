@@ -13,7 +13,7 @@
     };
   }
 
-  function Ctrl(clientApiService) {
+  function Ctrl($scope, clientApiService) {
     var vm = this;
 
     vm.enteredRacers = [];
@@ -21,7 +21,25 @@
     vm.removeMe = removeMe;
     vm.hasEntered = hasEntered;
 
+    clientApiService.addEventListener(handleEvent);
+
+    $scope.$on(
+      '$destroy',
+      function () {
+        console.debug('destroy called');
+        clientApiService.removeEventListener(handleEvent);
+      }
+    );
+
     loadUserQueue();
+
+
+    function handleEvent(event) {
+      console.debug('Event: ', event);
+      if (event.eventType === 'QUEUE_UPDATED') {
+        loadUserQueue();
+      }
+    }
 
     function loadUserQueue() {
       return clientApiService.getUserQueue()

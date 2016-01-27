@@ -140,4 +140,17 @@ public class ForwardingService {
       return ResponseEntity.status(e.getStatusCode()).body(null);
     }
   }
+  public ResponseEntity<Void> resetRace() {
+    final URI uri = UriComponentsBuilder
+      .fromHttpUrl(raceAdminBaseUri + "/reset-race")
+      .build()
+      .toUri();
+    try {
+      final ResponseEntity<Void> response = restTemplate.exchange(uri, HttpMethod.POST, null, new ParameterizedTypeReference<Void>() {
+      });
+      return response;
+    } catch (HttpStatusCodeException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(null);
+    }
+  }
 }

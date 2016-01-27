@@ -136,6 +136,13 @@ public class ClientApiController {
     return forwardingService.getStatus();
   }
 
+
+  @RequestMapping(value="/reset-race", method=RequestMethod.POST)
+  public ResponseEntity<Void> resetRace() {
+    log.debug("Reset current race");
+    return forwardingService.resetRace();
+  }
+
   @RequestMapping(value = "/lastrace", method = RequestMethod.GET)
   @ApiOperation(value = "The last race",
           notes = "Gets information about the last race")

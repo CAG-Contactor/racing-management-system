@@ -16,6 +16,7 @@ public final class RaceStatus {
   private final Date startTime;
   private final Date splitTime;
   private final Date finishTime;
+  private final Date currentTime;
   private final State state;
 
   public enum Event {

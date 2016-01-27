@@ -54,6 +54,8 @@ public class RaceAdministratorController {
     }
     userQueueRepository.save(user);
 
+    clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
+
     if (userQueueRepository.count() == 1 && activeRaceRepository.count() == 0) {
       startNextRace();
     }
@@ -78,13 +80,16 @@ public class RaceAdministratorController {
     log.debug("DELETE /userqueue:" + user);
     final User existingUser = userQueueRepository.findUserByUserId(user.getUserId());
     userQueueRepository.delete(existingUser.getId());
+    clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
   }
 
   @RequestMapping(value="/currentrace")
   @ApiOperation(value = "Gets the status of the active race")
   public RaceStatus getCurrentRaceStatus() {
+    RaceStatus currentRaceStatus = currentRaceService.status();
     Optional<RaceStatus> maybeActiveRace = activeRaceRepository.findAll().stream().findFirst();
     return maybeActiveRace
+      .map(rs -> {rs.setCurrentTime(currentRaceStatus.getCurrentTime());return rs;})
       .orElse(new RaceStatus(null));
   }
 
@@ -135,12 +140,19 @@ public class RaceAdministratorController {
     }
   }
 
+  @RequestMapping(value = "/reset-race", method = RequestMethod.POST)
+  @ApiOperation(value = "Handle status updates for the current race.")
+  public void resetRace() {
+    currentRaceService.cancelRace();
+  }
+
   private void startNextRace() {
     User user = sortedQueue().poll();
     if (user != null) {
       activeRaceRepository.save(new RaceStatus(user));
       currentRaceService.startRace();
       userQueueRepository.delete(user.getId());
+      clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
     }
   }
 

@@ -69,14 +69,16 @@
             scope.runningTime = undefined;
             scope.finishTime = undefined;
           } else if (raceStatus.event === 'START') {
-            scope.startTime = Date.now();
+            scope.startTime = Date.now() - raceStatus.currentTime;
             scope.splitTime = undefined;
             scope.runningTime = undefined;
             scope.finishTime = undefined;
           } else if (raceStatus.event === 'SPLIT') {
+            scope.startTime = Date.now() - raceStatus.currentTime;
             scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
             scope.startTime = Date.now() - scope.splitTime + tzOffset;
           } else if (raceStatus.event === 'FINISH') {
+            scope.startTime = Date.now() - raceStatus.currentTime;
             scope.finishTime = raceStatus.finishTime - raceStatus.startTime + tzOffset;
           }
         } else if (raceStatus.splitTime && raceStatus.startTime && raceStatus.finishTime) {

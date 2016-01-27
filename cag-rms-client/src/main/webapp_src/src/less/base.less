@@ -22,6 +22,7 @@ body {
 
 .site-footer {
   background: url(../../img/ui/bb8.png) no-repeat center bottom 20px;
+  background-size: 200px;
   opacity: 0.5;
   position: absolute;
   bottom: 0;
@@ -94,6 +95,37 @@ input {
   font-size: small;
 }
 
-td.user-queue-item {
+
+.user-queue-item {
   font-family: Arial, sans-sarif;
+  font-size: 16px;
 }
+
+.leaderboard-item {
+  font-family: Arial, sans-sarif;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 768px) {
+  .site-footer {
+    background: url(../../img/ui/bb8.png) no-repeat center bottom 20px;
+    opacity: 0.5;
+    position: absolute;
+    bottom: 0;
+    height: 300px;
+    width: 100%;
+    z-index: -1;
+    //border: green solid 2px;
+  }
+
+  .user-queue-item {
+    font-family: Arial, sans-sarif;
+    font-size: 24px;
+  }
+
+  .leaderboard-item {
+    font-family: Arial, sans-sarif;
+    font-size: 24px;
+  }
+}
+

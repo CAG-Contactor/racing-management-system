@@ -20,6 +20,7 @@ public class RaceStatus implements LastRaceStatus {
   private Long startTime;
   private Long splitTime;
   private Long finishTime;
+  private Long currentTime;
   public RaceStatus(User user) {
     this.user = user;
   }
