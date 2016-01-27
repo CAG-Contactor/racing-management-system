@@ -9,10 +9,10 @@
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>se.cag.labs</groupId>
-    <artifactId>race-manager-system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.3.0.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
@@ -36,20 +36,24 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+      <version>1.16.6</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-core</artifactId>
+      <version>2.2.2</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-spi</artifactId>
+      <version>2.2.2</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
+      <version>2.2.2</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
@@ -59,15 +63,18 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
+      <version>1.5.4</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-spring-web</artifactId>
+      <version>2.2.2</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+      <version>16.0.1</version>
     </dependency>
 
   </dependencies>
