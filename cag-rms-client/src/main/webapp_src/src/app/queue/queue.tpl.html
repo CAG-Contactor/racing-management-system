@@ -9,7 +9,11 @@
     </button>
   </div>
 
-  <table class="table table-bordered">
+  <table class="table">
+    <tr>
+      <th class="user-queue-item">Namn</th>
+      <th class="user-queue-item">Id</th>
+    </tr>
     <tr ng-repeat="racer in vm.enteredRacers">
       <td class="user-queue-item">{{racer.displayName}}</td>
       <td class="user-queue-item">{{racer.userId}}</td>
