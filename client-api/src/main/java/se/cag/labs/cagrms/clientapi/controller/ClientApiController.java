@@ -135,4 +135,11 @@ public class ClientApiController {
     log.debug("Get current race");
     return forwardingService.getStatus();
   }
+
+
+  @RequestMapping(value="/reset-race", method=RequestMethod.POST)
+  public ResponseEntity<Void> resetRace() {
+    log.debug("Reset current race");
+    return forwardingService.resetRace();
+  }
 }

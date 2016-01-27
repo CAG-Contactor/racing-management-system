@@ -128,6 +128,12 @@ public class RaceAdministratorController {
     }
   }
 
+  @RequestMapping(value = "/reset-race", method = RequestMethod.POST)
+  @ApiOperation(value = "Handle status updates for the current race.")
+  public void resetRace() {
+    currentRaceService.cancelRace();
+  }
+
   private void startNextRace() {
     User user = sortedQueue().poll();
     if (user != null) {
