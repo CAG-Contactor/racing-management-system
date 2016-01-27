@@ -26,7 +26,7 @@ public class TimerSensor {
     private static String baseUri;
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("<--Pi4J--> GPIO TimerSensor ... started.");
+        System.out.println("GPIO TimerSensor ... started.");
 
         final GpioController gpio = GpioFactory.getInstance();
         final GpioPinDigitalInput startSensor = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00);
@@ -43,7 +43,7 @@ public class TimerSensor {
                     startTime = System.currentTimeMillis();
 
                     System.out.println(" --> CHANGE ON START SENSOR - TIME: 0" + startTime);
-                    registerEvent("START", "0");
+                    registerEvent("START", String.valueOf(startTime));
                 }
             }
         });
@@ -52,7 +52,7 @@ public class TimerSensor {
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if (event.getState() == PinState.HIGH) {
-                    splitTime = System.currentTimeMillis() - startTime;
+                    splitTime = System.currentTimeMillis();
                     System.out.println(" --> CHANGE ON SPLIT SENSOR - TIME: " + splitTime);
                     registerEvent("SPLIT", String.valueOf(splitTime));
                 }
@@ -63,7 +63,7 @@ public class TimerSensor {
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if (event.getState() == PinState.HIGH) {
-                    finishTime = System.currentTimeMillis() - startTime;
+                    finishTime = System.currentTimeMillis();
                     System.out.println(" --> CHANGE ON FINISH SENSOR - TIME: " + finishTime);
                     registerEvent("FINISH", String.valueOf(finishTime));
                 }
@@ -77,7 +77,7 @@ public class TimerSensor {
 
     private static void registerEvent(String sensor, String time) {
         try {
-            URL url = new URL("http://10.0.1.36:10080/passageDetected?sensorID=" + sensor + "&timestamp=" + time);
+            URL url = new URL("http://54.165.222.28:80/passageDetected?sensorID=" + sensor + "&timestamp=" + time);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
