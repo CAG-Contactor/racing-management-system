@@ -25,4 +25,10 @@ public class CurrentRaceService {
       .build();
     restTemplate.postForObject(uri.toUri(), null, Void.class);
   }
+  public void cancelRace() {
+    final UriComponents uri = UriComponentsBuilder
+      .fromHttpUrl(currentRaceBaseUri + "/cancelRace")
+      .build();
+    restTemplate.postForObject(uri.toUri(), null, Void.class);
+  }
 }
