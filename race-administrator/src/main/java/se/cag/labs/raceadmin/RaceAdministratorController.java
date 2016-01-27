@@ -134,6 +134,7 @@ public class RaceAdministratorController {
       activeRaceRepository.save(new RaceStatus(user));
       currentRaceService.startRace();
       userQueueRepository.delete(user.getId());
+      clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
     }
   }
 
