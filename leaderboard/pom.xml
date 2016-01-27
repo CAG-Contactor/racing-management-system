@@ -12,10 +12,10 @@
   <description>The leaderboard service</description>
 
   <parent>
-    <groupId>se.cag.labs</groupId>
-    <artifactId>race-manager-system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.3.0.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
@@ -40,6 +40,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+      <version>1.16.6</version>
     </dependency>
 
     <dependency>
