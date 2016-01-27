@@ -18,8 +18,15 @@ public class TimerSensor {
     private static long splitTime;
     private static long finishTime;
 
+    public String baseUri;
+
     public static void main(String[] args) throws InterruptedException {
+
+        TimerSensor timerSensor = new TimerSensor();
+
+        timerSensor.baseUri = System.getProperty("server.uri");
         System.out.println("GPIO TimerSensor ... started.");
+        System.out.println("URI: " + timerSensor.baseUri);
 
         final GpioController gpio = GpioFactory.getInstance();
         final GpioPinDigitalInput startSensor = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00);
@@ -34,7 +41,7 @@ public class TimerSensor {
                 startTime = System.currentTimeMillis();
 
                 System.out.println(" --> CHANGE ON START SENSOR - TIME: 0" + startTime);
-                registerEvent("START", String.valueOf(startTime));
+                timerSensor.registerEvent("START", String.valueOf(startTime));
             }
         });
 
@@ -42,7 +49,7 @@ public class TimerSensor {
             if (event.getState() == PinState.HIGH) {
                 splitTime = System.currentTimeMillis();
                 System.out.println(" --> CHANGE ON SPLIT SENSOR - TIME: " + splitTime);
-                registerEvent("SPLIT", String.valueOf(splitTime));
+                timerSensor.registerEvent("SPLIT", String.valueOf(splitTime));
             }
         });
 
@@ -50,7 +57,7 @@ public class TimerSensor {
             if (event.getState() == PinState.HIGH) {
                 finishTime = System.currentTimeMillis();
                 System.out.println(" --> CHANGE ON FINISH SENSOR - TIME: " + finishTime);
-                registerEvent("FINISH", String.valueOf(finishTime));
+                timerSensor.registerEvent("FINISH", String.valueOf(finishTime));
             }
         });
 
@@ -59,9 +66,9 @@ public class TimerSensor {
         }
     }
 
-    private static void registerEvent(String sensor, String time) {
+    private void registerEvent(String sensor, String time) {
         try {
-            URL url = new URL("http://54.165.222.28:80/race/passageDetected?sensorID=" + sensor + "&timestamp=" + time);
+            URL url = new URL(baseUri + "?sensorID=" + sensor + "&timestamp=" + time);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
