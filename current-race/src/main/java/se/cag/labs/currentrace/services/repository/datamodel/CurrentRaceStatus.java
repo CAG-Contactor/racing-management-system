@@ -20,6 +20,7 @@ public class CurrentRaceStatus {
   private String callbackUrl;
   private RaceStatus.Event event;
   private Long raceActivatedTime;
+  private Long localStartTime;
   private Long startTime;
   private Long splitTime;
   private Long finishTime;

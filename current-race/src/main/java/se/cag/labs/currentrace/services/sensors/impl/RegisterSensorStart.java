@@ -9,6 +9,7 @@ public class RegisterSensorStart implements RegisterSensor {
   public boolean updateStatus(CurrentRaceStatus currentRaceStatus, long timestamp) {
     if (!RaceStatus.Event.START.equals(currentRaceStatus.getEvent())) {
       currentRaceStatus.setStartTime(timestamp);
+      currentRaceStatus.setLocalStartTime(System.currentTimeMillis());
       currentRaceStatus.setEvent(RaceStatus.Event.START);
       return true;
     }
