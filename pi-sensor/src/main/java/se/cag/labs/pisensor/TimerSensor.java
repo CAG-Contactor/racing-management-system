@@ -61,7 +61,7 @@ public class TimerSensor {
 
     private static void registerEvent(String sensor, String time) {
         try {
-            URL url = new URL("http://54.165.222.28:80/passageDetected?sensorID=" + sensor + "&timestamp=" + time);
+            URL url = new URL("http://54.165.222.28:80/race/passageDetected?sensorID=" + sensor + "&timestamp=" + time);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
