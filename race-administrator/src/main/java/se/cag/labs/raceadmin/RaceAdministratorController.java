@@ -84,8 +84,10 @@ public class RaceAdministratorController {
   @RequestMapping(value="/currentrace")
   @ApiOperation(value = "Gets the status of the active race")
   public RaceStatus getCurrentRaceStatus() {
+    RaceStatus currentRaceStatus = currentRaceService.status();
     Optional<RaceStatus> maybeActiveRace = activeRaceRepository.findAll().stream().findFirst();
     return maybeActiveRace
+      .map(rs -> {rs.setCurrentTime(currentRaceStatus.getCurrentTime());return rs;})
       .orElse(new RaceStatus(null));
   }
 

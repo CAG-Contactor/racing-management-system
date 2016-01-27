@@ -15,6 +15,7 @@ public class RaceStatus {
   private Long startTime;
   private Long splitTime;
   private Long finishTime;
+  private Long currentTime;
   private RaceStatus.State state;
   private User user;
   public enum Event {
