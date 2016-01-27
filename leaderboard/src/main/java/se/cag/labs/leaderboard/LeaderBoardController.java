@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Log4j
 @Api(basePath = "*",
@@ -42,8 +43,11 @@ public class LeaderBoardController {
     @ApiResponse(code = 200, message = "The leaderboard is returned"),
   })
   public List<UserResult> results() {
-    // TODO sort on time
     log.debug("GET /results");
-    return repository.findAll();
+    return repository.findAll().stream()
+            .filter(r -> r.getResult().equals(ResultType.FINISHED))
+            .sorted((r1, r2) -> (int) r1.getTime() - (int) r2.getTime())
+            .limit(20L)
+            .collect(Collectors.toList());
   }
 }
