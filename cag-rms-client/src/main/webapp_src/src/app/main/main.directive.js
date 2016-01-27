@@ -25,6 +25,29 @@
     vm.connected = false;
     vm.currentUser = clientApiService.getCurrentUser();
     clientApiService.setConnectionListener(connectionListener);
+    clientApiService.addEventListener(handleEvent);
+
+    function handleEvent(event) {
+      console.debug('Event: ', event);
+      if (event.eventType === 'CURRENT_RACE_STATUS') {
+        if (event.data.user.userId === vm.currentUser.userId) {
+          var msg;
+          switch (event.data.event) {
+            case 'NONE': msg = 'Dax att köra';
+              break;
+            case 'START': msg = 'Goooo';
+              break;
+            case 'FINISH': msg = 'Måål';
+              break;
+            default:
+              msg = undefined;
+          }
+          if (msg) {
+            notificationService.showInfoMessage(msg);
+          }
+        }
+      }
+    }
 
     function connectionListener(state) {
       vm.connected = state === 'CONNECTED';
