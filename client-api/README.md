@@ -13,8 +13,8 @@ Denna tjänst tillhandahåller en API-fasad gentemot övriga tjänster i back-en
 Dessutom tillhandahåller den tjänsten att skicka (broadcast) händelse-meddelanden
 till alla cag-rms-client-instanser som är uppkopplade.
 
-REST-metoder
-------------
+REST-metoder, ClientAPI
+-----------------------
 
 ### Registrera användare
 #### Resurs
@@ -95,3 +95,28 @@ Avanmäl genom att vidarebefordra till (GET) _<race-administrator>/currentrace
 
 #### Request body
 A se.cag.labs.cagrms.clientapi.service.User
+
+### Avbryt pågående lopp
+#### Resurs
+POST /reset-race
+
+#### Beskrivning
+Avbryt genom att vidarebefordra till _<race-administrator>/reset-race
+
+REST-metoder, Eventbuss
+-----------------------
+
+### Skicka event
+#### Resurs
+POST /event
+
+#### Beskrivning
+Skicka event till alla uppkopplade cag-rms-client-instanser.
+
+#### Request body
+Ett godtyckligt JSON-objekt som måste innehålla fältet _eventType_, t.ex
+
+  {
+    "eventType":"MyEvent",
+    "someData": "XYZ"
+  }
