@@ -9,14 +9,14 @@
     </button>
   </div>
 
-  <table class="table">
+  <table class="table user-queue">
     <tr>
-      <th class="user-queue-item">Namn</th>
-      <th class="user-queue-item">Id</th>
+      <th>Namn</th>
+      <th>Id</th>
     </tr>
     <tr ng-repeat="racer in vm.enteredRacers">
-      <td class="user-queue-item">{{racer.displayName}}</td>
-      <td class="user-queue-item">{{racer.userId}}</td>
+      <td>{{racer.displayName}}</td>
+      <td>{{racer.userId}}</td>
     </tr>
   </table>
 </div>

@@ -90,6 +90,9 @@
     this.getStatus = function() {
       return backendRequest('GET', '/currentrace');
     };
+    this.getLastRace = function() {
+      return backendRequest('GET', '/lastrace');
+    };
 
     /**
      * Send a request to backend.

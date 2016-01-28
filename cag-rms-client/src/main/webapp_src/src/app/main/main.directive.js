@@ -26,25 +26,26 @@
     vm.currentUser = clientApiService.getCurrentUser();
     clientApiService.setConnectionListener(connectionListener);
     clientApiService.addEventListener(handleEvent);
+    clientApiService.getStatus()
+      .then(function(response){
+        showStartMessage(response.data);
+      });
 
     function handleEvent(event) {
       console.debug('Event: ', event);
       if (event.eventType === 'CURRENT_RACE_STATUS') {
-        if (event.data.user.userId === vm.currentUser.userId) {
-          var msg;
-          switch (event.data.event) {
-            case 'NONE': msg = 'Dax att köra';
-              break;
-            case 'START': msg = 'Goooo';
-              break;
-            case 'FINISH': msg = 'Måål';
-              break;
-            default:
-              msg = undefined;
-          }
-          if (msg) {
-            notificationService.showInfoMessage(msg);
-          }
+        showStartMessage(event.data);
+      }
+    }
+
+    function showStartMessage(raceStatus) {
+      if (raceStatus.user && raceStatus.user.userId === vm.currentUser.userId) {
+        switch (raceStatus.event) {
+          case 'NONE':
+            vm.startMessage = 'Dax att gå till start!!';
+            break;
+          default:
+            vm.startMessage = undefined;
         }
       }
     }
