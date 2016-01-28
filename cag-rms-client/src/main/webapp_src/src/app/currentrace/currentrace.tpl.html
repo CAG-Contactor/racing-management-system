@@ -1,12 +1,12 @@
 <div class="row">
-  <div style="text-align: center; padding: 20px;">
+  <div class="center">
     <h1 ng-if="isRaceActive">Lopp pågår</h1>
-    <h2 ng-if="!isRaceActive">Inget lopp pågår</h2>
+    <h1 ng-if="!isRaceActive">Inget lopp pågår</h1>
   </div>
 </div>
 
 <div class="row">
-  <div style="text-align: center; padding: 20px;">
+  <div class="center">
     <div ng-switch="raceEvent">
       <h2 ng-switch-when="DISQUALIFIED">
         Sucker! diskad!
@@ -27,7 +27,7 @@
     </div>
   </div>
 </div>
-<div>
+<div class="active-race">
   <div class="row">
     <div class="col-xs-6"><span class="pull-right">Tävlande</span></div>
     <div class="col-xs-6">
@@ -58,5 +58,23 @@
       </div>
       <div ng-if="!splitTime">--:--.---</div>
     </div>
+  </div>
+</div>
+<hr>
+<div class="row lastrace">
+  <h4 class="center">Föregående lopp</h4>
+  <div class="center col-xs-12">
+    <table class="center">
+      <tr>
+        <th class="col-xs-2 center"><strong>Tävlande</strong></th>
+        <th class="col-xs-2 center"><strong>Tid</strong></th>
+        <th class="col-xs-2 center"><strong>Mellantid</strong></th>
+      </tr>
+      <tr>
+        <td class="col-xs-2 center">{{lastRace.user}}</td>
+        <td class="col-xs-2 center">{{lastRace.finishTime|date:'HH:mm:ss.sss'}}</td>
+        <td class="col-xs-2 center">{{lastRace.splitTime|date:'HH:mm:ss.sss'}}</td>
+      </tr>
+    </table>
   </div>
 </div>

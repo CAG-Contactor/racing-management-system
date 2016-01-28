@@ -32,6 +32,7 @@
       );
 
       getStatus();
+      updateLastRace();
 
       // --- Local functions ---
 
@@ -80,11 +81,26 @@
           } else if (raceStatus.event === 'FINISH') {
             scope.startTime = Date.now() - raceStatus.currentTime;
             scope.finishTime = raceStatus.finishTime - raceStatus.startTime + tzOffset;
+            $timeout(function(){updateLastRace();},1000);
           }
         } else if (raceStatus.splitTime && raceStatus.startTime && raceStatus.finishTime) {
           scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
           scope.finishTime = raceStatus.finishTime - raceStatus.startTime + tzOffset;
+          $timeout(function(){updateLastRace();},1000);
         }
+      }
+
+      function updateLastRace() {
+        clientApiService.getLastRace()
+          .then(function (response) {
+            if (response.data && response.data.user) {
+              scope.lastRace = {
+                user: response.data.user.displayName,
+                finishTime: response.data.finishTime - response.data.startTime + tzOffset,
+                splitTime: response.data.splitTime - response.data.startTime + tzOffset
+              };
+            }
+          });
       }
     }
   }]);

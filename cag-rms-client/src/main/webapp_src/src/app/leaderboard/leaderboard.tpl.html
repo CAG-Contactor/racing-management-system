@@ -3,18 +3,18 @@
     Resultattavla
   </h2>
 
-  <table class="table table-condensed">
+  <table class="table table-condensed leaderboard">
     <tr>
-      <th class="leaderboard-item">Namn</th>
-      <th class="leaderboard-item">Tid</th>
-      <th class="leaderboard-item">Mellantid</th>
-      <th class="leaderboard-item">Resultat</th>
+      <th>Namn</th>
+      <th>Tid</th>
+      <th>Mellantid</th>
+      <th>Resultat</th>
     </tr>
     <tr ng-repeat="result in vm.results | orderBy : 'user.name'">
-      <td class="leaderboard-item">{{result.user.displayName}}</td>
-      <td class="leaderboard-item">{{result.time|date:'mm:ss:sss'}}</td>
-      <td class="leaderboard-item">{{result.splitTime|date:'mm:ss:sss'}}</td>
-      <td class="leaderboard-item">{{result.result}}</td>
+      <td>{{result.user.displayName}}</td>
+      <td>{{result.time|date:'mm:ss:sss'}}</td>
+      <td>{{result.splitTime|date:'mm:ss:sss'}}</td>
+      <td>{{result.result}}</td>
     </tr>
   </table>
 </div>
