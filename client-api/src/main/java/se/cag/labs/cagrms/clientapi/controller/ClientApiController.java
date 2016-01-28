@@ -67,7 +67,7 @@ public class ClientApiController {
     @ApiResponse(code = 500, message = "Something went wrong when processing the request")
   })
   public ResponseEntity<Void> logout(
-    @RequestHeader String token) {
+    @RequestHeader(name="X-AuthToken") String token) {
     log.debug("Logout: " + token);
     return forwardingService.logout(token);
   }

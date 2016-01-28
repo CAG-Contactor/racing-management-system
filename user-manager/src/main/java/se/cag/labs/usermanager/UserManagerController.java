@@ -54,10 +54,12 @@ public class UserManagerController {
       .body(new UserInfo(u.getUserId(), u.getDisplayName()));
   }
 
-  @RequestMapping(path = "/logout", method = RequestMethod.GET)
+  @RequestMapping(path = "/logout", method = RequestMethod.POST)
   public ResponseEntity<Void> logout(@RequestParam Token token) {
     Session s = sessionRepository.findByToken(token.getToken());
-    sessionRepository.delete(s);
+    if (s != null) {
+      sessionRepository.delete(s);
+    }
     return ResponseEntity.ok().build();
   }
 
