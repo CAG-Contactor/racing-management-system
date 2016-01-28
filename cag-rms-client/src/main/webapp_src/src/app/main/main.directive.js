@@ -26,10 +26,8 @@
     vm.currentUser = clientApiService.getCurrentUser();
     clientApiService.setConnectionListener(connectionListener);
     clientApiService.addEventListener(handleEvent);
-    clientApiService.getStatus()
-      .then(function(response){
-        showStartMessage(response.data);
-      });
+
+    updateStartMessage();
 
     function handleEvent(event) {
       console.debug('Event: ', event);
@@ -54,10 +52,18 @@
       vm.connected = state === 'CONNECTED';
     }
 
+    function updateStartMessage() {
+      clientApiService.getStatus()
+        .then(function (response) {
+          showStartMessage(response.data);
+        });
+    }
+
     function signIn(userid, password) {
       clientApiService.login(userid, password)
         .then(function (userInfo) {
           vm.currentUser = userInfo;
+          updateStartMessage();
         })
         .catch(function (error) {
           console.log(error);
@@ -69,6 +75,7 @@
       console.debug('Sign out');
       vm.currentUser = undefined;
       vm.selection = 'home';
+      vm.startMessage = undefined;
       clientApiService.logout();
     }
 

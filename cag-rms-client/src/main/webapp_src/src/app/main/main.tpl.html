@@ -77,6 +77,7 @@
       </div><!--/.navbar-collapse -->
     </div>
   </nav>
+  <div class="alert alert-danger start-message" ng-if="vm.startMessage">{{vm.startMessage}}</div>
   <div ng-switch on="vm.selection" class="container">
     <div ng-switch-when="home">
       <overview></overview>
@@ -98,6 +99,5 @@
       </h1>
     </div>
   </div>
-  <div class="alert alert-danger start-message" ng-if="vm.startMessage">{{vm.startMessage}}</div>
   <notification-tray style="position: absolute; left:20px; bottom: 20px;"></notification-tray>
 </div>
