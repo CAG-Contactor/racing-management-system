@@ -10,6 +10,8 @@ module.exports = function (grunt) {
 
   var clientApiBaseUrl = grunt.option('clientapibase') || 'localhost:10580';
 
+  var buildInfo = grunt.option('buildinfo') || 'dev-'+Date.now();
+
   /**
    * Load in our build configuration file.
    */
@@ -204,7 +206,7 @@ module.exports = function (grunt) {
         dest: '<%= build_dir %>/',
         options: {
           process: function (content, srcpath) {
-            var newContent = content.replace(/clientApi\:.*\'.*\'/g, "clientApi:'" + clientApiBaseUrl + "'");
+            var newContent = content.replace(/clientApi\:.*\'.*\'/g, "clientApi:'" + clientApiBaseUrl + "',buildInfo:'"+buildInfo+"'");
             console.log('New content: ' + newContent);
             return newContent;
           }

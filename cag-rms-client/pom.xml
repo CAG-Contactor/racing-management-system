@@ -40,6 +40,7 @@
     <!-- Run tests by default -->
     <skipTests>false</skipTests>
     <clientapi.base>localhost:10580</clientapi.base>
+    <buildinfo>Dev Build</buildinfo>
   </properties>
 
   <dependencies>
@@ -138,6 +139,7 @@
                 <argument>--appVersion=${project.version}</argument>
                 <argument>--no-color</argument>
                 <argument>--clientapibase=${clientapi.base}</argument>
+                <argument>--buildinfo="${buildinfo}, built at ${maven.build.timestamp}"</argument>
               </arguments>
             </configuration>
           </execution>
