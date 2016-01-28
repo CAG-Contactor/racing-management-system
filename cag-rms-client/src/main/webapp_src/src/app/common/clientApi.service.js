@@ -145,7 +145,9 @@
     };
 
     this.removeListener = function (listener) {
-      _.remove(listeners, listener);
+      _.remove(listeners, function(l){
+        return l === listener;
+      });
     };
 
     function checkConnection() {
