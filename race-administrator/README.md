@@ -12,71 +12,69 @@ Specifikation
 -------------
 Denna tjänst hanterar en FIFO-kö med tävlande och orkestrerar lopp.
 
-### POST /userqueue
-#### Request body
+### REST-metoder
+#### POST /userqueue
+##### Request body
+se.cag.labs.raceadmin.User
 
-    {
-      userId: string (email)
-    }
-
-#### Beskrivning
+##### Beskrivning
 Mottaget resultat sparas i databasen.
 Lägg mottagen användare i kön. 
 Om aktiv tävlande finns så händer inget mer.
 Om lopp ej pågår så tas nästa användare från kön och sätts som aktiv tävlande. 
-Lopp startas sedan genom att POST:a current-race/startRace med callbackUrl= <egen server>/onracestatusupdate.
+Lopp startas sedan genom att POST:a current-race/startRace med callbackUrl= <egen server>/on-race-status-update.
 
-### GET /userqueue
-#### Response body
+#### GET /userqueue
+##### Response body
+List<se.cag.labs.raceadmin.User>
 
-    [
-      {
-        "userId": string (email),
-        "displayName": string
-      },
-      :
-    ]
-#### Beskrivning
-Läsa upp aktuell kö. Det första elementet i kön är aktiv tävlande.
+##### Beskrivning
+Läsa upp aktuell kö.
 
-### POST /onracestatusupdate(status: RaceStatus)
-#### Request body
+#### GET /currentrace
+##### Response body
+se.cag.labs.raceadmin.RaceStatus
 
-    {
-      event: string (NONE,START,SPLIT,FINISH,TIME_OUT_NOT_STARTED,TIME_OUT_NOT_FINISHED,DISQUALIFIED)
-      startTime: number (millis)
-      splitTime: number (millis)
-      finishTime: number (millis)
-      state: string (ACTIVE,INACTIVE)
-    }
+##### Beskrivning
+Läsa upp status för pågående lopp.
+
+
+#### POST /on-race-status-update
+##### Request body
+se.cag.labs.raceadmin.RaceStatus
     
-#### Beskrivning
+##### Beskrivning
 Om det inte finns någon aktiv tävlande ignoreras request.
 
-Om aktiv tävlande finns så anropas leaderloard/results med 
+Om aktiv tävlande finns och loppet fortfarande pågår skickas event:
 
     {
-      userId: string (email)
-      time: number (millis)
-      splitTime: number (millis)
-      result: string (FINISH,WALKOVER,DISQUALIFIED)
+        "eventType":"CURRENT_RACE_STATUS", 
+        "data": <se.cag.labs.raceadmin.RaceStatus>
     }
+
+till eventbuss.
+
+Annars, om aktiv tävlande finns och loppet är avslutat, så anropas leaderloard/results med se.cag.labs.raceadmin.UserResult.
 
 - result.time = status.finishTime - status.startTime
-- result.middleTime = status.splitTime - status.startTime
-- result.user = ID för aktiv tävlande
+- result.splitTime = status.splitTime - status.startTime
+- result.user = se.cag.labs.raceadmin.User för aktiv tävlande
 - result.result =
-    FINISHED: status.event = FINISH
-    WALKOVER: status.event = {TIME_OUT_NOT_STARTED ,TIME_OUT_NOT_FINISHED}
-    DISQUALIFIED: status.event = alla andra händelsetyper
+    FINISHED: om status.event == FINISH
+    WALKOVER: om status.event == {TIME_OUT_NOT_STARTED ,TIME_OUT_NOT_FINISHED}
+    DISQUALIFIED: om status.event == alla andra händelsetyper
 
-Dessutom skickas en händelse till klient via client-api/event:
+Dessutom skickas ett event: 
 
     {
-      userId: string (email)
-      event: string (NONE,START,SPLIT,FINISH,TIME_OUT_NOT_STARTED,TIME_OUT_NOT_FINISHED,DISQUALIFIED)
-      startTime: number (millis)
-      splitTime: number (millis)
-      finishTime: number (millis)
-      state: string (ACTIVE,INACTIVE)
+        "eventType":"NEW_RESULT",
+        "data":<se.cag.labs.raceadmin.UserResult>
     }
+    
+till eventbuss.
+
+#### POST /reset-race
+
+##### Beskrivning
+Avbryt pågående lopp. Anropar <current-race>/cancelRace.

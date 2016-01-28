@@ -4,9 +4,10 @@ CAG Racing Management System
 Build
 -----
 
-    $ mvn clean install [ -Dclientapi.base=<clientapi server address> ]
+    $ mvn clean install [ -Dclientapi.base=<clientapi server address> ] [ -Pclean-node ]
 
 - clientapi server address: see below
+- clean-node: this profile removes node/ node_modules and /vendor src/main/webapp_src
 
 This installs node, npm and builds the entire web application.
 
@@ -21,11 +22,11 @@ The application is available in src/main/webapp_src
 - src/index.html: main page
 - src/app: the actual application code (js, html)
 - src/assets: images, fonts
-- src/less: as the name implies...
+- src/less: as the name implies... base.less is the application specific styles
 - src/common: some basic stuff, not part of the application
 
 #### Application structure
-The following main modules exists
+The following application modules exists
 
 - src/app/common: common stuff in the Application
   - clientApi.service: Service for accessing back-end
@@ -38,10 +39,11 @@ bar and content area containing the other components.
 - src/app/notification: service for showing error and info notifications
 
 ### Run application
+This requires that maven build has been done as described above.
 
   $ cd src/main/webapp_src
-  $ npm install
-  $ grunt serve --clientapibase=<clientapi server address>
+  $ ./node/npm install
+  $ ./node_modules/.bin/grunt serve --clientapibase=<clientapi server address>
 
 Open browser at http://localhost:9002  
 
@@ -53,5 +55,5 @@ Debugging Events
 When debugging it is possible to show notifications for all events received via
 the websocket channels.
 
-This is done by setting the parameter _ls.droid.showevents_ to true in the
-local storage of the browser (possible with developer tools).
+This is done by setting the parameter ls.droid.showevents to true in the
+local storage of the browser (in chrome it is accessed in developer tools -> resources).
