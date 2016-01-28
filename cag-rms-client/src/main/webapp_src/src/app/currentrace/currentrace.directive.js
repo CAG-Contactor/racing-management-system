@@ -77,7 +77,6 @@
           } else if (raceStatus.event === 'SPLIT') {
             scope.startTime = Date.now() - raceStatus.currentTime;
             scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
-            scope.startTime = Date.now() - scope.splitTime + tzOffset;
           } else if (raceStatus.event === 'FINISH') {
             scope.startTime = Date.now() - raceStatus.currentTime;
             scope.finishTime = raceStatus.finishTime - raceStatus.startTime + tzOffset;
