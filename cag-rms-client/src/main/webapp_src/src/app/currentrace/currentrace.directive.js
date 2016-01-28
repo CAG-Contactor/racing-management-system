@@ -96,10 +96,20 @@
               scope.lastRace = {
                 user: response.data.user.displayName,
                 finishTime: response.data.finishTime - response.data.startTime + tzOffset,
-                splitTime: response.data.splitTime - response.data.startTime + tzOffset
+                splitTime: response.data.splitTime - response.data.startTime + tzOffset,
+                result: getResult(response.data.event)
               };
             }
           });
+      }
+
+      function getResult(event) {
+        switch(event) {
+          case 'DISQUALIFIED': return 'Diskad';
+          case 'TIME_OUT_NOT_STARTED': return 'Walkover';
+          case 'TIME_OUT_NOT_FINISHED': return 'Gick aldirg i mål';
+          default: return 'Godkänd';
+        }
       }
     }
   }]);
