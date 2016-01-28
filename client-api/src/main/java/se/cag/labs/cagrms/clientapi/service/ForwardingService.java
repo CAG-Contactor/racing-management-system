@@ -115,9 +115,23 @@ public class ForwardingService {
 
   public ResponseEntity<RaceStatus> getStatus() {
     final URI uri = UriComponentsBuilder
-      .fromHttpUrl(raceAdminBaseUri + "/currentrace")
-      .build()
-      .toUri();
+            .fromHttpUrl(raceAdminBaseUri + "/currentrace")
+            .build()
+            .toUri();
+    try {
+      final ResponseEntity<RaceStatus> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<RaceStatus>() {
+      });
+      return response;
+    } catch (HttpStatusCodeException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(null);
+    }
+  }
+
+  public ResponseEntity<RaceStatus> getLastStatus() {
+    final URI uri = UriComponentsBuilder
+            .fromHttpUrl(raceAdminBaseUri + "/lastrace")
+            .build()
+            .toUri();
     try {
       final ResponseEntity<RaceStatus> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<RaceStatus>() {
       });
