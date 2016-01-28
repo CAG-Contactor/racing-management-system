@@ -126,7 +126,8 @@ public class RaceAdministratorController {
         clientApiService.sendEvent(ClientApiService.Event.builder().eventType("NEW_RESULT").data(userResult).build());
         leaderBoardService.newResult(userResult);
         lastRaceRepository.deleteAll();
-        lastRaceRepository.save(activeRaceStatus);
+        lastRaceRepository.save(status);
+
         activeRaceRepository.delete(activeRaceStatus.getId());
         startNextRace();
       } else {
