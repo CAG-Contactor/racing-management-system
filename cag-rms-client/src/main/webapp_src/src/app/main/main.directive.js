@@ -12,11 +12,12 @@
     };
   }
 
-  function Ctrl(registerModal, clientApiService, notificationService) {
+  function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) {
     var vm = this;
     var connectionStyle = {
       color: 'red'
     };
+    vm.buildInfo = APP_CONFIG.buildInfo;
     vm.signIn = signIn;
     vm.signOut = signOut;
     vm.setSelection = setSelection;

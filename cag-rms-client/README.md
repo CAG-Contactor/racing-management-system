@@ -4,11 +4,15 @@ CAG Racing Management System
 Build
 -----
 
-    $ mvn clean install [ -Dclientapi.base=<clientapi server address> ] [ -Pclean-node ]
+    $ mvn clean install [ -Dclientapi.base=<clientapi server address> ] [-Dbuildinfo=<buildinfo>][ -Pclean-node ]
 
 - clientapi server address: see below
 - clean-node: this profile removes node/ node_modules and /vendor src/main/webapp_src
+- buildinfo: some string identifying the build, e.g "$(git log -1 --pretty='%H %cd')"; 
+  defaults to ${maven.build.timestamp}. This build info is displayed when clicking on 
+  "CAG DROID RACE"-logo in upper left corner.
 
+ 
 This installs node, npm and builds the entire web application.
 
 The unminified result is then available in src/main/webapp_build and
