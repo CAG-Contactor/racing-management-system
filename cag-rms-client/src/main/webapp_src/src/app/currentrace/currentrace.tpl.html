@@ -62,21 +62,22 @@
 </div>
 <hr>
 <div class="row lastrace">
-  <h4 class="center">Föregående lopp</h4>
+  <div class="center"><strong>Föregående lopp</strong></div>
+  <br>
   <div class="center col-xs-12">
     <table class="center">
       <tr>
         <th class="col-xs-2 center"><strong>Tävlande</strong></th>
         <th class="col-xs-2 center"><strong>Tid</strong></th>
         <th class="col-xs-2 center"><strong>Mellantid</strong></th>
-        <th class="col-xs-2 center"><strong>Resultat</strong></th>
       </tr>
       <tr>
         <td class="col-xs-2 center">{{lastRace.user}}</td>
         <td class="col-xs-2 center">{{lastRace.finishTime|date:'HH:mm:ss.sss'}}</td>
         <td class="col-xs-2 center">{{lastRace.splitTime|date:'HH:mm:ss.sss'}}</td>
-        <td class="col-xs-2 center">{{lastRace.result}}</td>
       </tr>
     </table>
+    <br>
+    <h5 class="center"><strong>Resultat: {{lastRace.result}}</strong></h5>
   </div>
 </div>
