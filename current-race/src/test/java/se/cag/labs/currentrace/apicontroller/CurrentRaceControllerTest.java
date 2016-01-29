@@ -1,38 +1,53 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import com.github.fakemongo.*;
-import com.jayway.restassured.*;
-import com.lordofthejars.nosqlunit.mongodb.*;
-import com.mongodb.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.mockito.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.*;
-import org.springframework.context.*;
-import org.springframework.context.annotation.*;
-import org.springframework.core.*;
-import org.springframework.data.mongodb.config.*;
-import org.springframework.data.mongodb.repository.config.*;
-import org.springframework.http.*;
-import org.springframework.test.annotation.*;
-import org.springframework.test.context.*;
-import org.springframework.test.context.junit4.*;
-import org.springframework.test.context.web.*;
-import org.springframework.test.util.*;
-import org.springframework.web.client.*;
-import se.cag.labs.currentrace.*;
-import se.cag.labs.currentrace.apicontroller.apimodel.*;
-import se.cag.labs.currentrace.services.*;
-import se.cag.labs.currentrace.services.repository.*;
-import se.cag.labs.currentrace.services.repository.datamodel.*;
+import com.github.fakemongo.Fongo;
+import com.jayway.restassured.RestAssured;
+import com.mongodb.Mongo;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.RestTemplate;
+import se.cag.labs.currentrace.CurrentRaceApplication;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.currentrace.apicontroller.apimodel.User;
+import se.cag.labs.currentrace.services.CallbackService;
+import se.cag.labs.currentrace.services.UserManagerService;
+import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import static com.jayway.restassured.RestAssured.*;
+import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
-import static org.hamcrest.core.Is.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -174,37 +189,34 @@ public class CurrentRaceControllerTest {
 
     currentRaceStatus = repository.findByRaceId(CurrentRaceStatus.ID);
 
-    // TODO fix
-//    verify(restTemplateMock, times(1)).postForLocation(
-//      "http://localhost:" + port + "/onracestatusupdate",
-//      RaceStatus.builder()
-//        .event(RaceStatus.Event.START)
-//        .startTime(new Date(1234))
-//        .state(RaceStatus.State.ACTIVE)
-//        .build());
-//    verify(restTemplateMock, times(1)).postForLocation(
-//      "http://localhost:" + port + "/onracestatusupdate",
-//      RaceStatus.builder()
-//        .event(RaceStatus.Event.SPLIT)
-//        .startTime(new Date(1234))
-//        .splitTime(new Date(12345))
-//        .state(RaceStatus.State.ACTIVE)
-//        .build());
-//    verify(restTemplateMock, times(1)).postForLocation(
-//      "http://localhost:" + port + "/onracestatusupdate",
-//      RaceStatus.builder()
-//        .event(RaceStatus.Event.FINISH)
-//        .startTime(new Date(1234))
-//        .splitTime(new Date(12345))
-//        .finishTime(new Date(123456))
-//        .state(RaceStatus.State.INACTIVE)
-//        .build());
-//    assertNotNull(currentRaceStatus);
-//    assertEquals(new Long(1234), currentRaceStatus.getStartTime());
-//    assertEquals(new Long(12345), currentRaceStatus.getSplitTime());
-//    assertEquals(new Long(123456), currentRaceStatus.getFinishTime());
-//    assertEquals(RaceStatus.Event.FINISH, currentRaceStatus.getEvent());
-//    assertEquals(RaceStatus.State.INACTIVE, currentRaceStatus.getState());
+    ArgumentCaptor<RaceStatus> raceStatusArgumentCaptor = ArgumentCaptor.forClass(RaceStatus.class);
+    verify(restTemplateMock, times(3)).postForLocation(
+      eq("http://localhost:" + port + "/onracestatusupdate"),
+      raceStatusArgumentCaptor.capture());
+
+    List<RaceStatus> capturedStatuses = raceStatusArgumentCaptor.getAllValues();
+
+    assertEquals(RaceStatus.Event.START, capturedStatuses.get(0).getEvent());
+    assertEquals(new Date(1234), capturedStatuses.get(0).getStartTime());
+    assertEquals(RaceStatus.State.ACTIVE, capturedStatuses.get(0).getState());
+
+    assertEquals(RaceStatus.Event.SPLIT, capturedStatuses.get(1).getEvent());
+    assertEquals(new Date(1234), capturedStatuses.get(1).getStartTime());
+    assertEquals(new Date(12345), capturedStatuses.get(1).getSplitTime());
+    assertEquals(RaceStatus.State.ACTIVE, capturedStatuses.get(1).getState());
+
+    assertEquals(RaceStatus.Event.FINISH, capturedStatuses.get(2).getEvent());
+    assertEquals(new Date(1234), capturedStatuses.get(2).getStartTime());
+    assertEquals(new Date(12345), capturedStatuses.get(2).getSplitTime());
+    assertEquals(new Date(123456), capturedStatuses.get(2).getFinishTime());
+    assertEquals(RaceStatus.State.INACTIVE, capturedStatuses.get(2).getState());
+
+    assertNotNull(currentRaceStatus);
+    assertEquals(new Long(1234), currentRaceStatus.getStartTime());
+    assertEquals(new Long(12345), currentRaceStatus.getSplitTime());
+    assertEquals(new Long(123456), currentRaceStatus.getFinishTime());
+    assertEquals(RaceStatus.Event.FINISH, currentRaceStatus.getEvent());
+    assertEquals(RaceStatus.State.INACTIVE, currentRaceStatus.getState());
   }
 
   @Test
