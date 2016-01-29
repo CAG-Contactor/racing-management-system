@@ -11,31 +11,18 @@ Finns på <host>/swagger-ui.html
 Specifikation
 -------------
 Denna tjänst hanterar resultat från körda lopp. 
-### Registrera nytt resultat
-#### Resurs
-POST /results
-#### Request body
-_UserResult_
-    
 
-####Beskrivning
+#### POST /results
+Registrera nytt resultat.
+
 Mottaget resultat sparas i databasen.
+#### Request body
+se.cag.labs.leaderboard.UserResult
 
-### Hämta resultatlista
-#### Resurs
-GET /results 
-#### Response body
+#### GET /results 
+Hämta resultatlista.
 
-    [ UserResult, ... ]
-
-####Beskrivning
 Returnera alla sparade resultat sorterad på tid. Lopp som ej har result=FINISHED läggs sist i listan, sorterad på användarnamn.
+#### Response body
+List<se.cag.labs.leaderboard.UserResult>
 
-#### Dataobjekt
-##### UserResult
-    {
-      userId: String (email),
-      time: number (millis)
-      splitTime: number (millis)
-      result: string (FINISHED,WALKOVER,DISQUALIFIED)
-    }

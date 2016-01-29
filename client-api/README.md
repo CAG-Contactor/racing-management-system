@@ -17,102 +17,58 @@ REST-metoder
 -----------------------
 #### ClientAPI
 
-#### Registrera användare
-##### Resurs
-POST /users
-
-##### Beskrivning
+##### POST /users
 Registrera en användare genom att vidarebefordra till _<user-manager>/users_
-
 ##### Request body
 A se.cag.labs.cagrms.clientapi.service.User
 
-#### Logga in
-##### Resurs
-POST /login
-
-##### Beskrivning
+##### POST /login
 Logga in användare genom att vidarebefordra till _<user-manager>/login_
-
 ##### Request body
 A se.cag.labs.cagrms.clientapi.service.User
 
-#### Logga ut
-##### Resurs
-POST /logout
-
-##### Beskrivning
+##### POST /logout
 Logga ut användare genom att vidarebefordra till _<user-manager>/logout?token=<värde från X-AuthToken header>_
-
 ##### Header parameter
 X-AuthToken: sessionstoken för inloggad användare
 
-#### Läsa upp resultattavla
-##### Resurs
-GET /leaderboard
-
-##### Beskrivning
+##### GET /leaderboard
 Hämta resultattavla genom att vidarebefordra till _<leaderboard>/results_
-
 ##### Response body
 List<se.cag.labs.cagrms.clientapi.service.UserResult>
 
-#### Läsa upp kön av användare som väntar på att köra lopp
-##### Resurs
-GET /userqueue
-
-##### Beskrivning
+##### GET /userqueue
 Hämta kön genom att vidarebefordra till (GET) _<race-administrator>/userqueue
-
 ##### Response body
 List<se.cag.labs.cagrms.clientapi.service.User>
 
-#### Anmäla sig till lopp
-##### Resurs
-POST /userqueue
-
-##### Beskrivning
+#### POST /userqueue
 Anmäl genom att vidarebefordra till (POST) _<race-administrator>/userqueue_
-
 ##### Request body
 A se.cag.labs.cagrms.clientapi.service.User
 
-#### Avanmäla sig från lopp
-##### Resurs
-DELETE /userqueue
-
-##### Beskrivning
+##### DELETE /userqueue
 Avanmäl genom att vidarebefordra till (DELETE) _<race-administrator>/userqueue_
-
 ##### Request body
 A se.cag.labs.cagrms.clientapi.service.User
 
-#### Hämta information om aktuellt lopp
-##### Resurs
-GET /currentrace
+##### GET /currentrace
+Vidarebefordra till (GET) _<race-administrator>/currentrace
+##### Response body
+A se.cag.labs.cagrms.clientapi.service.RaceStatus
 
-##### Beskrivning
-Avanmäl genom att vidarebefordra till (GET) _<race-administrator>/currentrace
+#### GET /lastrace
+Läsa upp status för senast avslutade lopp.
+##### Response body
+se.cag.labs.raceadmin.RaceStatus
 
-##### Request body
-A se.cag.labs.cagrms.clientapi.service.User
-
-#### Avbryt pågående lopp
-##### Resurs
-POST /reset-race
-
-##### Beskrivning
+##### POST /reset-race
 Avbryt genom att vidarebefordra till _<race-administrator>/reset-race
 
 ### Eventbuss
 
-#### Skicka event
-##### Resurs
-POST /event
-
-##### Beskrivning
+##### POST /event
 Skicka event till alla uppkopplade cag-rms-client-instanser.
-
 ##### Request body
 Ett godtyckligt JSON-objekt som måste innehålla fältet _eventType_, t.ex
 

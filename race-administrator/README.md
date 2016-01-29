@@ -13,39 +13,35 @@ Specifikation
 Denna tjänst hanterar en FIFO-kö med tävlande och orkestrerar lopp.
 
 ### REST-metoder
-#### POST /userqueue
-##### Request body
-se.cag.labs.raceadmin.User
 
-##### Beskrivning
+#### POST /userqueue
 Mottaget resultat sparas i databasen.
 Lägg mottagen användare i kön. 
 Om aktiv tävlande finns så händer inget mer.
 Om lopp ej pågår så tas nästa användare från kön och sätts som aktiv tävlande. 
 Lopp startas sedan genom att POST:a current-race/startRace med callbackUrl= <egen server>/on-race-status-update.
+##### Request body
+se.cag.labs.raceadmin.User
 
 #### GET /userqueue
+Läsa upp aktuell kö.
 ##### Response body
 List<se.cag.labs.raceadmin.User>
 
-##### Beskrivning
-Läsa upp aktuell kö.
-
 #### GET /currentrace
+Läsa upp status för pågående lopp.
 ##### Response body
 se.cag.labs.raceadmin.RaceStatus
 
-##### Beskrivning
-Läsa upp status för pågående lopp.
+#### GET /lastrace
+Läsa upp status för senast avslutade lopp.
+##### Response body
+se.cag.labs.raceadmin.RaceStatus
 
 
 #### POST /on-race-status-update
-##### Request body
-se.cag.labs.raceadmin.RaceStatus
-    
-##### Beskrivning
+Hantera statusuppdatering från current-race-tjänsten.
 Om det inte finns någon aktiv tävlande ignoreras request.
-
 Om aktiv tävlande finns och loppet fortfarande pågår skickas event:
 
     {
@@ -54,7 +50,6 @@ Om aktiv tävlande finns och loppet fortfarande pågår skickas event:
     }
 
 till eventbuss.
-
 Annars, om aktiv tävlande finns och loppet är avslutat, så anropas leaderloard/results med se.cag.labs.raceadmin.UserResult.
 
 - result.time = status.finishTime - status.startTime
@@ -72,9 +67,10 @@ Dessutom skickas ett event:
         "data":<se.cag.labs.raceadmin.UserResult>
     }
     
-till eventbuss.
+till eventbussen.
+##### Request body
+se.cag.labs.raceadmin.RaceStatus
+    
 
 #### POST /reset-race
-
-##### Beskrivning
 Avbryt pågående lopp. Anropar <current-race>/cancelRace.
