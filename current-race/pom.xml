@@ -24,6 +24,7 @@
     <artifactFinalName>cag-${project.artifactId}</artifactFinalName>
     <tomcat.version>8.0.28</tomcat.version>
     <spring.boot.version>1.3.2.RELEASE</spring.boot.version>
+    <io.springfox.version>2.2.2</io.springfox.version>
     <skipITs>true</skipITs>
   </properties>
 
@@ -47,6 +48,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
       <version>${spring.boot.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -82,22 +88,22 @@
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-core</artifactId>
-      <version>2.2.2</version>
+      <version>${io.springfox.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-spi</artifactId>
-      <version>2.2.2</version>
+      <version>${io.springfox.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
-      <version>2.2.2</version>
+      <version>${io.springfox.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.2.2</version>
+      <version>${io.springfox.version}</version>
     </dependency>
     <dependency>
       <groupId>io.swagger</groupId>
@@ -107,19 +113,19 @@
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-spring-web</artifactId>
-      <version>2.2.2</version>
+      <version>${io.springfox.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.6.3</version>
+      <version>2.6.5</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.6.3</version>
+      <version>2.6.5</version>
     </dependency>
 
     <dependency>
@@ -127,6 +133,19 @@
       <artifactId>lombok</artifactId>
       <version>1.16.6</version>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>${tomcat.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <scope>compile</scope>
     </dependency>
 
     <!-- Test -->
@@ -170,6 +189,11 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
 
