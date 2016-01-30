@@ -95,8 +95,8 @@
             if (response.data && response.data.user) {
               scope.lastRace = {
                 user: response.data.user.displayName,
-                finishTime: response.data.finishTime - response.data.startTime + tzOffset,
-                splitTime: response.data.splitTime - response.data.startTime + tzOffset,
+                finishTime: response.data.finishTime ? response.data.finishTime - response.data.startTime + tzOffset : undefined,
+                splitTime: response.data.splitTime ? response.data.splitTime - response.data.startTime + tzOffset : undefined,
                 result: getResult(response.data.event)
               };
             }
