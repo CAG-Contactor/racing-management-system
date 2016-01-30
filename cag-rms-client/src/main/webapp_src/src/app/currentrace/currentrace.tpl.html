@@ -64,7 +64,7 @@
 <div class="row lastrace">
   <div class="center"><strong>Föregående lopp</strong></div>
   <br>
-  <div class="center col-xs-12">
+  <div class="center col-xs-12" ng-if="lastRace">
     <table class="center">
       <tr>
         <th class="col-xs-2 center"><strong>Tävlande</strong></th>
@@ -73,16 +73,24 @@
       </tr>
       <tr>
         <td class="col-xs-2 center">{{lastRace.user}}</td>
-        <td class="col-xs-2 center">{{lastRace.finishTime|date:'HH:mm:ss.sss'}}</td>
         <td class="col-xs-2 center">
-          <div ng-if="lastRace && lastRace.splitTime">
+          <div ng-if="lastRace.finishTime">
+            {{lastRace.finishTime|date:'HH:mm:ss.sss'}}
+          </div>
+          <div ng-if="!lastRace.finishTime">--:--.---</div>
+        </td>
+        <td class="col-xs-2 center">
+          <div ng-if="lastRace.splitTime">
             {{lastRace.splitTime|date:'HH:mm:ss.sss'}}
           </div>
-          <div ng-if="lastRace && !lastRace.splitTime">--:--.---</div>
+          <div ng-if="!lastRace.splitTime">--:--.---</div>
         </td>
       </tr>
     </table>
     <br>
     <h5 class="center"><strong>Resultat: {{lastRace.result}}</strong></h5>
+  </div>
+  <div class="center col-xs-12" ng-if="!lastRace">
+    <h5 class="center"><strong>Inget lopp hart körts än</strong></h5>
   </div>
 </div>
