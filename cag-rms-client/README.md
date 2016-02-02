@@ -51,7 +51,7 @@ This requires that maven build has been done as described above.
 
 Open browser at http://localhost:9002  
 
-- clientapi server address: the base URL of the client API backend. Defaults to localhost:10580
+- clientapi server address: the base URL of the client API backend. Defaults to http://localhost:10580
 
 
 Debugging Events

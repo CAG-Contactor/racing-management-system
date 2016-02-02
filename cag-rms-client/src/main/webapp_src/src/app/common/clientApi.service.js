@@ -122,7 +122,7 @@
       contents.params.reqver = new Date().getTime();
       return $http({
         method: method,
-        url: 'http://' + APP_CONFIG.clientApi + resourcePath,
+        url: APP_CONFIG.clientApi + resourcePath,
         params: contents.params,
         headers: contents.headers,
         data: contents.body
@@ -160,7 +160,7 @@
 
     function connect() {
       state = 'CONNECTING';
-      var wsUri = 'http://' + APP_CONFIG.clientApi + '/eventchannel';
+      var wsUri = APP_CONFIG.clientApi + '/eventchannel';
       notifyConnectionListener();
 
       var eventBusWS = new SockJS(wsUri);

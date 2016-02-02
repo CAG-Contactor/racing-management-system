@@ -40,7 +40,7 @@
 
     <!-- Run tests by default -->
     <skipTests>false</skipTests>
-    <clientapi.base>localhost:10580</clientapi.base>
+    <clientapi.base>http://localhost:10580</clientapi.base>
     <buildinfo>Dev Build</buildinfo>
   </properties>
 
