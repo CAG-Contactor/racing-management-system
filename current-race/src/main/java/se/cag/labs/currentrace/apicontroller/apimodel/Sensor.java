@@ -1,4 +1,4 @@
-package se.cag.labs.raceadmin;
+package se.cag.labs.currentrace.apicontroller.apimodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
