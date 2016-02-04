@@ -56,6 +56,7 @@ import {NgClass} from "../jspm_packages/npm/angular2@2.0.0-alpha.44/ts/src/core/
       <dt>t<sub>mål</sub></dt>
       <dd>{{tFinish}} (&Delta;t<sub>mål-start</sub> {{tFinish > tStart && tFinish > tSplit? (tFinish - tStart)/1000.0 : '--'}} s)</dd>
   </dl>
+ <button type="button" class="btn btn-danger" (click)="resetRace()">Reset Race</button>
   <div *ng-if="errorMessage">
     <br>
     <div class="alert alert-danger" role="alert">{{errorMessage}}</div>
@@ -107,7 +108,7 @@ export class Main {
       sensorID: sensorId,
       timestamp: time
     });
-    this.http.post(this.serverAddress + '/passageDetected?sensorID=' + sensorId + '&timestamp=' + time)
+    this.http.post(this.serverAddress + 'race/passageDetected?sensorID=' + sensorId + '&timestamp=' + time)
       .subscribe(
         response => {
           console.debug('res:', response);
@@ -121,7 +122,24 @@ export class Main {
     console.debug(sensorId);
 
   }
+
+  resetRace(){
+    this.http.post(this.serverAddress + 'api/reset-race')
+        //https://droidrace.caglabs.se/api/reset-race
+        .subscribe(
+            response => {
+              console.debug('res:', response);
+            },
+            err => {
+              console.warn('err:', err);
+              this.errorMessage = 'Oops, nåt gick åt skogen när resetRace skulle skickas!';
+            },
+            () => console.debug('XHR request completed')
+        );
+    console.debug("Reset race");
+  }
 }
+
 
 function putToLocalStorage(key:string, value:any) {
   if (typeof(Storage) !== "undefined") {
