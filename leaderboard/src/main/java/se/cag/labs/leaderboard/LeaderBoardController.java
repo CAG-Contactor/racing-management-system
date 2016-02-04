@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
 @Log4j
 @Api(basePath = "*",
   value = "Leaderboard",
@@ -46,8 +48,24 @@ public class LeaderBoardController {
     log.debug("GET /results");
     return repository.findAll().stream()
             .filter(r -> r.getResult().equals(ResultType.FINISHED))
-            .sorted((r1, r2) -> (int) r1.getTime() - (int) r2.getTime())
-            .limit(20L)
+            .sorted((r1, r2) -> Long.compare(r1.getTime(), r2.getTime()))
             .collect(Collectors.toList());
+  }
+
+  @RequestMapping(value = "/resultsBy", method = RequestMethod.POST)
+  @ApiOperation(
+          value = "Returns the races for a given user",
+          notes = "This will return races sorted on fastest result time first.",
+          response = UserResult.class,
+          responseContainer = "List")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Races for a user returned"),
+  })
+  public List<UserResult> resultsBy(@RequestBody User user) {
+    log.debug("GET /resultsBy:" + user);
+    return nonNull(user) ? repository.findAll().stream()
+            .filter(r -> r.getUser().getUserId().equals(user.getUserId()))
+            .sorted((r1, r2) -> Long.compare(r1.getTime(), r2.getTime()))
+            .collect(Collectors.toList()) : Collections.emptyList();
   }
 }
