@@ -53,6 +53,13 @@
     this.getResults = function () {
       return backendRequest('GET','/leaderboard');
     };
+    this.getMyRaces = function () {
+      var userToSend = {
+        userId: self.getCurrentUser().userId,
+        displayName: self.getCurrentUser().displayName
+      };
+      return backendRequest('POST','/myraces', {body: userToSend});
+    };
     this.setConnectionListener = function (connectionListener) {
       eventBus.setConnectionListener(connectionListener);
     };
