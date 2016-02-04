@@ -153,4 +153,17 @@ public class ForwardingService {
       return ResponseEntity.status(e.getStatusCode()).body(null);
     }
   }
+
+  public ResponseEntity<User> getUserForToken(String token) {
+    try {
+      final URI uri = UriComponentsBuilder
+        .fromHttpUrl(userManagerBaseUri + "/users")
+        .queryParam("token", token)
+        .build()
+        .toUri();
+      return restTemplate.exchange(uri, HttpMethod.GET, null, User.class);
+    } catch (HttpStatusCodeException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(null);
+    }
+  }
 }
