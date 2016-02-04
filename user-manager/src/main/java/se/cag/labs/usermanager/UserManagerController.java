@@ -11,6 +11,9 @@ import java.util.*;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserManagerController {
   public static final String X_AUTH_TOKEN = "X-AuthToken";
+
+  private static final int SESSION_TIME_MINUTES = 60*24*2;
+
   @Autowired
   private UserRepository userRepository;
 
@@ -35,16 +38,16 @@ public class UserManagerController {
       // Ny Session
       s = new Session();
       s.setToken(UUID.randomUUID().toString());
-      s.setTimeout(LocalDateTime.now().plusMinutes(2));
+      s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
       s.setUserId(u.getId());
       sessionRepository.save(s);
     } else {
       if (LocalDateTime.now().isAfter(s.getTimeout())) {
-        s.setTimeout(LocalDateTime.now().plusMinutes(2));
+        s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
         s.setToken(UUID.randomUUID().toString());
         sessionRepository.save(s);
       } else {
-        s.setTimeout(LocalDateTime.now().plusMinutes(2));
+        s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
         sessionRepository.save(s);
       }
     }
