@@ -104,8 +104,14 @@ public class ClientApiController {
     @ApiResponse(code = 500, message = "Something went wrong when processing the request")
   })
   public ResponseEntity<Void> registerForRace(
+    @RequestHeader(name="X-AuthToken") String token,
     @ApiParam(value = "The user to register", required = true)
     @RequestBody User user) {
+    ResponseEntity<User> userForToken = forwardingService.getUserForToken(token);
+    if(userForToken.getStatusCode() != HttpStatus.OK) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+
     log.debug("Register user " + user + " for race");
     return forwardingService.registerForRace(user);
   }
@@ -118,8 +124,14 @@ public class ClientApiController {
     @ApiResponse(code = 500, message = "Something went wrong when processing the request")
   })
   public ResponseEntity<Void> unregisterFromRace(
+    @RequestHeader(name="X-AuthToken") String token,
     @ApiParam(value = "The user to unregister", required = true)
     @RequestBody User user) {
+    ResponseEntity<User> userForToken = forwardingService.getUserForToken(token);
+    if(userForToken.getStatusCode() != HttpStatus.OK) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+
     log.debug("Register user " + user + " for race");
     return forwardingService.unregisterFromRace(user);
   }
