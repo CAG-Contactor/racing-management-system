@@ -32,6 +32,9 @@
             <li ng-class="{active:vm.selection === 'currentrace'}">
               <a href="#currentrace" ng-click="vm.setSelection('currentrace')">Aktuellt lopp</a>
             </li>
+            <li ng-class="{active:vm.selection === 'myraces'}">
+              <a href="#myraces" ng-click="vm.setSelection('myraces')">Mina race</a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right margin-right-sm">
             <li class="dropdown">
@@ -92,6 +95,9 @@
     </div>
     <div ng-switch-when="currentrace">
       <current-race data-user="{{vm.currentUser.displayName}}"></current-race>
+    </div>
+    <div ng-switch-when="myraces">
+      <myraces></myraces>
     </div>
     <div ng-switch-when="usersettings">
       <h1>
