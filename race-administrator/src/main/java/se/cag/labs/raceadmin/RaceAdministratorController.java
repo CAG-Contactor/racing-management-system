@@ -31,6 +31,8 @@ public class RaceAdministratorController {
   private CurrentRaceService currentRaceService;
   @Autowired
   private ClientApiService clientApiService;
+  @Autowired
+  private SensorService sensorService;
 
   private RestTemplate restTemplate = new RestTemplate();
 
@@ -155,6 +157,19 @@ public class RaceAdministratorController {
       userQueueRepository.delete(user.getId());
       clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
     }
+  }
+
+  @RequestMapping(value = "/sensors", method = RequestMethod.POST)
+  @ApiOperation(value = "Register sensor IP-adresses")
+  public void registerSensor(
+    @RequestBody Sensor sensor) {
+    sensorService.registerService(sensor);
+  }
+
+  @RequestMapping(value = "/sensors", method = RequestMethod.GET)
+  @ApiOperation(value = "Get registered sensors")
+  public List<Sensor> getRegisteredSensors() {
+    return sensorService.getSensorsList();
   }
 
   private Queue<User> sortedQueue() {
