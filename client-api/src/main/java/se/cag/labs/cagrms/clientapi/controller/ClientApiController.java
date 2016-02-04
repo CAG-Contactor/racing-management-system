@@ -84,6 +84,18 @@ public class ClientApiController {
     return forwardingService.getResults();
   }
 
+  @RequestMapping(value = "/myraces", method = RequestMethod.POST)
+  @ApiOperation(value = "My races",
+          notes = "Gets my races")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "The request was handled succesfully and a my races is returned in the body."),
+          @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+  })
+  public ResponseEntity<List<UserResult>> getRacesBy(@RequestBody User user) {
+    log.debug("Get races by user" + user);
+    return forwardingService.getResults(user);
+  }
+
   @RequestMapping(value = "/userqueue", method = RequestMethod.GET)
   @ApiOperation(value = "The user queue",
     notes = "Gets the current queue of registered competitors")

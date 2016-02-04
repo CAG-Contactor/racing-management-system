@@ -8,7 +8,7 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
-  var clientApiBaseUrl = grunt.option('clientapibase') || 'localhost:10580';
+  var clientApiBaseUrl = grunt.option('clientapibase') || 'http://localhost:10580';
 
   var buildInfo = grunt.option('buildinfo') || 'dev-'+Date.now();
 

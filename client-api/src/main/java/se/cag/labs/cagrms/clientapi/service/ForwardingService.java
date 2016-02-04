@@ -73,6 +73,20 @@ public class ForwardingService {
     }
   }
 
+  public ResponseEntity<List<UserResult>> getResults(final User user) {
+    final URI uri = UriComponentsBuilder
+            .fromHttpUrl(leaderBoardBaseUri + "/resultsBy")
+            .build()
+            .toUri();
+    try {
+      final ResponseEntity<List<UserResult>> response = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(user), new ParameterizedTypeReference<List<UserResult>>() {
+      });
+      return response;
+    } catch (HttpStatusCodeException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(null);
+    }
+  }
+
   public ResponseEntity<List<User>> getQueue() {
     final URI uri = UriComponentsBuilder
       .fromHttpUrl(raceAdminBaseUri + "/userqueue")
