@@ -75,7 +75,7 @@ export class Main {
 
   constructor(http:Http, fb:FormBuilder) {
     this.http = http;
-    this.serverAddress = getFromLocalStorage('serverAddress', 'localhost:12080');
+    this.serverAddress = getFromLocalStorage('serverAddress', 'http://localhost:12080');
     this.mainForm = fb.group({
       'serverAddress': [this.serverAddress]
     });
@@ -107,7 +107,7 @@ export class Main {
       sensorID: sensorId,
       timestamp: time
     });
-    this.http.post('http://' + this.serverAddress + '/passageDetected?sensorID=' + sensorId + '&timestamp=' + time)
+    this.http.post(this.serverAddress + '/passageDetected?sensorID=' + sensorId + '&timestamp=' + time)
       .subscribe(
         response => {
           console.debug('res:', response);
