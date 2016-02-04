@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import se.cag.labs.currentrace.apicontroller.apimodel.Sensor;
+import se.cag.labs.currentrace.apicontroller.apimodel.SensorResponse;
 import se.cag.labs.currentrace.services.SensorService;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class SensorController {
 
   @RequestMapping(value = "/sensors", method = RequestMethod.GET)
   @ApiOperation(value = "Get registered sensors")
-  public List<Sensor> getRegisteredSensors() {
+  public List<SensorResponse> getRegisteredSensors() {
     return sensorService.getSensorList();
   }
 
