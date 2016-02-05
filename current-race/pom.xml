@@ -202,6 +202,12 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.0</version>
     </dependency>
+    <dependency>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+
 
     <!-- Fake mongodb for unit tests -->
     <dependency>

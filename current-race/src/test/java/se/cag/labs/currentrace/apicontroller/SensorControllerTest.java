@@ -22,8 +22,7 @@ import se.cag.labs.currentrace.services.repository.SensorRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.SensorModel;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
@@ -88,5 +87,31 @@ public class SensorControllerTest {
       .when().get(SensorController.SHOW_REGISTERED_SENSORS_URL)
       .then()
       .statusCode(HttpStatus.OK.value());
+  }
+
+  @Test
+  public void canNotRegisterSensorWithIllegalAddress() {
+    String bodyAsString = "{\"sensorId\": \"pi1\",\"sensorIpAddress\": \"10.0.a.1\"}";
+
+    given()
+      .body(bodyAsString).with().contentType(ContentType.JSON)
+      .when()
+      .post(SensorController.REGISTER_SENSOR_URL)
+      .then()
+      .statusCode(HttpStatus.EXPECTATION_FAILED.value());
+  }
+
+  @Test
+  public void canNotRegisterSensorWithoutAddress() {
+    String bodyAsString = "{\"sensorId\": \"pi1\"}";
+
+    given()
+      .body(bodyAsString).with().contentType(ContentType.JSON)
+      .when()
+      .post(SensorController.REGISTER_SENSOR_URL)
+      .then()
+      .statusCode(HttpStatus.EXPECTATION_FAILED.value());
+
+    assertTrue(repository.findBySensorId("pi1").isEmpty());
   }
 }
