@@ -20,4 +20,5 @@ public class SensorModel {
   private String id;
   private String sensorId;
   private String sensorIpAddress;
+  private Long registeredTimestamp;
 }

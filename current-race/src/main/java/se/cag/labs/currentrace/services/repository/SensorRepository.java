@@ -1,7 +1,10 @@
 package se.cag.labs.currentrace.services.repository;
 
-/**
- * Created by fredrik on 2016-02-05.
- */
-public interface SensorRepository {
+import org.springframework.data.mongodb.repository.MongoRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.SensorModel;
+
+import java.util.List;
+
+public interface SensorRepository extends MongoRepository<SensorModel, String> {
+  List<SensorModel> findBySensorId(String sensorId);
 }
