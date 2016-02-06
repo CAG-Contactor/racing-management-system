@@ -1,20 +1,25 @@
 package se.cag.labs.currentrace.apicontroller.apimodel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
-@Data
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
-
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(builder = SensorResponse.SensorResponseBuilder.class)
 public class SensorResponse {
-  private String id;
-  private String ip;
-  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Europe/Stockholm")
+  private String sensorId;
+  private String sensorIpAddress;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Stockholm")
   private Date registeredDate;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static final class SensorResponseBuilder {
+  }
 }

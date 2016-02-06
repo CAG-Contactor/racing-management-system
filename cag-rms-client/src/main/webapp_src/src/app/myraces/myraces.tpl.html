@@ -1,6 +1,6 @@
 <div class="container">
   <h2>
-    Mina race
+    Mina lopp
   </h2>
 
   <table class="table table-condensed myraces">
@@ -10,7 +10,7 @@
       <th>Mellantid</th>
       <th>Resultat</th>
     </tr>
-    <tr ng-repeat="result in vm.myraces | orderBy : 'user.name'">
+    <tr ng-repeat="result in vm.myraces">
       <td>{{result.user.displayName}}</td>
       <td>{{result.time|date:'mm:ss:sss'}}</td>
       <td>{{result.splitTime|date:'mm:ss:sss'}}</td>
