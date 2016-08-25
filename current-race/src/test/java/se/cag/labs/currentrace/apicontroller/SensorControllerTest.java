@@ -79,7 +79,9 @@ public class SensorControllerTest {
       .then()
       .statusCode(HttpStatus.ACCEPTED.value());
 
-    SensorModel sensorModel = repository.findBySensorId("pi1").stream().findFirst().get();
+    SensorModel sensorModel = repository.findBySensorId("pi1").stream()
+      .findFirst()
+      .orElse(null);
     assertNotNull(sensorModel);
     assertEquals("10.0.0.1", sensorModel.getSensorIpAddress());
 
