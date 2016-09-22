@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.cag.labs.currentrace.CurrentRaceApplication;
 import se.cag.labs.currentrace.services.repository.SensorRepository;
@@ -23,9 +22,10 @@ import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = CurrentRaceApplication.class, webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {CurrentRaceApplication.class, CurrentRaceControllerTest.MongoConfiguration.class},
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+  properties = {"classpath:application-test.properties"})
 // NOTE!! order is important
-@TestPropertySource(locations = "classpath:application-test.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("test")
 public class SensorControllerTest {
