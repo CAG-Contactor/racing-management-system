@@ -38,9 +38,6 @@ import se.cag.labs.currentrace.services.UserManagerService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
@@ -198,18 +195,18 @@ public class CurrentRaceControllerIT {
     List<RaceStatus> capturedStatuses = raceStatusArgumentCaptor.getAllValues();
 
     assertEquals(RaceStatus.Event.START, capturedStatuses.get(0).getEvent());
-    assertEquals(LocalDateTime.ofInstant(Instant.ofEpochMilli(1234), ZoneId.systemDefault()), capturedStatuses.get(0).getStartTime());
+    assertEquals(Long.valueOf(1234), capturedStatuses.get(0).getStartTime());
     assertEquals(RaceStatus.State.ACTIVE, capturedStatuses.get(0).getState());
 
     assertEquals(RaceStatus.Event.SPLIT, capturedStatuses.get(1).getEvent());
-    assertEquals(LocalDateTime.ofInstant(Instant.ofEpochMilli(1234), ZoneId.systemDefault()), capturedStatuses.get(1).getStartTime());
-    assertEquals(LocalDateTime.ofInstant(Instant.ofEpochMilli(12345), ZoneId.systemDefault()), capturedStatuses.get(1).getSplitTime());
+    assertEquals(Long.valueOf(1234), capturedStatuses.get(1).getStartTime());
+    assertEquals(Long.valueOf(12345), capturedStatuses.get(1).getSplitTime());
     assertEquals(RaceStatus.State.ACTIVE, capturedStatuses.get(1).getState());
 
     assertEquals(RaceStatus.Event.FINISH, capturedStatuses.get(2).getEvent());
-    assertEquals(LocalDateTime.ofInstant(Instant.ofEpochMilli(1234), ZoneId.systemDefault()), capturedStatuses.get(2).getStartTime());
-    assertEquals(LocalDateTime.ofInstant(Instant.ofEpochMilli(12345), ZoneId.systemDefault()), capturedStatuses.get(2).getSplitTime());
-    assertEquals(LocalDateTime.ofInstant(Instant.ofEpochMilli(123456), ZoneId.systemDefault()), capturedStatuses.get(2).getFinishTime());
+    assertEquals(Long.valueOf(1234), capturedStatuses.get(2).getStartTime());
+    assertEquals(Long.valueOf(12345), capturedStatuses.get(2).getSplitTime());
+    assertEquals(Long.valueOf(123456), capturedStatuses.get(2).getFinishTime());
     assertEquals(RaceStatus.State.INACTIVE, capturedStatuses.get(2).getState());
 
     assertNotNull(currentRaceStatus);
@@ -248,7 +245,7 @@ public class CurrentRaceControllerIT {
       "http://localhost:" + port + "/onracestatusupdate",
       RaceStatus.builder()
         .event(RaceStatus.Event.SPLIT)
-        .splitTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(1234L), ZoneId.systemDefault()))
+        .splitTime(1234L)
         .state(RaceStatus.State.ACTIVE)
         .build());
     assertNotNull(currentRaceStatus);

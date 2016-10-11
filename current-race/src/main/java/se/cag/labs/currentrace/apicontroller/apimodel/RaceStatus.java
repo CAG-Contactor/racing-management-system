@@ -7,18 +7,16 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Builder
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = RaceStatus.RaceStatusBuilder.class)
 public final class RaceStatus {
   private final Event event;
-  private final LocalDateTime startTime;
-  private final LocalDateTime splitTime;
-  private final LocalDateTime finishTime;
-  private final LocalDateTime currentTime;
+  private final Long startTime;
+  private final Long splitTime;
+  private final Long finishTime;
+  private final Long currentTime;
   private final State state;
 
   public enum Event {
