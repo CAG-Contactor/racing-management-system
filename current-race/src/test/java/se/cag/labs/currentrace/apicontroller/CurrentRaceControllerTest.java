@@ -44,6 +44,9 @@ import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CurrentRaceApplication.class, CurrentRaceControllerTest.MongoConfiguration.class},
