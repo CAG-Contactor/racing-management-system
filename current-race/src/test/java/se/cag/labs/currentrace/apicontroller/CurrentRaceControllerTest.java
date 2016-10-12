@@ -36,17 +36,14 @@ import se.cag.labs.currentrace.services.UserManagerService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CurrentRaceApplication.class, CurrentRaceControllerTest.MongoConfiguration.class},
@@ -253,7 +250,7 @@ public class CurrentRaceControllerTest {
 
   @Test
   public void getUsersFromExternalService() {
-    ResponseEntity<List<User>> responseEntity = new ResponseEntity<>(Arrays.asList(User.builder().name("nisse").build()), HttpStatus.OK);
+    ResponseEntity<List<User>> responseEntity = new ResponseEntity<>(Collections.singletonList(User.builder().name("nisse").build()), HttpStatus.OK);
     org.mockito.Mockito.when(restTemplateMock.exchange(
       eq("http://localhost:10280/users"),
       eq(HttpMethod.GET),
