@@ -1,6 +1,7 @@
 package se.cag.labs.currentrace.services.sensors;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum RegisterSensorType {
   START("START"),

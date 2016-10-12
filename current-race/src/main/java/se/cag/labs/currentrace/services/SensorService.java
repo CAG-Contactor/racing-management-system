@@ -25,8 +25,7 @@ public class SensorService {
       sensorRepository.delete(sensorModels);
       sensorRepository.save(sensorModel);
       return ReturnStatus.REGISTERED;
-    }
-    else {
+    } else {
       return ReturnStatus.ILLEGAL;
     }
   }

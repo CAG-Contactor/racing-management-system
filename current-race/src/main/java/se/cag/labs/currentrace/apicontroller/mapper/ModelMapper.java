@@ -4,6 +4,10 @@ import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 public final class ModelMapper {
+  private ModelMapper() {
+    //Not used
+  }
+
   public static RaceStatus createStatusResponse(CurrentRaceStatus currentRaceStatus) {
     if (currentRaceStatus == null) {
       return RaceStatus.builder()

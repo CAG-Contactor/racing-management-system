@@ -3,8 +3,9 @@
  */
 package se.cag.labs.currentrace.config;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Provides build version.
@@ -18,11 +19,11 @@ public final class BuildInfo {
     InputStream in = BuildInfo.class.getResourceAsStream("/BuildInfo.properties");
     try {
       props.load(in);
-    } catch (IOException e) {
+    } catch (IOException ignored) {
     } finally {
       try {
         in.close();
-      } catch (IOException ignore) {
+      } catch (IOException ignored) {
       }
     }
   }

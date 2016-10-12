@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public final class SensorMapper {
+  private SensorMapper() {
+    //Not used
+  }
+
   public static SensorModel createModelFromApi(Sensor sensor) {
     if (StringUtils.isNotBlank(sensor.getSensorId()) && StringUtils.length(sensor.getSensorId()) < 128) {
       if (InetAddressValidator.getInstance().isValidInet4Address(sensor.getSensorIpAddress())) {
