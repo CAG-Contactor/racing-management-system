@@ -8,15 +8,12 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import se.cag.labs.currentrace.CurrentRaceApplication;
 import se.cag.labs.currentrace.services.repository.SensorRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.SensorModel;
@@ -24,12 +21,11 @@ import se.cag.labs.currentrace.services.repository.datamodel.SensorModel;
 import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {CurrentRaceApplication.class, CurrentRaceControllerTest.MongoConfiguration.class},
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+  properties = {"classpath:application-test.properties"})
 // NOTE!! order is important
-@WebAppConfiguration()
-@IntegrationTest("server.port:0")
-@TestPropertySource(locations = "classpath:application-test.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("test")
 public class SensorControllerTest {
@@ -79,7 +75,9 @@ public class SensorControllerTest {
       .then()
       .statusCode(HttpStatus.ACCEPTED.value());
 
-    SensorModel sensorModel = repository.findBySensorId("pi1").stream().findFirst().get();
+    SensorModel sensorModel = repository.findBySensorId("pi1").stream()
+      .findFirst()
+      .orElse(null);
     assertNotNull(sensorModel);
     assertEquals("10.0.0.1", sensorModel.getSensorIpAddress());
 

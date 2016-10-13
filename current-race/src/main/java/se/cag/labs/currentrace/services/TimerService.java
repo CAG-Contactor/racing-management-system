@@ -1,13 +1,14 @@
 package se.cag.labs.currentrace.services;
 
-import lombok.extern.log4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import se.cag.labs.currentrace.services.repository.datamodel.*;
-import se.cag.labs.currentrace.timer.*;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
+import se.cag.labs.currentrace.timer.VerifyRacePassagesTimerTask;
 
-import javax.annotation.*;
-import java.util.*;
+import javax.annotation.PostConstruct;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Service
 @Log4j

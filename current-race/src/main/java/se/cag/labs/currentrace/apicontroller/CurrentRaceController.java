@@ -1,13 +1,17 @@
 package se.cag.labs.currentrace.apicontroller;
 
 import io.swagger.annotations.*;
-import lombok.extern.log4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.cag.labs.currentrace.apicontroller.apimodel.*;
-import se.cag.labs.currentrace.apicontroller.mapper.*;
-import se.cag.labs.currentrace.services.*;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
+import se.cag.labs.currentrace.services.CancelRaceService;
+import se.cag.labs.currentrace.services.PassageDetectedService;
+import se.cag.labs.currentrace.services.StartRaceService;
+import se.cag.labs.currentrace.services.StatusService;
 
 @Api(basePath = "*", value = "Current race", description = "Current race services", produces = "application/json")
 @RestController
@@ -41,7 +45,7 @@ public class CurrentRaceController {
     @ApiParam(value = "The callback to use to report status changes when the race starts",
       defaultValue = "http://localhost:10380/onracestatusupdate",
       required = true)
-    String callbackUrl) {
+      String callbackUrl) {
 
     switch (startRaceService.startRace(callbackUrl)) {
       case FOUND:

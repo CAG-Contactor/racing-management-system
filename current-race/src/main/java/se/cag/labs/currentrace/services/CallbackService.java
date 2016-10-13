@@ -1,11 +1,12 @@
 package se.cag.labs.currentrace.services;
 
-import lombok.extern.log4j.*;
-import org.springframework.context.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.web.client.*;
-import se.cag.labs.currentrace.apicontroller.mapper.*;
-import se.cag.labs.currentrace.services.repository.datamodel.*;
+import lombok.extern.log4j.Log4j;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+import se.cag.labs.currentrace.apicontroller.mapper.ModelMapper;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 @Component
 @Scope("singleton")
@@ -18,7 +19,7 @@ public class CallbackService {
     try {
       restTemplate.postForLocation(status.getCallbackUrl(), ModelMapper.createStatusResponse(status));
     } catch (RestClientException e) {
-      log.error("Rest call failed: " + e.getLocalizedMessage());
+      log.error("Rest call failed: " + e.getLocalizedMessage(), e);
     }
   }
 }

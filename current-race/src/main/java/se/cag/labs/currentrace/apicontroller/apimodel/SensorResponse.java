@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -17,7 +17,7 @@ public class SensorResponse {
   private String sensorId;
   private String sensorIpAddress;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Stockholm")
-  private Date registeredDate;
+  private LocalDateTime registeredDate;
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class SensorResponseBuilder {

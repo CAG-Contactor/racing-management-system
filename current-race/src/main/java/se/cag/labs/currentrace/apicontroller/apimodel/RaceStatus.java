@@ -1,11 +1,11 @@
 package se.cag.labs.currentrace.apicontroller.apimodel;
 
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.*;
-import lombok.*;
-
-import java.util.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Data;
 
 @Builder
 @Data
@@ -13,10 +13,10 @@ import java.util.*;
 @JsonDeserialize(builder = RaceStatus.RaceStatusBuilder.class)
 public final class RaceStatus {
   private final Event event;
-  private final Date startTime;
-  private final Date splitTime;
-  private final Date finishTime;
-  private final Date currentTime;
+  private final Long startTime;
+  private final Long splitTime;
+  private final Long finishTime;
+  private final Long currentTime;
   private final State state;
 
   public enum Event {

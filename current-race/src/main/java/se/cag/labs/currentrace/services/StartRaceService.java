@@ -1,11 +1,11 @@
 package se.cag.labs.currentrace.services;
 
-import lombok.extern.log4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import se.cag.labs.currentrace.apicontroller.apimodel.*;
-import se.cag.labs.currentrace.services.repository.*;
-import se.cag.labs.currentrace.services.repository.datamodel.*;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
+import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 @Service
 @Log4j

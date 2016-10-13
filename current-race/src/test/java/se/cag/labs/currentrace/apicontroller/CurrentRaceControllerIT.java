@@ -14,8 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,9 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 import se.cag.labs.currentrace.CurrentRaceApplication;
@@ -41,8 +38,7 @@ import se.cag.labs.currentrace.services.UserManagerService;
 import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -52,14 +48,15 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {CurrentRaceApplication.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {CurrentRaceApplication.class, CurrentRaceControllerIT.MongoConfiguration.class},
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+  properties = {"classpath:application-test.properties"})
 // NOTE!! order is important
-@WebAppConfiguration
-@IntegrationTest("server.port:0")
-@TestPropertySource(locations = "classpath:application-test.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("int-test")
 public class CurrentRaceControllerIT {
@@ -200,24 +197,24 @@ public class CurrentRaceControllerIT {
     List<RaceStatus> capturedStatuses = raceStatusArgumentCaptor.getAllValues();
 
     assertEquals(RaceStatus.Event.START, capturedStatuses.get(0).getEvent());
-    assertEquals(new Date(1234), capturedStatuses.get(0).getStartTime());
+    assertEquals(Long.valueOf(1234), capturedStatuses.get(0).getStartTime());
     assertEquals(RaceStatus.State.ACTIVE, capturedStatuses.get(0).getState());
 
     assertEquals(RaceStatus.Event.SPLIT, capturedStatuses.get(1).getEvent());
-    assertEquals(new Date(1234), capturedStatuses.get(1).getStartTime());
-    assertEquals(new Date(12345), capturedStatuses.get(1).getSplitTime());
+    assertEquals(Long.valueOf(1234), capturedStatuses.get(1).getStartTime());
+    assertEquals(Long.valueOf(12345), capturedStatuses.get(1).getSplitTime());
     assertEquals(RaceStatus.State.ACTIVE, capturedStatuses.get(1).getState());
 
     assertEquals(RaceStatus.Event.FINISH, capturedStatuses.get(2).getEvent());
-    assertEquals(new Date(1234), capturedStatuses.get(2).getStartTime());
-    assertEquals(new Date(12345), capturedStatuses.get(2).getSplitTime());
-    assertEquals(new Date(123456), capturedStatuses.get(2).getFinishTime());
+    assertEquals(Long.valueOf(1234), capturedStatuses.get(2).getStartTime());
+    assertEquals(Long.valueOf(12345), capturedStatuses.get(2).getSplitTime());
+    assertEquals(Long.valueOf(123456), capturedStatuses.get(2).getFinishTime());
     assertEquals(RaceStatus.State.INACTIVE, capturedStatuses.get(2).getState());
 
     assertNotNull(currentRaceStatus);
-    assertEquals(new Long(1234), currentRaceStatus.getStartTime());
-    assertEquals(new Long(12345), currentRaceStatus.getSplitTime());
-    assertEquals(new Long(123456), currentRaceStatus.getFinishTime());
+    assertEquals(Long.valueOf(1234), currentRaceStatus.getStartTime());
+    assertEquals(Long.valueOf(12345), currentRaceStatus.getSplitTime());
+    assertEquals(Long.valueOf(123456), currentRaceStatus.getFinishTime());
     assertEquals(RaceStatus.Event.FINISH, currentRaceStatus.getEvent());
     assertEquals(RaceStatus.State.INACTIVE, currentRaceStatus.getState());
   }
@@ -250,16 +247,16 @@ public class CurrentRaceControllerIT {
       "http://localhost:" + port + "/onracestatusupdate",
       RaceStatus.builder()
         .event(RaceStatus.Event.SPLIT)
-        .splitTime(new Date(1234))
+        .splitTime(1234L)
         .state(RaceStatus.State.ACTIVE)
         .build());
     assertNotNull(currentRaceStatus);
-    assertEquals(new Long(1234), currentRaceStatus.getSplitTime());
+    assertEquals(Long.valueOf(1234L), currentRaceStatus.getSplitTime());
   }
 
   @Test
   public void getUsersFromExternalService() {
-    ResponseEntity<List<User>> responseEntity = new ResponseEntity<>(Arrays.asList(User.builder().name("nisse").build()), HttpStatus.OK);
+    ResponseEntity<List<User>> responseEntity = new ResponseEntity<>(Collections.singletonList(User.builder().name("nisse").build()), HttpStatus.OK);
     org.mockito.Mockito.when(restTemplateMock.exchange(
       eq("http://localhost:10280/users"),
       eq(HttpMethod.GET),

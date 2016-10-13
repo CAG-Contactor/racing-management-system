@@ -6,9 +6,15 @@ import se.cag.labs.currentrace.apicontroller.apimodel.Sensor;
 import se.cag.labs.currentrace.apicontroller.apimodel.SensorResponse;
 import se.cag.labs.currentrace.services.repository.datamodel.SensorModel;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public final class SensorMapper {
+  private SensorMapper() {
+    //Not used
+  }
+
   public static SensorModel createModelFromApi(Sensor sensor) {
     if (StringUtils.isNotBlank(sensor.getSensorId()) && StringUtils.length(sensor.getSensorId()) < 128) {
       if (InetAddressValidator.getInstance().isValidInet4Address(sensor.getSensorIpAddress())) {
@@ -27,7 +33,7 @@ public final class SensorMapper {
     return SensorResponse.builder()
       .sensorId(sensorModel.getSensorId())
       .sensorIpAddress(sensorModel.getSensorIpAddress())
-      .registeredDate(new Date(sensorModel.getRegisteredTimestamp()))
+      .registeredDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(sensorModel.getRegisteredTimestamp()), ZoneId.systemDefault()))
       .build();
   }
 

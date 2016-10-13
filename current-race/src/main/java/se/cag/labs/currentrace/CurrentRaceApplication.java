@@ -1,10 +1,10 @@
 package se.cag.labs.currentrace;
 
 import lombok.extern.log4j.Log4j;
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.mongodb.repository.config.*;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import se.cag.labs.currentrace.services.CancelRaceService;
 
 @SpringBootApplication

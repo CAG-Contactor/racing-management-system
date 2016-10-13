@@ -1,8 +1,10 @@
 package se.cag.labs.currentrace.apicontroller.apimodel;
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.*;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Data;
 
 @Builder
 @Data

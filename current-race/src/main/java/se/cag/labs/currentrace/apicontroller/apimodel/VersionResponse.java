@@ -1,8 +1,11 @@
 package se.cag.labs.currentrace.apicontroller.apimodel;
 
-import com.fasterxml.jackson.annotation.*;
-import io.swagger.annotations.*;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
