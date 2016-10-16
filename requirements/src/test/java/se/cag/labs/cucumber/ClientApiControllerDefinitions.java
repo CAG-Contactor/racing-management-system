@@ -1,4 +1,4 @@
-package se.cag.labs.currentrace.cucumber;
+package se.cag.labs.cucumber;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -7,8 +7,9 @@ import org.junit.Assert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import se.cag.labs.currentrace.apicontroller.CurrentRaceController;
-import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
+import se.cag.labs.cagrms.clientapi.controller.ClientApiController;
+import se.cag.labs.cagrms.clientapi.service.RaceStatus;
+
 
 /**
  * Defines all the gherkin-steps that can be used in the current race controller
@@ -32,7 +33,7 @@ public class CurrentRaceControllerDefinitions extends AbstractDefinitions {
     given_no_active_race();
 
     RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity responseEntity = restTemplate.postForEntity(getBaseUrl() + CurrentRaceController.START_RACE_URL + "?callbackUrl=" + getBaseUrl(), null, ResponseEntity.class);
+    ResponseEntity responseEntity = restTemplate.postForEntity(getBaseUrl() + ClientApiController.REGISTER_FOR_RACE_URL + "?callbackUrl=" + getBaseUrl(), null, ResponseEntity.class);
     Assert.assertTrue("A race wasn't started: " + responseEntity.getStatusCode(), responseEntity.getStatusCode().is2xxSuccessful());
   }
 
