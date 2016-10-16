@@ -26,6 +26,13 @@ import java.util.*;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
 @Log4j
 public class ClientApiController {
+
+  public static final String LOGIN_URL = "/login";
+  public static final String REGISTER_FOR_RACE_URL = "/userqueue";
+  public static final String CURRENT_RACE_URL = "/currentrace";
+  public static final String LOGOUT_URL = "/logout";
+  public static final String RESET_RACE = "/reset-race";
+
   @Autowired
   private ForwardingService forwardingService;
 
@@ -44,7 +51,7 @@ public class ClientApiController {
     return forwardingService.registerUser(user);
   }
 
-  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
   @ApiOperation(value = "Login",
     notes = "Login the specified user using the specified credentials")
   @ApiResponses(value = {
@@ -59,7 +66,7 @@ public class ClientApiController {
     return forwardingService.login(user);
   }
 
-  @RequestMapping(value = "/logout", method = RequestMethod.POST)
+  @RequestMapping(value = LOGOUT_URL, method = RequestMethod.POST)
   @ApiOperation(value = "Logout",
     notes = "Logout the user associated with the token specified in the X-AuthToken header.")
   @ApiResponses(value = {
@@ -148,7 +155,7 @@ public class ClientApiController {
     return forwardingService.unregisterFromRace(user);
   }
 
-  @RequestMapping(value = "/currentrace", method = RequestMethod.GET)
+  @RequestMapping(value = CURRENT_RACE_URL, method = RequestMethod.GET)
   @ApiOperation(value = "The current race",
           notes = "Gets information about the current race")
   @ApiResponses(value = {
@@ -161,7 +168,7 @@ public class ClientApiController {
   }
 
 
-  @RequestMapping(value="/reset-race", method=RequestMethod.POST)
+  @RequestMapping(value= RESET_RACE, method=RequestMethod.POST)
   public ResponseEntity<Void> resetRace() {
     log.debug("Reset current race");
     return forwardingService.resetRace();

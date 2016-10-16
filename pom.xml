@@ -8,6 +8,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.4.1.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
   <name>Race Manager System</name>
   <description>The CAG race manager system</description>
 
@@ -19,5 +26,6 @@
     <module>client-api</module>
     <module>cag-rms-client</module>
     <module>pi-sensor</module>
+    <module>requirements</module>
   </modules>
 </project>

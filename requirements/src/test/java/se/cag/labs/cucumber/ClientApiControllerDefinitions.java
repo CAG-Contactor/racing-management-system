@@ -14,7 +14,9 @@ import se.cag.labs.cagrms.clientapi.service.RaceStatus;
 /**
  * Defines all the gherkin-steps that can be used in the current race controller
  */
-public class CurrentRaceControllerDefinitions extends AbstractDefinitions {
+public class ClientApiControllerDefinitions {
+
+  private static final String CLIENT_API_BASE_URL = "http://localhost:10580";
 
   private ResponseEntity<RaceStatus> currentStatusEntity;
 
@@ -22,7 +24,10 @@ public class CurrentRaceControllerDefinitions extends AbstractDefinitions {
   public void given_no_active_race() {
     try {
       RestTemplate restTemplate = new RestTemplate();
-      restTemplate.postForEntity(getBaseUrl() + CurrentRaceController.CANCEL_RACE_URL, null, RaceStatus.class);
+      ResponseEntity responseEntity = restTemplate.postForEntity(CLIENT_API_BASE_URL + ClientApiController.RESET_RACE, null, ResponseEntity.class);
+      Assert.assertTrue("A race wasn't started: " + responseEntity.getStatusCode(), responseEntity.getStatusCode().is2xxSuccessful());
+
+      // TODO abort current race if there is one
     } catch (Exception e) {
       // Never mind this...
     }
@@ -33,14 +38,14 @@ public class CurrentRaceControllerDefinitions extends AbstractDefinitions {
     given_no_active_race();
 
     RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity responseEntity = restTemplate.postForEntity(getBaseUrl() + ClientApiController.REGISTER_FOR_RACE_URL + "?callbackUrl=" + getBaseUrl(), null, ResponseEntity.class);
+    ResponseEntity responseEntity = restTemplate.postForEntity(CLIENT_API_BASE_URL + ClientApiController.REGISTER_FOR_RACE_URL + "?callbackUrl=" + getClientApiBaseURL(), null, ResponseEntity.class);
     Assert.assertTrue("A race wasn't started: " + responseEntity.getStatusCode(), responseEntity.getStatusCode().is2xxSuccessful());
   }
 
   @When("^the client queries the current status$")
   public void when_query_current_status() throws Throwable {
     RestTemplate restTemplate = new RestTemplate();
-    currentStatusEntity = restTemplate.getForEntity(getBaseUrl() + CurrentRaceController.STATUS_URL, RaceStatus.class);
+    currentStatusEntity = restTemplate.getForEntity(CLIENT_API_BASE_URL + ClientApiController.CURRENT_RACE_URL, RaceStatus.class);
   }
 
   @Then("^the current status should be empty$")
