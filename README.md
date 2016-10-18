@@ -16,6 +16,25 @@ Start mongod:
 
     $ mongod --dbpath <path to DB>
 
+Run with Docker 
+---------------
+You can use the maven profile ```docker``` to generate docker containers for each server application. 
+
+```sh
+mvn clean install -Pdocker
+```
+
+The easiest way to run the docker containers is to start them with docker-compose, simply run
+
+```sh
+docker-compose up
+```
+
+To remove unsued images run the following:
+```sh
+docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
+```
+
 Tools
 -----
 REST Test tool:<br>

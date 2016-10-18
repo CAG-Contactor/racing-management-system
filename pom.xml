@@ -8,10 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <properties>
-        <docker.image.prefix>cag</docker.image.prefix>
-    </properties>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -19,6 +15,12 @@
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
+
+    <properties>
+        <springfox.version>2.6.0</springfox.version>
+        <swagger.version>1.5.10</swagger.version>
+        <docker.image.prefix>cag</docker.image.prefix>
+    </properties>
 
     <name>Race Manager System</name>
     <description>The CAG race manager system</description>

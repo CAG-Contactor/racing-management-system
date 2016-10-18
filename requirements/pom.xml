@@ -4,8 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>requirements</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
     <name>Requirements</name>
     <description>The requirements</description>
@@ -20,8 +18,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <artifactFinalName>cag-${project.artifactId}</artifactFinalName>
-        <spring.boot.version>1.4.1.RELEASE</spring.boot.version>
         <cucumber.java.version>1.2.4</cucumber.java.version>
         <skipITs>true</skipITs>
 
@@ -36,12 +32,10 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -59,7 +53,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.3.3.RELEASE</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -113,39 +106,19 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>${artifactFinalName}</finalName>
-    </build>
-
     <profiles>
         <profile>
-            <id>integrationtest-with-docker</id>
+            <id>integration-test</id>
             <build>
-                <finalName>${artifactFinalName}</finalName>
                 <plugins>
-
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.4.13</version>
-                        <configuration>
-                            <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                            <dockerDirectory>src/main/docker</dockerDirectory>
-                            <resources>
-                                <resource>
-                                    <targetPath>/</targetPath>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>${project.build.finalName}.jar</include>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>2.19.1</version>
                         <configuration>
+                            <systemPropertyVariables>
+                                <client.api.base.url>${client.api.base.url}</client.api.base.url>
+                            </systemPropertyVariables>
                             <skipITs>false</skipITs>
                             <includes>
                                 <include>**/*IT.java</include>

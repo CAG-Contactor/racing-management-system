@@ -21,7 +21,7 @@ import java.net.URI;
  * Defines all the gherkin-steps that can be used in the current race controller
  */
 public class ClientApiControllerDefinitions {
-
+    private static final String PROPERTY_CLIENT_API_BASE_URL = "client.api.base.url";
     private static final String DEFAULT_CLIENT_API_BASE_URL = "http://localhost:10580";
     private static final String USERNAME = "cuke@umber.com";
     private static final String USER_DISPLAY_NAME = "Cuke Umber";
@@ -81,7 +81,7 @@ public class ClientApiControllerDefinitions {
     }
 
     private String getBaseUrl() {
-        return System.getProperty("client-api.url", DEFAULT_CLIENT_API_BASE_URL);
+        return System.getProperty(PROPERTY_CLIENT_API_BASE_URL, DEFAULT_CLIENT_API_BASE_URL);
     }
 
 
