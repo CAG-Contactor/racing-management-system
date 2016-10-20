@@ -1,0 +1,75 @@
+version: '2'
+services:
+
+ client-api:
+    image: cag/client-api
+    ports:
+     - "10580:10580"
+    networks:
+     - local-net
+    environment:
+      SERVER_USERMANAGER_BASE_URI: http://user-manager:10280
+      SERVER_LEADERBOARD_BASE_URI: http://leaderboard:10180
+      SERVER_CURRENTRACE_BASE_URI: http://current-race:10080
+      SERVER_RACEADMIN_BASE_URI: http://race-administrator:10380
+
+ current-race:
+    image: cag/current-race
+    ports:
+     - "10080:10080"
+    networks:
+     - local-net
+    depends_on:
+     - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27020/current-race
+      SERVER_USERMANAGER_BASE_URI: http://user-manager:10280
+
+ leaderboard:
+    image: cag/leaderboard
+    ports:
+     - "10180:10180"
+    networks:
+     - local-net
+    depends_on:
+     - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27020/leaderboard
+
+ race-administrator:
+    image: cag/race-administrator
+    ports:
+     - "10380:10380"
+    networks:
+     - local-net
+    depends_on:
+     - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27020/race-administrator
+      SERVER_LEADERBOARD_BASE_URI: http://leaderboard:10180
+      SERVER_CURRENTRACE_BASE_URI: http://current-race:10080
+      SERVER_CLIENTAPI_BASE_URI: http://client-api:10580
+      SERVER_ADDRESS: race-administrator
+
+ user-manager:
+    image: cag/user-manager
+    ports:
+     - "10280:10280"
+    networks:
+     - local-net
+    depends_on:
+     - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27020/user-manager
+
+ mongodb:
+    image: mongo:3.0.4
+    ports:
+     - "27020:27020"
+    networks:
+     - local-net
+    command: mongod --port 27020 --smallfiles
+
+networks:
+  local-net:
+    driver: bridge
