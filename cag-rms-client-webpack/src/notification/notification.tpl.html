@@ -1,0 +1,14 @@
+<div>
+  <div ng-repeat="alert in alerts" class="slide">
+    <div class="alert alert-dismissible"
+         style="z-index: 10000"
+         ng-class="{'alert-danger':alert.type==='error','alert-info':alert.type!=='error'}"
+         role="alert">
+      <!--<button type="button" class="close pull-right" ng-click="close($index)">-->
+      <!--<span>&times;</span>-->
+      <!--</button>-->
+      <p style="font-family: sans-serif;">{{alert.msg}}</p>
+      <!--<p style="font-family: sans-serif;"><small>{{alert.time}}</small></p>-->
+    </div>
+  </div>
+</div>

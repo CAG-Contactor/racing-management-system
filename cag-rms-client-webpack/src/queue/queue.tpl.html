@@ -1,0 +1,22 @@
+<div>
+
+  <div class="margin-bottom-sm">
+    <button class="btn btn-success " ng-click="vm.enterMe()" ng-if="!vm.hasEntered()" ng-disabled="vm.isActiveRace()">
+      Anmäl mig
+    </button>
+    <button class="btn btn-danger" ng-click="vm.removeMe()" ng-if="vm.hasEntered()">
+      Fega ur
+    </button>
+  </div>
+
+  <table class="table user-queue">
+    <tr>
+      <th>Namn</th>
+      <th>Id</th>
+    </tr>
+    <tr ng-repeat="racer in vm.enteredRacers">
+      <td>{{racer.displayName}}</td>
+      <td>{{racer.userId}}</td>
+    </tr>
+  </table>
+</div>
