@@ -13,17 +13,28 @@
   "license": "ISC",
   "devDependencies": {
     "@types/angular": "^1.5.19",
+    "@types/lodash": "^4.14.39",
+    "@types/node": "^6.0.48",
     "awesome-typescript-loader": "^2.2.4",
+    "css-loader": "^0.26.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.24.1",
     "jquery": "^3.1.1",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "rimraf": "^2.5.4",
+    "style-loader": "^0.13.1",
     "typescript": "^2.0.6",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
     "webpack-merge": "^0.15.0"
   },
   "dependencies": {
-    "angular": "^1.5.8"
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.17.2"
   }
 }
