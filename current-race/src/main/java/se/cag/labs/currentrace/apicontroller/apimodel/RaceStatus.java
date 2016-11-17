@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
+@Builder(toBuilder = true)
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = RaceStatus.RaceStatusBuilder.class)
