@@ -1,4 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
   entry: {
     // Här anger vi att huvudmodulen som skall inkluderas är src/Main.ts.
@@ -23,7 +25,36 @@ module.exports = {
       {
         // Ange loader för html-filer
         test: /\.html$/,
-        loader: 'html'
+        exclude: /node_modules/,
+        loader: "html-loader?exportAsEs6Default"
+      },
+      {
+        test: /\.css$/,
+        include: './src/**/*.css',
+        loader: 'style!css'
+      },
+      {
+        test: /\.css$/,
+        exclude: './src',
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+      },
+      {
+        test: /\.less$/i,
+        include: './src/**/*.less',
+        loader: 'style!css!less'
+      },
+      {
+        test: /\.less$/i,
+        exclude: './src',
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap')
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file?name=assets/[name].[hash].[ext]'
+      },
+      {
+        test: /\.json$/i,
+        loader: 'json'
       }
     ]
   },
@@ -31,6 +62,7 @@ module.exports = {
     // Definiera att html-webpack-plugin skall processa index.html, m.a.p filnamn
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    })
+    }),
+    new ExtractTextPlugin('[name].[hash].css')
   ]
 };
