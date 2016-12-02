@@ -40,9 +40,15 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <!-- Optional configuration which provides for running any npm command -->
+                    </execution>
+                    <execution>
+                        <id>npm build:prod</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>run build:prod</arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -65,8 +71,9 @@
                                 <fileset>
                                     <directory>${project.basedir}</directory>
                                     <includes>
-                                        <include>node*/**</include>
+                                        <include>dist/**</include>
                                         <include>etc/**</include>
+                                        <include>node*/**</include>
                                     </includes>
                                     <followSymlinks>false</followSymlinks>
                                 </fileset>
