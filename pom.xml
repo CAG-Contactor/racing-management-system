@@ -31,8 +31,9 @@
         <module>leaderboard</module>
         <module>current-race</module>
         <module>client-api</module>
-        <module>cag-rms-client</module>
+        <!--<module>cag-rms-client</module>-->
         <module>pi-sensor</module>
         <module>requirements</module>
+        <module>admin-backend</module>
     </modules>
 </project>
