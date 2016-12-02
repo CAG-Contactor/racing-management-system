@@ -1,9 +1,17 @@
-import * as ng1 from 'angular';
+import * as ng1 from "angular";
 
-export const appModule = ng1.module('app.module', []);
+export const appModule = ng1
+  .module('app.module', [
+    'ui.bootstrap',
+    'angular-md5',
+    'LocalStorageModule',
+    'ngResource',
+    'ngAnimate'
+  ])
+  .constant('APP_CONFIG', {
+    clientApi: 'http://localhost:10580' //Replaced by grunt copy
+  });
 
-// Vi måste göra importen efter att vi definierat modulen.
 import "./main";
-import "./overview";
 
 console.debug('appModule is initialized:', appModule);

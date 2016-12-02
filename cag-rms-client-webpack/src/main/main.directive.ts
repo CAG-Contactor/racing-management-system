@@ -1,23 +1,32 @@
 'use strict';
 import * as ng1 from "angular";
+import "../common";
+import "../notification";
+import "../overview";
+import "../queue";
+import "../myraces";
+import "../currentrace";
+import "../leaderboard";
+import "./registerModal.service";
+
 const htmlTemplate = require("./main.tpl.html");
 
 export const appModule: ng1.IModule = ng1.module('app.module');
 
-appModule.directive('cagMain', factory);
+appModule.directive('cagMain', [factory]);
 
 function factory() {
   return {
     restrict: 'E',
     template: htmlTemplate,
-    controller: Ctrl,
+    controller: ['registerModal', 'clientApiService', 'notificationService', 'APP_CONFIG', Ctrl],
     controllerAs: 'vm'
   };
 }
 
 function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) {
-  var vm = this;
-  var connectionStyle = {
+  let vm = this;
+  let connectionStyle = {
     color: 'red'
   };
   vm.buildInfo = APP_CONFIG.buildInfo;
@@ -71,7 +80,7 @@ function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) 
       })
       .catch(function (error) {
         console.log(error);
-        notificationService.showErrorMessage('Var det verkligen rätt inloggningsuppgifter!?');
+        notificationService.showErrorMessage('let det verkligen rätt inloggningsuppgifter!?');
       });
   }
 

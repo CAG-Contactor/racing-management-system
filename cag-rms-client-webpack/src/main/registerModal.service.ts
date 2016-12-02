@@ -1,10 +1,11 @@
 'use strict';
 import * as ng1 from "angular";
 import * as _ from "lodash";
-
 export const appModule: ng1.IModule = ng1.module('app.module');
+const htmlTemplate = require("./registerModal.tpl.html");
 
-appModule.service('registerModal', registerModalServiceFactory);
+
+appModule.service('registerModal', ['$uibModal', registerModalServiceFactory]);
 
 function registerModalServiceFactory($uibModal) {
   return {
@@ -13,11 +14,11 @@ function registerModalServiceFactory($uibModal) {
 }
 
 function showRegisterModal($uibModal) {
-  var modalInstance = $uibModal.open({
-    templateUrl: 'main/registerModal.tpl.html',
+  let modalInstance = $uibModal.open({
+    template: htmlTemplate,
     controllerAs: 'vm',
-    controller: function ($uibModalInstance) {
-      var vm = this;
+    controller: ['$uibModalInstance', ($uibModalInstance) => {
+      let vm = this;
       vm.submit = submit;
       vm.cancel = cancel;
       vm.checkPassword = checkPassword;
@@ -53,7 +54,7 @@ function showRegisterModal($uibModal) {
       function cancel() {
         $uibModalInstance.dismiss('cancel');
       }
-    },
+    }],
     size: 'sm'
   });
 
