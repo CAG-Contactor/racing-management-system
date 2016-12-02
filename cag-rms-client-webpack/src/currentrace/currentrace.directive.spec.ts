@@ -2,7 +2,7 @@
 
 // TODO fix later
 //describe('CurrentRaceDirective view', function () {
-//  var $compile, $rootScope, $httpBackend;
+//  let $compile, $rootScope, $httpBackend;
 //
 //  beforeEach(module('cag-rms-client'));
 //
@@ -24,7 +24,7 @@
 //      $httpBackend.when('GET', 'http://localhost:10080/status').respond({state: 'INACTIVE'});
 //
 //      // Compile a piece of HTML containing the directive
-//      var element = $compile("<current-race></current-race>")($rootScope);
+//      let element = $compile("<current-race></current-race>")($rootScope);
 //      //Triggar http-mocken?
 //      $httpBackend.flush();
 //
@@ -36,7 +36,7 @@
 //      $httpBackend.when('GET', 'http://localhost:10080/status').respond({state: 'ACTIVE'});
 //
 //      // Compile a piece of HTML containing the directive
-//      var element = $compile("<current-race></current-race>")($rootScope);
+//      let element = $compile("<current-race></current-race>")($rootScope);
 //      //Triggar http-mocken?
 //      $httpBackend.flush();
 //

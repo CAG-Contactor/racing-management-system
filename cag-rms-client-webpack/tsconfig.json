@@ -11,7 +11,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "declaration": false,
     "pretty": true,
-    "types" : [ "node" ] // this is to make symbols 'require' and 'process' globally available, see https://github.com/Microsoft/TypeScript/issues/9725
+    "types" : [ "node"] // this is to make symbols 'require' and 'process' globally available, see https://github.com/Microsoft/TypeScript/issues/9725
   },
   "exclude": [
     "node_modules"
