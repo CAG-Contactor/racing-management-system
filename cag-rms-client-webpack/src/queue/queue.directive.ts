@@ -9,7 +9,7 @@ function factory() {
   return {
     restrict: 'E',
     template: htmlTemplate,
-    controller: Ctrl,
+    controller: ['$scope', 'clientApiService', Ctrl],
     controllerAs: 'vm'
   };
 }
