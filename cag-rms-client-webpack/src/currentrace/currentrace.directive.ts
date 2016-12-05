@@ -8,8 +8,9 @@ appModule  .directive('currentRace', ['$timeout', function ($timeout) {
     scope: {},
     restrict: 'E',
     template: htmlTemplate,
-    controller: Ctrl
+    controller: ['$scope', 'clientApiService', Ctrl]
   };
+
   function Ctrl($scope, clientApiService) {
     let timerHandle, statusTimerHandle;
     let tzOffset = new Date(0).getTimezoneOffset() * 1000 * 60;

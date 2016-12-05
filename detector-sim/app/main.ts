@@ -108,7 +108,7 @@ export class Main {
       sensorID: sensorId,
       timestamp: time
     });
-    this.http.post(this.serverAddress + 'race/passageDetected?sensorID=' + sensorId + '&timestamp=' + time)
+    this.http.post(this.serverAddress + '/passageDetected?sensorID=' + sensorId + '&timestamp=' + time)
       .subscribe(
         response => {
           console.debug('res:', response);
@@ -124,7 +124,7 @@ export class Main {
   }
 
   resetRace(){
-    this.http.post(this.serverAddress + 'api/reset-race')
+    this.http.post(this.serverAddress + '/cancelRace')
         //https://droidrace.caglabs.se/api/reset-race
         .subscribe(
             response => {
