@@ -2,9 +2,9 @@ CAG Racing Management System
 ==========================
 The ultimate racing management system :stuck_out_tongue_winking_eye:.
 
-Spec
+Specification
 ----
-https://docs.google.com/document/d/1U0zHYvEPcVbiDV0DH9tzJArNnOec-c7YbB-wD7Sztss/edit?usp=sharing
+See [Wiki](https://github.com/CAG-Contactor/racing-management-system/wiki)
 
 Mongo DB
 --------
