@@ -1,11 +1,11 @@
 Client API
 ==========
-API-fasad som agerar front mot övriga tjänster. 
+API-fasad som agerar front mot övriga tjänster i systemet. 
 Denna fasad används av [cag-rms-client-webpack](../cag-rms-client-webpack/README.md).
 
 Swagger Documentation
 ---------------------
-Finns på <host>/swagger-ui.html
+Finns på `<host:port>/swagger-ui.html`, t.ex [http://localhost:10580]().
 
 Beskrivning
 -------------
@@ -18,62 +18,72 @@ till alla cag-rms-client-instanser som är uppkopplade.
 
 REST-metoder
 -----------------------
-#### ClientAPI
+### ClientAPI
 
-##### POST /users
-Registrera en användare genom att vidarebefordra till _<user-manager>/users_
-##### Request body
-A se.cag.labs.cagrms.clientapi.service.User
+#### POST /users
+Registrera en användare genom att vidarebefordra till `<user-manager>/users`.
 
-##### POST /login
-Logga in användare genom att vidarebefordra till _<user-manager>/login_
-##### Request body
-A se.cag.labs.cagrms.clientapi.service.User
+##### Begäran
+Ett JSON-objekt motsvarande java-klassen [User](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/User.java).
 
-##### POST /logout
-Logga ut användare genom att vidarebefordra till _<user-manager>/logout?token=<värde från X-AuthToken header>_
+#### POST /login
+Logga in användare genom att vidarebefordra till `<user-manager>/login`.
+
+##### Begäran
+Ett JSON-objekt motsvarande java-klassen [User](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/User.java).
+
+#### POST /logout
+Logga ut användare genom att vidarebefordra till `<user-manager>/logout?token=<värde från X-AuthToken header>`.
+
 ##### Header parameter
-X-AuthToken: sessionstoken för inloggad användare
+X-AuthToken: sessionstoken för inloggad användare.
 
-##### GET /leaderboard
-Hämta resultattavla genom att vidarebefordra till _<leaderboard>/results_
-##### Response body
-List<se.cag.labs.cagrms.clientapi.service.UserResult>
+#### GET /leaderboard
+Hämta resultattavla genom att vidarebefordra till `<leaderboard>/results`.
 
-##### GET /userqueue
-Hämta kön genom att vidarebefordra till (GET) _<race-administrator>/userqueue
-##### Response body
-List<se.cag.labs.cagrms.clientapi.service.User>
+##### Svar
+En array med JSON-objekt motsvarande java-klassen [UserResult](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/UserResult.java).
+
+#### GET /userqueue
+Hämta kön genom att vidarebefordra till (GET) `<race-administrator>/userqueue`.
+
+##### Svar
+En array med JSON-objekt motsvarande java-klassen [User](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/User.java).
 
 #### POST /userqueue
-Anmäl genom att vidarebefordra till (POST) _<race-administrator>/userqueue_
-##### Request body
-A se.cag.labs.cagrms.clientapi.service.User
+Anmäl genom att vidarebefordra till (POST) `<race-administrator>/userqueue`.
 
-##### DELETE /userqueue
-Avanmäl genom att vidarebefordra till (DELETE) _<race-administrator>/userqueue_
-##### Request body
-A se.cag.labs.cagrms.clientapi.service.User
+##### Begäran
+Ett JSON-objekt motsvarande java-klassen [User](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/User.java).
 
-##### GET /currentrace
-Vidarebefordra till (GET) _<race-administrator>/currentrace
-##### Response body
-A se.cag.labs.cagrms.clientapi.service.RaceStatus
+#### DELETE /userqueue
+Avanmäl genom att vidarebefordra till (DELETE) `<race-administrator>/userqueue`.
+
+##### Begäran
+Ett JSON-objekt motsvarande java-klassen [User](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/User.java).
+
+#### GET /currentrace
+Vidarebefordra till (GET) `<race-administrator>/currentrace`.
+
+##### Svar
+Ett JSON-objekt motsvarande java-klassen [RaceStatus](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/RaceStatus.java).
 
 #### GET /lastrace
 Läsa upp status för senast avslutade lopp.
-##### Response body
-se.cag.labs.raceadmin.RaceStatus
 
-##### POST /reset-race
-Avbryt genom att vidarebefordra till _<race-administrator>/reset-race
+##### Svar
+Ett JSON-objekt motsvarande java-klassen [RaceStatus](../client-api/src/main/java/se/cag/labs/cagrms/clientapi/service/RaceStatus.java).
+
+#### POST /reset-race
+Avbryt genom att vidarebefordra till `<race-administrator>/reset-race`.
 
 ### Extern ändpunkt för att lyssna på händelser
-Denna är implementerad med en websocket-ändpunkt med URI:n: `ws://<host>/eventchannel`
+Denna är implementerad med en websocket-ändpunkt med URI:n: `ws://<host>/eventchannel`.
 
 Händelser som tas emot är JSON-objekt motsvarande java-klassen [Event](../race-administrator/src/main/java/se/cag/labs/raceadmin/peerservices/Event.java).
  
-Fälted `Event.data` tolkas olika beroende på `Event.eventType`. Följande händelser kan komma via denna kanal:
+Fältet `Event.data` innehåller olika information beroende på `Event.eventType`. 
+Följande händelser kan komma via denna kanal:
 
 - `Event.eventType=CURRENT_RACE_STATUS` signalerar uppdatering av status för lopp; `Event.data` är en [RaceStatus](../race-administrator/src/main/java/se/cag/labs/raceadmin/RaceStatus.java)
 - `Event.eventType=QUEUE_UPDATED` signalerar uppdatering av kön med anmälda tävlande; `Event.data` är en [User](../race-administrator/src/main/java/se/cag/labs/raceadmin/User.java)
@@ -81,12 +91,12 @@ Fälted `Event.data` tolkas olika beroende på `Event.eventType`. Följande hän
 
 ### Intern händelsbuss
 
-##### POST /event
+#### POST /event
 Detta är ett internt API (det exponeras alltså inte publikt) för en enkel händelsebuss som skickar händelseobjekt till alla uppkopplade [cag-rms-client-webpack](../cag-rms-client-webpack/README.md)-instanser.
 
 Denna används f.n endast av [race-administrator](../race-administrator/README.md) för att vidarebefordra händelser som skall skickas till klienten. 
 
-##### Request body
+##### Begäran
 Ett godtyckligt JSON-objekt som måste innehålla fältet _eventType_, t.ex
 
       {

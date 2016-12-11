@@ -30,7 +30,7 @@ The easiest way to run the docker containers is to start them with docker-compos
 docker-compose up
 ```
 
-The [client-api](./client-api/README.md) is available at [localhost:10580]() and one finds the swagger documentation at [localhost:10580/swagger-ui.html]().
+The [client-api](./client-api/README.md) will then be available at [localhost:10580]() and the swagger documentation at [localhost:10580/swagger-ui.html]().
 
 See also [Ports](#ports). 
 
@@ -68,12 +68,12 @@ mvn -Pclean-node clean
 Submodules
 ----------
 
-- cag-rms-client: The Angular 1.x based web client for the application
-- client-api: The REST-API facade towards other back-end services used by the cag-rms-client
-- race-administrator: The service handling user queueing and orchestration of races
-- current-race: The service handling and supervising the currently ongoing race and receiving detector passage events
-- leaderboard: The service keeping track of all results
-- user-manager: The service keeping track of registered users and active sessions
+- [cag-rms-client-webpack](./cag-rms-client-webpack/README.md): The Angular 1.x based web client for the application
+- [client-api](./client-api/README.md): The REST-API facade towards other back-end services used by the cag-rms-client
+- [race-administrator](./race-administrator/README.md): The service handling user queueing and orchestration of races
+- [current-race](./current-race/README.md): The service handling and supervising the currently ongoing race and receiving detector passage events
+- [leaderboard](./leaderboard/README.md): The service keeping track of all results
+- [user-manager](./user-manager/README.md): The service keeping track of registered users and active sessions
 
 <a name="ports">Ports</a>
 ------
