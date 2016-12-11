@@ -7,7 +7,8 @@ System.config({
     "typeCheck": "strict",
     "tsconfig": true,
     "resolveAmbientRefs": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   paths: {
     "npm:*": "jspm_packages/npm/*",
