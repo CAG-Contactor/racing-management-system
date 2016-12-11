@@ -5,7 +5,6 @@
  */
 package se.cag.labs.raceadmin.peerservices;
 
-import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.*;
 import org.springframework.web.client.*;
@@ -25,12 +24,4 @@ public class ClientApiService {
     restTemplate.postForObject(uri.toUri(), o, Void.class);
   }
 
-  @Data
-  @NoArgsConstructor
-  @AllArgsConstructor
-  @Builder(toBuilder = true)
-  public static class Event<T> {
-    private String eventType;
-    private T data;
-  }
 }

@@ -5,7 +5,6 @@ Enkel webapp som skall användas för att simulera Raspberry-baserad passage-det
 Installera och starta
 ---------------------
 
-    $ npm install
-    $ npm start
+    $ npm install && npm start
     
 Öppna browser på http://localhost:9080.

@@ -78,7 +78,7 @@ appModule  .directive('currentRace', ['$timeout', function ($timeout) {
           scope.splitTime = undefined;
           scope.runningTime = undefined;
           scope.finishTime = undefined;
-        } else if (raceStatus.event === 'SPLIT') {
+        } else if (raceStatus.event === '`') {
           scope.startTime = Date.now() - raceStatus.currentTime;
           scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
         } else if (raceStatus.event === 'FINISH') {
