@@ -54,7 +54,7 @@ public class RaceAdministratorController {
     }
     userQueueRepository.save(user);
 
-    clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
+    clientApiService.sendEvent(Event.builder().eventType("QUEUE_UPDATED").data(user).build());
 
     if (userQueueRepository.count() == 1 && activeRaceRepository.count() == 0) {
       startNextRace();
@@ -80,7 +80,7 @@ public class RaceAdministratorController {
     log.debug("DELETE /userqueue:" + user);
     final User existingUser = userQueueRepository.findUserByUserId(user.getUserId());
     userQueueRepository.delete(existingUser.getId());
-    clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
+    clientApiService.sendEvent(Event.builder().eventType("QUEUE_UPDATED").data(user).build());
   }
 
   @RequestMapping(value="/currentrace")
@@ -110,7 +110,7 @@ public class RaceAdministratorController {
     if (maybeActiveRace.isPresent()) {
       RaceStatus activeRaceStatus = maybeActiveRace.get();
       status.setUser(activeRaceStatus.getUser());
-      clientApiService.sendEvent(ClientApiService.Event.builder().eventType("CURRENT_RACE_STATUS").data(status).build());
+      clientApiService.sendEvent(Event.builder().eventType("CURRENT_RACE_STATUS").data(status).build());
       if (status.getState() == RaceStatus.RaceState.INACTIVE) {
         UserResult userResult = new UserResult();
         userResult.setUser(activeRaceStatus.getUser());
@@ -123,7 +123,7 @@ public class RaceAdministratorController {
         } else {
           userResult.setResult(UserResult.ResultType.DISQUALIFIED);
         }
-        clientApiService.sendEvent(ClientApiService.Event.builder().eventType("NEW_RESULT").data(userResult).build());
+        clientApiService.sendEvent(Event.builder().eventType("NEW_RESULT").data(userResult).build());
         leaderBoardService.newResult(userResult);
         lastRaceRepository.deleteAll();
         lastRaceRepository.save(status);
@@ -153,7 +153,7 @@ public class RaceAdministratorController {
       activeRaceRepository.save(new RaceStatus(user));
       currentRaceService.startRace();
       userQueueRepository.delete(user.getId());
-      clientApiService.sendEvent(ClientApiService.Event.builder().eventType("QUEUE_UPDATED").data(user).build());
+      clientApiService.sendEvent(Event.builder().eventType("QUEUE_UPDATED").data(user).build());
     }
   }
 

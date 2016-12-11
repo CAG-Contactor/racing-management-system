@@ -1,14 +1,17 @@
 Client API
 ==========
-API-fasad för cag-rms-client.
+API-fasad som agerar front mot övriga tjänster. 
+Denna fasad används av [cag-rms-client-webpack](../cag-rms-client-webpack/README.md).
 
 Swagger Documentation
 ---------------------
-At <host>/swagger-ui.html
+Finns på <host>/swagger-ui.html
 
 Beskrivning
 -------------
 Denna tjänst tillhandahåller en API-fasad gentemot övriga tjänster i back-end.
+
+API:et består av ett REST-gränssnitt samt en websocket-ändpunkt via vilken händelser kan tas emot.
 
 Dessutom tillhandahåller den tjänsten att skicka (broadcast) händelse-meddelanden
 till alla cag-rms-client-instanser som är uppkopplade.
@@ -65,14 +68,28 @@ se.cag.labs.raceadmin.RaceStatus
 ##### POST /reset-race
 Avbryt genom att vidarebefordra till _<race-administrator>/reset-race
 
-### Eventbuss
+### Extern ändpunkt för att lyssna på händelser
+Denna är implementerad med en websocket-ändpunkt med URI:n: `ws://<host>/eventchannel`
+
+Händelser som tas emot är JSON-objekt motsvarande java-klassen [Event](../race-administrator/src/main/java/se/cag/labs/raceadmin/peerservices/Event.java).
+ 
+Fälted `Event.data` tolkas olika beroende på `Event.eventType`. Följande händelser kan komma via denna kanal:
+
+- `Event.eventType=CURRENT_RACE_STATUS` signalerar uppdatering av status för lopp; `Event.data` är en [RaceStatus](../race-administrator/src/main/java/se/cag/labs/raceadmin/RaceStatus.java)
+- `Event.eventType=QUEUE_UPDATED` signalerar uppdatering av kön med anmälda tävlande; `Event.data` är en [User](../race-administrator/src/main/java/se/cag/labs/raceadmin/User.java)
+- `Event.eventType=NEW_RESULT` signalerar uppdatering av resultattavla; `Event.data` är en [UserResult](../race-administrator/src/main/java/se/cag/labs/raceadmin/UserResult.java)
+
+### Intern händelsbuss
 
 ##### POST /event
-Skicka event till alla uppkopplade cag-rms-client-instanser.
+Detta är ett internt API (det exponeras alltså inte publikt) för en enkel händelsebuss som skickar händelseobjekt till alla uppkopplade [cag-rms-client-webpack](../cag-rms-client-webpack/README.md)-instanser.
+
+Denna används f.n endast av [race-administrator](../race-administrator/README.md) för att vidarebefordra händelser som skall skickas till klienten. 
+
 ##### Request body
 Ett godtyckligt JSON-objekt som måste innehålla fältet _eventType_, t.ex
 
       {
         "eventType":"MyEvent",
-        "someData": "XYZ"
+        "someStuff": "XYZ"
       }

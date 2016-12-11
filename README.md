@@ -16,7 +16,7 @@ Start mongod:
 
     $ mongod --dbpath <path to DB>
 
-Run with Docker 
+Run back-end services with Docker 
 ---------------
 You can use the maven profile ```docker``` to generate docker containers for each server application. 
 
@@ -30,15 +30,20 @@ The easiest way to run the docker containers is to start them with docker-compos
 docker-compose up
 ```
 
-To remove unsued images run the following:
+The [client-api](./client-api/README.md) is available at [localhost:10580]() and one finds the swagger documentation at [localhost:10580/swagger-ui.html]().
+
+See also [Ports](#ports). 
+
+To remove unused images run the following:
 ```sh
 docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
 ```
 
 Tools
 -----
-REST Test tool:<br>
-Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en
+
+- [Postman: REST test tool](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en)
+- [Simulator for detector (raspberry pi)](./detector-sim/README.md) 
 
 Build from root pom.xml:
 ------------------------
@@ -70,7 +75,7 @@ Submodules
 - leaderboard: The service keeping track of all results
 - user-manager: The service keeping track of registered users and active sessions
 
-Ports
+<a name="ports">Ports</a>
 ------
 * current-race: 10080
 * leaderboard: 10180
