@@ -4,7 +4,7 @@ The ultimate racing management system :stuck_out_tongue_winking_eye:.
 
 Specification
 ----
-See [Wiki](https://github.com/CAG-Contactor/racing-management-system/wiki)
+See [Wiki](https://github.com/CAG-Contactor/racing-management-system/wiki).
 
 Mongo DB
 --------
