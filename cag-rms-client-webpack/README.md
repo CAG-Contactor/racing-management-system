@@ -33,8 +33,8 @@ The application is available in `src`
 #### Application structure
 The following application modules exists
 
-- `src/common`: common stuff in the Application
-    - `clientApi.service`: Service for accessing back-end
+- `src/common`: common stuff in the application
+    - `clientApi.service`: service for accessing back-end
 - `src/main`: component that implements the main page contents with navigation bar and content area containing the other components.  
 - `src/overview`: component that implements the overview view (`<overview></overview>`)
 - `src/queue`: component that implements the queue view (`<cag-queue></cag-queue>`)
