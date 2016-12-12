@@ -1,5 +1,11 @@
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const options = require('yargs').argv;
+
+const clientApi = options['client-api'] || process.env.CLIENT_API || "http://localhost:10580";
+const buildInfo = options['build-info'] || process.env.BUILD_INFO || "Local development";
+console.log('clientApi:', clientApi, 'buildInfo:', buildInfo);
 
 module.exports = {
   entry: {
@@ -59,6 +65,11 @@ module.exports = {
     ]
   },
   plugins: [
+    // Ta in parametrar till applikationen
+    new webpack.DefinePlugin({
+      CLIENT_API: JSON.stringify(clientApi),
+      BUILD_INFO: JSON.stringify(buildInfo)
+    }),
     // Definiera att html-webpack-plugin skall processa index.html, m.a.p filnamn
     new HtmlWebpackPlugin({
       template: 'src/index.html'
