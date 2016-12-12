@@ -4,24 +4,39 @@ User interface for CAG Racing Management System
 CAG Racing Management System
 ============================
 
+Run application in development server
+--------------------------------------
 
-Build
------
-_This section needs to be rewritten; also, the build system must be modified to support it._
+    $ npm install && npm start
+
+Build distro
+------------
+The webpack config recognizes the following options through NPM scripts:
+
+- `client-api`: the server address of the `client-api` service in the back-end, e.g "http://localhost:10580"
+- `build-info`: a string providing information about the build, e.g "$(git log -1 --pretty='%H %cd')"; 
+  defaults to ${maven.build.timestamp}. This build info is displayed when clicking on "CAG DROID RACE"-logo in upper left corner.
+ 
+These are picked up in the application.
+
+Use when building/running via `npm` as in the following examples:
+
+    $ npm start -- --client-api="http://localhost:10580"
+or    
+
+    $ npm build:prod -- --client-api="http://localhost:10580"
+
+Note, that the "--" is necessary.
+
+---
+
+Use when building via maven as follows
 
     $ mvn clean install [ -Dclientapi.base=<clientapi server address> ] [-Dbuildinfo=<buildinfo>][ -Pclean-node ]
 
-- clientapi server address: see below
-- clean-node: this profile removes node/ node_modules and /vendor src/main/webapp_src
-- buildinfo: some string identifying the build, e.g "$(git log -1 --pretty='%H %cd')"; 
-  defaults to ${maven.build.timestamp}. This build info is displayed when clicking on 
-  "CAG DROID RACE"-logo in upper left corner.
-
+- clean-node: this profile removes `node/` and `node_modules/`
  
 This installs node, npm and builds the entire web application.
-
-The unminified result is then available in src/main/webapp_build and
-the minified result is available in src/main/webapp.
 
 Develop
 -------
@@ -41,10 +56,6 @@ The following application modules exists
 - `src/leaderboard`: component that implements the leaderboard view (`<leaderboard></leaderboard>`)
 - `src/currentrace`: component that implements the currentrace view (`<current-race data-user="<user name>"></current-race>`)
 - `src/notification`: service for showing error and info notifications
-
-### Run application in development server
-
-    $ npm install && npm start
 
 Debugging Events
 ================
