@@ -72,7 +72,8 @@ module.exports = {
     }),
     // Definiera att html-webpack-plugin skall processa index.html, m.a.p filnamn
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      favicon: 'src/assets/image/caglabs-favicon.png'
     }),
     new ExtractTextPlugin('[name].[hash].css')
   ]
