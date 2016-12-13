@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparingLong;
 import static java.util.Objects.nonNull;
 
 @Log4j
@@ -47,9 +48,10 @@ public class LeaderBoardController {
   public List<UserResult> results() {
     log.debug("GET /results");
     return repository.findAll().stream()
-            .filter(r -> r.getResult().equals(ResultType.FINISHED))
-            .sorted((r1, r2) -> Long.compare(r1.getTime(), r2.getTime()))
-            .collect(Collectors.toList());
+        .filter(Objects::nonNull)
+        .filter(r -> Objects.equals(r.getResult(), ResultType.FINISHED))
+        .sorted(comparingLong(UserResult::getTime))
+        .collect(Collectors.toList());
   }
 
   @RequestMapping(value = "/resultsBy", method = RequestMethod.POST)
