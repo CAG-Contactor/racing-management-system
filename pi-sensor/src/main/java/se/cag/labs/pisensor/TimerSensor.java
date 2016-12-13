@@ -66,6 +66,12 @@ public class TimerSensor {
         }
     }
 
+    /**
+     * Receives an event from a timer sensor and registers the event to the Current Race service.
+     *
+     * @param sensor the sensor that registers the event
+     * @param time a timestamp for the event registered at the sensor
+     */
     private void registerEvent(String sensor, String time) {
         try {
             URL url = new URL(baseUri + "?sensorID=" + sensor + "&timestamp=" + time);
