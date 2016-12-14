@@ -5,7 +5,6 @@ import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * Configuration for the admin client.
@@ -13,21 +12,11 @@ import javax.validation.constraints.NotNull;
 public class AdminConfiguration extends Configuration {
 
     @Valid
-    @NotNull
     @JsonProperty
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
-
-    @JsonProperty
-    private String urlCurrentRace;
 
     @JsonProperty("jerseyClient")
     public JerseyClientConfiguration getJerseyClientConfiguration() {
         return jerseyClient;
     }
-
-    @JsonProperty
-    public String getUrlCurrentRace() {
-        return this.urlCurrentRace;
-    }
-
 }
