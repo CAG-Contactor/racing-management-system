@@ -1,35 +1,23 @@
 package se.cag.labs.cagrms.admin.api;
 
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 import se.cag.labs.leaderboard.ResultType;
 
+@Data
 public class Race {
 
-    private String id;
-    private String email;
-    private int time;
-    private ResultType resultType;
+    cd ra    private String id;
+    @Setter(AccessLevel.PRIVATE) private String email;
+    @Setter(AccessLevel.PRIVATE) private int time;
+    @Setter(AccessLevel.PRIVATE) private ResultType resultType;
 
     public Race(String id, String email, int time, ResultType resultType) {
         this.id = id;
         this.email = email;
         this.time = time;
         this.resultType = resultType;
-    }
-
-    public String getId(){
-        return this.id;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
-
-    public int getTime(){
-        return this.getTime();
-    }
-
-    public ResultType getResultType(){
-        return this.resultType;
     }
 }
