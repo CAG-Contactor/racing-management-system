@@ -17,9 +17,17 @@ public class AdminConfiguration extends Configuration {
     @JsonProperty
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
 
+    @JsonProperty
+    private String urlCurrentRace;
+
     @JsonProperty("jerseyClient")
     public JerseyClientConfiguration getJerseyClientConfiguration() {
         return jerseyClient;
+    }
+
+    @JsonProperty
+    public String getUrlCurrentRace() {
+        return this.urlCurrentRace;
     }
 
 }

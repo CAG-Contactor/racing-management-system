@@ -9,7 +9,7 @@ import se.cag.labs.leaderboard.ResultType;
 @Data
 public class Race {
 
-    cd ra    private String id;
+    @Setter(AccessLevel.PRIVATE) private String id;
     @Setter(AccessLevel.PRIVATE) private String email;
     @Setter(AccessLevel.PRIVATE) private int time;
     @Setter(AccessLevel.PRIVATE) private ResultType resultType;
