@@ -1,5 +1,6 @@
 package se.cag.labs.cagrms.admin;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +13,7 @@ public class AdminApplicationTest {
   @InjectMocks
   private AdminApplication adminApplication;
 
+  @Ignore
   @Test
   public void it_should_run() throws Exception {
     adminApplication.run(null, null);
