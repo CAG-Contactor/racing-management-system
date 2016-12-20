@@ -1,4 +1,6 @@
-
+server:
+  type: default
+  maxThreads: 1024
 jerseyClient:
   minThreads: 1
   maxThreads: 128
