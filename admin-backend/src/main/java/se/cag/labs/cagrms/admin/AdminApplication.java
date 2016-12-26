@@ -25,7 +25,7 @@ public class AdminApplication extends Application<AdminConfiguration> {
 
       final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
             .build(getName());
-      environment.jersey().register(new RaceResource(client));
+      environment.jersey().register(new RaceResource(configuration, client));
       environment.jersey().register(new UserResource(client));
       environment.jersey().register(new StatusResource(client));
       environment.jersey().register(new CSVMessageBodyWriter());

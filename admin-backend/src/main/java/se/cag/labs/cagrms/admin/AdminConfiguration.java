@@ -11,6 +11,8 @@ import javax.validation.Valid;
  */
 public class AdminConfiguration extends Configuration {
 
+    private String urlLeaderboardResults;
+
     @Valid
     @JsonProperty
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
@@ -18,5 +20,10 @@ public class AdminConfiguration extends Configuration {
     @JsonProperty("jerseyClient")
     public JerseyClientConfiguration getJerseyClientConfiguration() {
         return jerseyClient;
+    }
+
+    @JsonProperty("urlLeaderboardResults")
+    public String getUrlLeaderboardResults() {
+        return urlLeaderboardResults;
     }
 }

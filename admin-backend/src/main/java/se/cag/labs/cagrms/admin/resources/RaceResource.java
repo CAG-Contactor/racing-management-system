@@ -2,6 +2,7 @@ package se.cag.labs.cagrms.admin.resources;
 
 
 import lombok.extern.log4j.Log4j;
+import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.api.Race;
 import se.cag.labs.cagrms.admin.resources.apimodel.UserResult;
 import se.cag.labs.cagrms.admin.resources.mapper.ModelMapper;
@@ -19,10 +20,13 @@ import java.util.List;
 @Path("/admin")
 public class RaceResource {
 
-    public static final String URL_LEADERBOARD_RESULTS = "http://localhost:10180/results";
+    private AdminConfiguration configuration;
+    private String urlLeaderboardResults;
     private Client client;
 
-    public RaceResource(Client client) {
+    public RaceResource(AdminConfiguration configuration, Client client) {
+        this.configuration = configuration;
+        this.urlLeaderboardResults = configuration.getUrlLeaderboardResults();
         this.client = client;
     }
 
@@ -36,7 +40,6 @@ public class RaceResource {
 
         return ModelMapper.createUserResultResponse(results);
     }
-
 
     @GET
     @Path("/registered-races/")
@@ -67,7 +70,7 @@ public class RaceResource {
      * @return List of <code>UserResult</code>
      */
     private List<UserResult> getUserResults() {
-        WebTarget webTarget = client.target(URL_LEADERBOARD_RESULTS);
+        WebTarget webTarget = client.target(urlLeaderboardResults);
 
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.get();

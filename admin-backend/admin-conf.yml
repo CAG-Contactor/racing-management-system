@@ -1,6 +1,7 @@
 server:
   type: default
   maxThreads: 1024
+
 jerseyClient:
   minThreads: 1
   maxThreads: 128
@@ -8,3 +9,5 @@ jerseyClient:
   gzipEnabled: true
   gzipEnabledForRequests: true
   chunkedEncodingEnabled: true
+
+urlLeaderboardResults : http://localhost:10180/results
