@@ -12,6 +12,7 @@ import javax.validation.Valid;
 public class AdminConfiguration extends Configuration {
 
     private String urlLeaderboardResults;
+    private String urlCancelCurrentRace;
 
     @Valid
     @JsonProperty
@@ -25,5 +26,10 @@ public class AdminConfiguration extends Configuration {
     @JsonProperty("urlLeaderboardResults")
     public String getUrlLeaderboardResults() {
         return urlLeaderboardResults;
+    }
+
+    @JsonProperty("urlCancelCurrentRace")
+    public String getUrlCancelCurrentRace() {
+        return urlCancelCurrentRace;
     }
 }

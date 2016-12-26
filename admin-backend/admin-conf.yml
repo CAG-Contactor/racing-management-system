@@ -14,10 +14,12 @@ jerseyClient:
   gzipEnabledForRequests: true
   chunkedEncodingEnabled: true
 
+# URL:s to the different services
 urlLeaderboardResults : http://localhost:10180/results/
+urlCancelCurrentRace : http://localhost:10080/cancelRace
 
 # Logging settings.
 logging:
 
-  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  # The default level of all loggers.
   level: INFO
