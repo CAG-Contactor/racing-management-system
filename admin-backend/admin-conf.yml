@@ -1,6 +1,10 @@
 server:
   type: default
   maxThreads: 1024
+  allowedMethods:
+    - GET
+    - POST
+    - DELETE
 
 jerseyClient:
   minThreads: 1
@@ -11,3 +15,9 @@ jerseyClient:
   chunkedEncodingEnabled: true
 
 urlLeaderboardResults : http://localhost:10180/results
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
