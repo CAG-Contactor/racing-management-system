@@ -14,7 +14,7 @@ jerseyClient:
   gzipEnabledForRequests: true
   chunkedEncodingEnabled: true
 
-urlLeaderboardResults : http://localhost:10180/results
+urlLeaderboardResults : http://localhost:10180/results/
 
 # Logging settings.
 logging:
