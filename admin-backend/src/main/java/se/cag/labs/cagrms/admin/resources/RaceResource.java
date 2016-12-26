@@ -54,8 +54,26 @@ public class RaceResource {
 
     @DELETE
     @Path("/registered-races/{id}")
-    public void deleteRace() {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteRace(@PathParam("id") String id) {
+        log.info("Deleting race with id: " + id);
+        List<UserResult> results = getUserResults();
 
+       UserResult userResult = results.stream()
+                .filter(o -> o.getId().equals(id))
+                .findFirst().orElse(null);
+
+       if(userResult == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+       }
+
+       WebTarget webTarget = client.target(urlLeaderboardResults+"/"+userResult.getId());
+        Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
+        Response response = invocationBuilder.delete();
+        log.info("Status: " + response.getStatus());
+
+       return Response.ok(userResult).build();
     }
 
     @POST
