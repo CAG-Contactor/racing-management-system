@@ -4,6 +4,8 @@ package se.cag.labs.leaderboard;
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -69,5 +71,17 @@ public class LeaderBoardController {
             .filter(r -> r.getUser().getUserId().equals(user.getUserId()))
             .sorted((r1, r2) -> Long.compare(r1.getTime(), r2.getTime()))
             .collect(Collectors.toList()) : Collections.emptyList();
+  }
+
+  @RequestMapping(value = "/results/{id}", method = RequestMethod.DELETE)
+  @ApiOperation(value = "Deletes the race with a given id")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Race deleted"),
+  })
+  public ResponseEntity deleteRace(@PathVariable("id") String id) {
+    log.debug("DELETE /results/:" + id);
+    repository.delete(id);
+
+    return new ResponseEntity(HttpStatus.OK);
   }
 }
