@@ -25,7 +25,7 @@ public class RaceTest {
     }
 
     @Test
-    public void raceSerializesToJSON() throws Exception {
+    public void serializesToJSON() throws Exception {
 
         final String expected = MAPPER.writeValueAsString(
                 MAPPER.readValue(fixture("fixtures/race.json"), Race.class));
@@ -34,7 +34,7 @@ public class RaceTest {
     }
 
     @Test
-    public void raceDeserializesFromJSON() throws Exception {
+    public void deserializesFromJSON() throws Exception {
 
         assertThat(MAPPER.readValue(fixture("fixtures/race.json"), Race.class))
                 .isEqualTo(race);
