@@ -20,9 +20,13 @@ import java.util.List;
 @Path("/admin")
 public class RaceResource {
 
-    private AdminConfiguration configuration;
-    private String urlLeaderboardResults;
-    private Client client;
+    public static final String REGISTERED_RACES = "/registered-races/";
+    public static final String REGISTERED_RACES_ID = "/registered-races/{id}";
+    public static final String CANCEL_ACTIVE_RACE_ID = "/cancel-active-race/{id}";
+
+    private final AdminConfiguration configuration;
+    private final String urlLeaderboardResults;
+    private final Client client;
 
     public RaceResource(AdminConfiguration configuration, Client client) {
         this.configuration = configuration;
@@ -31,7 +35,7 @@ public class RaceResource {
     }
 
     @GET
-    @Path("/registered-races/")
+    @Path(REGISTERED_RACES)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Race> getRegisteredRaces() {
@@ -42,7 +46,7 @@ public class RaceResource {
     }
 
     @GET
-    @Path("/registered-races/")
+    @Path(REGISTERED_RACES)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces({"text/csv"})
     public List<Race> getRegisteredRacesCSV() {
@@ -53,7 +57,7 @@ public class RaceResource {
     }
 
     @DELETE
-    @Path("/registered-races/{id}")
+    @Path(REGISTERED_RACES_ID)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteRace(@PathParam("id") String id) {
@@ -68,16 +72,16 @@ public class RaceResource {
             return Response.status(Response.Status.NOT_FOUND).build();
        }
 
-       WebTarget webTarget = client.target(urlLeaderboardResults+"/"+userResult.getId());
+        WebTarget webTarget = client.target(urlLeaderboardResults + userResult.getId());
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.delete();
         log.info("Status: " + response.getStatus());
 
-       return Response.ok(userResult).build();
+        return Response.ok(userResult).build();
     }
 
     @POST
-    @Path("/registered-races/{id}")
+    @Path(CANCEL_ACTIVE_RACE_ID)
     public void cancelRace() {
 
     }
