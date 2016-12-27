@@ -9,6 +9,7 @@ import se.cag.labs.cagrms.admin.resources.mapper.ModelMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -22,15 +23,17 @@ public class RaceResource {
 
     public static final String REGISTERED_RACES = "/registered-races/";
     public static final String REGISTERED_RACES_ID = "/registered-races/{id}";
-    public static final String CANCEL_ACTIVE_RACE_ID = "/cancel-active-race/{id}";
+    public static final String CANCEL_ACTIVE_RACE_ID = "/cancel-active-race/";
 
-    private final AdminConfiguration configuration;
     private final String urlLeaderboardResults;
+    private final String urlCancelCurrentRace;
+    private final AdminConfiguration configuration;
     private final Client client;
 
     public RaceResource(AdminConfiguration configuration, Client client) {
         this.configuration = configuration;
         this.urlLeaderboardResults = configuration.getUrlLeaderboardResults();
+        this.urlCancelCurrentRace = configuration.getUrlCancelCurrentRace();
         this.client = client;
     }
 
@@ -69,20 +72,19 @@ public class RaceResource {
                 .findFirst().orElse(null);
 
        if(userResult == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity("No race with specified id!").build();
        }
 
         WebTarget webTarget = client.target(urlLeaderboardResults + userResult.getId());
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.delete();
-        log.info("Status: " + response.getStatus());
 
-        return Response.ok(userResult).build();
+        return Response.ok().entity(Entity.text("Race deleted successfully!")).build();
     }
 
     @POST
     @Path(CANCEL_ACTIVE_RACE_ID)
-    public void cancelRace() {
+    public void cancelActiveRace() {
 
     }
 
