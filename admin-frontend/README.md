@@ -31,4 +31,6 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Work log
-Adding Angular Material 2 styles, see [Getting Started Using Angular Material 2 in an Angular 2 Angular-CLI application](https://medium.com/front-end-hacking/getting-started-using-angular-material-2-in-an-angular-2-angular-cli-application-bbeecdf6bfe2#.lp7is6wht).
+Adding Angular Material 2 styles, see
+
+- [Angular Material 2 – Using in Angular 2 apps with Angular CLI](http://www.mithunvp.com/angular-material-2-angular-cli-webpack/)
