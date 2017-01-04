@@ -24,9 +24,11 @@ public class RaceResource {
     public static final String REGISTERED_RACES = "/registered-races/";
     public static final String REGISTERED_RACES_ID = "/registered-races/{id}";
     public static final String CANCEL_ACTIVE_RACE_ID = "/cancel-active-race/";
+    public static final String RESET_RACE = "/reset-race";
 
     private final String urlLeaderboardResults;
     private final String urlCancelCurrentRace;
+    private final String urlRaceAdministrator;
     private final AdminConfiguration configuration;
     private final Client client;
 
@@ -34,6 +36,7 @@ public class RaceResource {
         this.configuration = configuration;
         this.urlLeaderboardResults = configuration.getUrlLeaderboardResults();
         this.urlCancelCurrentRace = configuration.getUrlCancelCurrentRace();
+        this.urlRaceAdministrator = configuration.getUrlRaceAdministrator();
         this.client = client;
     }
 
@@ -79,13 +82,19 @@ public class RaceResource {
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.delete();
 
-        return Response.ok().entity(Entity.text("Race deleted successfully!")).build();
+        return Response.status(response.getStatus()).build();
     }
 
     @POST
     @Path(CANCEL_ACTIVE_RACE_ID)
-    public void cancelActiveRace() {
+    public Response cancelActiveRace() {
+        log.info("Canceling race current race...");
+        WebTarget webTarget = client.target(urlRaceAdministrator + RESET_RACE);
+        Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
+        Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
 
+        //return Response.status(response.getStatus()).entity(Entity.text(response.get)).build();
+        return Response.status(response.getStatus()).build();
     }
 
     /**
