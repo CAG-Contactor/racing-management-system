@@ -24,7 +24,6 @@ public class RaceResource {
     public static final String REGISTERED_RACES = "/registered-races/";
     public static final String REGISTERED_RACES_ID = "/registered-races/{id}";
     public static final String CANCEL_ACTIVE_RACE_ID = "/cancel-active-race/";
-    public static final String RESET_RACE = "/reset-race";
 
     private final String urlLeaderboardResults;
     private final String urlCancelCurrentRace;
@@ -87,14 +86,15 @@ public class RaceResource {
 
     @POST
     @Path(CANCEL_ACTIVE_RACE_ID)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response cancelActiveRace() {
         log.info("Canceling race current race...");
-        WebTarget webTarget = client.target(urlRaceAdministrator + RESET_RACE);
+        WebTarget webTarget = client.target(urlRaceAdministrator);
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
 
-        //return Response.status(response.getStatus()).entity(Entity.text(response.get)).build();
-        return Response.status(response.getStatus()).build();
+        return Response.status(response.getStatus()).type(MediaType.APPLICATION_JSON).build();
     }
 
     /**
