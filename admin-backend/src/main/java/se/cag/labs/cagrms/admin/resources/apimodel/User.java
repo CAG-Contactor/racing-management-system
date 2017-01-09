@@ -1,21 +1,27 @@
 package se.cag.labs.cagrms.admin.resources.apimodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import se.cag.labs.usermanager.NewUser;
 
+import javax.persistence.Id;
+
+@Builder(toBuilder = true)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(builder = User.UserBuilder.class)
 public class User extends NewUser {
   @Id
   @JsonIgnore
   private String id;
+  private String userId;
+  private String displayName;
+  private String password;
 
-  public User(final String userId, final String displayName, final String password) {
-    super(userId, displayName, password);
+  @JsonPOJOBuilder(withPrefix = "")
+  public static final class UserBuilder {
   }
 }

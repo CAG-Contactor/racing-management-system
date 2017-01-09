@@ -3,10 +3,12 @@ package se.cag.labs.cagrms.admin.resources.apimodel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import lombok.*;
-import org.springframework.data.annotation.Id;
+import lombok.Builder;
+import lombok.Data;
 import se.cag.labs.leaderboard.ResultType;
 import se.cag.labs.leaderboard.User;
+
+import javax.persistence.Id;
 
 @Builder(toBuilder = true)
 @Data

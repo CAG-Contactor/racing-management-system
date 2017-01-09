@@ -14,6 +14,7 @@ public class AdminConfiguration extends Configuration {
     private String urlLeaderboardResults;
     private String urlCancelCurrentRace;
     private String urlRaceAdministrator;
+    private String urlUserManager;
 
     @Valid
     @JsonProperty
@@ -37,5 +38,10 @@ public class AdminConfiguration extends Configuration {
     @JsonProperty("urlRaceAdministrator")
     public String getUrlRaceAdministrator() {
         return urlRaceAdministrator;
+    }
+
+    @JsonProperty("urlUserManager")
+    public String getUrlUserManager() {
+        return urlUserManager;
     }
 }

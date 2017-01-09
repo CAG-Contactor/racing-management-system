@@ -1,6 +1,7 @@
 package se.cag.labs.cagrms.admin.resources.mapper;
 
 import se.cag.labs.cagrms.admin.api.Race;
+import se.cag.labs.cagrms.admin.resources.apimodel.User;
 import se.cag.labs.cagrms.admin.resources.apimodel.UserResult;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public final class ModelMapper {
               .collect(Collectors.toList());
     }
 
+
   private static Race mapUserResultToRace(UserResult userResult) {
     return Race.builder()
             .id(userResult.getId())
@@ -27,4 +29,19 @@ public final class ModelMapper {
             .resultType(userResult.getResult())
             .build();
   }
+
+
+    public static List<User> createUserResponse(List<User> users) {
+        return users.stream()
+                .map(ModelMapper::mapUser)
+                .collect(Collectors.toList());
+    }
+
+    private static User mapUser(User user) {
+        return User.builder()
+                .displayName(user.getDisplayName())
+                .userId(user.getUserId())
+                .build();
+    }
+
 }
