@@ -17,7 +17,7 @@ jerseyClient:
 # URL:s to the different services
 urlCancelCurrentRace : http://localhost:10080/cancelRace
 urlLeaderboardResults : http://localhost:10180/results/
-urlUserManager : http://localhost:10280/registered-users
+urlUserManager : http://localhost:10280/all-users
 urlRaceAdministrator : http://localhost:10380/reset-race
 
 # Logging settings.

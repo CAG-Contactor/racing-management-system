@@ -39,8 +39,9 @@ public final class ModelMapper {
 
     private static User mapUser(User user) {
         return User.builder()
-                .displayName(user.getDisplayName())
+                .id(user.getId())
                 .userId(user.getUserId())
+                .displayName(user.getDisplayName())
                 .build();
     }
 

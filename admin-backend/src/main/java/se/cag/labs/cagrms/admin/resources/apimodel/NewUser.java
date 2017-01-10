@@ -2,7 +2,6 @@ package se.cag.labs.cagrms.admin.resources.apimodel;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.cag.labs.usermanager.UserInfo;
 
 @Data
 @NoArgsConstructor
