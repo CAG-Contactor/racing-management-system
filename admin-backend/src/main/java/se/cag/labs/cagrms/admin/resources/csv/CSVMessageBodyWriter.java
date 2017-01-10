@@ -2,6 +2,7 @@ package se.cag.labs.cagrms.admin.resources.csv;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import lombok.extern.log4j.Log4j;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -16,9 +17,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Jackson provides MessageBodyWriters for several formats, but it does not provide an out of the box solution for CSV.
- * This is a MessageBodyWriter that allows to output a List of objects as CSV from a JAX-RS webservice.
+ * MessageBodyWriter that allows to output a List of objects as CSV from a JAX-RS webservice.
  */
+@Log4j
 @Provider
 @Produces("text/csv")
 public class CSVMessageBodyWriter implements MessageBodyWriter {
@@ -44,7 +45,7 @@ public class CSVMessageBodyWriter implements MessageBodyWriter {
         if (list!= null && list.size() > 0) {
             CsvMapper mapper = new CsvMapper();
             Object o = list.get(0);
-            CsvSchema schema = mapper.schemaFor(o.getClass()).withHeader();
+            CsvSchema schema = mapper.schemaFor(o.getClass()).withHeader().withColumnSeparator(';');
             mapper.writer(schema).writeValue(outputStream,list);
         }
     }
