@@ -7,14 +7,12 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Id;
-
 @Builder(toBuilder = true)
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = User.UserBuilder.class)
 public class User extends NewUser {
-  @Id
+
   private final String id;
   private final String userId;
   private final String displayName;
