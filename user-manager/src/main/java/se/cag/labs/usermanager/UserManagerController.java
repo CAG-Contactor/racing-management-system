@@ -27,6 +27,13 @@ public class UserManagerController {
     return result;
   }
 
+  @RequestMapping(path = "/registered-users", method = RequestMethod.GET)
+  public List<User> getRegisteredUsers() {
+    List<User> result = userRepository.findAll();
+    result.stream().forEach(u -> u.setPassword(""));
+    return result;
+  }
+
   @RequestMapping(path = "/login", method = RequestMethod.POST)
   public ResponseEntity<UserInfo> login(@RequestBody NewUser user) {
     User u = userRepository.findByUserIdAndPassword(user.getUserId(), user.getPassword());

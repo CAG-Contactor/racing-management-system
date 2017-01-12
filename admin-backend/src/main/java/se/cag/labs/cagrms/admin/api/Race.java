@@ -1,23 +1,26 @@
 package se.cag.labs.cagrms.admin.api;
 
 
-import lombok.AccessLevel;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
 import se.cag.labs.leaderboard.ResultType;
 
+@Builder(toBuilder = true)
 @Data
-public class Race {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(builder = Race.RaceBuilder.class)
+public final class Race {
 
-    @Setter(AccessLevel.PRIVATE) private String id;
-    @Setter(AccessLevel.PRIVATE) private String email;
-    @Setter(AccessLevel.PRIVATE) private int time;
-    @Setter(AccessLevel.PRIVATE) private ResultType resultType;
+    private final String id;
+    private final String userId;
+    private final long time;
+    private final long splitTime;
+    private final ResultType resultType;
 
-    public Race(String id, String email, int time, ResultType resultType) {
-        this.id = id;
-        this.email = email;
-        this.time = time;
-        this.resultType = resultType;
+    @JsonPOJOBuilder(withPrefix = "")
+    public static final class RaceBuilder {
     }
 }

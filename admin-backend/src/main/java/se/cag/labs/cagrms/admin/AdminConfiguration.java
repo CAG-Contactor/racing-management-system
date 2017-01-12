@@ -7,9 +7,14 @@ import io.dropwizard.client.JerseyClientConfiguration;
 import javax.validation.Valid;
 
 /**
- * Configuration for the admin client.
+ * Configuration class for the admin client. Reads properties from admin-conf.yml
  */
 public class AdminConfiguration extends Configuration {
+
+    private String urlLeaderboardResults;
+    private String urlCancelCurrentRace;
+    private String urlRaceAdministrator;
+    private String urlUserManager;
 
     @Valid
     @JsonProperty
@@ -18,5 +23,25 @@ public class AdminConfiguration extends Configuration {
     @JsonProperty("jerseyClient")
     public JerseyClientConfiguration getJerseyClientConfiguration() {
         return jerseyClient;
+    }
+
+    @JsonProperty("urlLeaderboardResults")
+    public String getUrlLeaderboardResults() {
+        return urlLeaderboardResults;
+    }
+
+    @JsonProperty("urlCancelCurrentRace")
+    public String getUrlCancelCurrentRace() {
+        return urlCancelCurrentRace;
+    }
+
+    @JsonProperty("urlRaceAdministrator")
+    public String getUrlRaceAdministrator() {
+        return urlRaceAdministrator;
+    }
+
+    @JsonProperty("urlUserManager")
+    public String getUrlUserManager() {
+        return urlUserManager;
     }
 }

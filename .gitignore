@@ -19,3 +19,11 @@ hs_err_pid*
 *.log
 
 dependency-reduced-pom.xml
+/admin-backend/mongodb/
+admin-backend/mongodb/
+cag-rms-client-webpack/etc/
+/admin-backend/admin-backend.iml
+.DS_Store
+admin-backend/.DS_Store
+admin-backend/src/.DS_Store
+mongodb/
