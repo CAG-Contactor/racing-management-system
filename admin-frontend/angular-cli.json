@@ -8,8 +8,7 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets",
-        "favicon.ico"
+        "assets"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -18,10 +17,12 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css",
-        "material2-app-theme.scss"
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "assets/styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/highcharts/highcharts.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",

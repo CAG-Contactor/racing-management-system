@@ -1,4 +1,4 @@
 export default class User {
-  userId:string;
-  displayName:string;
+  userId: string;
+  displayName: string;
 }

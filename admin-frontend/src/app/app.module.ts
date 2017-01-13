@@ -1,43 +1,34 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
-import { RouterModule, Routes } from '@angular/router';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {RouterModule} from "@angular/router";
+import {AlertModule, DropdownModule, ModalModule, PaginationModule} from "ng2-bootstrap";
 
-
-import { AppComponent } from './app.component';
-import { DevlabComponent } from './devlab/devlab.component';
-import { MainComponent } from './main/main.component';
-import { RacesComponent } from './races/races.component';
-import { UsersComponent } from './users/users.component';
-import { ServicesComponent } from './services/services.component';
-
-
-const appRoutes: Routes = [
-  { path: 'main', component: MainComponent },
-  { path: 'races', component: RacesComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'services', component: ServicesComponent },
-  { path: 'dev-lab', component: DevlabComponent },
-  { path: '',   redirectTo: '/main', pathMatch: 'full' }
-];
+import {AppComponent} from "./app.component";
+import {routes} from "./app.routes";
+import {LoginModule} from "./login/login.module";
+import {DashboardModule} from "./dashboard/dashboard.module";
+import {SharedModule} from "./shared/shared.module";
+import {ChartModule} from "angular2-highcharts";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DevlabComponent,
-    MainComponent,
-    RacesComponent,
-    UsersComponent,
-    ServicesComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(routes),
+    AlertModule.forRoot(),
+    DropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    ChartModule,
+    LoginModule,
+    DashboardModule,
+    SharedModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

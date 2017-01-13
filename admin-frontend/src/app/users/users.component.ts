@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import User from "./User";
 
 @Component({
@@ -7,8 +7,10 @@ import User from "./User";
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  users:User[] = [{displayName:"Kaka",userId:"kaka@banan"},{displayName:"Biffen",userId:"biffen@bullen"}];
-  constructor() { }
+  users: User[] = [{displayName: "Kaka", userId: "kaka@banan"}, {displayName: "Biffen", userId: "biffen@bullen"}];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
