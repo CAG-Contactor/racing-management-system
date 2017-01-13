@@ -1,2 +1,12 @@
 @import "~bootstrap/scss/_variables.scss";
 @import "_app-base.scss";
+
+@font-face {
+  font-family: ussrArmy;
+  src: url('./font/army-font.ttf')
+}
+
+body {
+  font-family: ussrArmy;
+  background: #C6C5A5;
+}

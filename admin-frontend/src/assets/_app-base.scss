@@ -1,6 +1,6 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
-$topnav-background-color: #222;
+$topnav-background-color: #535220;
 .user-avatar {
   border: 3px solid #FFF;
   -webkit-border-radius: 50%;
@@ -12,7 +12,7 @@ $topnav-background-color: #222;
   top: 0px;
   left: 5px;
   color: #FFF;
-  background: #222;
+  background: #535220;
   font-size: 23px;
   z-index: 3;
   display: none;
@@ -237,6 +237,7 @@ a:hover {
 
 @media screen and (max-width: 600px) {
   .topnav {
+    padding: 6px;
     .text-center {
       a {
         font-size: 20px;
@@ -250,6 +251,7 @@ a:hover {
     display: block;
   }
   .topnav {
+    padding: 6px;
     .text-center {
       padding-left: 55px;
     }
@@ -428,7 +430,7 @@ a:hover {
 .spinner > div {
   width: 18px;
   height: 18px;
-  background-color: #333;
+  background-color: #4B5320;
 
   border-radius: 100%;
   display: inline-block;
