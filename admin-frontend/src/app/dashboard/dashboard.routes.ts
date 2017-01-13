@@ -3,6 +3,7 @@ import {HomeRoutes} from "./home/index";
 import {ResultRoutes} from "./result/index";
 import {DashboardComponent} from "./index";
 import {NgModule} from "@angular/core";
+import {UsersRoutes} from "./users/users.routes";
 
 const dashboardRoutes: Route[] = [
   {
@@ -10,7 +11,8 @@ const dashboardRoutes: Route[] = [
     component: DashboardComponent,
     children: [
       ...HomeRoutes,
-      ...ResultRoutes
+      ...ResultRoutes,
+      ...UsersRoutes
     ],
   },
   {

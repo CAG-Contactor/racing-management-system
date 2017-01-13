@@ -7,6 +7,7 @@ import {ResultModule} from "./result/result.module";
 import {DashboardComponent} from "./dashboard.component";
 import {TopNavComponent, SidebarComponent} from "../shared/index";
 import {DashboardRoutingModule} from "./dashboard.routes";
+import {UsersModule} from "./users/users.module";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {DashboardRoutingModule} from "./dashboard.routes";
     DropdownModule,
     ModalModule,
     HomeModule,
-    ResultModule
+    ResultModule,
+    UsersModule
   ],
   declarations: [DashboardComponent, TopNavComponent, SidebarComponent],
   exports: [DashboardComponent, TopNavComponent, SidebarComponent]
