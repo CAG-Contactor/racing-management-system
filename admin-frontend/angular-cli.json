@@ -8,8 +8,7 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets",
-        "assets/ussr-army/USSR-Army.ttf"
+        "assets"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -22,7 +21,6 @@
         "assets/styles.scss"
       ],
       "scripts": [
-        "../node_modules/highcharts/highcharts.js"
       ],
       "environments": {
         "source": "environments/environment.ts",
