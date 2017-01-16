@@ -3,27 +3,21 @@
     <a class="navbar-brand" [routerLink]="['/dashboard/home']">Administrera CAG RMS</a>
 
     <ul class="nav navbar-nav topnav navbar-right pull-xs-right top-right-nav">
-      <li class="dropdown nav-item" dropdown>
+      <li *ngIf="alarms.length > 0" class="dropdown nav-item alarms" dropdown>
         <!-- <div class="dropdown"> -->
         <a href="javascript:;" id="name2" class="nav-link dropdown-toggle" dropdownToggle>
           <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
         </a>
         <ul class="dropdown-menu alert-dropdown" aria-labelledby="name2">
-          <li>
-            <a href="javascript:;" class="dropdown-item">Alert Name
-              <span class="label label-default"> Alert Badge</span></a>
-          </li>
-          <li>
-            <a href="javascript:;" class="dropdown-item">Alert Name
-              <span class="label label-default"> Alert Badge</span></a>
-          </li>
-          <li>
-            <a href="javascript:;" class="dropdown-item">Alert Name
-              <span class="label label-default"> Alert Badge</span></a>
+          <li *ngFor="let alarm of alarms">
+            <div class="dropdown-item alarm-title">
+              <div>{{message(alarm)}} <i class="fa fa-trash pull-right" (click)="remove(alarm)"></i></div>
+              <div class="alarm-details">{{details(alarm)}}</div>
+            </div>
           </li>
           <li class="dropdown-divider"></li>
           <li>
-            <a href="javascript:;" class="dropdown-item">View All</a>
+            <button class="dropdown-item clear-all" (click)="remove()">Rensa</button>
           </li>
         </ul>
         <!-- </div> -->

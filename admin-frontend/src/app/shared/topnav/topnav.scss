@@ -1,0 +1,34 @@
+li.alarms {
+  .fa-bell {
+    color: red;
+  }
+}
+
+div {
+  .alert-dropdown {
+
+    .alarm-title {
+      font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+      font-size: medium;
+      color: darkred;
+    }
+    .alarm-details {
+      font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+      font-size: small;
+      color: black;
+    }
+    .fa-trash {
+      color: black;
+      &:hover {
+        color: red;
+      }
+    }
+    .clear-all {
+      color: black;
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+

@@ -11,6 +11,8 @@ import {LoginModule} from "./login/login.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {SharedModule} from "./shared/shared.module";
 import {ChartModule} from "angular2-highcharts";
+import {Backend} from "./shared/backend";
+import {Errors} from "./shared/errors";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import {ChartModule} from "angular2-highcharts";
     DashboardModule,
     SharedModule.forRoot()
   ],
-  providers: [],
+  providers: [Backend, Errors],
   bootstrap: [AppComponent]
 })
 export class AppModule {

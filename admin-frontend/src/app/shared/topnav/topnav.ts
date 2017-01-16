@@ -1,18 +1,38 @@
 import {Component} from "@angular/core";
 import * as $ from "jquery";
+import {Errors, FailureInfo} from "../errors";
 
 @Component({
   selector: 'top-nav',
   templateUrl: './topnav.html',
+  styleUrls: ['./topnav.scss']
 })
 
 export class TopNavComponent {
-  changeTheme(color: string): void {
-    var link: any = $('<link>');
-    link
-      .appendTo('head')
-      .attr({type: 'text/css', rel: 'stylesheet'})
-      .attr('href', 'themes/app-' + color + '.css');
+  alarms: FailureInfo[] = [];
+
+  constructor(private errors: Errors) {
+    this.errors.getErrors()
+      .subscribe(error => this.alarms.push(error))
+  }
+
+  message(alarm: FailureInfo): string {
+    return alarm.message
+  }
+
+  details(alarm: FailureInfo): string {
+    return alarm.response &&
+      alarm.response.url + ' => ' + alarm.response.status + ' ' + alarm.response.statusText
+      ||
+      "Inga detaljer";
+  }
+
+  remove(alarmToRemove: FailureInfo): void {
+    if (alarmToRemove === undefined) {
+      this.alarms = [];
+    } else {
+      this.alarms = this.alarms.filter(f => f !== alarmToRemove);
+    }
   }
 
   rtl(): void {
