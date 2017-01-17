@@ -44,29 +44,19 @@
               <goal>npm</goal>
             </goals>
           </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version>
-        <executions>
           <execution>
             <id>ng-build-prod</id>
             <phase>prepare-package</phase>
             <goals>
-              <goal>exec</goal>
+              <goal>npm</goal>
             </goals>
+            <configuration>
+              <arguments>
+                run build:prod
+              </arguments>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <executable>${project.basedir}/node_modules/.bin/ng</executable>
-          <workingDirectory>${project.basedir}</workingDirectory>
-          <arguments>
-            <argument>build</argument>
-            <argument>--prod</argument>
-          </arguments>
-        </configuration>
       </plugin>
     </plugins>
   </build>
