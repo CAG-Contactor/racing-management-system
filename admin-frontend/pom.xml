@@ -52,6 +52,7 @@
         <version>1.5.0</version>
         <executions>
           <execution>
+            <id>ng-build-prod</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>exec</goal>
@@ -63,7 +64,7 @@
           <workingDirectory>${project.basedir}</workingDirectory>
           <arguments>
             <argument>build</argument>
-            <argument>-prod</argument>
+            <argument>--prod</argument>
           </arguments>
         </configuration>
       </plugin>
