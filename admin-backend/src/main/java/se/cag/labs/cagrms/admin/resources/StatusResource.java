@@ -1,7 +1,7 @@
 package se.cag.labs.cagrms.admin.resources;
 
 
-import se.cag.labs.cagrms.admin.api.apimodel.Service;
+import se.cag.labs.cagrms.admin.resources.apimodel.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

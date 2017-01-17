@@ -144,6 +144,7 @@ public class RaceAdministratorController {
   @RequestMapping(value = "/reset-race", method = RequestMethod.POST)
   @ApiOperation(value = "Handle status updates for the current race.")
   public void resetRace() {
+    log.debug("Canceling current race....");
     currentRaceService.cancelRace();
   }
 

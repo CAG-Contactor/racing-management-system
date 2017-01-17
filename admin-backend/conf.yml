@@ -1,8 +1,0 @@
-
-jerseyClient:
-  minThreads: 1
-  maxThreads: 128
-  workQueueSize: 8
-  gzipEnabled: true
-  gzipEnabledForRequests: true
-  chunkedEncodingEnabled: true

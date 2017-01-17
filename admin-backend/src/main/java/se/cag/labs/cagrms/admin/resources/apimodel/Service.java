@@ -1,4 +1,4 @@
-package se.cag.labs.cagrms.admin.api.apimodel;
+package se.cag.labs.cagrms.admin.resources.apimodel;
 
 import lombok.AccessLevel;
 import lombok.Data;

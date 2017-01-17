@@ -1,0 +1,27 @@
+server:
+  type: default
+  maxThreads: 1024
+  allowedMethods:
+    - GET
+    - POST
+    - DELETE
+
+jerseyClient:
+  minThreads: 1
+  maxThreads: 128
+  workQueueSize: 8
+  gzipEnabled: true
+  gzipEnabledForRequests: true
+  chunkedEncodingEnabled: true
+
+# URL:s to the different services
+urlCancelCurrentRace : http://localhost:10080/cancelRace
+urlLeaderboardResults : http://localhost:10180/results/
+urlUserManager : http://localhost:10280/all-users
+urlRaceAdministrator : http://localhost:10380/reset-race
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers.
+  level: INFO
