@@ -1,16 +1,173 @@
 @import "~bootstrap/less/bootstrap";
+@import "~bootstrap/less/variables";
+
 
 @font-face {
   font-family: ussrArmy;
   src: url('../font/army-font.ttf')
 }
 
+@headings-font-family: ussrArmy;
+@standard-font: Menlo, Monaco, Consolas, "Courier New", monospace;
+@margin-sm: 6px;
+
+
 body {
-  font-family: ussrArmy;
   background: #C6C5A5;
   font-size: large;
+  font-family: @standard-font;
 }
 
-.overview {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+a {
+  cursor: pointer;
 }
+
+.navbar {
+  font-family: ussrArmy;
+  .navbar-form {
+    font-family: @standard-font;
+    .registration-link {
+      font-family: ussrArmy;
+    }
+  }
+}
+
+button {
+  font-family: @standard-font;
+}
+
+.alert {
+  font-family: ussrArmy;
+}
+
+// from old
+
+.dn-timepicker-popup {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.margin-bottom-sm {
+  margin-bottom: @margin-sm;
+}
+
+.margin-top-sm {
+  margin-top: @margin-sm;
+}
+
+.margin-left-sm {
+  margin-left: @margin-sm;
+}
+
+.margin-right-sm {
+  margin-right: @margin-sm;
+}
+
+.danger {
+  color: @state-danger-text
+}
+
+.slide.ng-enter {
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  position: relative;
+  top: -1000px;
+}
+
+.slide.ng-enter.ng-enter-active {
+  top: 0;
+}
+
+.slide.ng-leave {
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  position: relative;
+  left: 0;
+}
+
+.slide.ng-leave.ng-leave-active {
+  left: -1000px;
+}
+
+.description {
+  font-size: small;
+}
+
+.lastrace * {
+  font-family: @standard-font;
+  font-size: 12px;
+  table {
+    margin: 0 auto;
+  }
+}
+
+.user-queue * {
+  font-family: @standard-font;
+  font-size: 12px;
+}
+
+.leaderboard * {
+  font-family: @standard-font;
+  font-size: 12px;
+}
+
+.myraces * {
+  font-family: @standard-font;
+  font-size: 12px;
+}
+
+.center {
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.active-race * {
+  font-size: 20px;
+}
+
+.start-message {
+  opacity: 0.9;
+  font-size: 36px;
+  text-align: center;
+  width: 90%;
+  position: relative;
+  margin-left: 5%;
+  margin-right: 5%;
+  top: 10px;
+  z-index: 1000;
+}
+
+@media screen and (min-width: 768px) {
+  .user-queue * {
+    font-family: @standard-font;
+    font-size: 24px;
+  }
+
+  .leaderboard * {
+    font-family: @standard-font;
+    font-size: 24px;
+  }
+
+  .active-race * {
+    font-family: @standard-font;
+    font-size: 32px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .lastrace * {
+    font-family: @standard-font;
+    font-size: 18px;
+  }
+
+  .myraces * {
+    font-family: @standard-font;
+    font-size: 24px;
+  }
+}
+

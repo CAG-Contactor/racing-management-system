@@ -3,7 +3,11 @@
     Resultattavla
   </h2>
 
-  <table class="table table-condensed leaderboard">
+  <h1 ng-if="vm.results.length === 0" class="alert alert-dismissible alert-info">
+    Det finns inga resultat än...
+  </h1>
+
+  <table ng-if="vm.results.length > 0" class="table table-condensed leaderboard">
     <tr>
       <th>Namn</th>
       <th>Tid</th>

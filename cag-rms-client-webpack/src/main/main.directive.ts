@@ -80,7 +80,7 @@ function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) 
       })
       .catch(function (error) {
         console.log(error);
-        notificationService.showErrorMessage('let det verkligen rätt inloggningsuppgifter!?');
+        notificationService.showErrorMessage('Var det verkligen rätt inloggningsuppgifter!?');
       });
   }
 

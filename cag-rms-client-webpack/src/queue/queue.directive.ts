@@ -39,6 +39,7 @@ function Ctrl($scope, clientApiService) {
     .then(function (response) {
       handleStatus(response.data);
     });
+
   loadUserQueue();
 
   function isActiveRace() {
@@ -68,7 +69,7 @@ function Ctrl($scope, clientApiService) {
   function loadUserQueue() {
     return clientApiService.getUserQueue()
       .then(function (response) {
-        vm.enteredRacers = response.data;
+        vm.enteredRacers = response.data || [];
       });
   }
 
