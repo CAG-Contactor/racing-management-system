@@ -61,7 +61,37 @@ public class UserManagerController {
     return ResponseEntity.ok()
       .header("Access-Control-Expose-Headers", X_AUTH_TOKEN)
       .header(X_AUTH_TOKEN, s.getToken())
-      .body(new UserInfo(u.getUserId(), u.getDisplayName()));
+      .body(new UserInfo(u.getUserId(), u.getDisplayName(), u.getOrganisation()));
+  }
+
+  @RequestMapping(path = "/registerWithQRCode", method = RequestMethod.POST)
+  public ResponseEntity<String> registerAndCreateToken(@RequestBody NewUser user) {
+    User existing = userRepository.findByUserId(user.getUserId());
+    if (existing == null) {
+      // Create user
+      User u = new User(user.getUserId(), user.getDisplayName(), user.getOrganisation(), user.getPassword());
+      userRepository.save(u);
+    }
+    User u = userRepository.findByUserId(user.getUserId());
+    Session s = sessionRepository.findByUserId(u.getId());
+    if (s == null) {
+      // Ny Session
+      s = new Session();
+      s.setToken(UUID.randomUUID().toString());
+      s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
+      s.setUserId(u.getId());
+      sessionRepository.save(s);
+    } else {
+      if (LocalDateTime.now().isAfter(s.getTimeout())) {
+        s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
+        s.setToken(UUID.randomUUID().toString());
+        sessionRepository.save(s);
+      } else {
+        s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
+        sessionRepository.save(s);
+      }
+    }
+    return ResponseEntity.ok().body(s.getToken());
   }
 
   @RequestMapping(path = "/logout", method = RequestMethod.POST)
@@ -101,7 +131,7 @@ public class UserManagerController {
     if (user.getPassword() == null || user.getPassword().length() < 4) {
       return ResponseEntity.badRequest().body(null);
     }
-    User u = new User(user.getUserId(), user.getDisplayName(), user.getPassword());
+    User u = new User(user.getUserId(), user.getDisplayName(), user.getOrganisation(), user.getPassword());
     userRepository.save(u);
     return ResponseEntity.status(HttpStatus.CREATED).body(null);
   }

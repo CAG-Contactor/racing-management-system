@@ -79,6 +79,7 @@ function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageS
     let userToSend = {
       userId: user.userId,
       displayName: user.displayName,
+      organisation: user.organisation,
       password: md5.createHash(user.password)
     };
     return backendRequest('POST', '/users', {body: userToSend});
