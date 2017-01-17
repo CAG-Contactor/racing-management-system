@@ -7,28 +7,29 @@ import {Errors} from "../errors/errors.service";
 
 @Injectable()
 export class Backend {
+  private backendUrlBase = 'http://localhost:8080/';
   constructor(private http:Http, private errors:Errors) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get('/admin/users/')
+    return this.http.get(this.backendUrlBase + 'admin/users/')
       .map(r => r.json())
       .catch(err => this.handleError(err));
   }
 
   getUserResults(): Observable<UserResult[]> {
-    return this.http.get('/admin/registered-races/')
+    return this.http.get(this.backendUrlBase + 'admin/registered-races/')
       .map(r => r.json())
       .catch(err => this.handleError(err));
   }
 
   removeUserResult(userResult:UserResult):Observable<void> {
-    return this.http.delete('/admin/registered-races/'+userResult.id)
+    return this.http.delete(this.backendUrlBase + 'admin/registered-races/'+userResult.id)
       .map(() => <void>undefined)
       .catch(err => this.handleError<void>(err));
   }
 
   cancelCurrentRace():Observable<void> {
-    return this.http.delete('/admin/cacncel-current-race/')
+    return this.http.delete(this.backendUrlBase + 'admin/cancel-current-race/')
       .map(() => <void>undefined)
       .catch(err => this.handleError<void>(err));
   }

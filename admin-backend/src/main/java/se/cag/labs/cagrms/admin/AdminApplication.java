@@ -2,6 +2,8 @@ package se.cag.labs.cagrms.admin;
 
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import se.cag.labs.cagrms.admin.resources.RaceResource;
@@ -15,7 +17,6 @@ import javax.ws.rs.client.Client;
  * This is the main application class for the admin backend.
  */
 public class AdminApplication extends Application<AdminConfiguration> {
-
   public static void main(final String[] args) throws Exception {
     new AdminApplication().run(args);
   }
@@ -23,15 +24,24 @@ public class AdminApplication extends Application<AdminConfiguration> {
   @Override
   public void run(AdminConfiguration configuration, Environment environment) throws Exception {
 
-      final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
-            .build(getName());
-      environment.jersey().register(new RaceResource(configuration, client));
-      environment.jersey().register(new UserResource(configuration, client));
-      environment.jersey().register(new StatusResource(client));
-      environment.jersey().register(new CSVMessageBodyWriter());
+    final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
+        .build(getName());
+    environment.jersey().register(new RaceResource(configuration, client));
+    environment.jersey().register(new UserResource(configuration, client));
+    environment.jersey().register(new StatusResource(client));
+    environment.jersey().register(new CSVMessageBodyWriter());
   }
 
-    @Override
-    public void initialize(Bootstrap<AdminConfiguration> bootstrap) {
-    }
+  @Override
+  public void initialize(Bootstrap<AdminConfiguration> bootstrap) {
+    EnvironmentVariableSubstitutor environmentVariableSubstitutor =
+        new EnvironmentVariableSubstitutor(false);
+    environmentVariableSubstitutor.setEnableSubstitutionInVariables(true);
+    bootstrap.setConfigurationSourceProvider(
+        new SubstitutingSourceProvider(
+            bootstrap.getConfigurationSourceProvider(),
+            environmentVariableSubstitutor
+        )
+    );
+  }
 }
