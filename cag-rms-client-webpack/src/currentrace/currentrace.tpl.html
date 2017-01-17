@@ -5,7 +5,7 @@
   </div>
 </div>
 
-<div class="row">
+<div ng-cloak class="row">
   <div class="center">
     <div ng-switch="raceEvent">
       <h2 ng-switch-when="DISQUALIFIED">
@@ -60,11 +60,12 @@
     </div>
   </div>
 </div>
-<hr>
-<div class="row lastrace">
+
+<div class="row lastrace" ng-if="lastRace !== undefined">
+  <hr>
   <div class="center"><strong>Föregående lopp</strong></div>
   <br>
-  <div class="center col-xs-12" ng-if="lastRace">
+  <div class="center col-xs-12">
     <table class="center">
       <tr>
         <th class="col-xs-2 center"><strong>Tävlande</strong></th>
@@ -88,9 +89,6 @@
       </tr>
     </table>
     <br>
-    <h5 class="center"><strong>Resultat: {{lastRace.result}}</strong></h5>
-  </div>
-  <div class="center col-xs-12" ng-if="!lastRace">
-    <h5 class="center"><strong>Inget lopp har körts än</strong></h5>
+    <p class="col-xs-12"><strong><em>Resultat: {{lastRace.result}}</em></strong></p>
   </div>
 </div>
