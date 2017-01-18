@@ -5,7 +5,8 @@ const htmlTemplate = require("./currentrace.tpl.html");
 
 appModule  .directive('currentRace', ['$timeout', function ($timeout) {
   return {
-    scope: {},
+    scope: {
+    },
     restrict: 'E',
     template: htmlTemplate,
     controller: ['$scope', 'clientApiService', Ctrl]
@@ -15,6 +16,7 @@ appModule  .directive('currentRace', ['$timeout', function ($timeout) {
     let timerHandle, statusTimerHandle;
     let tzOffset = new Date(0).getTimezoneOffset() * 1000 * 60;
     let scope = $scope;
+    scope.lastRace = undefined;
     scope.isRaceActive = false;
     scope.runningTime = 0;
     scope.startTime = undefined;
@@ -78,7 +80,7 @@ appModule  .directive('currentRace', ['$timeout', function ($timeout) {
           scope.splitTime = undefined;
           scope.runningTime = undefined;
           scope.finishTime = undefined;
-        } else if (raceStatus.event === '`') {
+        } else if (raceStatus.event === 'SPLIT') {
           scope.startTime = Date.now() - raceStatus.currentTime;
           scope.splitTime = raceStatus.splitTime - raceStatus.startTime + tzOffset;
         } else if (raceStatus.event === 'FINISH') {

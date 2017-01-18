@@ -3,7 +3,12 @@
     Mina lopp
   </h2>
 
-  <table class="table table-condensed myraces">
+  <h1 ng-if="vm.myraces.length === 0" class="alert alert-dismissible alert-info">
+    Här vare tomt!
+  </h1>
+
+
+  <table ng-if="vm.myraces.length > 0" class="table table-condensed myraces">
     <tr>
       <th>Namn</th>
       <th>Tid</th>

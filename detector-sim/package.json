@@ -17,8 +17,8 @@
     }
   },
   "devDependencies": {
-    "html-dist": "^0.1.0",
-    "jspm": "^0.16.13",
-    "live-server": "^0.8.2"
+    "html-dist": "^0.3.1",
+    "jspm": "^0.16.48",
+    "live-server": "^1.2.0"
   }
 }
