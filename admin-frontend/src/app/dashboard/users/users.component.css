@@ -1,0 +1,12 @@
+p.displayName {
+  width: 50%;
+  font-size: larger;
+  font-weight: bold;
+  padding: 6px 6px;
+}
+
+p.userId {
+  width: 50%;
+  font-style: italic;
+  padding: 0px 6px;
+}

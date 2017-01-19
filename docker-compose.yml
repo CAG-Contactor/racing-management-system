@@ -62,6 +62,23 @@ services:
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27020/user-manager
 
+ admin-backend:
+    image: cag/admin-backend
+    ports:
+     - "11080:11080"
+    networks:
+     - local-net
+    depends_on:
+     - current-race
+     - leaderboard
+     - user-manager
+     - race-administrator
+    environment:
+      SERVER_CURRENTRACE_BASE_URI: http://current-race:10080
+      SERVER_LEADERBOARD_BASE_URI: http://leaderboard:10180
+      SERVER_USERMANAGER_BASE_URI: http://user-manager:10280
+      SERVER_RACEADMIN_BASE_URI: http://race-administrator:10380
+
  mongodb:
     image: mongo:3.0.4
     ports:

@@ -1,0 +1,49 @@
+<nav class="navbar navbar-dark bg-inverse navbar-fixed-top topnav">
+  <div class="collapse navbar-toggleable-xs clearfix text-center">
+    <a class="navbar-brand" [routerLink]="['/dashboard/home']">Administrera CAG RMS</a>
+
+    <ul class="nav navbar-nav topnav navbar-right pull-xs-right top-right-nav">
+      <li *ngIf="alarms.length > 0" class="dropdown nav-item alarms" dropdown>
+        <!-- <div class="dropdown"> -->
+        <a href="javascript:;" id="name2" class="nav-link dropdown-toggle" dropdownToggle>
+          <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+        </a>
+        <ul class="dropdown-menu alert-dropdown" aria-labelledby="name2">
+          <li *ngFor="let alarm of alarms">
+            <div class="dropdown-item alarm-title">
+              <div>{{message(alarm)}} <i class="fa fa-trash pull-right" (click)="remove(alarm)"></i></div>
+              <div class="alarm-details">{{details(alarm)}}</div>
+            </div>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <button class="dropdown-item clear-all" (click)="remove()">Rensa</button>
+          </li>
+        </ul>
+        <!-- </div> -->
+      </li>
+      <li class="dropdown nav-item" dropdown>
+        <a href="javascript:;" id="single-button" class="nav-link dropdown-toggle" dropdownToggle>
+          <i class="fa fa-user"></i> John Smith <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="single-button">
+          <li>
+            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-user"></i> Profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-gear"></i> Settings</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a class="dropdown-item" href="javascript:;" [routerLink]="['/']">
+              <i class="fa fa-fw fa-power-off"></i> Log Out
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>

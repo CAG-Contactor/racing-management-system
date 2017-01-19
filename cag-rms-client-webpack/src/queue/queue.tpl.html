@@ -9,7 +9,11 @@
     </button>
   </div>
 
-  <table class="table user-queue">
+  <h1 ng-if="vm.enteredRacers.length === 0" class="alert alert-dismissible alert-info">
+    Kön är tom!
+  </h1>
+
+  <table ng-if="vm.enteredRacers.length > 0" class="table user-queue">
     <tr>
       <th>Namn</th>
       <th>Id</th>

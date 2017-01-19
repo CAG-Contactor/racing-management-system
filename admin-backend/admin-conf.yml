@@ -1,6 +1,10 @@
+
 server:
   type: default
   maxThreads: 1024
+  applicationConnectors:
+  - type: http
+    port: 11080
   allowedMethods:
     - GET
     - POST
@@ -15,10 +19,10 @@ jerseyClient:
   chunkedEncodingEnabled: true
 
 # URL:s to the different services
-urlCancelCurrentRace : http://localhost:10080/cancelRace
-urlLeaderboardResults : http://localhost:10180/results/
-urlUserManager : http://localhost:10280/all-users
-urlRaceAdministrator : http://localhost:10380/reset-race
+urlCancelCurrentRace : ${SERVER_CURRENTRACE_BASE_URI:-http://localhost:10080}/cancelRace
+urlLeaderboardResults : ${SERVER_LEADERBOARD_BASE_URI:-http://localhost:10180}/results
+urlUserManager : ${SERVER_USERMANAGER_BASE_URI:-http://localhost:10280}/registered-users
+urlRaceAdministrator : ${SERVER_RACEADMIN_BASE_URI:-http://localhost:10380}/reset-race
 
 # Logging settings.
 logging:
