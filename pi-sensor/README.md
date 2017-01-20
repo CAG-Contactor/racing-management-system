@@ -10,8 +10,14 @@ Bygga och köra
 
 Hämta hem Cert och skapa keystore
 ---------------------------------
-1. Kör följande och plocka PEM-filen: openssl s_client -host sumorace.caglabs.se -port 443
-2. Skapa en keystore: keytool -import -alias droidrace -keystore keystore.jks -file droidrace.pem
+1. Kör följande och plocka PEM-filen:
+   ```sh
+   openssl x509 -in <(openssl s_client -connect sumorace.caglabs.se:443 -prexit 2>/dev/null) > sumorace.pem
+   ```
+2. Skapa en keystore:
+   ```sh
+   keytool -import -alias sumorace -keystore keystore.jks -file sumorace.pem
+   ```
 
 Events
 ---------------------------------
