@@ -3,13 +3,13 @@ CAG Racing Management System Environment
 Certificates from Let's encrypt are installed using.
 
 ```
-sudo mkdir /opt/letsencrypt
-sudo chown ubuntu:ubuntu letsencrypt
-git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+cd /usr/local/sbin
+sudo curl -O https://dl.eff.org/certbot-auto
+sudo chmod a+x certbot-auto
 sudo service nginx stop
-/opt/letsencrypt/letsencrypt-auto certonly --standalone
-sudo service nginx start
+sudo certbot-auto certonly --standalone
 sudo openssl dhparam -out /etc/nginx/dhparams.pem 2048
+sudo service nginx start
 ```
 
 Virtual host directive can be found under `etc/nginx/sites-available`
