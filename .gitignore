@@ -17,6 +17,7 @@ target/
 hs_err_pid*
 
 *.log
+npm-debug.log.*
 
 dependency-reduced-pom.xml
 /admin-backend/mongodb/

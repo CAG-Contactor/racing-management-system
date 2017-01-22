@@ -1,9 +1,24 @@
 @import "../../../assets/variables";
 
-th {
-  font-size: larger;
+button.no-border {
+  border: none;
+  background: inherit;
 }
+
+thead.thead-inverse {
+  th {
+    background: $standard-background-dark;
+    color: white;
+  }
+}
+
+th {
+  font-size: x-large;
+}
+
 td {
   font-family: $standard-font;
   font-size: large;
 }
+
+

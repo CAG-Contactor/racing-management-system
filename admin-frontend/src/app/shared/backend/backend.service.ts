@@ -13,21 +13,24 @@ export class Backend {
 
   constructor(private http:Http, private errors:Errors) {}
 
-  getUsers(): Observable<User[]> {
+  getUsers(): Promise<User[]> {
     return this.http.get(this.backendUrlBase + 'admin/users/')
       .map(r => r.json())
+      .toPromise()
       .catch(err => this.handleError(err));
   }
 
-  getUserResults(): Observable<UserResult[]> {
+  getUserResults(): Promise<UserResult[]> {
     return this.http.get(this.backendUrlBase + 'admin/registered-races/')
       .map(r => r.json())
+      .toPromise()
       .catch(err => this.handleError(err));
   }
 
-  removeUserResult(userResult:UserResult):Observable<void> {
+  removeUserResult(userResult:UserResult):Promise<void> {
     return this.http.delete(this.backendUrlBase + 'admin/registered-races/'+userResult.id)
       .map(() => <void>undefined)
+      .toPromise()
       .catch(err => this.handleError<void>(err));
   }
 
