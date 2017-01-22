@@ -17,16 +17,12 @@ export class ResultComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userResults = [
-      new UserResult("a123", "Kaka", 5678, 1234, 'WALKOVER')
-    ];
-
     this.reload();
   }
 
   private reload():void {
     this.backend.getUserResults()
-      .then(ur => this.userResults = ur);
+      .then(ur => this.userResults = ur, () => this.userResults = []);
   }
 
   showRemoveConfirmation(result: UserResult): void {

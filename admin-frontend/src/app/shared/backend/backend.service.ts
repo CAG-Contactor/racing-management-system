@@ -9,37 +9,41 @@ import {User} from "./user";
 @Injectable()
 export class Backend {
   private backendUrlBase = environment.bsEnv.API;
-  private currentUser:User;
+  private currentUser: User;
 
   constructor(private http: Http, private errors: Errors) {
   }
 
   getUsers(): Promise<User[]> {
-    return this.http.get(this.backendUrlBase + 'admin/users/')
+    const p = this.http.get(this.backendUrlBase + 'admin/users/')
       .map(r => r.json())
-      .toPromise()
-      .catch(err => this.handleError(err));
+      .toPromise();
+    p.catch(err => this.handleError(err));
+    return p;
   }
 
   getUserResults(): Promise<UserResult[]> {
-    return this.http.get(this.backendUrlBase + 'admin/registered-races/')
+    const p = this.http.get(this.backendUrlBase + 'admin/registered-races/')
       .map(r => r.json())
-      .toPromise()
-      .catch(err => this.handleError(err));
+      .toPromise();
+    p.catch(err => this.handleError(err));
+    return p;
   }
 
   removeUserResult(userResult: UserResult): Promise<void> {
-    return this.http.delete(this.backendUrlBase + 'admin/registered-races/' + userResult.id)
+    let p = this.http.delete(this.backendUrlBase + 'admin/registered-races/' + userResult.id)
       .map(() => <void>undefined)
-      .toPromise()
-      .catch(err => this.handleError<void>(err));
+      .toPromise();
+    p      .catch(err => this.handleError<void>(err));
+    return p;
   }
 
   cancelCurrentRace(): Promise<void> {
-    return this.http.delete(this.backendUrlBase + 'admin/cancel-current-race/')
+    let p = this.http.delete(this.backendUrlBase + 'admin/cancel-current-race/')
       .map(() => <void>undefined)
-      .toPromise()
-      .catch(err => this.handleError<void>(err));
+      .toPromise();
+    p.catch(err => this.handleError<void>(err));
+    return p;
   }
 
   login(user: string, password: string): Promise<User> {
@@ -47,13 +51,16 @@ export class Backend {
     const params = new URLSearchParams();
     params.append('user', user);
     params.append('password', password);
-    return this.http.get(this.backendUrlBase + 'admin/login', {search: params})
+    let p = this.http.get(this.backendUrlBase + 'admin/login', {search: params})
       .map(resp => {
         this.currentUser = resp.json();
         localStorage.setItem("cag-admin-token", resp.headers.get('x-cag-token'));
         return this.currentUser;
       })
       .toPromise();
+    p.catch(err => this.handleError<void>(err));
+
+    return p;
   }
 
   logout(): void {
@@ -61,27 +68,28 @@ export class Backend {
     this.currentUser = undefined;
   }
 
-  getCurrentUser():User {
+  getCurrentUser(): User {
     return this.currentUser;
   }
 
-  downloadResultsCsvFile():Promise<Blob>{
-    const url = this.backendUrlBase+'admin/registered-races';
+  downloadResultsCsvFile(): Promise<Blob> {
+    const url = this.backendUrlBase + 'admin/registered-races';
     return this.downloadCsvFile(url);
   }
 
-  downloadUsersCsvFile():Promise<Blob>{
-    const url = this.backendUrlBase+'admin/users';
+  downloadUsersCsvFile(): Promise<Blob> {
+    const url = this.backendUrlBase + 'admin/users';
     return this.downloadCsvFile(url);
   }
 
   private downloadCsvFile(url: string) {
     const headers = new Headers();
     headers.append('accept', 'text/csv');
-    return this.http.get(url, {headers: headers})
+    let p = this.http.get(url, {headers: headers})
       .map(res => new Blob([res.text()], {type: 'text/csv'}))
-      .toPromise()
-      .catch(this.handleError);
+      .toPromise();
+    p.catch(this.handleError);
+    return p;
   }
 
   private handleError<T>(error: Response|any): Observable<T> {

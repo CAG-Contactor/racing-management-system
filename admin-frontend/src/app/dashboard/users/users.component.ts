@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.backend.getUsers()
-      .then(users => this.users = users);
+      .then(users => this.users = users, () => this.users = []);
   }
 
   save():void {

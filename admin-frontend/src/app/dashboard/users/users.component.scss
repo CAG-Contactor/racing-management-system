@@ -19,6 +19,13 @@ th {
 td {
   font-family: $standard-font;
   font-size: large;
+  .fa-trash {
+    color: black;
+    &:hover {
+      color: red;
+    }
+  }
+
 }
 
 

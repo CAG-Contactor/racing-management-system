@@ -8,13 +8,14 @@ import {Backend} from "../backend";
   templateUrl: './topnav.html',
   styleUrls: ['./topnav.scss']
 })
-
 export class TopNavComponent {
   alarms: FailureInfo[] = [];
 
   constructor(private readonly errors: Errors, private readonly backend: Backend) {
     this.errors.getErrors()
-      .subscribe(error => this.alarms.push(error))
+      .subscribe(error => {
+        this.alarms.push(error)
+      });
   }
 
   message(alarm: FailureInfo): string {
