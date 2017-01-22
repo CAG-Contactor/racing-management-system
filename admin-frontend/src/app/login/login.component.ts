@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
-
 import {Backend} from "../shared";
+import {Router} from "@angular/router";
 
 /**
  *  This class represents the lazy loaded LoginComponent.
@@ -10,18 +9,20 @@ import {Backend} from "../shared";
 @Component({
   selector: 'login-cmp',
   templateUrl: './login.component.html'
+
 })
 export class LoginComponent {
-  name:string;
+  user:string;
   password:string;
-  constructor(private backend:Backend){}
+
+  constructor(private readonly backend:Backend, private readonly router: Router){}
+
   login() {
-    this.backend.login(this.name, this.password)
+    this.backend.login(this.user, this.password)
+      .then(() => this.router.navigateByUrl('/dashboard/home'))
       .catch(err => {
         alert('Failed login '+ err);
-        return Observable.throw(undefined);
-      })
-      .subscribe(resp => alert('Successful login:'+resp));
-
+        this.router.navigateByUrl('/dashboard/home');
+      });
   }
 }

@@ -34,13 +34,14 @@ export class Backend {
       .catch(err => this.handleError<void>(err));
   }
 
-  cancelCurrentRace():Observable<void> {
+  cancelCurrentRace():Promise<void> {
     return this.http.delete(this.backendUrlBase + 'admin/cancel-current-race/')
       .map(() => <void>undefined)
+      .toPromise()
       .catch(err => this.handleError<void>(err));
   }
 
-  login(user:string, password:string):Observable<void> {
+  login(user:string, password:string):Promise<void> {
     console.debug('login',name,password);
     const params = new URLSearchParams();
     params.append('user',user);
@@ -49,7 +50,13 @@ export class Backend {
       .map(resp => {
         localStorage.setItem("cag-admin-token", resp.headers.get('x-cag-token'));
         return undefined;
-      });
+      })
+      .toPromise();
+  }
+
+  logout():void {
+    console.debug('Log out');
+    localStorage.setItem("cag-admin-token", undefined);
   }
 
   private handleError<T>(error:Response|any): Observable<T> {

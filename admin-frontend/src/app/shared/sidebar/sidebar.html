@@ -12,5 +12,9 @@
     <a routerLink="/dashboard/users" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-fw fa-user"></i> Användare
     </a>
+
+    <a class="sidebar-login dropdown-item" href="javascript:;" (click)="logout()"[routerLink]="['/']">
+      <i class="fa fa-fw fa-power-off"></i> Logga ut
+    </a>
   </ul>
 </nav>
