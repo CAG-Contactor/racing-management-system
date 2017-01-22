@@ -17,36 +17,29 @@
   </div>
   <!-- /.row -->
   <div class="row">
+    Results={{userResults[0].user.displayName}}
     <div class="col-xl-6 col-lg-12">
       <div class="card card-block">
         <div class="table-responsive table-striped">
           <table class="table">
             <thead class="thead-inverse">
             <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
+              <th>ID</th>
+              <th>Namn</th>
+              <th>Tid</th>
+              <th>Mellantid</th>
+              <th>Resultat</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
+            <tr *ngFor="let result of userResults">
+              <td>{{result.id}}</td>
+              <td>{{result.user.displayName}}</td>
+              <td>{{result.time}}</td>
+              <td>{{result.splitTime}}</td>
+              <td>{{result.result}}</td>
+              <td><button class="no-border" (click)="remove(result)"><i class="fa fa-trash"></i></button></td>
             </tr>
             </tbody>
           </table>

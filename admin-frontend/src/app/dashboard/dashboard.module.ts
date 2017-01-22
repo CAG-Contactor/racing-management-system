@@ -2,13 +2,14 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {DropdownModule, ModalModule} from "ng2-bootstrap";
-import {HomeModule} from "./home/home.module";
-import {ResultModule} from "./result/result.module";
-import {DashboardComponent} from "./dashboard.component";
-import {TopNavComponent, SidebarComponent} from "../shared/index";
-import {DashboardRoutingModule} from "./dashboard.routes";
-import {UsersModule} from "./users/users.module";
 
+import {TopNavComponent, SidebarComponent} from "../shared";
+import {HomeModule} from "./home";
+import {ResultModule} from "./result";
+import {UsersModule} from "./users";
+
+import {DashboardComponent} from "./dashboard.component";
+import {DashboardRoutingModule} from "./dashboard.routes";
 
 @NgModule({
   imports: [

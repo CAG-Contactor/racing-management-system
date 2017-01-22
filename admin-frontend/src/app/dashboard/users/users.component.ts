@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {User, Backend} from "../../shared/backend";
+import {User, Backend} from "../../shared";
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['users.component.scss']
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];

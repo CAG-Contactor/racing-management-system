@@ -1,0 +1,16 @@
+@import "../../../assets/variables";
+
+button.no-border {
+  border:none;
+  background: inherit;
+}
+
+th {
+  font-size: larger;
+}
+
+td {
+  font-family: $standard-font;
+  font-size: large;
+}
+

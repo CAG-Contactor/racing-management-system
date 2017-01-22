@@ -3,3 +3,4 @@
  */
 export * from './login.component';
 export * from './login.routes';
+export {LoginModule} from './login.module';

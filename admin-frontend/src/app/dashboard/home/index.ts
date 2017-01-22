@@ -3,3 +3,4 @@
  */
 export * from './home.component';
 export * from './home.routes';
+export {HomeModule} from './home.module'

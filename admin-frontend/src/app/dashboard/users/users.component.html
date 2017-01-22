@@ -10,7 +10,7 @@
           <i class="fa fa-dashboard"></i> <a href="Javascript:void(0);" routerLink="/dashboard/home">Dashboard</a>
         </li>
         <li class="active">
-          <i class="fa fa-table"></i> Tables
+          <i class="fa fa-table"></i> Användare
         </li>
       </ol>
     </div>
@@ -29,7 +29,6 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr *ngFor="let user of users">-->
             <tr *ngFor="let user of users">
               <td>{{user.displayName}}</td>
               <td>{{user.userId}}</td>

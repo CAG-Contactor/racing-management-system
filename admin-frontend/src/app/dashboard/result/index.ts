@@ -3,4 +3,4 @@
  */
 export * from './result.component';
 export * from './result.routes';
-
+export {ResultModule} from './result.module';
