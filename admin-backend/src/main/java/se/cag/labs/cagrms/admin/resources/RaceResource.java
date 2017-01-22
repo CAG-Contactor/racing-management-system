@@ -7,7 +7,13 @@ import se.cag.labs.cagrms.admin.api.Race;
 import se.cag.labs.cagrms.admin.resources.apimodel.UserResult;
 import se.cag.labs.cagrms.admin.resources.mapper.ModelMapper;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -68,16 +74,18 @@ public class RaceResource {
     public Response deleteRace(@PathParam("id") String id) {
         log.info("Deleting race with id: " + id);
         List<UserResult> results = getUserResults();
+        log.info("Got user results "+results);
 
        UserResult userResult = results.stream()
                 .filter(o -> o.getId().equals(id))
                 .findFirst().orElse(null);
 
        if(userResult == null) {
+           log.info("Didn't find a user result with ID: "+id);
             return Response.status(Response.Status.NOT_FOUND).entity("No race with specified id!").build();
        }
 
-        WebTarget webTarget = client.target(urlLeaderboardResults + userResult.getId());
+      WebTarget webTarget = client.target(urlLeaderboardResults + userResult.getId());
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.delete();
 

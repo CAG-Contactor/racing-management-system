@@ -1,5 +1,5 @@
 import {Routes} from "@angular/router";
-import {LoginRoutes} from "./login/index";
+import {LoginRoutes} from "./login";
 
 export const routes: Routes = [
   ...LoginRoutes,

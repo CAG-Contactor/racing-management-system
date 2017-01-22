@@ -1,0 +1,42 @@
+@import "../../../assets/variables";
+
+button.no-border {
+  border: none;
+  background: inherit;
+}
+
+thead.thead-inverse {
+  th {
+    background: $standard-background-dark;
+    color: white;
+  }
+}
+
+th {
+  font-size: x-large;
+}
+
+td {
+  font-family: $standard-font;
+  font-size: large;
+  .fa-trash {
+    color: black;
+    &:hover {
+      color: red;
+    }
+  }
+}
+
+.modal-content {
+  .modal-header {
+    background: $standard-background-dark;
+    color: white;
+  }
+  .modal-body p {
+    font-family: $standard-font
+  }
+  .modal-footer button {
+    font-family: $standard-font
+  }
+}
+
