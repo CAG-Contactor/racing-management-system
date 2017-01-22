@@ -1,24 +1,25 @@
 <div class="container-fluid">
   <h2 class="page-header"><i class="fa fa-user"></i> Registrerade användare </h2>
+  <button class="btn btn-primary margin-bottom-sm" (click)="save()">
+    <i class="fa fa-download"></i> Spara
+  </button>
   <div class="row">
     <div class="col-xl-6 col-lg-12">
-      <div class="card card-block">
-        <div class="table-responsive">
-          <table class="table">
-            <thead class="thead-inverse">
-            <tr>
-              <th>Namn</th>
-              <th>Användar-ID</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{user.displayName}}</td>
-              <td>{{user.userId}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="thead-inverse">
+          <tr>
+            <th>Namn</th>
+            <th>Användar-ID</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.displayName}}</td>
+            <td>{{user.userId}}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

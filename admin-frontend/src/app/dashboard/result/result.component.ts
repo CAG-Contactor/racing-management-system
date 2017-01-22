@@ -30,7 +30,6 @@ export class ResultComponent implements OnInit {
   }
 
   showRemoveConfirmation(result: UserResult): void {
-    // Confirm dialog first
     this.resultToRemove = result;
     this.childModal.show();
   }
@@ -40,7 +39,7 @@ export class ResultComponent implements OnInit {
     this.childModal.hide();
   }
 
-  public doRemove(): void {
+  doRemove(): void {
     this.backend.removeUserResult(this.resultToRemove)
       .then(() => {
         console.debug("Remove: ", this.resultToRemove);
@@ -48,5 +47,10 @@ export class ResultComponent implements OnInit {
         this.childModal.hide();
         this.reload();
       });
+  }
+
+  save():void {
+    this.backend.downloadResultsCsvFile()
+      .then(data => window.open(window.URL.createObjectURL(data)));
   }
 }

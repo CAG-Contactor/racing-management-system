@@ -16,4 +16,10 @@ export class UsersComponent implements OnInit {
     this.backend.getUsers()
       .then(users => this.users = users);
   }
+
+  save():void {
+    this.backend.downloadUsersCsvFile()
+      .then(data => window.open(window.URL.createObjectURL(data)));
+  }
+
 }

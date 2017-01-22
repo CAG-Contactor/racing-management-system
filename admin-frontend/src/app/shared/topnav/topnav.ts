@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import * as $ from "jquery";
-
 import {Errors, FailureInfo} from "../errors";
 import {Backend} from "../backend";
 
@@ -13,7 +12,7 @@ import {Backend} from "../backend";
 export class TopNavComponent {
   alarms: FailureInfo[] = [];
 
-  constructor(private readonly errors: Errors, private readonly backend:Backend) {
+  constructor(private readonly errors: Errors, private readonly backend: Backend) {
     this.errors.getErrors()
       .subscribe(error => this.alarms.push(error))
   }
@@ -49,7 +48,12 @@ export class TopNavComponent {
     mainContainer.toggleClass('main-container-ml-zero');
   }
 
-  logout():void {
+  logout(): void {
     this.backend.logout();
+  }
+
+  currentUser(): string {
+    const user = this.backend.getCurrentUser();
+    return user && user.displayName || 'Mr. Admin';
   }
 }
