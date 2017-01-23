@@ -1,55 +1,61 @@
 <div class="container-fluid">
-  <!-- Page Heading -->
-  <div class="row">
-    <div class="col-xl-12">
-      <h2 class="page-header">
-        Tables
-      </h2>
-      <ol class="breadcrumb">
-        <li>
-          <i class="fa fa-dashboard"></i> <a href="Javascript:void(0);" routerLink="/dashboard/home">Dashboard</a>
-        </li>
-        <li class="active">
-          <i class="fa fa-table"></i> Resultattavla
-        </li>
-      </ol>
-    </div>
-  </div>
-  <!-- /.row -->
+  <h2 class="page-header"><i class="fa fa-table"></i> Resultat </h2>
+  <button class="btn btn-primary margin-bottom-sm" (click)="save()">
+    <i class="fa fa-download"></i> Spara
+  </button>
   <div class="row">
     <div class="col-xl-6 col-lg-12">
-      <div class="card card-block">
-        <div class="table-responsive table-striped">
-          <table class="table">
-            <thead class="thead-inverse">
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-            </tbody>
-          </table>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="thead-inverse">
+          <tr>
+            <th>Namn</th>
+            <th>Tid</th>
+            <th>Mellantid</th>
+            <th>Resultat</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let result of userResults">
+            <td>{{result.userId}}</td>
+            <td>{{result.time|date:'mm:ss:sss'}}</td>
+            <td>{{result.splitTime|date:'mm:ss:sss'}}</td>
+            <td>{{result.resultType}}</td>
+            <td>
+              <button class="no-border" (click)="showRemoveConfirmation(result)"><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div bsModal
+       #childModal="bs-modal"
+       class="modal fade"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="mySmallModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Bekräfta</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            Är du säker på att du vill ta bort den här raden?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" aria-label="Close" (click)="bail()">
+            Nää
+          </button>
+          <button type="button" class="btn btn-primary" aria-label="Close" (click)="doRemove()">
+            Jepp!
+          </button>
         </div>
       </div>
     </div>

@@ -5,14 +5,13 @@ import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 import {AlertModule, DropdownModule, ModalModule, PaginationModule} from "ng2-bootstrap";
 
+import {ChartModule} from "angular2-highcharts";
+import {SharedModule, Backend, Errors} from "./shared";
+import {LoginModule} from "./login";
+import {DashboardModule} from "./dashboard";
+
 import {AppComponent} from "./app.component";
 import {routes} from "./app.routes";
-import {LoginModule} from "./login/login.module";
-import {DashboardModule} from "./dashboard/dashboard.module";
-import {SharedModule} from "./shared/shared.module";
-import {ChartModule} from "angular2-highcharts";
-import {Backend} from "./shared/backend";
-import {Errors} from "./shared/errors";
 
 @NgModule({
   declarations: [

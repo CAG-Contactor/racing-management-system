@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {User, Backend} from "../../shared/backend";
+import {User, Backend} from "../../shared";
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['users.component.scss']
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
@@ -14,6 +14,12 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.backend.getUsers()
-      .subscribe(users => this.users = users);
+      .then(users => this.users = users, () => this.users = []);
   }
+
+  save():void {
+    this.backend.downloadUsersCsvFile()
+      .then(data => window.open(window.URL.createObjectURL(data)));
+  }
+
 }

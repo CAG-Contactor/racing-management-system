@@ -1,14 +1,15 @@
 @import "~bootstrap/scss/_variables.scss";
 @import "_app-base.scss";
+@import "./variables";
 
 @font-face {
   font-family: ussrArmy;
-  src: url('./font/army-font.ttf')
+  src: url('./font/marsh-stencil-regular.otf')
 }
 
 body {
-  font-family: ussrArmy;
-  background: #C6C5A5;
+  font-family: $header-font;
+  background: $standard-background-light;
 }
 
 .alert-danger {

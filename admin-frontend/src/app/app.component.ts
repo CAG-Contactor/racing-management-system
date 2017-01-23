@@ -1,5 +1,5 @@
 import {Component, ViewContainerRef} from "@angular/core";
-import {Config} from "./shared/index";
+import {Config} from "./shared";
 
 @Component({
   selector: 'app-root',

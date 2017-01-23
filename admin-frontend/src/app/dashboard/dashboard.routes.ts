@@ -1,9 +1,9 @@
 import {Route, RouterModule} from "@angular/router";
-import {HomeRoutes} from "./home/index";
-import {ResultRoutes} from "./result/index";
-import {DashboardComponent} from "./index";
 import {NgModule} from "@angular/core";
-import {UsersRoutes} from "./users/users.routes";
+import {HomeRoutes} from "./home";
+import {ResultRoutes} from "./result";
+import {DashboardComponent} from "./dashboard.component";
+import {UsersRoutes} from "./users";
 
 const dashboardRoutes: Route[] = [
   {

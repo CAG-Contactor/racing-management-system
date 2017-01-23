@@ -1,19 +1,21 @@
 import {Component} from "@angular/core";
 import * as $ from "jquery";
 import {Errors, FailureInfo} from "../errors";
+import {Backend} from "../backend";
 
 @Component({
   selector: 'top-nav',
   templateUrl: './topnav.html',
   styleUrls: ['./topnav.scss']
 })
-
 export class TopNavComponent {
   alarms: FailureInfo[] = [];
 
-  constructor(private errors: Errors) {
+  constructor(private readonly errors: Errors, private readonly backend: Backend) {
     this.errors.getErrors()
-      .subscribe(error => this.alarms.push(error))
+      .subscribe(error => {
+        this.alarms.push(error)
+      });
   }
 
   message(alarm: FailureInfo): string {
@@ -45,5 +47,14 @@ export class TopNavComponent {
     var mainContainer: any = $('.main-container');
     sidebar.toggleClass('sidebar-left-zero');
     mainContainer.toggleClass('main-container-ml-zero');
+  }
+
+  logout(): void {
+    this.backend.logout();
+  }
+
+  currentUser(): string {
+    const user = this.backend.getCurrentUser();
+    return user && user.displayName || 'Mr. Admin';
   }
 }
