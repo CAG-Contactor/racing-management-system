@@ -33,6 +33,7 @@ function Ctrl ($uibModalInstance) {
   vm.user = {
     userId: undefined,
     displayName: undefined,
+    organisation: undefined,
     password: undefined
   };
 
