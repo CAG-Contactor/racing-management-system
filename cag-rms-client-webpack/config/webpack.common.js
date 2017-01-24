@@ -55,7 +55,7 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap')
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file?name=assets/[name].[hash].[ext]'
       },
       {

@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   bsEnv: {
-    API: "https://demo.com",
+    API: "http://localhost:11080/",
     ENV: "DEV"
   }
 };

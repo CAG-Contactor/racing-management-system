@@ -12,7 +12,7 @@ public class User extends NewUser {
   @JsonIgnore
   private String id;
 
-  public User(final String userId, final String displayName, final String password) {
-    super(userId, displayName, password);
+  public User(final String userId, final String displayName, final String organisation, final String password) {
+    super(userId, displayName, organisation, password);
   }
 }

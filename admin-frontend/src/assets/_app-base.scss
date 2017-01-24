@@ -1,6 +1,20 @@
 @import "~bootstrap/scss/bootstrap.scss";
+@import "./variables";
 
 $topnav-background-color: #535220;
+
+.margin-bottom-sm {
+  margin-bottom: 6px;
+}
+.margin-left-sm {
+  margin-left: 6px;
+}
+.margin-right-sm {
+  margin-right: 6px;
+}
+.margin-top-sm {
+  margin-top: 6px;
+}
 .user-avatar {
   border: 3px solid #FFF;
   -webkit-border-radius: 50%;
@@ -15,6 +29,10 @@ $topnav-background-color: #535220;
   background: #535220;
   font-size: 23px;
   z-index: 3;
+  display: none;
+}
+
+.sidebar-login {
   display: none;
 }
 
@@ -229,6 +247,10 @@ a:hover {
   display: block;
 }
 
+.lean-topnav {
+  display: none;
+}
+
 @media (min-width: 0) {
   .navbar-toggleable-xs {
     display: block !important;
@@ -258,6 +280,9 @@ a:hover {
   }
   .top-right-nav {
     display: none;
+  }
+  .sidebar-login {
+    display: block;
   }
   .navbar-brand {
     float: none;
