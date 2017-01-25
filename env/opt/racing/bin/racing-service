@@ -1,0 +1,32 @@
+#!/bin/sh
+SERVICE_NAME=racing-service
+HOME=/opt/racing
+
+case $1 in
+    start)
+      echo "Starting $SERVICE_NAME ..."
+      /opt/racing/bin/user-manager start
+      /opt/racing/bin/client-api start
+      /opt/racing/bin/race-administrator start
+      /opt/racing/bin/current-race start
+      /opt/racing/bin/leaderboard start
+    ;;
+    stop)
+      echo "Stopping $SERVICE_NAME ..."
+      /opt/racing/bin/user-manager stop
+      /opt/racing/bin/client-api stop
+      /opt/racing/bin/race-administrator stop
+      /opt/racing/bin/current-race stop
+      /opt/racing/bin/leaderboard stop
+    ;;
+    restart)
+      echo "Restarting $SERVICE_NAME ..."
+      /opt/racing/bin/user-manager restart
+      /opt/racing/bin/client-api restart
+      /opt/racing/bin/race-administrator restart
+      /opt/racing/bin/current-race restart
+      /opt/racing/bin/leaderboard restart
+    ;;
+esac
+
+
