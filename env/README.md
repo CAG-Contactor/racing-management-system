@@ -25,4 +25,12 @@ Example crontab entry:
 2 15 */3 * * /opt/renew-certificates.sh
 ``` 
 
+Install racing manager as a service
+===================================
+Make sure the files under `/opt` are in place on the server
+
+```bash
+sudo ln -s /opt/racing/bin/cag-racing /etc/init.d/
+sudo update-rc.d cag-racing defaults
+```
 
