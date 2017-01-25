@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http, Response, URLSearchParams, Headers} from "@angular/http";
+import {Http, Response, Headers, RequestOptionsArgs} from "@angular/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Errors} from "../errors";
@@ -15,7 +15,7 @@ export class Backend {
   }
 
   getUsers(): Promise<User[]> {
-    const p = this.http.get(this.backendUrlBase + 'admin/users/')
+    const p = this.http.get(this.backendUrlBase + 'admin/users/', this.optionsWithHeaders())
       .map(r => r.json())
       .toPromise();
     p.catch(err => this.handleError(err));
@@ -23,7 +23,7 @@ export class Backend {
   }
 
   getUserResults(): Promise<UserResult[]> {
-    const p = this.http.get(this.backendUrlBase + 'admin/registered-races/')
+    const p = this.http.get(this.backendUrlBase + 'admin/registered-races/', this.optionsWithHeaders())
       .map(r => r.json())
       .toPromise();
     p.catch(err => this.handleError(err));
@@ -31,15 +31,15 @@ export class Backend {
   }
 
   removeUserResult(userResult: UserResult): Promise<void> {
-    let p = this.http.delete(this.backendUrlBase + 'admin/registered-races/' + userResult.id)
+    let p = this.http.delete(this.backendUrlBase + 'admin/registered-races/' + userResult.id, this.optionsWithHeaders())
       .map(() => <void>undefined)
       .toPromise();
-    p      .catch(err => this.handleError<void>(err));
+    p.catch(err => this.handleError<void>(err));
     return p;
   }
 
   cancelCurrentRace(): Promise<void> {
-    let p = this.http.delete(this.backendUrlBase + 'admin/cancel-active-race/')
+    let p = this.http.delete(this.backendUrlBase + 'admin/cancel-active-race/', this.optionsWithHeaders())
       .map(() => <void>undefined)
       .toPromise();
     p.catch(err => this.handleError<void>(err));
@@ -48,10 +48,10 @@ export class Backend {
 
   login(user: string, password: string): Promise<User> {
     console.debug('login', user, password);
-    const params = new URLSearchParams();
-    params.append('user', user);
-    params.append('password', password);
-    let p = this.http.get(this.backendUrlBase + 'admin/login', {search: params})
+    const headers = new Headers();
+    headers.append('x-cag-user', user);
+    headers.append('x-cag-password', password);
+    let p = this.http.post(this.backendUrlBase + 'admin/login', undefined, {headers: headers})
       .map(resp => {
         this.currentUser = resp.json();
         localStorage.setItem("cag-admin-token", resp.headers.get('x-cag-token'));
@@ -85,6 +85,7 @@ export class Backend {
   private downloadCsvFile(url: string) {
     const headers = new Headers();
     headers.append('accept', 'text/csv');
+    headers.append('x-cag-token', localStorage.getItem("cag-admin-token"));
     let p = this.http.get(url, {headers: headers})
       .map(res => new Blob([res.text()], {type: 'text/csv'}))
       .toPromise();
@@ -96,5 +97,11 @@ export class Backend {
     console.error('Error: ', error);
     this.errors.notify('Fel vid anrop till admin backend', error);
     return Observable.throw(undefined);
+  }
+
+  private optionsWithHeaders():RequestOptionsArgs {
+    const headers = new Headers();
+    headers.append('x-cag-token', localStorage.getItem("cag-admin-token"));
+    return {headers: headers};
   }
 }

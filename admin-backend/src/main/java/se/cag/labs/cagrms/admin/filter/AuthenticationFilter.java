@@ -2,6 +2,7 @@ package se.cag.labs.cagrms.admin.filter;
 
 import lombok.Getter;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
+import se.cag.labs.cagrms.admin.resources.apimodel.User;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import static javax.ws.rs.HttpMethod.OPTIONS;
 import static javax.ws.rs.HttpMethod.POST;
 
 @Provider
@@ -33,7 +35,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
     scavengeTokens();
-    if (Objects.equals(requestContext.getMethod(), POST) && Objects.equals(requestContext.getUriInfo().getPath(), "admin/login")) {
+    if (OPTIONS.equals(requestContext.getMethod())) {
+      // Ugly late nite solution: allow OPTIONS so that CORS works...
+      // Need to write a proper HTTP interceptor in the client.
+      return;
+    } else if (Objects.equals(requestContext.getUriInfo().getPath(), "admin/login") &&
+        POST.equals(requestContext.getMethod()))  {
       // For now just check against single admin user/password configured via property
       String user = requestContext.getHeaderString(USER_HDR);
       String password = requestContext.getHeaderString(PASSWORD_HDR);
@@ -41,7 +48,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         Token token = tokens.getOrDefault(user, new Token(UUID.randomUUID().toString()));
         tokens.put(user, token);
         token.bumped();
-        requestContext.abortWith(Response.ok().header(TOKEN_HDR, token.getValue()).build());
+        requestContext.abortWith(
+            Response.ok()
+                .header(TOKEN_HDR, token.getValue())
+                .entity(User.builder().displayName("Mr. Admin").build())
+                .build()
+        );
       } else {
         throw new WebApplicationException(Response.Status.UNAUTHORIZED);
       }
