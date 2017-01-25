@@ -1,0 +1,13 @@
+#!/bin/bash
+export LC_ALL=C
+
+CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
+mkdir /opt/racing/mongo/mongo-backup-${CURRENT_DATE}
+cd /opt/racing/mongo/mongo-backup-${CURRENT_DATE}
+mongodump
+
+mongo leaderboarddb --eval "db.dropDatabase();"
+mongo raceadmindb --eval "db.dropDatabase();"
+#mongo usermanagerdb --eval "db.dropDatabase();"
+mongo currentracedb --eval "db.dropDatabase();"
+

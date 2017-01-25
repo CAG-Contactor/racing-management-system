@@ -1,0 +1,9 @@
+#!/bin/bash
+
+/opt/racing/bin/user-manager start
+/opt/racing/bin/client-api start
+/opt/racing/bin/race-administrator start
+/opt/racing/bin/current-race start
+/opt/racing/bin/leaderboard start
+
+exit 0;

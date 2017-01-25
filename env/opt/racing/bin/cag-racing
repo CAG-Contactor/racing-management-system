@@ -1,0 +1,2 @@
+#!/bin/bash
+su racing -c "bash -c '/opt/racing/bin/racing-service $1'"
