@@ -7,6 +7,8 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import se.cag.labs.cagrms.admin.filter.AuthenticationFilter;
+import se.cag.labs.cagrms.admin.resources.AuthResource;
 import se.cag.labs.cagrms.admin.resources.RaceResource;
 import se.cag.labs.cagrms.admin.resources.StatusResource;
 import se.cag.labs.cagrms.admin.resources.UserResource;
@@ -33,7 +35,9 @@ public class AdminApplication extends Application<AdminConfiguration> {
     environment.jersey().register(new RaceResource(configuration, client));
     environment.jersey().register(new UserResource(configuration, client));
     environment.jersey().register(new StatusResource(client));
+    environment.jersey().register(new AuthResource());
     environment.jersey().register(new CSVMessageBodyWriter());
+    environment.jersey().register(new AuthenticationFilter(configuration));
     configureCors(environment);
   }
 

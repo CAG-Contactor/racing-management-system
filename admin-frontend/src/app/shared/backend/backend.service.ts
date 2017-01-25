@@ -39,7 +39,7 @@ export class Backend {
   }
 
   cancelCurrentRace(): Promise<void> {
-    let p = this.http.delete(this.backendUrlBase + 'admin/cancel-current-race/')
+    let p = this.http.delete(this.backendUrlBase + 'admin/cancel-active-race/')
       .map(() => <void>undefined)
       .toPromise();
     p.catch(err => this.handleError<void>(err));

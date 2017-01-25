@@ -15,7 +15,8 @@ public class AdminConfiguration extends Configuration {
     private String urlCancelCurrentRace;
     private String urlRaceAdministrator;
     private String urlUserManager;
-
+    private String adminUser;
+    private String adminPassword;
     @Valid
     @JsonProperty
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
@@ -43,5 +44,15 @@ public class AdminConfiguration extends Configuration {
     @JsonProperty("urlUserManager")
     public String getUrlUserManager() {
         return urlUserManager;
+    }
+
+    @JsonProperty("adminUser")
+    public String getAdminUser() {
+        return adminUser;
+    }
+
+    @JsonProperty("adminPassword")
+    public String getAdminPassword() {
+        return adminPassword;
     }
 }
