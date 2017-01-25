@@ -78,6 +78,8 @@ services:
       SERVER_LEADERBOARD_BASE_URI: http://leaderboard:10180
       SERVER_USERMANAGER_BASE_URI: http://user-manager:10280
       SERVER_RACEADMIN_BASE_URI: http://race-administrator:10380
+      ADMIN_USER: kaka
+      ADMIN_PASSWORD: banan
 
  mongodb:
     image: mongo:3.0.4
