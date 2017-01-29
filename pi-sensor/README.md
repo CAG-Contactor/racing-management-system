@@ -1,34 +1,44 @@
 Pi Sensor
-=================================
-Bygga och köra
----------------------------------
-1.   mvn clean compile assembly:single
-2.   scp target/pi-sensor-0.0.1-SNAPSHOT-jar-with-dependencies.jar pi@192.168.198.100: [password:raspberry]
-3.   ssh pi@169.254.230.17 [password:raspberry]
-4.1  sudo java -jar pi-sensor-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-4.2  sudo java -Dserver.uri=https://sumorace.caglabs.se/race/passageDetected -Djavax.net.ssl.trustStore=keystore.jks -jar pi-sensor-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+=========
 
-Hämta hem Cert och skapa keystore
----------------------------------
-1. Kör följande och plocka PEM-filen:
-   ```sh
-   openssl x509 -in <(openssl s_client -connect sumorace.caglabs.se:443 -prexit 2>/dev/null) > sumorace.pem
-   ```
-2. Skapa en keystore:
-   ```sh
-   keytool -import -alias sumorace -keystore keystore.jks -file sumorace.pem
-   ```
+Lyssnar på GPIO-portar på en Raspberry Pi och registrerar händelser till en central server.
 
-Events
----------------------------------
-* START
+När applikationen startar kommer den försöka hämta hem certifikaten till den centrala servern och registrera sig själv med sin IP-address. 
+
+Därefter börjar den lyssna efter händelser på dessa portar och skickar dem till den centrala servern
+* START 
 * SPLIT
 * FINISH
 
-Swagger Documentation
----------------------------------
-Finns på <host>/swagger-ui.html
+Installera Rasperry Pi
+-------------------------------------
+1. mvn clean package
+2. scp target/pi-sensor-0.0.1-SNAPSHOT-exec.jar pi@192.168.198.100: [password:raspberry]
+3. ssh pi@169.254.230.17 [password:raspberry]
+4. sudo apt-get install openjdk-8-jdk
+5. sudo nano /etc/systemd/system/pisensor.service
+```
+[Unit]
+Description=pisensor
+After=syslog.target
+ 
+[Service]
+User=root
+ExecStart=/home/pi/pi-sensor-0.0.1-SNAPSHOT-exec.jar
+SuccessExitStatus=143
+ 
+[Install]
+WantedBy=multi-user.target
+```
+6. sudo systemctl enable pisensor
+7. sudo service pisensor start
 
 
+Bygga och uppdatera mjukvara
+----------------------------
+1. mvn clean package
+2. scp target/pi-sensor-0.0.1-SNAPSHOT-exec.jar pi@192.168.198.100: [password:raspberry]
+3. ssh pi@169.254.230.17 [password:raspberry]
+4. sudo service pisensor restart
 
 
