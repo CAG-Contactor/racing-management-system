@@ -16,6 +16,8 @@ public class AdminConfiguration extends Configuration {
     private String urlRaceAdministratorBaseURI;
     private String urlCurrentRaceBaseURI;
     private String urlClientAPIBaseURI;
+    private String adminUser;
+    private String adminPassword;
 
     @Valid
     @JsonProperty
