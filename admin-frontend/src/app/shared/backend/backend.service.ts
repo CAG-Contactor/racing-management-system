@@ -52,7 +52,7 @@ export class Backend {
     const headers = new Headers();
     headers.append('x-cag-user', user);
     headers.append('x-cag-password', password);
-    let p = this.http.post(this.backendUrlBase + 'admin/login', undefined, {headers: headers})
+    let p = this.http.post(this.backendUrlBase + 'login', undefined, {headers: headers})
       .map(resp => {
         this.currentUser = resp.json();
         localStorage.setItem("cag-admin-token", resp.headers.get('x-cag-token'));
