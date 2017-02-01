@@ -3,6 +3,8 @@ package se.cag.labs.raceadmin;
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.*;
 import se.cag.labs.raceadmin.peerservices.*;
@@ -156,6 +158,12 @@ public class RaceAdministratorController {
       userQueueRepository.delete(user.getId());
       clientApiService.sendEvent(Event.builder().eventType("QUEUE_UPDATED").data(user).build());
     }
+  }
+
+  @RequestMapping(path = "/ping", method = RequestMethod.GET)
+  public ResponseEntity ping() {
+
+    return new ResponseEntity(HttpStatus.OK);
   }
 
   private Queue<User> sortedQueue() {
