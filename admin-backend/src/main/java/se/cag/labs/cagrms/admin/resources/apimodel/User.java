@@ -1,6 +1,5 @@
 package se.cag.labs.cagrms.admin.resources.apimodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -11,13 +10,12 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = User.UserBuilder.class)
-public class User extends NewUser {
+public class User {
 
   private final String id;
   private final String userId;
   private final String displayName;
-  @JsonIgnore
-  private final String password;
+  private final String organisation;
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class UserBuilder {
