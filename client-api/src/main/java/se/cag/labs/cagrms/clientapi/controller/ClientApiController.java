@@ -190,4 +190,14 @@ public class ClientApiController {
         log.debug("Get last race");
         return forwardingService.getLastStatus();
     }
+
+    @RequestMapping(path = "/ping", method = RequestMethod.GET)
+    @ApiOperation(value = "Ping the service",
+            notes = "Indicates if the service is up or not")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The service is up and running"),
+    })
+    public ResponseEntity ping() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
