@@ -84,4 +84,15 @@ public class LeaderBoardController {
 
     return new ResponseEntity(HttpStatus.OK);
   }
+
+  @RequestMapping(value = "/ping", method = RequestMethod.GET)
+  @ApiOperation(value = "Indicates if the service is up or not")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Service up and running"),
+  })
+  public ResponseEntity ping() {
+    log.debug("/ping");
+
+    return new ResponseEntity(HttpStatus.OK);
+  }
 }

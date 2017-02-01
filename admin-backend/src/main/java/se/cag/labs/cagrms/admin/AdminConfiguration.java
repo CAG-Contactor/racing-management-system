@@ -11,12 +11,12 @@ import javax.validation.Valid;
  */
 public class AdminConfiguration extends Configuration {
 
-    private String urlLeaderboardResults;
-    private String urlCancelCurrentRace;
-    private String urlRaceAdministrator;
-    private String urlUserManager;
-    private String adminUser;
-    private String adminPassword;
+    private String urlLeaderboardBaseURI;
+    private String urlUserManagerBaseURI;
+    private String urlRaceAdministratorBaseURI;
+    private String urlCurrentRaceBaseURI;
+    private String urlClientAPIBaseURI;
+
     @Valid
     @JsonProperty
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
@@ -26,24 +26,29 @@ public class AdminConfiguration extends Configuration {
         return jerseyClient;
     }
 
-    @JsonProperty("urlLeaderboardResults")
-    public String getUrlLeaderboardResults() {
-        return urlLeaderboardResults;
+    @JsonProperty("urlLeaderboardBaseURI")
+    public String getUrlLeaderboardBaseURI() {
+        return urlLeaderboardBaseURI;
     }
 
-    @JsonProperty("urlCancelCurrentRace")
-    public String getUrlCancelCurrentRace() {
-        return urlCancelCurrentRace;
+    @JsonProperty("urlCurrentRaceBaseURI")
+    public String getUrlCurrentRaceBaseURI() {
+        return urlCurrentRaceBaseURI;
     }
 
-    @JsonProperty("urlRaceAdministrator")
-    public String getUrlRaceAdministrator() {
-        return urlRaceAdministrator;
+    @JsonProperty("urlRaceAdministratorBaseURI")
+    public String getUrlRaceAdministratorBaseURI() {
+        return urlRaceAdministratorBaseURI;
     }
 
-    @JsonProperty("urlUserManager")
-    public String getUrlUserManager() {
-        return urlUserManager;
+    @JsonProperty("urlUserManagerBaseURI")
+    public String getUrlUserManagerBaseURI() {
+        return urlUserManagerBaseURI;
+    }
+
+    @JsonProperty("urlClientAPIBaseURI")
+    public String getUrlClientAPIBaseURI() {
+        return urlClientAPIBaseURI;
     }
 
     @JsonProperty("adminUser")

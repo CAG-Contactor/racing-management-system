@@ -34,8 +34,7 @@ public class AdminApplication extends Application<AdminConfiguration> {
         .build(getName());
     environment.jersey().register(new RaceResource(configuration, client));
     environment.jersey().register(new UserResource(configuration, client));
-    environment.jersey().register(new StatusResource(client));
-    environment.jersey().register(new AuthResource());
+    environment.jersey().register(new StatusResource(configuration, client));
     environment.jersey().register(new CSVMessageBodyWriter());
     environment.jersey().register(new AuthenticationFilter(configuration));
     configureCors(environment);

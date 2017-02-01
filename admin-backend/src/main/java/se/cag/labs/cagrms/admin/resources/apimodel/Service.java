@@ -1,21 +1,22 @@
 package se.cag.labs.cagrms.admin.resources.apimodel;
 
-import lombok.AccessLevel;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
 
+@Builder(toBuilder = true)
 @Data
-public class Service {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(builder = Service.ServiceBuilder.class)
+public final class Service {
 
-    @Setter(AccessLevel.PRIVATE) private String name;
-    @Setter(AccessLevel.PRIVATE) private boolean alive;
-    @Setter(AccessLevel.PRIVATE) private boolean dbUp;
-    @Setter(AccessLevel.PRIVATE) private String [] info;
+    private final String name;
+    private final boolean alive;
+    private final String [] info;
 
-    public Service(String name, boolean alive, boolean dbUp, String[] info) {
-        this.name = name;
-        this.alive = alive;
-        this.dbUp = dbUp;
-        this.info = info;
+    @JsonPOJOBuilder(withPrefix = "")
+    public static final class ServiceBuilder {
     }
 }
