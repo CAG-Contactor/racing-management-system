@@ -37,6 +37,7 @@ public class ClientApiController {
     public static final String LOGOUT_URL = "/logout";
     public static final String RESET_RACE_URL = "/reset-race";
     public static final String REGISTER_USER_URL = "/users";
+    public static final String REGISTER_USER_WITH_QR = "/registerqr";
 
     @Autowired
     private ForwardingService forwardingService;
@@ -69,6 +70,20 @@ public class ClientApiController {
             @RequestBody User user) {
         log.debug("Login user: " + user);
         return forwardingService.login(user);
+    }
+
+    @RequestMapping(value = REGISTER_USER_WITH_QR, method = RequestMethod.POST)
+    @ApiOperation(value = "RegisterQR",
+            notes = "Register the specified user using QR code")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The user was created successfully, the auth token is returned"),
+            @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public ResponseEntity<String> registerAndCreateToken(
+            @ApiParam(value = "The new user from QR code", required = true)
+            @RequestBody User user) {
+        log.debug("Register user: " + user);
+        return forwardingService.registerAndCreateToken(user);
     }
 
     @RequestMapping(value = LOGOUT_URL, method = RequestMethod.POST)

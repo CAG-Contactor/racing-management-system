@@ -45,6 +45,15 @@ public class ForwardingService {
     }
   }
 
+  public ResponseEntity<String> registerAndCreateToken(final User user) {
+    try {
+      final ResponseEntity<String> response = restTemplate.exchange(userManagerBaseUri + "/registerWithQRCode", HttpMethod.POST, new HttpEntity<>(user), String.class);
+      return response;
+    } catch (HttpStatusCodeException e) {
+      return ResponseEntity.status(e.getStatusCode()).body(null);
+    }
+  }
+
   public ResponseEntity<Void> logout(final String token) {
     final URI uri = UriComponentsBuilder
       .fromHttpUrl(userManagerBaseUri + "/logout")
