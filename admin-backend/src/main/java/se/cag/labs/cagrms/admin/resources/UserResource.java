@@ -62,7 +62,7 @@ public class UserResource {
      * @return List of <code>User</code>
      */
     private List<User> getUsers() {
-        WebTarget webTarget = client.target(userManagerBaseURI);
+        WebTarget webTarget = client.target(userManagerBaseURI+"/registered-users/");
 
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.get();
