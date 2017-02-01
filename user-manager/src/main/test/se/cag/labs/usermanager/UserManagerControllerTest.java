@@ -19,7 +19,6 @@ import static com.jayway.restassured.RestAssured.given;
         properties = {"classpath:application-test.properties"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("test")
-
 public class UserManagerControllerTest {
     @Value("${local.server.port}")
     private int port;
