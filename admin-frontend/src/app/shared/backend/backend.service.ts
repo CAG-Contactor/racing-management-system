@@ -5,6 +5,7 @@ import {environment} from "../../../environments/environment";
 import {Errors} from "../errors";
 import {UserResult} from "./user-result";
 import {User} from "./user";
+import {BackendServiceStatus} from "./backend-service-status";
 
 @Injectable()
 export class Backend {
@@ -39,7 +40,7 @@ export class Backend {
   }
 
   cancelCurrentRace(): Promise<void> {
-    let p = this.http.delete(this.backendUrlBase + 'admin/cancel-active-race/', this.optionsWithHeaders())
+    let p = this.http.post(this.backendUrlBase + 'admin/cancel-active-race/', undefined, this.optionsWithHeaders())
       .map(() => <void>undefined)
       .toPromise();
     p.catch(err => this.handleError<void>(err));
@@ -70,6 +71,14 @@ export class Backend {
 
   getCurrentUser(): User {
     return this.currentUser;
+  }
+
+  getServices(): Promise<BackendServiceStatus[]> {
+    const p = this.http.get(this.backendUrlBase + 'admin/service-status/', this.optionsWithHeaders())
+      .map(r => r.json())
+      .toPromise();
+    p.catch(err => this.handleError(err));
+    return p;
   }
 
   downloadResultsCsvFile(): Promise<Blob> {
