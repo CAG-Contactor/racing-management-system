@@ -8,11 +8,11 @@ import lombok.Setter;
 public class Service {
 
     @Setter(AccessLevel.PRIVATE) private String name;
-    @Setter(AccessLevel.PRIVATE) private String alive;
-    @Setter(AccessLevel.PRIVATE) private String dbUp;
+    @Setter(AccessLevel.PRIVATE) private boolean alive;
+    @Setter(AccessLevel.PRIVATE) private boolean dbUp;
     @Setter(AccessLevel.PRIVATE) private String [] info;
 
-    public Service(String name, String alive, String dbUp, String[] info) {
+    public Service(String name, boolean alive, boolean dbUp, String[] info) {
         this.name = name;
         this.alive = alive;
         this.dbUp = dbUp;

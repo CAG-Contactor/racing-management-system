@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Backend, BackendServiceStatus} from "../../shared";
 
 @Component({
@@ -13,7 +13,7 @@ export class NotificationComponent {
   templateUrl: './home.component.html',
   styleUrls: ['home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   raceCancelledSucessfully: boolean = false;
   backendServices: BackendServiceStatus[] = [
     {name: 'Race administrator', alive: false},
@@ -23,11 +23,23 @@ export class HomeComponent {
   constructor(private readonly backend: Backend) {
   }
 
+  ngOnInit(): void {
+    this.pollBackendServiceStatus();
+  }
+
   abortCurrentRace(): void {
     this.backend.cancelCurrentRace()
       .then(() => {
         this.raceCancelledSucessfully = true;
         setTimeout(() => this.raceCancelledSucessfully = false, 5 * 1000);
+      });
+  }
+
+  private pollBackendServiceStatus(): void {
+    this.backend.getServices()
+      .then(s => {
+        this.backendServices = s;
+        setTimeout(() => this.pollBackendServiceStatus(), 30*1000);
       });
   }
 }
