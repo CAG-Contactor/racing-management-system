@@ -16,6 +16,7 @@ public class User {
   private final String id;
   private final String userId;
   private final String displayName;
+  private final String organisation;
   @JsonIgnore
   private final String password;
 
