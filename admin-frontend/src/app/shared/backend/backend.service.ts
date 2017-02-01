@@ -74,7 +74,7 @@ export class Backend {
   }
 
   getServices(): Promise<BackendServiceStatus[]> {
-    const p = this.http.get(this.backendUrlBase + 'service-status/', this.optionsWithHeaders())
+    const p = this.http.get(this.backendUrlBase + 'status/', this.optionsWithHeaders())
       .map(r => r.json())
       .toPromise();
     p.catch(err => this.handleError(err));
