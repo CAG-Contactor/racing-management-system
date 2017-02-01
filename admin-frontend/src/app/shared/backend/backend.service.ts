@@ -74,7 +74,7 @@ export class Backend {
   }
 
   getServices(): Promise<BackendServiceStatus[]> {
-    const p = this.http.get(this.backendUrlBase + 'admin/service-status/', this.optionsWithHeaders())
+    const p = this.http.get(this.backendUrlBase + 'service-status/', this.optionsWithHeaders())
       .map(r => r.json())
       .toPromise();
     p.catch(err => this.handleError(err));
@@ -82,12 +82,12 @@ export class Backend {
   }
 
   downloadResultsCsvFile(): Promise<Blob> {
-    const url = this.backendUrlBase + 'admin/registered-races';
+    const url = this.backendUrlBase + 'registered-races';
     return this.downloadCsvFile(url);
   }
 
   downloadUsersCsvFile(): Promise<Blob> {
-    const url = this.backendUrlBase + 'admin/users';
+    const url = this.backendUrlBase + 'users';
     return this.downloadCsvFile(url);
   }
 
