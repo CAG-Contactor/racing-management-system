@@ -16,7 +16,7 @@ export class Backend {
   }
 
   getUsers(): Promise<User[]> {
-    const p = this.http.get(this.backendUrlBase + 'admin/users/', this.optionsWithHeaders())
+    const p = this.http.get(this.backendUrlBase + 'users/', this.optionsWithHeaders())
       .map(r => r.json())
       .toPromise();
     p.catch(err => this.handleError(err));
@@ -24,7 +24,7 @@ export class Backend {
   }
 
   getUserResults(): Promise<UserResult[]> {
-    const p = this.http.get(this.backendUrlBase + 'admin/registered-races/', this.optionsWithHeaders())
+    const p = this.http.get(this.backendUrlBase + 'registered-races/', this.optionsWithHeaders())
       .map(r => r.json())
       .toPromise();
     p.catch(err => this.handleError(err));
@@ -32,7 +32,7 @@ export class Backend {
   }
 
   removeUserResult(userResult: UserResult): Promise<void> {
-    let p = this.http.delete(this.backendUrlBase + 'admin/registered-races/' + userResult.id, this.optionsWithHeaders())
+    let p = this.http.delete(this.backendUrlBase + 'registered-races/' + userResult.id, this.optionsWithHeaders())
       .map(() => <void>undefined)
       .toPromise();
     p.catch(err => this.handleError<void>(err));
@@ -40,7 +40,7 @@ export class Backend {
   }
 
   cancelCurrentRace(): Promise<void> {
-    let p = this.http.post(this.backendUrlBase + 'admin/cancel-active-race/', undefined, this.optionsWithHeaders())
+    let p = this.http.post(this.backendUrlBase + 'cancel-active-race/', undefined, this.optionsWithHeaders())
       .map(() => <void>undefined)
       .toPromise();
     p.catch(err => this.handleError<void>(err));
