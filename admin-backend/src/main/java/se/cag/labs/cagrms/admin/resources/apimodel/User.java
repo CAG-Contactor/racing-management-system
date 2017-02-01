@@ -1,5 +1,6 @@
 package se.cag.labs.cagrms.admin.resources.apimodel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -15,7 +16,8 @@ public class User {
   private final String id;
   private final String userId;
   private final String displayName;
-  private final String organisation;
+  @JsonIgnore
+  private final String password;
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class UserBuilder {
