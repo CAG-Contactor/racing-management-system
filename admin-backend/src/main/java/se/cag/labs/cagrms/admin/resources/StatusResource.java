@@ -26,9 +26,9 @@ public class StatusResource {
     public List<Service> getServiceStatus() {
 
         // Mock objects
-        Service currentRace = new Service("Current-Race", "true", "true", new String[] { "This is a info comment!", "A nother info comment!", "Three" });
-        Service leaderBoard = new Service("Leaderboard", "true", "false", new String[] { "This is a info comment!", "A nother info comment!", "Three" });
-        List<Service> services = new ArrayList();
+        Service currentRace = new Service("Current-Race", true, true, new String[] { "This is a info comment!", "A nother info comment!", "Three" });
+        Service leaderBoard = new Service("Leaderboard", false, false, new String[] { "This is a info comment!", "A nother info comment!", "Three" });
+        List<Service> services = new ArrayList<>();
         services.add(currentRace);
         services.add(leaderBoard);
 
