@@ -13,4 +13,5 @@ import lombok.*;
 public class UserInfo {
   private String userId;
   private String displayName;
+  private String organisation;
 }

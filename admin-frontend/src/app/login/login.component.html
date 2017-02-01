@@ -3,6 +3,11 @@
     <div class="col-lg-4 col-lg-offset-4">
       <img src="assets/image/admin.png" width="100px" height="100px"/>
       <h1>CAG Racing Managment Admin</h1>
+
+      <div *ngIf="loginFailed === true" class="alert alert-danger" role="alert">
+        <strong>Ooops!</strong> Angav du verkligen rätt användarnamn och lösenord?
+      </div>
+
       <form role="form" #f="ngForm" (ngSubmit)="login()" novalidate>
         <div class="form-content">
           <div class="form-group">

@@ -28,6 +28,9 @@ urlRaceAdministratorBaseURI : ${SERVER_RACE_ADMINISTRATOR_BASE_URI:-http://local
 urlClientAPIBaseURI : ${SERVER_CLIENT_API_BASE_URI:-http://localhost:10580}
 
 
+# User/password
+adminUser: ${ADMIN_USER:-kaka}
+adminPassword: ${ADMIN_PASSWORD:-banan}
 # Logging settings.
 logging:
 

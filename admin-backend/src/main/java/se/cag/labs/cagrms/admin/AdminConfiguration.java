@@ -50,4 +50,14 @@ public class AdminConfiguration extends Configuration {
     public String getUrlClientAPIBaseURI() {
         return urlClientAPIBaseURI;
     }
+
+    @JsonProperty("adminUser")
+    public String getAdminUser() {
+        return adminUser;
+    }
+
+    @JsonProperty("adminPassword")
+    public String getAdminPassword() {
+        return adminPassword;
+    }
 }

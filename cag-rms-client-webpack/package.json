@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/angular": "^1.5.19",
-    "@types/lodash": "^4.14.39",
+    "@types/lodash": "4.14.50",
     "@types/node": "^6.0.48",
     "@types/sockjs-client": "^1.0.30",
     "awesome-typescript-loader": "^2.2.4",
