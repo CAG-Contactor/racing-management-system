@@ -75,12 +75,16 @@ public class UserManagerController {
   @RequestMapping(path = "/registerWithQRCode", method = RequestMethod.POST)
   public ResponseEntity<String> registerAndCreateToken(@RequestBody NewUser user) {
     User existing = userRepository.findByUserId(user.getUserId());
+    User u = null;
     if (existing == null) {
       // Create user
-      User u = new User(user.getUserId(), user.getDisplayName(), user.getOrganisation(), user.getPassword());
-      userRepository.save(u);
+      User newUser = new User(user.getUserId(), user.getDisplayName(), user.getOrganisation(), user.getPassword());
+      userRepository.save(newUser);
+      u = userRepository.findByUserId(user.getUserId());
+    } else {
+      // Use registered
+      u = existing;
     }
-    User u = userRepository.findByUserId(user.getUserId());
     Session s = sessionRepository.findByUserId(u.getId());
     if (s == null) {
       // Ny Session
