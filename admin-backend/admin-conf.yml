@@ -21,10 +21,12 @@ jerseyClient:
   chunkedEncodingEnabled: true
 
 # URL:s to the different services
-urlCancelCurrentRace : ${SERVER_CURRENTRACE_BASE_URI:-http://localhost:10080}/cancelRace/
-urlLeaderboardResults : ${SERVER_LEADERBOARD_BASE_URI:-http://localhost:10180}/results/
-urlUserManager : ${SERVER_USERMANAGER_BASE_URI:-http://localhost:10280}/registered-users/
-urlRaceAdministrator : ${SERVER_RACEADMIN_BASE_URI:-http://localhost:10380}/reset-race/
+urlCurrentRaceBaseURI : ${SERVER_CURRENTRACE_BASE_URI:-http://localhost:10080}
+urlLeaderboardBaseURI : ${SERVER_LEADERBOARD_BASE_URI:-http://localhost:10180}
+urlUserManagerBaseURI : ${SERVER_USERMANAGER_BASE_URI:-http://localhost:10280}
+urlRaceAdministratorBaseURI : ${SERVER_RACE_ADMINISTRATOR_BASE_URI:-http://localhost:10380}
+urlClientAPIBaseURI : ${SERVER_CLIENT_API_BASE_URI:-http://localhost:10580}
+
 
 # Logging settings.
 logging:

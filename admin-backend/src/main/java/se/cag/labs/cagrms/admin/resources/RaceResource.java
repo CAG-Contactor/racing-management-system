@@ -31,17 +31,17 @@ public class RaceResource {
     public static final String REGISTERED_RACES_ID = "/registered-races/{id}";
     public static final String CANCEL_ACTIVE_RACE_ID = "/cancel-active-race/";
 
-    private final String urlLeaderboardResults;
-    private final String urlCancelCurrentRace;
-    private final String urlRaceAdministrator;
+    private final String urlLeaderboardBaseURI;
+    private final String urlCurrentRaceBaseURI;
+    private final String urlRaceAdministratorBaseURI;
     private final AdminConfiguration configuration;
     private final Client client;
 
     public RaceResource(AdminConfiguration configuration, Client client) {
         this.configuration = configuration;
-        this.urlLeaderboardResults = configuration.getUrlLeaderboardResults();
-        this.urlCancelCurrentRace = configuration.getUrlCancelCurrentRace();
-        this.urlRaceAdministrator = configuration.getUrlRaceAdministrator();
+        this.urlLeaderboardBaseURI = configuration.getUrlLeaderboardBaseURI();
+        this.urlCurrentRaceBaseURI = configuration.getUrlCurrentRaceBaseURI();
+        this.urlRaceAdministratorBaseURI = configuration.getUrlRaceAdministratorBaseURI();
         this.client = client;
     }
 
@@ -85,7 +85,7 @@ public class RaceResource {
             return Response.status(Response.Status.NOT_FOUND).entity("No race with specified id!").build();
        }
 
-      WebTarget webTarget = client.target(urlLeaderboardResults + userResult.getId());
+      WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/" + userResult.getId());
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.delete();
 
@@ -98,7 +98,7 @@ public class RaceResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response cancelActiveRace() {
         log.info("Canceling race current race...");
-        WebTarget webTarget = client.target(urlRaceAdministrator);
+        WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/cancelRace/");
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
 
@@ -111,7 +111,7 @@ public class RaceResource {
      * @return List of <code>UserResult</code>
      */
     private List<UserResult> getUserResults() {
-        WebTarget webTarget = client.target(urlLeaderboardResults);
+        WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/");
 
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.get();

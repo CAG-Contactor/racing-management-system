@@ -13,8 +13,7 @@ import lombok.Data;
 public final class Service {
 
     private final String name;
-    private final String alive;
-    private final String dbUp;
+    private final boolean alive;
     private final String [] info;
 
     @JsonPOJOBuilder(withPrefix = "")

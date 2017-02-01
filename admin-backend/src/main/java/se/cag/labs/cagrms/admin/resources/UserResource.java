@@ -25,11 +25,11 @@ public class UserResource {
     private static final String USERS = "/users";
     private static final String TEXT_CSV = "text/csv";
     private final Client client;
-    private final String urlUserManager;
+    private final String userManagerBaseURI;
 
     public UserResource(AdminConfiguration configuration, Client client) {
         this.client = client;
-        this.urlUserManager = configuration.getUrlUserManager();
+        this.userManagerBaseURI = configuration.getUrlUserManagerBaseURI();
     }
 
     @GET
@@ -62,7 +62,7 @@ public class UserResource {
      * @return List of <code>User</code>
      */
     private List<User> getUsers() {
-        WebTarget webTarget = client.target(urlUserManager);
+        WebTarget webTarget = client.target(userManagerBaseURI);
 
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.get();
