@@ -39,11 +39,11 @@ public class StatusResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Service> getServiceStatus() {
 
-        Response currentRace = pingCurrentRace();
-        Response leaderBoard = pingLeaderBoard();
-        Response userManager = pingUserManager();
-        Response raceAdministrator = pingRaceAdministrator();
-        Response clientApi = pingClientApi();
+        Response currentRace = pingTarget(urlCurrentRaceBaseURI);
+        Response leaderBoard = pingTarget(urlLeaderboardBaseURI);
+        Response userManager = pingTarget(urlUserManagerBaseURI);
+        Response raceAdministrator = pingTarget(urlRaceAdministratorBaseURI);
+        Response clientApi = pingTarget(urlClientApiBaseURI);
 
         List services = new ArrayList();
         services.add(Service.builder().name("CurrentRace").alive(currentRace.getStatus() == 202 ? true:false).build());
@@ -55,37 +55,8 @@ public class StatusResource {
         return services;
     }
 
-
-    private Response pingCurrentRace() {
-        WebTarget webTarget = client.target(urlCurrentRaceBaseURI + "/ping");
-        Invocation.Builder invocationBuilder =  webTarget.request();
-
-        return invocationBuilder.get();
-    }
-
-    private Response pingLeaderBoard() {
-        WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/ping");
-        Invocation.Builder invocationBuilder =  webTarget.request();
-
-        return invocationBuilder.get();
-    }
-
-    private Response pingUserManager() {
-        WebTarget webTarget = client.target(urlUserManagerBaseURI + "/ping");
-        Invocation.Builder invocationBuilder =  webTarget.request();
-
-        return invocationBuilder.get();
-    }
-
-    private Response pingRaceAdministrator() {
-        WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/ping");
-        Invocation.Builder invocationBuilder =  webTarget.request();
-
-        return invocationBuilder.get();
-    }
-
-    private Response pingClientApi() {
-        WebTarget webTarget = client.target(urlClientApiBaseURI + "/ping");
+    private Response pingTarget(String target) {
+        WebTarget webTarget = client.target(target + "/ping");
         Invocation.Builder invocationBuilder =  webTarget.request();
 
         return invocationBuilder.get();
