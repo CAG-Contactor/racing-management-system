@@ -11,7 +11,17 @@ export const appModule = ng1
   .constant('APP_CONFIG', { // The value of each of the following constants will be set by webpack DefinePlugin
       clientApi: CLIENT_API,
       buildInfo: BUILD_INFO
-  });
+  })
+  .config(['$locationProvider', ($locationProvider) => {
+      $locationProvider.html5Mode(true);
+  }])
+    .run(['$location','clientApiService', ($location, clientApiService)=>{
+        const params = $location.search();
+        console.debug('token:',params.token);
+        if (params.token) {
+            clientApiService.registerToken(params.token);
+        }
+    }]);
 
 import "./main";
 
