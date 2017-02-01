@@ -1,6 +1,7 @@
 package se.cag.labs.cagrms.admin.resources;
 
 
+import lombok.extern.log4j.Log4j;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.resources.apimodel.Service;
 
@@ -11,11 +12,11 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
 @Path("/admin/")
+@Log4j
 public class StatusResource {
 
     private Client client;
@@ -39,27 +40,26 @@ public class StatusResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Service> getServiceStatus() {
 
-        Response currentRace = pingTarget(urlCurrentRaceBaseURI);
-        Response leaderBoard = pingTarget(urlLeaderboardBaseURI);
-        Response userManager = pingTarget(urlUserManagerBaseURI);
-        Response raceAdministrator = pingTarget(urlRaceAdministratorBaseURI);
-        Response clientApi = pingTarget(urlClientApiBaseURI);
-
         List services = new ArrayList();
-        services.add(Service.builder().name("CurrentRace").alive(currentRace.getStatus() == 202 ? true:false).build());
-        services.add(Service.builder().name("LeaderBoard").alive(leaderBoard.getStatus() == 202 ? true:false).build());
-        services.add(Service.builder().name("UserManager").alive(userManager.getStatus() == 202 ? true:false).build());
-        services.add(Service.builder().name("RaceAdministrator").alive(raceAdministrator.getStatus() == 202 ? true:false).build());
-        services.add(Service.builder().name("ClientAPI").alive(clientApi.getStatus() == 202 ? true:false).build());
+        services.add(Service.builder().name("CurrentRace").alive(isAlive(urlCurrentRaceBaseURI)).build());
+        services.add(Service.builder().name("LeaderBoard").alive(isAlive(urlLeaderboardBaseURI)).build());
+        services.add(Service.builder().name("UserManager").alive(isAlive(urlUserManagerBaseURI)).build());
+        services.add(Service.builder().name("RaceAdministrator").alive(isAlive(urlRaceAdministratorBaseURI)).build());
+        services.add(Service.builder().name("ClientAPI").alive(isAlive(urlClientApiBaseURI)).build());
 
         return services;
     }
 
-    private Response pingTarget(String target) {
+    private boolean isAlive(String target) {
+        log.info("Ping " + target);
         WebTarget webTarget = client.target(target + "/ping");
         Invocation.Builder invocationBuilder =  webTarget.request();
 
-        return invocationBuilder.get();
+        try {
+            return invocationBuilder.get().getStatus() / 100 == 2;
+        } catch(Throwable e) {
+            return false;
+        }
     }
 }
 
