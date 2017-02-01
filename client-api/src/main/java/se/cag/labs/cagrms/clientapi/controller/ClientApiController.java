@@ -57,6 +57,24 @@ public class ClientApiController {
         return forwardingService.registerUser(user);
     }
 
+    @RequestMapping(value = REGISTER_USER_URL, method = RequestMethod.GET)
+    @ApiOperation(value = "Get the user from token",
+            notes = "Get user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The request was handled succesfully."),
+            @ApiResponse(code = 500, message = "Something went wrong when processing the request")
+    })
+    public ResponseEntity<User> userForToken(
+            @RequestHeader(name = "X-AuthToken") String token) {
+        ResponseEntity<User> userForToken = forwardingService.getUserForToken(token);
+        if (userForToken.getStatusCode() != HttpStatus.OK) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        log.debug("Get user " + userForToken + "");
+        return userForToken;
+    }
+
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
     @ApiOperation(value = "Login",
             notes = "Login the specified user using the specified credentials")

@@ -24,6 +24,17 @@ function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageS
   let self = this;
   let eventBus = new EventBus($rootScope, $timeout, APP_CONFIG, localStorageService, notificationService);
 
+  this.registerToken = function(token) {
+    localStorageService.set(TOKEN_KEY, token);
+    backendRequest('GET', '/users')
+        .then(function (response) {
+          let userInfo = response.data;
+          console.debug("userInfo from token: ", userInfo)
+          localStorageService.set(USER_INFO_KEY, userInfo);
+          return userInfo;
+        });
+  };
+
   this.login = function (userId, password) {
     console.debug('Logging in:', userId);
     let loginCredentials = {
@@ -45,6 +56,7 @@ function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageS
         }
       });
   };
+
   this.logout = function () {
     console.debug('Logging out');
     return backendRequest('POST', '/logout')
