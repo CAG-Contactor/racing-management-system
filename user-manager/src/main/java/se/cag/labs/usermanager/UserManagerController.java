@@ -1,11 +1,13 @@
 package se.cag.labs.usermanager;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.*;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -32,6 +34,12 @@ public class UserManagerController {
     List<User> result = userRepository.findAll();
     result.stream().forEach(u -> u.setPassword(""));
     return result;
+  }
+
+  @RequestMapping(path = "/ping", method = RequestMethod.GET)
+  public ResponseEntity ping() {
+
+    return new ResponseEntity(HttpStatus.OK);
   }
 
   @RequestMapping(path = "/login", method = RequestMethod.POST)
