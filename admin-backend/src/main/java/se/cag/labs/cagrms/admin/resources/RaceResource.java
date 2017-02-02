@@ -1,19 +1,14 @@
 package se.cag.labs.cagrms.admin.resources;
 
 
+import io.dropwizard.jersey.errors.ErrorMessage;
 import lombok.extern.log4j.Log4j;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.api.Race;
 import se.cag.labs.cagrms.admin.resources.apimodel.UserResult;
 import se.cag.labs.cagrms.admin.resources.mapper.ModelMapper;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -50,7 +45,7 @@ public class RaceResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Race> getRegisteredRaces() {
-        log.debug("/registered-races: application/json");
+        log.info("/registered-races: application/json");
         List<UserResult> results = getUserResults();
 
         return ModelMapper.createUserResultResponse(results);
@@ -61,7 +56,7 @@ public class RaceResource {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces({"text/csv"})
     public List<Race> getRegisteredRacesCSV() {
-        log.debug("/registered-races: text/csv");
+        log.info("/registered-races: text/csv");
         List<UserResult> results = getUserResults();
 
         return ModelMapper.createUserResultResponse(results);
@@ -74,7 +69,7 @@ public class RaceResource {
     public Response deleteRace(@PathParam("id") String id) {
         log.info("Deleting race with id: " + id);
         List<UserResult> results = getUserResults();
-        log.info("Got user results "+results);
+        log.debug("Got user results "+results);
 
        UserResult userResult = results.stream()
                 .filter(o -> o.getId().equals(id))
@@ -85,11 +80,20 @@ public class RaceResource {
             return Response.status(Response.Status.NOT_FOUND).entity("No race with specified id!").build();
        }
 
-      WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/" + userResult.getId());
+        WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/" + userResult.getId());
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-        Response response = invocationBuilder.delete();
 
-        return Response.status(response.getStatus()).build();
+        try {
+             Response response = invocationBuilder.delete();
+             return Response.status(response.getStatus()).build();
+        } catch(Throwable e) {
+                throw new WebApplicationException(Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
+                            "Leaderboard is not responding!"))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build());
+        }
     }
 
     @POST
@@ -100,9 +104,18 @@ public class RaceResource {
         log.info("Canceling race current race...");
         WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/reset-race/");
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-        Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
 
-        return Response.status(response.getStatus()).type(MediaType.APPLICATION_JSON).build();
+        try {
+            Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
+            return Response.status(response.getStatus()).type(MediaType.APPLICATION_JSON).build();
+        } catch(Throwable e) {
+            throw new WebApplicationException(Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
+                            "Race administrator is not responding!"))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build());
+        }
     }
 
     /**
@@ -114,7 +127,17 @@ public class RaceResource {
         WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/");
 
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-        Response response = invocationBuilder.get();
-        return response.readEntity(new GenericType<List<UserResult>>() {});
+
+        try {
+            Response response = invocationBuilder.get();
+            return response.readEntity(new GenericType<List<UserResult>>() {});
+        } catch(Throwable e) {
+            throw new WebApplicationException(Response
+                            .status(Response.Status.SERVICE_UNAVAILABLE)
+                            .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
+                                    "Leaderboard is not responding!"))
+                            .type(MediaType.APPLICATION_JSON)
+                            .build());
+        }
     }
 }
