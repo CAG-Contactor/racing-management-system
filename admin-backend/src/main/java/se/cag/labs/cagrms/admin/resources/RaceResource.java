@@ -98,7 +98,7 @@ public class RaceResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response cancelActiveRace() {
         log.info("Canceling race current race...");
-        WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/cancelRace/");
+        WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/reset-race/");
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
 
