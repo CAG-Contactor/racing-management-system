@@ -1,5 +1,5 @@
 CAG Racing Management System
-==========================
+============================
 The ultimate racing management system :stuck_out_tongue_winking_eye:.
 
 Specification
