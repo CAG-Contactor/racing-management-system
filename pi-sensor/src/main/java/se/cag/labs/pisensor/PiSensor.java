@@ -18,7 +18,7 @@ public class PiSensor {
     public static void main(String[] args) throws InterruptedException, IOException {
 
         // Download certificates and store them to a keystore
-        KeyStoreUtils.updateKeyStore("sumorace.caglabs.se", 443, "/tmp/keystore.jks", "changeme");
+        KeyStoreUtils.updateKeyStore("zumorace.caglabs.se", 443, "/tmp/keystore.jks", "changeme");
         System.setProperty("javax.net.ssl.trustStore", "/tmp/keystore.jks");
 
         SpringApplication.run(PiSensor.class, args);

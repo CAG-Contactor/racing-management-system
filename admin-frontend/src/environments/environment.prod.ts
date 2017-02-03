@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   bsEnv: {
-    API: 'https://sumorace.caglabs.se/admin/api/',
+    API: 'https://zumorace.caglabs.se/admin/api/',
     ENV: "PROD"
   }
 };
