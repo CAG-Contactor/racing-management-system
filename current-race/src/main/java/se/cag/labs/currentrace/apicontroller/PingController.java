@@ -21,6 +21,6 @@ public class PingController {
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public ResponseEntity ping() {
 
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

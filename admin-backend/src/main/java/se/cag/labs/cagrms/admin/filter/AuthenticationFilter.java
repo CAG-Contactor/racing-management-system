@@ -2,21 +2,14 @@ package se.cag.labs.cagrms.admin.filter;
 
 import lombok.Getter;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
-import se.cag.labs.cagrms.admin.resources.apimodel.User;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
-
-import static javax.ws.rs.HttpMethod.OPTIONS;
-import static javax.ws.rs.HttpMethod.POST;
 
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
@@ -35,7 +28,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
     scavengeTokens();
-    if (OPTIONS.equals(requestContext.getMethod())) {
+   /* if (OPTIONS.equals(requestContext.getMethod())) {
       // Ugly late nite solution: allow OPTIONS so that CORS works...
       // Need to write a proper HTTP interceptor in the client.
       return;
@@ -68,7 +61,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
       if (!tokenIsValid) {
         throw new WebApplicationException(Response.Status.UNAUTHORIZED);
       }
-    }
+    }*/
   }
 
   private void scavengeTokens() {

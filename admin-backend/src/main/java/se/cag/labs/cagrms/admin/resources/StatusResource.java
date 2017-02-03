@@ -50,6 +50,12 @@ public class StatusResource {
         return services;
     }
 
+    /**
+     * Calls a specified target in order to check status
+     *
+     * @param target an url to a service
+     * @return true if the response is ok (200-206). Otherwise false.
+     */
     private boolean isAlive(String target) {
         log.info("Ping " + target);
         WebTarget webTarget = client.target(target + "/ping");
