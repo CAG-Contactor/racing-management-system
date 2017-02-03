@@ -1,4 +1,4 @@
-package se.cag.labs.usermanager;
+package se.cag.labs.leaderboard;
 
 import com.jayway.restassured.RestAssured;
 import org.junit.Before;
@@ -19,7 +19,7 @@ import static com.jayway.restassured.RestAssured.given;
         properties = {"classpath:application-test.properties"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("test")
-public class UserManagerControllerTest {
+public class LeaderBoardControllerTest {
     @Value("${local.server.port}")
     private int port;
     public static final String PING_URL = "/ping";
@@ -33,9 +33,9 @@ public class UserManagerControllerTest {
     @Test
     public void pingShouldReturnStatusOK() throws Exception {
         given()
-            .when()
-            .get(PING_URL)
-            .then()
-            .statusCode(HttpStatus.OK.value());
+                .when()
+                .get(PING_URL)
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 }
