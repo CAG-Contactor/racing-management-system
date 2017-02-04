@@ -86,7 +86,7 @@ public class RaceResource {
         try {
             Response response = invocationBuilder.delete();
             return Response.status(response.getStatus()).build();
-        } catch(Throwable e) {
+        } catch(Exception e) {
             throw new WebApplicationException(Response
                     .status(Response.Status.SERVICE_UNAVAILABLE)
                     .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
@@ -108,7 +108,7 @@ public class RaceResource {
         try {
             Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
             return Response.status(response.getStatus()).type(MediaType.APPLICATION_JSON).build();
-        } catch(Throwable e) {
+        } catch(Exception e) {
             throw new WebApplicationException(Response
                     .status(Response.Status.SERVICE_UNAVAILABLE)
                     .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
@@ -131,7 +131,7 @@ public class RaceResource {
         try {
             Response response = invocationBuilder.get();
             return response.readEntity(new GenericType<List<UserResult>>() {});
-        } catch(Throwable e) {
+        } catch(Exception e) {
             throw new WebApplicationException(Response
                     .status(Response.Status.SERVICE_UNAVAILABLE)
                     .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
