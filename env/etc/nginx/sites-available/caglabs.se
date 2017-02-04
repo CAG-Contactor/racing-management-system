@@ -1,0 +1,5 @@
+server {
+    server_name caglabs.se;
+    return 444;
+}
+
