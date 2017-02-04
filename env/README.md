@@ -10,6 +10,9 @@ sudo service nginx stop
 sudo certbot-auto certonly --standalone
 sudo openssl dhparam -out /etc/nginx/dhparams.pem 2048
 sudo service nginx start
+sudo mkdir -p /var/www/letsencrypt
+sudo chown -R "$USER":www-data /var/www/letsencrypt
+sudo chmod -R 0755 /var/www/letsencrypt
 ```
 
 Virtual host directive can be found under `etc/nginx/sites-available`
