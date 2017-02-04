@@ -1,0 +1,79 @@
+server {
+  listen 80;
+  server_name zumorace.caglabs.se;
+
+  location ~ /.well-known {
+    allow all;
+    root /var/www/letsencrypt;
+  }
+
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+
+server {
+	listen 443 ssl;
+	server_name zumorace.caglabs.se;
+
+	ssl on;
+        ssl_certificate /etc/letsencrypt/live/droidrace.caglabs.se/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/droidrace.caglabs.se/privkey.pem;
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+        ssl_session_timeout 1d;
+        ssl_session_cache shared:SSL:50m;
+        ssl_stapling on;
+        ssl_stapling_verify on;
+        add_header Strict-Transport-Security max-age=15768000;
+
+	ssl_dhparam /etc/nginx/dhparams.pem;
+
+	root /opt/racing/webapp-webpack;
+	index index.html index.htm;
+
+	location / {
+		try_files $uri$args $uri$args/ /index.html;
+	}
+
+	location /api {
+		rewrite /api(.*)	/$1 break;
+                proxy_buffering off;
+                tcp_nodelay on;
+                proxy_pass              http://127.0.0.1:10580;
+                proxy_set_header        Host $host;
+                proxy_set_header        X-Real-IP $remote_addr;
+                proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    		proxy_http_version 1.1;
+    		proxy_set_header Upgrade $http_upgrade;
+    		proxy_set_header Connection "upgrade";
+        }
+
+        location /race {
+		rewrite /race(.*)        /$1 break;
+                proxy_buffering off;
+                tcp_nodelay on;
+                proxy_pass              http://127.0.0.1:10080;
+                proxy_set_header        Host $host;
+                proxy_set_header        X-Real-IP $remote_addr;
+                proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    		proxy_http_version 1.1;
+    		proxy_set_header Upgrade $http_upgrade;
+    		proxy_set_header Connection "upgrade";
+        }
+	
+        location /admin/api {
+                rewrite /admin/api/(.*)        /admin/$1 break;
+                proxy_buffering off;
+                tcp_nodelay on;
+                proxy_pass              http://127.0.0.1:11080;
+                proxy_set_header        Host $host;
+                proxy_set_header        X-Real-IP $remote_addr;
+                proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+        }
+}
