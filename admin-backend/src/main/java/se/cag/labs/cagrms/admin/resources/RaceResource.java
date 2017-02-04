@@ -1,19 +1,14 @@
 package se.cag.labs.cagrms.admin.resources;
 
 
+import io.dropwizard.jersey.errors.ErrorMessage;
 import lombok.extern.log4j.Log4j;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.api.Race;
 import se.cag.labs.cagrms.admin.resources.apimodel.UserResult;
 import se.cag.labs.cagrms.admin.resources.mapper.ModelMapper;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -87,9 +82,18 @@ public class RaceResource {
 
       WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/" + userResult.getId());
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-        Response response = invocationBuilder.delete();
 
-        return Response.status(response.getStatus()).build();
+        try {
+            Response response = invocationBuilder.delete();
+            return Response.status(response.getStatus()).build();
+        } catch(Exception e) {
+            throw new WebApplicationException(Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
+                            "Leaderboard is not responding!"))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build());
+        }
     }
 
     @POST
@@ -98,11 +102,20 @@ public class RaceResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response cancelActiveRace() {
         log.info("Canceling race current race...");
-        WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/cancelRace/");
+        WebTarget webTarget = client.target(urlRaceAdministratorBaseURI + "/reset-race/");
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-        Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
 
-        return Response.status(response.getStatus()).type(MediaType.APPLICATION_JSON).build();
+        try {
+            Response response = invocationBuilder.post(Entity.entity("Cancel the current race!", MediaType.TEXT_PLAIN));
+            return Response.status(response.getStatus()).type(MediaType.APPLICATION_JSON).build();
+        } catch(Exception e) {
+            throw new WebApplicationException(Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
+                            "Race administrator is not responding!"))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build());
+        }
     }
 
     /**
@@ -114,7 +127,17 @@ public class RaceResource {
         WebTarget webTarget = client.target(urlLeaderboardBaseURI + "/results/");
 
         Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-        Response response = invocationBuilder.get();
-        return response.readEntity(new GenericType<List<UserResult>>() {});
+
+        try {
+            Response response = invocationBuilder.get();
+            return response.readEntity(new GenericType<List<UserResult>>() {});
+        } catch(Exception e) {
+            throw new WebApplicationException(Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity(new ErrorMessage(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(),
+                            "Leaderboard is not responding!"))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build());
+        }
     }
 }
