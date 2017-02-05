@@ -5,5 +5,6 @@
 /opt/racing/bin/race-administrator start
 /opt/racing/bin/current-race start
 /opt/racing/bin/leaderboard start
+/opt/racing/bin/admin-backend start
 
 exit 0;

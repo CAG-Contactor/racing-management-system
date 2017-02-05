@@ -5,5 +5,6 @@
 /opt/racing/bin/client-api stop
 /opt/racing/bin/race-administrator stop
 /opt/racing/bin/leaderboard stop
+/opt/racing/bin/admin-backend stop
 
 exit 0;
