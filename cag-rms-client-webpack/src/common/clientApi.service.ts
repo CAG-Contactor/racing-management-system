@@ -24,7 +24,7 @@ function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageS
   let self = this;
   let eventBus = new EventBus($rootScope, $timeout, APP_CONFIG, localStorageService, notificationService);
 
-  this.registerToken = function(token) {
+  this.loginWithToken = function(token) {
     localStorageService.set(TOKEN_KEY, token);
     backendRequest('GET', '/users')
         .then(function (response) {

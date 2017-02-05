@@ -19,7 +19,7 @@ export const appModule = ng1
         const params = $location.search();
         console.debug('token:',params.token);
         if (params.token) {
-            clientApiService.registerToken(params.token);
+            clientApiService.loginWithToken(params.token);
         }
     }]);
 
