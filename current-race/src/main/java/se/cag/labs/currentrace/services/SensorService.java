@@ -1,6 +1,7 @@
 package se.cag.labs.currentrace.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.apicontroller.apimodel.Sensor;
 import se.cag.labs.currentrace.apicontroller.apimodel.SensorResponse;
@@ -14,8 +15,11 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class SensorService {
+
   @Autowired
   private SensorRepository sensorRepository;
+
+  private static final int ONE_HOUR = 1000*60*60;
 
   public ReturnStatus registerSensor(Sensor sensor) {
     SensorModel sensorModel = SensorMapper.createModelFromApi(sensor);
@@ -28,6 +32,12 @@ public class SensorService {
     } else {
       return ReturnStatus.ILLEGAL;
     }
+  }
+
+  @Scheduled(fixedDelay = ONE_HOUR)
+  public void deleteOldSensors() {
+    List<SensorModel> sensorModels = sensorRepository.findByRegisteredTimestampLessThan(System.currentTimeMillis() - ONE_HOUR);
+    sensorRepository.delete(sensorModels);
   }
 
   public List<SensorResponse> getSensorList() {
