@@ -110,7 +110,9 @@ public class UserManagerController {
   public ResponseEntity<Void> logout(@RequestParam Token token) {
     Session s = sessionRepository.findByToken(token.getToken());
     if (s != null) {
-      sessionRepository.delete(s);
+//      sessionRepository.delete(s); // Förhindra att användarsessionen tas bort.
+                                     // Temporär lösning för användare som registrerats
+                                     // med QR kod.
     }
     return ResponseEntity.ok().build();
   }
