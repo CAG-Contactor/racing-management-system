@@ -19,12 +19,12 @@ function factory() {
   return {
     restrict: 'E',
     template: htmlTemplate,
-    controller: ['registerModal', 'clientApiService', 'notificationService', 'APP_CONFIG', Ctrl],
+    controller: ['registerModal', 'clientApiService', 'notificationService', 'APP_CONFIG', '$location', Ctrl],
     controllerAs: 'vm'
   };
 }
 
-function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) {
+function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG, $location) {
   let vm = this;
   let connectionStyle = {
     color: 'red'
@@ -40,7 +40,14 @@ function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) 
   clientApiService.setConnectionListener(connectionListener);
   clientApiService.addEventListener(handleEvent);
 
-  setTimeout(() => updateStartMessage(), 100);
+  updateStartMessage();
+
+  const params = $location.search();
+  console.debug('token:',params.token);
+  if (params.token) {
+    clientApiService.loginWithToken(params.token)
+      .then(() => vm.currentUser = clientApiService.getCurrentUser());
+  }
 
   function handleEvent(event) {
     console.debug('Event: ', event);
