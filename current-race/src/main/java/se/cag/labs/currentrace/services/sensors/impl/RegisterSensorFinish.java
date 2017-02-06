@@ -7,7 +7,7 @@ import se.cag.labs.currentrace.services.sensors.RegisterSensor;
 public class RegisterSensorFinish implements RegisterSensor {
   @Override
   public boolean updateStatus(CurrentRaceStatus currentRaceStatus, long timestamp) {
-    if (!RaceStatus.Event.FINISH.equals(currentRaceStatus.getEvent())) {
+    if (!RaceStatus.Event.FINISH.equals(currentRaceStatus.getEvent()) && currentRaceStatus.getState() == RaceStatus.State.ACTIVE) {
       currentRaceStatus.setFinishTime(timestamp);
       RaceStatus.Event event = currentRaceStatus.getSplitTime() == null ? RaceStatus.Event.DISQUALIFIED : RaceStatus.Event.FINISH;
       currentRaceStatus.setEvent(event);
