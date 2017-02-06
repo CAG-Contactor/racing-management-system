@@ -40,7 +40,7 @@ function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG) 
   clientApiService.setConnectionListener(connectionListener);
   clientApiService.addEventListener(handleEvent);
 
-  updateStartMessage();
+  setTimeout(() => updateStartMessage(), 100);
 
   function handleEvent(event) {
     console.debug('Event: ', event);
