@@ -26,7 +26,7 @@ function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageS
 
   this.loginWithToken = function(token) {
     localStorageService.set(TOKEN_KEY, token);
-    backendRequest('GET', '/users')
+    return backendRequest('GET', '/users')
         .then(function (response) {
           let userInfo = response.data;
           console.debug("userInfo from token: ", userInfo);

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SensorRepository extends MongoRepository<SensorModel, String> {
   List<SensorModel> findBySensorId(String sensorId);
+
+  List<SensorModel> findByRegisteredTimestampLessThan(long timestamp);
 }

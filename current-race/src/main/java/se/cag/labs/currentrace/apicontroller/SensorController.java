@@ -42,6 +42,12 @@ public class SensorController {
     }
   }
 
+  @RequestMapping(value = SHOW_REGISTERED_SENSORS_URL, method = RequestMethod.DELETE)
+  @ApiOperation(value = "Delete old registered sensors")
+  public void deleteOldSensors() {
+    sensorService.deleteOldSensors();
+  }
+  
   @RequestMapping(value = SHOW_REGISTERED_SENSORS_URL, method = RequestMethod.GET)
   @ApiOperation(value = "Get registered sensors")
   public List<SensorResponse> getRegisteredSensors() {
