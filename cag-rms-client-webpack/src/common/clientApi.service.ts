@@ -29,7 +29,7 @@ function Service($rootScope, $q, $http, $timeout, md5, APP_CONFIG, localStorageS
     backendRequest('GET', '/users')
         .then(function (response) {
           let userInfo = response.data;
-          console.debug("userInfo from token: ", userInfo)
+          console.debug("userInfo from token: ", userInfo);
           localStorageService.set(USER_INFO_KEY, userInfo);
           return userInfo;
         });
