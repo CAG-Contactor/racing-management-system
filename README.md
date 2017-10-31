@@ -12,6 +12,12 @@ Install MongoDB: https://docs.mongodb.org/manual/installation/
 
 MongoDB GUI, 3T MongoChef: http://3t.io/mongochef/download/
 
+Crate a folder for the database. Example:
+```
+sudo mkdir -p /usr/local/data/db
+sudo chmod 757 /usr/local/data/db
+```
+
 Start mongod:
 
     $ mongod --dbpath <path to DB>
@@ -19,10 +25,14 @@ Start mongod:
 Run back-end services with Docker 
 ---------------
 You can use the maven profile ```docker``` to generate docker containers for each server application. 
+Run commands in each directory for each app you want to start, ie 
+
+Start Docker on your computer berfore executing following command
 
 ```sh
 mvn clean install -Pdocker
 ```
+
 
 The easiest way to run the docker containers is to start them with docker-compose, simply run
 

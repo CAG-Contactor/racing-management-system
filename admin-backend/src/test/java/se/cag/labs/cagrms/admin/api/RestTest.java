@@ -4,6 +4,7 @@ package se.cag.labs.cagrms.admin.api;
 import io.restassured.RestAssured.*;
 import io.restassured.matcher.RestAssuredMatchers.*;
 import io.restassured.response.Response;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -12,7 +13,7 @@ import static io.restassured.RestAssured.given;
 /**
  * Created by andersenglesson on 2017-09-18.
  */
-public class RestTest {
+@Ignore public class RestTest {
     private String token = "";
 
     @Test public void TestaPing(){
