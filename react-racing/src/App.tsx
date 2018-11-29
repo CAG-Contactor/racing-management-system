@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 
 import logo from './logo.svg';
+import Queue from './queue';
 
 class App extends React.Component {
   public render() {
@@ -14,6 +15,7 @@ class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
+          <Queue/>
       </div>
     );
   }
