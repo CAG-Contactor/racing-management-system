@@ -15,7 +15,4 @@ export default class Queue extends React.Component<{},{}> {
                 </div>
         )
     }
-
-
-
 }
