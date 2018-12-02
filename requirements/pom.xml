@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <cucumber.java.version>1.2.4</cucumber.java.version>
+        <cucumber.java.version>1.2.5</cucumber.java.version>
         <skipITs>true</skipITs>
 
         <!-- Endpoint for the client api -->
@@ -97,12 +97,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
+            <version>3.0.1</version>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.5.0</version>
+            <version>1.6</version>
         </dependency>
     </dependencies>
 

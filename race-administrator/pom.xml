@@ -22,6 +22,13 @@
     <java.version>1.8</java.version>
   </properties>
 
+  <!-- <repositories>
+     <repository>
+       <id>projectlombok.org</id>
+       <url>https://projectlombok.org/edge-releases</url>
+     </repository>
+   </repositories>
+ -->
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -84,7 +91,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.16.6</version>
+      <version>1.18.4</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

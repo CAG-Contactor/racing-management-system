@@ -17,8 +17,8 @@
     </parent>
 
     <properties>
-        <springfox.version>2.6.0</springfox.version>
-        <swagger.version>1.5.10</swagger.version>
+        <springfox.version>2.9.2</springfox.version>
+        <swagger.version>1.5.21</swagger.version>
         <docker.image.prefix>cag</docker.image.prefix>
     </properties>
 
