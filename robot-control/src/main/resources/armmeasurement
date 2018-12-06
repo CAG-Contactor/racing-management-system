@@ -1,0 +1,21 @@
+led 1 rotera roboten
+rotation 180 grader
+höjd: 68mm
+
+led 2 första armen
+roation: 15-165 grader
+längd 124mm
+
+led 3 andra armen
+rotation 180 grader (+- 90)
+längd 124 mm
+
+led 4 tredje armen
+rotation 180 grader (+- 90)
+längd 192 mm till toppen av gripklon
+
+led 5 rotation av hand
+rotation 180 grader (+- 90)
+
+led 6 öppna stänga hand
+rotation 10-73 grader
