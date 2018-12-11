@@ -11,17 +11,16 @@ public class ArmControl {
 
     public ArmControl() {
         armSegmentFirst = new ArmSegment(0F,68F,124F,165,15,0,0);
-        armSegmentSecond = new ArmSegment(armSegmentFirst, 124F,90,0,0,0);
-        armSegmentThird = new ArmSegment(armSegmentSecond, 192F,70,0,0,0);
-        System.out.println("start! 1:" + armSegmentFirst.getStartPoint() + " : " + armSegmentFirst.getEndPoint());
-        System.out.println("start! 2:" + armSegmentSecond.getStartPoint() + " : " + armSegmentSecond.getEndPoint());
-        System.out.println("start! 3:" + armSegmentThird.getStartPoint() + " : " + armSegmentThird.getEndPoint());
-        System.out.println("start! first:" + armSegmentFirst.getAbsoluteAngleInDeg() + " second: " + armSegmentSecond.getAbsoluteAngleInDeg() + " third: " + armSegmentThird.getAbsoluteAngleInDeg());
+        armSegmentSecond = new ArmSegment(armSegmentFirst, 124F,180,0,0,0);
+        armSegmentThird = new ArmSegment(armSegmentSecond, 192F,180,0,0,0);
+        System.out.println("start! 1:" + armSegmentFirst.toString());
+        System.out.println("start! 2:" + armSegmentSecond.toString());
+        System.out.println("start! 3:" + armSegmentThird.toString());
     }
 
     public ArrayList<Float> getNewJointAngles(Float X, Float Y, Float Z) {
         PVector newTarget = new PVector(X, Y);
-        for (int i=0; i<50; i++) {
+        for (int i=0; i<20; i++) {
             System.out.println("runda " + i);
             armSegmentThird.backwardCalculation(newTarget);
             armSegmentSecond.backwardCalculation(armSegmentThird.getStartPoint());
@@ -29,8 +28,11 @@ public class ArmControl {
             armSegmentFirst.forwardCalculation(new PVector(0,68F));
             armSegmentSecond.forwardCalculation(armSegmentFirst.getEndPoint());
             armSegmentThird.forwardCalculation(armSegmentSecond.getEndPoint());
+            System.out.println(armSegmentFirst.toString());
+            System.out.println(armSegmentSecond.toString());
+            System.out.println(armSegmentThird.toString());
             System.out.println("diff to target: " + armSegmentThird.calculateDiffToTarget(newTarget));
-            if(armSegmentThird.calculateDiffToTarget(newTarget) < 0.2F) {
+            if(armSegmentThird.calculateDiffToTarget(newTarget) < 0.3F) {
                 break;
             }
         }

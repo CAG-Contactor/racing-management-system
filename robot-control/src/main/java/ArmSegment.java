@@ -90,6 +90,18 @@ public class ArmSegment {
     protected Float getAngleInRad() {
         return relativeAngle;
     }
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("startpoint: ");
+        sb.append(startPoint);
+        sb.append(" | endpoint: ");
+        sb.append(endPoint);
+        sb.append(" | absolut vinkel: ");
+        sb.append(absoluteAngle);
+        sb.append(" relativ vinkel: ");
+        sb.append(relativeAngle);
+        return sb.toString();
+    }
 
     protected Float getRelativeAngleInDeg() {
         return (float)Math.toDegrees(relativeAngle);
@@ -99,6 +111,32 @@ public class ArmSegment {
         //returnerar startpositionen för vektorn
         PVector newDirectionVector = PVector.sub(newEndpoint, startPoint);
         absoluteAngle = newDirectionVector.heading();
+
+        if(parent != null) {
+            relativeAngle = parent.absoluteAngle + absoluteAngle;
+
+        } else {
+            relativeAngle = absoluteAngle;
+        }
+
+        if(relativeAngle > constraintXtoYUp){
+            relativeAngle = constraintXtoYUp;
+            if(parent != null){
+                absoluteAngle = relativeAngle - parent.absoluteAngle;
+            } else {
+                absoluteAngle = relativeAngle;
+            }
+            newDirectionVector = PVector.fromAngle(absoluteAngle);
+        } else if (relativeAngle < constraintXtoYDown) {
+            relativeAngle = constraintXtoYDown;
+            if(parent != null){
+                absoluteAngle = relativeAngle - parent.absoluteAngle;
+            } else {
+                absoluteAngle = relativeAngle;
+            }
+            newDirectionVector = PVector.fromAngle(absoluteAngle);
+        }
+
         newDirectionVector.setMag(segmentLength);
         endPoint.set(newEndpoint);
         //lägg till kontroll på begränsningsvinklar
@@ -107,11 +145,16 @@ public class ArmSegment {
         return PVector.sub(newEndpoint, newDirectionVector, startPoint);
     }
 
+    private void setConstraintAngles(){
+
+
+    }
+
     protected PVector forwardCalculation(PVector newStartPoint) {
         //returnerar slutpositionen vektorn
         PVector diff = PVector.sub(newStartPoint, startPoint);
         startPoint.set(newStartPoint);
-        System.out.println("forward start: " + startPoint + endPoint);
+//        System.out.println("forward start: " + startPoint + endPoint);
 
         if(parent != null){
              relativeAngle = parent.absoluteAngle + absoluteAngle;
@@ -119,13 +162,13 @@ public class ArmSegment {
             relativeAngle = absoluteAngle;
         }
 
-        System.out.println("relative: " + Math.toDegrees(relativeAngle) + " constraint UP: " + Math.toDegrees(constraintXtoYUp) + " constraint down: " + Math.toDegrees(constraintXtoYDown));
+//        System.out.println("relative: " + Math.toDegrees(relativeAngle) + " constraint UP: " + Math.toDegrees(constraintXtoYUp) + " constraint down: " + Math.toDegrees(constraintXtoYDown));
         if(relativeAngle > constraintXtoYUp){
-            System.out.println("begränsning uppåt");
+//            System.out.println("begränsning uppåt");
             relativeAngle = constraintXtoYUp;
             setEndPointByConstraint();
         } else if (relativeAngle < constraintXtoYDown) {
-            System.out.println("begränsning nedåt");
+//            System.out.println("begränsning nedåt");
             relativeAngle = constraintXtoYDown;
             setEndPointByConstraint();
         } else {
@@ -133,22 +176,22 @@ public class ArmSegment {
 //            return PVector.add(endPoint,diff, endPoint);
             PVector.add(endPoint,diff, endPoint);
         }
-        System.out.println("forward end: " + startPoint + endPoint + "\n");
+//        System.out.println("forward end: " + startPoint + endPoint + "\n");
         return endPoint;
     }
 
     private void setEndPointByConstraint() {
-        System.out.println("angles before relative: " + Math.toDegrees(relativeAngle) + " | absolute: " + Math.toDegrees(absoluteAngle));
+//        System.out.println("angles before relative: " + Math.toDegrees(relativeAngle) + " | absolute: " + Math.toDegrees(absoluteAngle));
         if(parent!=null){
             absoluteAngle = relativeAngle - parent.absoluteAngle;
         } else {
             absoluteAngle = relativeAngle;
         }
-        System.out.println("angles after relative: " + Math.toDegrees(relativeAngle) + " | absolute: " + Math.toDegrees(absoluteAngle));
+//        System.out.println("angles after relative: " + Math.toDegrees(relativeAngle) + " | absolute: " + Math.toDegrees(absoluteAngle));
         PVector newEndpointDirectionVector = PVector.fromAngle(absoluteAngle);
         newEndpointDirectionVector.setMag(segmentLength);
         PVector.add(startPoint,newEndpointDirectionVector,endPoint);
-        System.out.println("new vectors in constraints: " + startPoint + endPoint + newEndpointDirectionVector);
+//        System.out.println("new vectors in constraints: " + startPoint + endPoint + newEndpointDirectionVector);
     }
 
     protected Float calculateDiffToTarget(PVector newEndpoint) {
