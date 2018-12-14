@@ -19,16 +19,14 @@ public class ArmSegment {
     private Float constraintYtoZLeft;
     private Float constraintYtoZRight;
 
-    protected ArmSegment(float x, float y, float length, float constraintXYUpInDeg, float constraintXYDownInDeg, float constraintYZLeftInDeg, float constraintYZRightInDeg){
-        startPoint = new PVector( x,y);
+    protected ArmSegment(float x, float y, float z, float length, float constraintXYUpInDeg, float constraintXYDownInDeg){
+        startPoint = new PVector( x,y,z);
 
         segmentLength = length;
         calculateEndPoint();
         relativeAngle = absoluteAngle;
         constraintXtoYUp = (float)Math.toRadians(constraintXYUpInDeg);
         constraintXtoYDown = (float)Math.toRadians(constraintXYDownInDeg);
-        constraintYtoZLeft = (float)Math.toRadians(constraintYZLeftInDeg);
-        constraintYtoZRight = (float)Math.toRadians(constraintYZRightInDeg);
         System.out.println("constraint angles up: " + constraintXYUpInDeg  + " down: " + constraintXYDownInDeg);
 //        constraintXtoYUp = (float)Math.toDegrees(constraintXYUpInDeg);
 //        constraintXtoYDown = (float)Math.toDegrees(constraintXYDownInDeg);
@@ -37,16 +35,16 @@ public class ArmSegment {
 
     }
 
-    protected ArmSegment(ArmSegment parentSegment, Float length, float constraintXYUpInDeg, float constraintXYDownInDeg, float constraintYZLeftInDeg, float constraintYZRightInDeg) {
+    protected ArmSegment(ArmSegment parentSegment, Float length, float constraintXYUpInDeg, float constraintXYDownInDeg) {
         parent = parentSegment;
-        startPoint = new PVector(parent.endPoint.x, parent.endPoint.y) ;
+        parentSegment.child = this;
+        startPoint = new PVector(parent.endPoint.x, parent.endPoint.y, parent.endPoint.z) ;
         segmentLength = length;
         calculateEndPoint();
         relativeAngle = parentSegment.absoluteAngle - absoluteAngle;
         constraintXtoYUp = (float)Math.toRadians(constraintXYUpInDeg);
         constraintXtoYDown = (float)Math.toRadians(constraintXYDownInDeg);
-        constraintYtoZLeft = (float)Math.toRadians(constraintYZLeftInDeg);
-        constraintYtoZRight = (float)Math.toRadians(constraintYZRightInDeg);
+
         System.out.println("constraint angles up: " + constraintXYUpInDeg  + " down: " + constraintXYDownInDeg);
 //        constraintXtoYUp = (float)Math.toDegrees(constraintXYUpInDeg);
 //        constraintXtoYDown = (float)Math.toDegrees(constraintXYDownInDeg);
@@ -90,6 +88,16 @@ public class ArmSegment {
     protected Float getAngleInRad() {
         return relativeAngle;
     }
+
+    protected Float getRotationInRad() {
+        PVector rotationVector = new PVector(endPoint.y,endPoint.z);
+        return rotationVector.heading();
+    }
+
+    protected Float getRotationInDeg() {
+        return (float)Math.toDegrees(getRotationInRad());
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("startpoint: ");
@@ -136,6 +144,7 @@ public class ArmSegment {
             }
             newDirectionVector = PVector.fromAngle(absoluteAngle);
         }
+
 
         newDirectionVector.setMag(segmentLength);
         endPoint.set(newEndpoint);
