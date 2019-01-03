@@ -28,3 +28,6 @@ cag-rms-client-webpack/etc/
 admin-backend/.DS_Store
 admin-backend/src/.DS_Store
 mongodb/
+
+#leapmotion
+!leapmotion/lib/LeapJava.jar
