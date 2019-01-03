@@ -1,3 +1,5 @@
+package se.cag.labs.robotcontrol.armcontrol;
+
 import processing.core.PVector;
 
 import static java.lang.StrictMath.cos;
