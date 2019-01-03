@@ -1,11 +1,15 @@
-package se.cag.labs.leapmotion;
+package se.cag.labs.robotcontrol.leapmotion;
 
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Frame;
+import se.cag.labs.robotcontrol.armcontrol.ArmControl;
+
 import java.io.IOException;
 
 class HandListener extends Listener {
     String str = "Height: %d Pos:(%d,%d) Pinch: %d";
+    //
+    ArmControl armControl = new ArmControl();
 
     public void onInit(Controller controller) {
         System.out.println("Initialized");
@@ -51,9 +55,11 @@ class HandListener extends Listener {
                 y = hand.palmPosition().getY();
                 pinch = hand.pinchStrength();
             }
-            System.out.print("\r");
-            System.out.print("height:" + height + " x-pos:" + x + " y-pos" + y + " z-pos" + z + " Pinch: " + pinch);
         }
+//        System.out.print("\r");
+//        System.out.print("Leap motion height:" + height + " x-pos:" + x + " z-pos" + z + " Pinch: " + pinch);
+        armControl.getNewJointAngles(height,-z,1F,pinch);
+//        armControl.getNewJointAngles(height,-z,x,pinch);
     }
 }
 
@@ -61,6 +67,8 @@ class LeapMotionRobotController {
     public static void main(String[] args) {
         HandListener listener = new HandListener();
         Controller controller = new Controller();
+
+
 
         controller.addListener(listener);
 

@@ -29,7 +29,7 @@ public class ArmSegment {
         relativeAngle = absoluteAngle;
         constraintXtoYUp = (float)Math.toRadians(constraintXYUpInDeg);
         constraintXtoYDown = (float)Math.toRadians(constraintXYDownInDeg);
-        System.out.println("constraint angles up: " + constraintXYUpInDeg  + " down: " + constraintXYDownInDeg);
+//        System.out.println("constraint angles up: " + constraintXYUpInDeg  + " down: " + constraintXYDownInDeg);
 //        constraintXtoYUp = (float)Math.toDegrees(constraintXYUpInDeg);
 //        constraintXtoYDown = (float)Math.toDegrees(constraintXYDownInDeg);
 //        constraintYtoZLeft = (float)Math.toDegrees(constraintYZLeftInDeg);
@@ -47,7 +47,7 @@ public class ArmSegment {
         constraintXtoYUp = (float)Math.toRadians(constraintXYUpInDeg);
         constraintXtoYDown = (float)Math.toRadians(constraintXYDownInDeg);
 
-        System.out.println("constraint angles up: " + constraintXYUpInDeg  + " down: " + constraintXYDownInDeg);
+//        System.out.println("constraint angles up: " + constraintXYUpInDeg  + " down: " + constraintXYDownInDeg);
 //        constraintXtoYUp = (float)Math.toDegrees(constraintXYUpInDeg);
 //        constraintXtoYDown = (float)Math.toDegrees(constraintXYDownInDeg);
 //        constraintYtoZLeft = (float)Math.toDegrees(constraintYZLeftInDeg);

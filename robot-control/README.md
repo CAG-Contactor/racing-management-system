@@ -8,6 +8,6 @@ För att få LeapMotion att fungera måste man peka ut native koden, det görs m
 eller
 
 ```
--Djava.library.path=leapmotion/lib/
+-Djava.library.path=robot-control/lib/
 ```
 beroende på working directory.
