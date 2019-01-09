@@ -1,55 +1,38 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import './App.css';
-import { BackendEventChannel } from "./backend-event-channel/backend-event-channel";
-import { MyRaces } from "./myraces/MyRaces";
-import Queue from './queue';
-import {
-  NavBar,
-  NavBarSelections
-} from "./nav-bar/nav-bar";
+import { BackendEventChannel } from './backend-event-channel/backend-event-channel';
+import { LoginPage } from './login-page/login-page';
+import { MainPage } from './main-page/main-page';
+import { RootState } from './state';
+import { appActionCreators } from './App.state';
 
+// --- Component
 interface AppProps {
-  websocket?: BackendEventChannel;
+  websocket: BackendEventChannel;
+  isLoggedIn: boolean;
+  changeLoginStatus: (loggedIn: boolean) => void
 }
 
-interface AppState {
-  viewSelection: NavBarSelections;
-}
+const App = (props: AppProps) => {
+  const {isLoggedIn, websocket, changeLoginStatus = () => undefined} = props;
+  return (
+    <div>
+      {isLoggedIn ? <MainPage websocket={websocket}/> : <LoginPage loginStatusChanged={changeLoginStatus}/>}
+    </div>
+  );
+};
 
-class App extends React.Component<AppProps, AppState> {
-  state: AppState = {
-    viewSelection: 'Queue'
+// --- Connect state <-> component
+function mapStateToProps(state: RootState) {
+  return {
+    isLoggedIn: state.appState.isLoggedIn
   };
-
-  constructor(props: AppProps) {
-    super(props);
-  }
-
-  public render() {
-    return (
-      <div>
-        <NavBar currentSelection={this.state.viewSelection} onChangedSelection={this.changeSelectedView}/>
-        <main role="main" className="inner main-content">
-          {viewFor(this.state.viewSelection)}
-        </main>
-      </div>
-    );
-  }
-
-  private changeSelectedView = (viewSelection: NavBarSelections) =>
-    this.setState({viewSelection})
-
 }
 
-function viewFor(selection: NavBarSelections) {
-  switch (selection) {
-    case 'Queue':
-      return <Queue/>;
-    case 'MyRaces':
-      return <MyRaces/>;
-    default:
-      return <div>Okänt menyval</div>
+export default connect(
+  mapStateToProps,
+  {
+    ...appActionCreators
   }
-}
-
-export default App;
+)(App);

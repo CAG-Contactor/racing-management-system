@@ -4,14 +4,14 @@ import App from './App';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import { updateState } from "./state";
-import { BackendEventChannel } from "./backend-event-channel/backend-event-channel";
-import { composeWithDevTools, } from "redux-devtools-extension"
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { BackendEventChannel } from './backend-event-channel/backend-event-channel';
+import { composeWithDevTools, } from 'redux-devtools-extension';
+import { rootReducer } from './state';
 
 const store = createStore(
-  updateState,
+  rootReducer,
   composeWithDevTools()
 );
 

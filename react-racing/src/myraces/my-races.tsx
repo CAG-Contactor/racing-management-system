@@ -39,7 +39,7 @@ export class MyRaces extends React.Component {
     return (
       <div className="container">
         <h1>Mina Lopp</h1>
-          <table className="center">
+          <table className="center table table-striped">
             <thead>
               <tr>
                 <th>Namn</th>
