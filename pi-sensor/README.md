@@ -12,6 +12,32 @@ Därefter börjar den lyssna efter händelser på dessa portar och skickar dem t
 
 Installera Rasperry Pi
 -------------------------------------
+
+wiringPi libbet måste kompileras lokalt på pajen:
+=================================================
+
+    sudo apt install git-core
+    cd
+    git clone git://git.drogon.net/wiringPi
+    cd wiringPi/
+    git pull origin
+    ./build
+    
+test:
+
+    gpio -v
+    gpio readall
+
+
+pi4j måste också installeras lokalt på pajen:
+==============================================
+
+    wget http://get.pi4j.com/download/pi4j-1.2-SNAPSHOT.deb
+    sudo dpkg -i pi4j-1.2-SNAPSHOT.deb
+
+Nu kan man bygga och skjuta över javakoden:
+===========================================
+
 1. mvn clean package
 2. scp target/pi-sensor-0.0.1-SNAPSHOT-exec.jar pi@192.168.198.100: [password:raspberry]
 3. ssh pi@169.254.230.17 [password:raspberry]
