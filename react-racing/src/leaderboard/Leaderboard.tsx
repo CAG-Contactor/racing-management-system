@@ -1,0 +1,126 @@
+import * as React from 'react'
+import { connect } from "react-redux"
+import Moment from 'react-moment';
+import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
+import { getLeaderboard } from "./leaderboard.actions";
+import { Dispatch } from 'redux';
+import { ActionType } from 'typesafe-actions';
+
+
+export interface BackendEventChannelStateProps {
+    backendEventChannelState: BackendEventChannelState;
+    leaderboard: UserResult[];
+    onGetLeaderboard: (resp: UserResult[]) => void;
+}
+
+export interface UserResult {
+    created: number;
+    result: string;
+    splitTime: number;
+    time: number;
+    user: User;
+}
+
+export interface User {
+    displayName: string
+}
+
+class Leaderboard extends React.Component<BackendEventChannelStateProps> {
+    componentDidMount = () => {
+        this.fetchLeaderboard()
+    }
+
+    getResultText = (type: string) => {
+        switch (type) {
+            case 'FINISHED':
+                return 'Godkänd'
+            case 'WALKOVER':
+                return 'Walkover'
+            default:
+                return  'Diskad'
+        }
+    }
+
+    fetchLeaderboard = () => {
+        fetch('http://0.0.0.0:10580/leaderboard')
+                .then(response => response.json())
+                .then(resp => {
+                    this.props.onGetLeaderboard(resp)
+                });
+    }
+
+    isNewResult = (backendEvent: BackendEvent): boolean => {
+        if (backendEvent.eventType !== 'NEW_RESULT') {
+            return false
+        }
+
+        const existingResult = this.props.leaderboard.find((x) => {
+            return x.created === backendEvent.data.created;
+        })
+
+        return existingResult ? false : true;
+    }
+
+    render() {
+        if (this.props.backendEventChannelState.lastReceivedEvent) {
+            const backendEvent: BackendEvent = this.props.backendEventChannelState.lastReceivedEvent as BackendEvent
+            
+            if (this.isNewResult(backendEvent)) {
+                this.fetchLeaderboard()
+            }    
+        }
+
+        let position = 1;
+
+        return(
+            <div>
+                <h2>Resultattavla</h2>
+                    { this.props.leaderboard.length === 0 && 'Det finns inga resultat än...' }
+                    { this.props.leaderboard.length > 0 && 
+                        <table className="w-100 table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Plats</th>
+                                    <th>Namn</th>
+                                    <th>Tid</th>
+                                    <th>Mellantid</th>
+                                    <th>Resultat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.props.leaderboard.map((userResult: UserResult, index: number) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{position++}</td>
+                                            <td>{userResult.user.displayName}</td>
+                                            <td><Moment format="mm:ss:sss">{userResult.time}</Moment></td>
+                                            <td><Moment format="mm:ss:sss">{userResult.splitTime}</Moment></td>
+                                            <td>{this.getResultText(userResult.result)}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    }
+            </div>
+        )
+    }
+}
+
+function mapStateToProps(state: any) {
+    return {
+        backendEventChannelState: state.backendEventChannelState,
+        leaderboard: state.leaderboardState.leaderboard
+    };
+  }
+
+  function mapDispatchToProps(dispatch: Dispatch<ActionType<typeof getLeaderboard>>) {
+    return {
+        onGetLeaderboard: (leaderboard: UserResult[]) => dispatch(getLeaderboard(leaderboard))
+    };
+  }
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Leaderboard)

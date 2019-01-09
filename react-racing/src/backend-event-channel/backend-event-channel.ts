@@ -16,7 +16,7 @@ export class BackendEventChannel {
     this.websocket.onmessage = (messageEvent: MessageEvent) => {
       const backendEvent = extractBackendEvent(messageEvent);
       if (!!backendEvent) {
-        this.store.dispatch(backendEventChannelReceivedMessage(messageEvent.data as BackendEvent));
+        this.store.dispatch(backendEventChannelReceivedMessage(JSON.parse(messageEvent.data) as BackendEvent));
       } else {
         console.error('Unknown event received from backend via web socket:', messageEvent);
       }

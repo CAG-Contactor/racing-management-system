@@ -6,6 +6,7 @@ import {
 import { BackendEventChannel } from '../backend-event-channel/backend-event-channel';
 import Queue from '../queue';
 import { MyRaces } from '../myraces/my-races';
+import Leaderboard from '../leaderboard/Leaderboard';
 
 interface MainPageProps {
   websocket?: BackendEventChannel;
@@ -46,6 +47,8 @@ function viewFor(selection: NavBarSelections) {
       return <Queue/>;
     case 'MyRaces':
       return <MyRaces/>;
+    case 'Leaderboard':
+      return <Leaderboard/>;
     default:
       return <div>Okänt menyval</div>;
   }
