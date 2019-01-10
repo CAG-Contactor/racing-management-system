@@ -50,6 +50,6 @@ function viewFor(selection: NavBarSelections) {
     case 'Leaderboard':
       return <Leaderboard/>;
     default:
-      return <div>Okänt menyval</div>;
+      return <div>Unknown menu choice</div>;
   }
 }

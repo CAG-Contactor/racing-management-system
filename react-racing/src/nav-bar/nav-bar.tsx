@@ -15,19 +15,19 @@ export const NavBar = (props: NavBarProps) => {
       <nav className="nav nav-masthead justify-content-center">
         <a className={navAnchorClass(currentSelection === 'Overview')}
            href="javascript:void 0"
-           onClick={changeSelection('Overview')}>Översikt</a>
+           onClick={changeSelection('Overview')}>Overview</a>
         <a className={navAnchorClass(currentSelection === 'Queue')}
            href="javascript:void 0"
-           onClick={changeSelection('Queue')}>Kö</a>
+           onClick={changeSelection('Queue')}>Queue</a>
         <a className={navAnchorClass(currentSelection === 'Leaderboard')}
            href="javascript:void 0"
-           onClick={changeSelection('Leaderboard')}>Resultattavla</a>
+           onClick={changeSelection('Leaderboard')}>Leader board</a>
         <a className={navAnchorClass(currentSelection === 'CurrentRace')}
            href="javascript:void 0"
-           onClick={changeSelection('CurrentRace')}>Aktuellt lopp</a>
+           onClick={changeSelection('CurrentRace')}>Current race</a>
         <a className={navAnchorClass(currentSelection === 'MyRaces')}
            href="javascript:void 0"
-           onClick={changeSelection('MyRaces')}>Mina lopp</a>
+           onClick={changeSelection('MyRaces')}>My races</a>
       </nav>
     </nav>
   );

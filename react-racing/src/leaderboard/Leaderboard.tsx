@@ -42,7 +42,9 @@ class Leaderboard extends React.Component<BackendEventChannelStateProps> {
     }
 
     fetchLeaderboard = () => {
-        fetch('http://0.0.0.0:10580/leaderboard')
+        // FIXME: Använd ClientApi.fetchLeaderboard istället
+        // clientApi fås via context som ges med AppContextConsumer-elementet, se login-page
+        fetch('http://localhost:10580/leaderboard')
                 .then(response => response.json())
                 .then(resp => {
                     this.props.onGetLeaderboard(resp)

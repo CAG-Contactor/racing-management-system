@@ -5,13 +5,17 @@ import { BackendEventChannel } from './backend-event-channel/backend-event-chann
 import { LoginPage } from './login-page/login-page';
 import { MainPage } from './main-page/main-page';
 import { RootState } from './state';
-import { appActionCreators } from './App.state';
+import {
+  appActionCreators,
+  LoginStatus
+} from './App.state';
+
 
 // --- Component
 interface AppProps {
   websocket: BackendEventChannel;
   isLoggedIn: boolean;
-  changeLoginStatus: (loggedIn: boolean) => void
+  changeLoginStatus: (loginStatus: LoginStatus) => void
 }
 
 const App = (props: AppProps) => {
