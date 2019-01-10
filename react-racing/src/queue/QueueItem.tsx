@@ -8,8 +8,11 @@ export interface QueueItemProps {
 }
 
 export default class QueueItem extends React.Component<QueueItemProps> {
-
     render() {
-        return (<div>{this.props.name} - {this.props.id}</div>)
+        return (
+            <tr key={this.props.id}>
+                <td>{this.props.name}</td>
+                <td>{this.props.id}</td>
+            </tr>)
     }
 }
