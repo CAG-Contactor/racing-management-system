@@ -9,6 +9,7 @@ import {
   appActionCreators,
   LoginStatus
 } from './App.state';
+import * as cookies from 'browser-cookies';
 
 
 // --- Component
@@ -22,9 +23,21 @@ const App = (props: AppProps) => {
   const {isLoggedIn, websocket, changeLoginStatus = () => undefined} = props;
   return (
     <div>
-      {isLoggedIn ? <MainPage websocket={websocket}/> : <LoginPage loginStatusChanged={changeLoginStatus}/>}
+      {isLoggedIn ?
+        <div>
+          <a className='btn btn-outline-secondary float-right'
+            href="javascript:void 0"
+             onClick={logout}>Logout</a>
+          <MainPage websocket={websocket}/>
+        </div> :
+        <LoginPage loginStatusChanged={changeLoginStatus}/>}
     </div>
   );
+
+  function logout() {
+    cookies.erase('x-authtoken');
+    changeLoginStatus({loggedIn: false})
+  }
 };
 
 // --- Connect state <-> component
