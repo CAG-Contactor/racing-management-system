@@ -6,40 +6,39 @@ import { getLeaderboard } from "./leaderboard.actions";
 import { Dispatch } from 'redux';
 import { ActionType } from 'typesafe-actions';
 
-
-export interface BackendEventChannelStateProps {
-    backendEventChannelState: BackendEventChannelState;
-    leaderboard: UserResult[];
-    onGetLeaderboard: (resp: UserResult[]) => void;
+export interface LeaderboardStateProps {
+  backendEventChannelState: BackendEventChannelState;
+  leaderboard: UserResult[];
+  onGetLeaderboard: (resp: UserResult[]) => void;
 }
 
 export interface UserResult {
-    created: number;
-    result: string;
-    splitTime: number;
-    time: number;
-    user: User;
+  created: number;
+  result: string;
+  splitTime: number;
+  time: number;
+  user: User;
 }
 
 export interface User {
-    displayName: string
+  displayName: string
 }
 
-class Leaderboard extends React.Component<BackendEventChannelStateProps> {
-    componentDidMount = () => {
-        this.fetchLeaderboard()
-    }
+class Leaderboard extends React.Component<LeaderboardStateProps> {
+  componentDidMount = () => {
+    this.fetchLeaderboard()
+  };
 
-    getResultText = (type: string) => {
-        switch (type) {
-            case 'FINISHED':
-                return 'Godkänd'
-            case 'WALKOVER':
-                return 'Walkover'
-            default:
-                return  'Diskad'
-        }
+  getResultText = (type: string) => {
+    switch (type) {
+      case 'FINISHED':
+        return 'Godkänd';
+      case 'WALKOVER':
+        return 'Walkover';
+      default:
+        return 'Diskad'
     }
+  };
 
     fetchLeaderboard = () => {
         // FIXME: Använd ClientApi.fetchLeaderboard istället
@@ -51,78 +50,78 @@ class Leaderboard extends React.Component<BackendEventChannelStateProps> {
                 });
     }
 
-    isNewResult = (backendEvent: BackendEvent): boolean => {
-        if (backendEvent.eventType !== 'NEW_RESULT') {
-            return false
-        }
-
-        const existingResult = this.props.leaderboard.find((x) => {
-            return x.created === backendEvent.data.created;
-        })
-
-        return existingResult ? false : true;
+  isNewResult = (backendEvent: BackendEvent): boolean => {
+    if (backendEvent.eventType !== 'NEW_RESULT') {
+      return false
     }
 
-    render() {
-        if (this.props.backendEventChannelState.lastReceivedEvent) {
-            const backendEvent: BackendEvent = this.props.backendEventChannelState.lastReceivedEvent as BackendEvent
-            
-            if (this.isNewResult(backendEvent)) {
-                this.fetchLeaderboard()
-            }    
-        }
+    const existingResult = this.props.leaderboard.find((x) => {
+      return x.created === backendEvent.data.created;
+    });
 
-        let position = 1;
+    return !existingResult;
+  };
 
-        return(
-            <div>
-                <h2>Resultattavla</h2>
-                    { this.props.leaderboard.length === 0 && 'Det finns inga resultat än...' }
-                    { this.props.leaderboard.length > 0 && 
-                        <table className="w-100 table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Plats</th>
-                                    <th>Namn</th>
-                                    <th>Tid</th>
-                                    <th>Mellantid</th>
-                                    <th>Resultat</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.props.leaderboard.map((userResult: UserResult, index: number) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{position++}</td>
-                                            <td>{userResult.user.displayName}</td>
-                                            <td><Moment format="mm:ss:sss">{userResult.time}</Moment></td>
-                                            <td><Moment format="mm:ss:sss">{userResult.splitTime}</Moment></td>
-                                            <td>{this.getResultText(userResult.result)}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    }
-            </div>
-        )
+  render() {
+    if (this.props.backendEventChannelState.lastReceivedEvent) {
+      const backendEvent: BackendEvent = this.props.backendEventChannelState.lastReceivedEvent as BackendEvent
+
+      if (this.isNewResult(backendEvent)) {
+        this.fetchLeaderboard()
+      }
     }
+
+    let position = 1;
+
+    return (
+      <div>
+        <h2>Resultattavla</h2>
+        {this.props.leaderboard.length === 0 && 'Det finns inga resultat än...'}
+        {this.props.leaderboard.length > 0 &&
+        <table className="center table table-striped">
+          <thead>
+          <tr>
+            <th>Plats</th>
+            <th>Namn</th>
+            <th>Tid</th>
+            <th>Mellantid</th>
+            <th>Resultat</th>
+          </tr>
+          </thead>
+          <tbody>
+          {this.props.leaderboard.map((userResult: UserResult, index: number) => {
+            return (
+              <tr key={index}>
+                <td>{position++}</td>
+                <td>{userResult.user.displayName}</td>
+                <td><Moment format="mm:ss:sss">{userResult.time}</Moment></td>
+                <td><Moment format="mm:ss:sss">{userResult.splitTime}</Moment></td>
+                <td>{this.getResultText(userResult.result)}</td>
+              </tr>
+            );
+          })}
+          </tbody>
+        </table>
+        }
+      </div>
+    )
+  }
 }
 
 function mapStateToProps(state: any) {
-    return {
-        backendEventChannelState: state.backendEventChannelState,
-        leaderboard: state.leaderboardState.leaderboard
-    };
-  }
+  return {
+    backendEventChannelState: state.backendEventChannelState,
+    leaderboard: state.leaderboardState.leaderboard
+  };
+}
 
-  function mapDispatchToProps(dispatch: Dispatch<ActionType<typeof getLeaderboard>>) {
-    return {
-        onGetLeaderboard: (leaderboard: UserResult[]) => dispatch(getLeaderboard(leaderboard))
-    };
-  }
-  
+function mapDispatchToProps(dispatch: Dispatch<ActionType<typeof getLeaderboard>>) {
+  return {
+    onGetLeaderboard: (leaderboard: UserResult[]) => dispatch(getLeaderboard(leaderboard))
+  };
+}
+
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Leaderboard)
