@@ -23,7 +23,7 @@ export interface IAppContext {
 export const AppContext = React.createContext<IAppContext>({} as IAppContext);
 export const AppContextConsumer = AppContext.Consumer;
 const appContext: IAppContext = {
-  clientApi: new ClientApi()
+  clientApi: new ClientApi(process.env.REACT_APP_CLIENT_API_BASE_URL)
 };
 
 appContext.clientApi.userForToken()

@@ -30,7 +30,8 @@ const App = (props: AppProps) => {
              onClick={logout}>Logout</a>
           <MainPage websocket={websocket}/>
         </div> :
-        <LoginPage loginStatusChanged={changeLoginStatus}/>}
+        <LoginPage loginStatusChanged={changeLoginStatus}/>
+      }
     </div>
   );
 

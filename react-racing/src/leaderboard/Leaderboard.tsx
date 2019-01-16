@@ -5,11 +5,13 @@ import { BackendEventChannelState } from '../backend-event-channel/backend-event
 import { getLeaderboard } from "./leaderboard.actions";
 import { Dispatch } from 'redux';
 import { ActionType } from 'typesafe-actions';
+import { AppContextConsumer, IAppContext } from 'src';
 
 export interface LeaderboardStateProps {
   backendEventChannelState: BackendEventChannelState;
   leaderboard: UserResult[];
   onGetLeaderboard: (resp: UserResult[]) => void;
+  context: IAppContext;
 }
 
 export interface UserResult {
@@ -25,6 +27,7 @@ export interface User {
 }
 
 class Leaderboard extends React.Component<LeaderboardStateProps> {
+  
   componentDidMount = () => {
     this.fetchLeaderboard()
   };
@@ -40,16 +43,13 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
     }
   };
 
-    fetchLeaderboard = () => {
-        // FIXME: Använd ClientApi.fetchLeaderboard istället
-        // clientApi fås via context som ges med AppContextConsumer-elementet, se login-page
-        fetch('http://localhost:10580/leaderboard')
-                .then(response => response.json())
-                .then(resp => {
-                    this.props.onGetLeaderboard(resp)
-                });
-    }
-
+  fetchLeaderboard = () => {
+      this.props.context.clientApi.fetchLeaderboard().then((resp: UserResult[]) => {
+        this.props.onGetLeaderboard(resp)
+      })
+      
+  }
+    
   isNewResult = (backendEvent: BackendEvent): boolean => {
     if (backendEvent.eventType !== 'NEW_RESULT') {
       return false
@@ -108,6 +108,16 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
   }
 }
 
+function AppContextWithLeaderboard(state: any) {
+  return (
+    <AppContextConsumer>
+      {clientApi =>
+        <Leaderboard context={clientApi} {...state} />
+      }
+  </AppContextConsumer>
+  )
+}
+
 function mapStateToProps(state: any) {
   return {
     backendEventChannelState: state.backendEventChannelState,
@@ -124,4 +134,4 @@ function mapDispatchToProps(dispatch: Dispatch<ActionType<typeof getLeaderboard>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Leaderboard)
+)(AppContextWithLeaderboard)
