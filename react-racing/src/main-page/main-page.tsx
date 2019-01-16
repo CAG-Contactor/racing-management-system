@@ -4,7 +4,7 @@ import {
   NavBarSelections
 } from '../nav-bar/nav-bar';
 import { BackendEventChannel } from '../backend-event-channel/backend-event-channel';
-import Queue from '../queue';
+import Queue from '../queue/queue';
 import { MyRaces } from '../myraces/my-races';
 import Leaderboard from '../leaderboard/Leaderboard';
 
