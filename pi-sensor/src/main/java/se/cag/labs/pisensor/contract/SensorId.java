@@ -5,7 +5,7 @@ import com.pi4j.io.gpio.RaspiPin;
 
 public enum SensorId {
     START(RaspiPin.GPIO_00, true),
-    SPLIT(RaspiPin.GPIO_02, false),
+    SPLIT(RaspiPin.GPIO_02, true),
     FINISH(RaspiPin.GPIO_03, true);
 
     private final boolean shouldTriggerOnHigh;
