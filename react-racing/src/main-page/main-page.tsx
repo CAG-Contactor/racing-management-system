@@ -5,7 +5,7 @@ import {
 } from '../nav-bar/nav-bar';
 import { BackendEventChannel } from '../backend-event-channel/backend-event-channel';
 import Queue from '../queue/queue';
-import { MyRaces } from '../myraces/my-races';
+import MyRaces from '../my-races/my-races';
 import Leaderboard from '../leaderboard/Leaderboard';
 
 interface MainPageProps {

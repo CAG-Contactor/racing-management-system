@@ -85,4 +85,20 @@ export class ClientApi {
       .then(r => r.json());
   }
 
+  fetchMyRaces(userId: string): Promise<UserResult[]> {
+    const user = {
+      userId
+    };
+
+    return fetch(
+      `${this.clientApiBaseUrl}/myraces`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+      })
+      .then(r => r.json());
+  }
 }
