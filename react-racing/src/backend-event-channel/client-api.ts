@@ -18,7 +18,7 @@ fetchIntercept.register({
   },
   response: (r: Response) => {
     if (!r.ok) {
-      throw new Error(`Fel i HTTP anrop till clientapi: ${r.status}: ${r.statusText}`);
+      throw new Error(`Error in call to the clientapi: ${r.status}: ${r.statusText}`);
     } else {
       return r;
     }
@@ -61,9 +61,28 @@ export class ClientApi {
       });
   }
 
+  signup(userName: string, password: string): Promise<void> {
+    const loginCredentials = {
+      userId: userName,
+      displayName: userName,
+      password: md5(password)
+    };
+
+    return fetch(
+      `${this.clientApiBaseUrl}/users`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginCredentials)
+      })
+      .then(() => undefined);
+  }
+
   fetchLeaderboard(): Promise<UserResult[]> {
-    return fetch( `${this.clientApiBaseUrl}/leaderboard`)
-      .then(r => r.json())
+    return fetch(`${this.clientApiBaseUrl}/leaderboard`)
+      .then(r => r.json());
   }
 
 }
