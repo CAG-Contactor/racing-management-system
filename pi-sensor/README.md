@@ -71,4 +71,26 @@ Bygga och uppdatera mjukvara
 3. ssh pi@169.254.230.17 [password:raspberry]
 4. sudo service pisensor restart
 
+Braccio REST-gränssnitt
+=======================
+Körs på en egen pi ansluten till robot-arduinon via USB
 
+    sudo nano /etc/systemd/system/pisensor.service
+
+```
+[Unit]
+Description=braccio
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+ExecStart=/usr/bin/java -Djava.library.path=/usr/lib/jni -cp "/usr/share/java/RXTXcomm.jar" -Dgnu.io.rxtx.SerialPorts=/dev/ttyACM0 -jar /home/pi/braccio-api-1.0-SNAPSHOT.jar
+Type=Simple
+User=pi
+
+[Install]
+WantedBy=multi-user.target```
+
+    sudo systemctl enable braccio
+    sudo service braccio start
