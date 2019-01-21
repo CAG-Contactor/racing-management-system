@@ -15,11 +15,16 @@ export const appModule = ng1
   .config(['$locationProvider', ($locationProvider) => {
       $locationProvider.html5Mode(true);
   }])
-    .run(['$location','clientApiService', ($location, clientApiService)=>{
+    .run(['$location', '$window', '$timeout','clientApiService', ($location, $window, $timeout, clientApiService)=>{
         const params = $location.search();
         console.debug('token:',params.token);
         if (params.token) {
             clientApiService.loginWithToken(params.token);
+            $timeout(function () {
+                console.debug('reload..');
+                $location.url('/#');
+                $window.location.reload();
+            }, 2500);
         }
     }]);
 
