@@ -2,39 +2,27 @@ import {
     ActionType,
     getType
 } from "typesafe-actions";
-import * as actions from '../backend-event-channel/backend-event-channel.actions';
+import * as actions from './queue.actions';
+import {User} from "./queue";
 
-export type ClientApiWebsocketActions = ActionType<typeof actions>
+export type UserQueueActions = ActionType<typeof actions>
 
-export interface QueueEventChannelState {
-    queue: any[]
+export interface UserQueueState {
+    userQueue: User[]
 }
 
-
-const INIT_STATE: QueueEventChannelState = {
-    queue: []
+const INIT_STATE: UserQueueState = {
+    userQueue: []
 };
 
-
-
-export function queueEventChannelReducer(oldState: QueueEventChannelState = INIT_STATE, action: ClientApiWebsocketActions): QueueEventChannelState {
-    const payload = getActionPayload(action)
-    if (isQueueUpdatedEvent(action.type, payload)) {
-        return {
-            queue: [...oldState.queue, payload.data]
-        }
+export function userQueueReducer(oldState: UserQueueState = INIT_STATE, action: UserQueueActions): UserQueueState {
+    switch (action.type) {
+        case getType(actions.getUserQueue):
+            return {
+                ...oldState,
+                userQueue: action.payload
+            }
+        default:
+            return oldState;
     }
-    return INIT_STATE
-}
-
-function getActionPayload(action: any) {
-    return action.payload ? JSON.parse(action.payload) : {}
-}
-
-function isQueueUpdatedEvent(type: string, payload: any) {
-    if(type === getType(actions.backendEventChannelReceivedMessage)) {
-        return payload.eventType === 'QUEUE_UPDATED'
-    }
-
-    return false
 }
