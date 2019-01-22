@@ -27,7 +27,7 @@ export class Queue extends React.Component<UserQueueStateProps> {
             <div className="container">
                 <h1>Queue to next race</h1>
                 <div className="margin-bottom-sm">
-                    <button className="btn btn-success ">Anmäl mig</button>
+                    <button className="btn btn-success mb-3">Anmäl mig</button>
                 </div>
                 <table className="center table table-striped">
                     <thead>

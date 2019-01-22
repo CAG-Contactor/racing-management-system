@@ -7,6 +7,7 @@ import { BackendEventChannel } from '../backend-event-channel/backend-event-chan
 import Queue from '../queue/queue';
 import MyRaces from '../my-races/my-races';
 import Leaderboard from '../leaderboard/Leaderboard';
+import { Overview } from "../overview/overview";
 
 interface MainPageProps {
   websocket?: BackendEventChannel;
@@ -43,6 +44,8 @@ export class MainPage extends React.Component<MainPageProps, MainPageState> {
 
 function viewFor(selection: NavBarSelections) {
   switch (selection) {
+    case 'Overview':
+      return <Overview/>;
     case 'Queue':
       return <Queue/>;
     case 'MyRaces':
