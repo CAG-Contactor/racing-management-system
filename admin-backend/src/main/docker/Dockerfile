@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM adoptopenjdk/openjdk8
 VOLUME /tmp
 ADD admin-backend-*.jar app.jar
 ADD admin-conf.yml admin-conf.yml

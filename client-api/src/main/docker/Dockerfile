@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM adoptopenjdk/openjdk8
 VOLUME /tmp
 ADD client-api-*-exec.jar app.jar
 RUN sh -c 'touch /app.jar'
