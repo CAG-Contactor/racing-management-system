@@ -21,6 +21,7 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
 
   componentDidMount = () => {
     this.fetchMyRaces(this.props.currentUser.userId)
+    this.props.context.store.subscribe(() => console.log('BE channel: ', this.props.context.store.getState().backendEventChannelState))
   };
 
   getResultText = (type: string) => {
