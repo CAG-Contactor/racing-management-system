@@ -35,6 +35,7 @@
         <module>pi-sensor</module>
         <module>requirements</module>
         <module>admin-backend</module>
+        <module>leapmotion</module>
         <!--<module>admin-frontend</module>-->
     </modules>
 </project>

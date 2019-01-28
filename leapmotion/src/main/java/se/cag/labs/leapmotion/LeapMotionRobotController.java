@@ -2,10 +2,24 @@ package se.cag.labs.leapmotion;
 
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Frame;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.filter.LoggingFilter;
+
+
+import javax.ws.rs.client.Client;
 import java.io.IOException;
 
 class HandListener extends Listener {
     String str = "Height: %d Pos:(%d,%d) Pinch: %d";
+
+    static Client client = ClientBuilder.newClient(new ClientConfig()/*.register(LoggingFilter.class)*/);
+    static WebTarget webTarget = client.target("http://192.168.198.188:8080/braccio/").path("move");
+
 
     public void onInit(Controller controller) {
         System.out.println("Initialized");
@@ -25,8 +39,8 @@ class HandListener extends Listener {
     }
 
     public void onFrame(Controller controller) {
-        float height = 0;
-        float z = 0;
+        float leftController = 0;
+        float rightController = 0;
         float x = 0;
         float y = 0;
         float pinch = 0;
@@ -43,16 +57,50 @@ class HandListener extends Listener {
         for (Hand hand : frame.hands()) {
             // Left hand controls height
             if (hand.isLeft()) {
-                height = hand.palmPosition().getY();
-            }
-            else if (hand.isRight()) {
+                leftController = hand.palmPosition().getY();
+            } else if (hand.isRight()) {
                 x = hand.palmPosition().getX();
-                z = hand.palmPosition().getZ();
+                rightController = hand.palmPosition().getY();
                 y = hand.palmPosition().getY();
                 pinch = hand.pinchStrength();
             }
-            System.out.print("\r");
-            System.out.print("height:" + height + " x-pos:" + x + " y-pos" + y + " z-pos" + z + " Pinch: " + pinch);
+        }
+        //System.out.println("left: " + leftController + " right: " + rightController);
+        sendCmd((int) ((leftController - 180) * .6) + 90,
+                (int) ((rightController - 180) * .6) + 90);
+    }
+
+    int lastLeft = 90;
+    int lastRight = 90;
+    int ctr = 0;
+    long lastCmdTime = 0;
+
+    private void sendCmd(int left, int right) {
+        //System.out.println(">> left: " + left + " right: " + right);
+        left = (int)(Math.min(Math.max(0, left), 180) * 1.3);
+        right = (int) (Math.min(Math.max(0, right), 180)  * 1.3);
+        // left = 90;
+        if (System.currentTimeMillis() - lastCmdTime > 600 && (Math.abs(left - lastLeft) > 10 || Math.abs(right - lastRight) > 10)) {
+            lastCmdTime = System.currentTimeMillis();
+            lastLeft = left;
+            lastRight = right;
+            ctr++;
+            System.out.println("ctr:" + ctr + " left: " + left + " right: " + right);
+            String json = "{\n" +
+                    "\"delay\" : 10,\n" +
+                    "\"base\": 0,\n" +
+                    "\"shoulder\" : " + left + ",\n" +
+                    "\"elbow\" : " + right + ",\n" +
+                    "\"wrist\" : 90,\n" +
+                    "\"wristRotation\": 90,\n" +
+                    "\"gripper\" : 50\n" +
+                    "}";
+
+            Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON_TYPE);
+            Response response = invocationBuilder.post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
+
+            System.out.println(response.getStatus());
+            System.out.println(response.readEntity(String.class));
         }
     }
 }
