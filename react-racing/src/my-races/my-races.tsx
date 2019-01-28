@@ -68,8 +68,8 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
               <tr key={index}>
                 <td>{position++}</td>
                 <td>{myRace.user.displayName}</td>
-                <td><Moment format="mm:ss:sss">{myRace.time}</Moment></td>
-                <td><Moment format="mm:ss:sss">{myRace.splitTime}</Moment></td>
+                <td><Moment format="mm:ss:SSS">{myRace.time}</Moment></td>
+                <td><Moment format="mm:ss:SSS">{myRace.splitTime}</Moment></td>
                 <td>{this.getResultText(myRace.result)}</td>
               </tr>
             );
@@ -82,7 +82,6 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
   }
 
   private fetchMyRaces(userId: string) {
-
     this.props.context.clientApi.fetchMyRaces(userId)
       .then((myRaces: UserResult[]) => {
         this.props.onGetMyRaces(myRaces);

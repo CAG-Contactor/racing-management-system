@@ -94,8 +94,8 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
               <tr key={index}>
                 <td>{position++}</td>
                 <td>{userResult.user.displayName}</td>
-                <td><Moment format="mm:ss:sss">{userResult.time}</Moment></td>
-                <td><Moment format="mm:ss:sss">{userResult.splitTime}</Moment></td>
+                <td><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
+                <td><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
                 <td>{this.getResultText(userResult.result)}</td>
               </tr>
             );
