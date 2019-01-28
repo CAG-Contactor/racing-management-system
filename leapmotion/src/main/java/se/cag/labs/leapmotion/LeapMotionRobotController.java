@@ -54,20 +54,33 @@ class HandListener extends Listener {
 //                + ", gestures " + frame.gestures().count());
 
         //Get hands
+        boolean leftValid = false;
+        boolean rightValid = false;
         for (Hand hand : frame.hands()) {
             // Left hand controls height
             if (hand.isLeft()) {
                 leftController = hand.palmPosition().getY();
+                leftValid = hand.isValid();
             } else if (hand.isRight()) {
                 x = hand.palmPosition().getX();
+                rightValid = hand.isValid();
                 rightController = hand.palmPosition().getY();
                 y = hand.palmPosition().getY();
                 pinch = hand.pinchStrength();
+
             }
         }
-        //System.out.println("left: " + leftController + " right: " + rightController);
-        sendCmd((int) ((leftController - 180) * .6) + 90,
-                (int) ((rightController - 180) * .6) + 90);
+//        System.out.println("palm left: " + leftController + " right: " + rightController);
+        if(leftValid && rightValid){
+            //System.out.println("left: " + leftController + " right: " + rightController);
+            if(sendCmd((int) ((leftController - 250) * .6) + 90,
+                    (int) ((rightController - 250) * .6) + 90)) {
+                System.out.println("palm left: " + leftController + " right: " + rightController);
+                System.out.println("left" + leftValid + " right: " + rightValid);
+                System.out.println("_____________________________");
+            }
+
+        }
     }
 
     int lastLeft = 90;
@@ -75,12 +88,12 @@ class HandListener extends Listener {
     int ctr = 0;
     long lastCmdTime = 0;
 
-    private void sendCmd(int left, int right) {
+    private boolean sendCmd(int left, int right) {
         //System.out.println(">> left: " + left + " right: " + right);
-        left = (int)(Math.min(Math.max(0, left), 180) * 1.3);
-        right = (int) (Math.min(Math.max(0, right), 180)  * 1.3);
+        left = (int)(Math.min(Math.max(30, left), 150));
+        right = (int) (Math.min(Math.max(30, right), 150));
         // left = 90;
-        if (System.currentTimeMillis() - lastCmdTime > 600 && (Math.abs(left - lastLeft) > 10 || Math.abs(right - lastRight) > 10)) {
+        if (System.currentTimeMillis() - lastCmdTime > 300 && (Math.abs(left - lastLeft) > 5 || Math.abs(right - lastRight) > 5)) {
             lastCmdTime = System.currentTimeMillis();
             lastLeft = left;
             lastRight = right;
@@ -100,8 +113,10 @@ class HandListener extends Listener {
             Response response = invocationBuilder.post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
 
             System.out.println(response.getStatus());
-            System.out.println(response.readEntity(String.class));
+//            System.out.println(response.readEntity(String.class));
+            return true;
         }
+        return false;
     }
 }
 
