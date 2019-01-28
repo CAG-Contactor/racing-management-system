@@ -22,7 +22,7 @@ export class Queue extends React.Component<UserQueueStateProps> {
             <div className="container">
                 <h1>Queue to next race</h1>
                 <div className="margin-bottom-sm">
-                    <button className="btn btn-success mb-3" onClick={this.registerForRace}>Anmäl mig</button>
+                    <button className="btn btn-success mb-3" onClick={this.registerForRace}>Anmäl mig</button>  <button className="btn btn-danger mb-3" onClick={this.unRegisterForRace}>Fega ur</button>
                 </div>
                 <table className="center table table-striped">
                     <thead>
@@ -66,6 +66,18 @@ export class Queue extends React.Component<UserQueueStateProps> {
                 userId: this.props.currentUser.userId,
                 displayName: this.props.currentUser.displayName
             })
+        }).then(() => this.loadUserQueue())
+
+    }
+
+    unRegisterForRace = () => {
+        fetch('http://localhost:10580/userqueue', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.props.currentUser)
         }).then(() => this.loadUserQueue())
 
     }
