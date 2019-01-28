@@ -1,33 +1,31 @@
 import * as React from 'react'
 import {Dispatch} from "redux";
-import {ActionType} from "typesafe-actions";
 import {connect} from "react-redux";
 import {getUserQueue} from "./queue.actions";
-
-export interface User {
-    userId: string
-    displayName: string
-    password: string
-
-}
+import {User} from "../backend-event-channel/user";
+import {ActionType} from "typesafe-actions";
 
 export interface UserQueueStateProps {
     userQueue: User[];
     onGetUserQueue: (resp: User[]) => void;
+    currentUser: User;
 }
 
-export class Queue extends React.Component<UserQueueStateProps> {
+export class Queue extends React.Component<UserQueueStateProps, {}> {
 
     componentDidMount(): void {
         this.loadUserQueue()
     }
 
     render() {
+
         return (
             <div className="container">
                 <h1>Queue to next race</h1>
                 <div className="margin-bottom-sm">
-                    <button className="btn btn-success mb-3">Anmäl mig</button>
+                    {!this.isRegistered() ? <button className="btn btn-success mb-3" onClick={this.registerForRace}>Anmäl mig</button> :
+                        <button className="btn btn-danger mb-3" onClick={this.unRegisterForRace}>Fega ur</button> }
+
                 </div>
                 <table className="center table table-striped">
                     <thead>
@@ -57,11 +55,45 @@ export class Queue extends React.Component<UserQueueStateProps> {
                 this.props.onGetUserQueue(resp)
             });
     }
+
+    registerForRace = () => {
+        fetch('http://localhost:10580/userqueue', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: this.props.currentUser.userId,
+                timestamp: 'timestamp',
+                userId: this.props.currentUser.userId,
+                displayName: this.props.currentUser.displayName
+            })
+        }).then(() => this.loadUserQueue())
+
+    }
+
+    unRegisterForRace = () => {
+        fetch('http://localhost:10580/userqueue', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.props.currentUser)
+        }).then(() => this.loadUserQueue())
+
+    }
+
+    isRegistered() {
+        return (this.props.userQueue || []).filter(user => user.userId === this.props.currentUser.userId).length === 1;
+    }
 }
 
 function mapStateToProps(state: any) {
     return {
-        userQueue: state.userQueueState.userQueue
+        userQueue: state.userQueueState.userQueue,
+        currentUser: state.appState.user,
     };
 }
 
