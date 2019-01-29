@@ -85,6 +85,11 @@ export class ClientApi {
       .then(r => r.json());
   }
 
+  fetchCurrentrace(): Promise<any[]> {
+    return fetch(`${this.clientApiBaseUrl}/currentrace`)
+      .then(r => r.json());
+  }
+
   fetchMyRaces(userId: string): Promise<UserResult[]> {
     const user = {
       userId

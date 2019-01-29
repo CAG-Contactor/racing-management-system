@@ -6,13 +6,15 @@ import { DeepReadonly } from 'utility-types';
 import { appStateReducer } from './App.state';
 import { userQueueReducer } from "./queue/queue-event-channel-reducer";
 import { myRacesReducer } from "./my-races/my-races.state";
+import { currentraceReducer } from './currentrace/currentrace.state';
 
 export const rootReducer = combineReducers({
   appState: appStateReducer,
   backendEventChannelState: backendEventChannelReducer,
   leaderboardState: leaderboardReducer,
   userQueueState: userQueueReducer,
-  myRacesState: myRacesReducer
+  myRacesState: myRacesReducer,
+  currentraceState: currentraceReducer
 });
 
 export type RootState = DeepReadonly<StateType<typeof rootReducer>>;
