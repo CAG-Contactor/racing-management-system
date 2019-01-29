@@ -7,10 +7,10 @@ import './index.css';
 import { Provider } from 'react-redux';
 import {
   createStore,
-  Store
+  Store,
+  applyMiddleware
 } from 'redux';
 import { BackendEventChannel } from './backend-event-channel/backend-event-channel';
-import { composeWithDevTools, } from 'redux-devtools-extension';
 import {
   rootReducer,
   RootState
@@ -19,10 +19,11 @@ import { ClientApi } from './backend-event-channel/client-api';
 import {
   changeLoginStatus
 } from './App.state';
+import thunk from 'redux-thunk';
 
 const store: Store<RootState> = createStore(
   rootReducer,
-  composeWithDevTools()
+  applyMiddleware(thunk)
 );
 
 export interface IAppContext {

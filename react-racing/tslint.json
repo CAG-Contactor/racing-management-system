@@ -15,5 +15,8 @@
     "member-ordering": false,
     "object-literal-sort-keys": false,
     "jsx-no-lambda": false
+  },
+  "jsRules": {
+    "no-console": false 
   }
 }

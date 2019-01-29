@@ -7,6 +7,7 @@ import { BackendEventChannel } from '../backend-event-channel/backend-event-chan
 import Queue from '../queue/queue';
 import MyRaces from '../my-races/my-races';
 import Leaderboard from '../leaderboard/Leaderboard';
+import Currentrace from '../currentrace/currentrace';
 import { Overview } from "../overview/overview";
 
 interface MainPageProps {
@@ -52,6 +53,8 @@ function viewFor(selection: NavBarSelections) {
       return <MyRaces/>;
     case 'Leaderboard':
       return <Leaderboard/>;
+    case 'CurrentRace':
+      return <Currentrace/>;
     default:
       return <div>Unknown menu choice</div>;
   }
