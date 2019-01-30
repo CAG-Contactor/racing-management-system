@@ -37,7 +37,7 @@
         <module>admin-backend</module>
         <module>leapmotion</module>
         <module>react-racing</module>
-        <module>xbox</module>
+        <!--<module>xbox</module>-->
         <!--<module>admin-frontend</module>-->
     </modules>
 </project>
