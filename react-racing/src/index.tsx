@@ -50,7 +50,7 @@ function init() {
   ReactDOM.render(
     <AppContext.Provider value={appContext}>
       <Provider store={store}>
-        <App websocket={new BackendEventChannel(store)}/>
+        <App websocket={new BackendEventChannel(store, process.env.REACT_APP_CLIENT_API_BASE_URL)}/>
       </Provider>
     </AppContext.Provider>
     ,
