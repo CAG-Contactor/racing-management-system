@@ -36,6 +36,7 @@
         <module>requirements</module>
         <module>admin-backend</module>
         <module>leapmotion</module>
+        <module>xbox</module>
         <!--<module>admin-frontend</module>-->
     </modules>
 </project>
