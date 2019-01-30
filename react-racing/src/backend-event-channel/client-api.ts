@@ -101,4 +101,36 @@ export class ClientApi {
       })
       .then(r => r.json());
   }
+
+  loadUserQueue(): Promise<User[]> {
+    return fetch(`${this.clientApiBaseUrl}/userqueue`)
+      .then(r => r.json())
+  }
+
+  registerForRace(currentUser: User) {
+    const user = {
+      displayName: currentUser.displayName,
+      userId: currentUser.userId,
+      password: currentUser.password
+    }
+    return fetch(`${this.clientApiBaseUrl}/userqueue`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user)
+    })
+  }
+
+  unregisterForRace(currentUser: User): Promise<void> {
+    return fetch(`${this.clientApiBaseUrl}/userqueue`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(currentUser)
+    }).then(() => undefined)
+  }
 }
