@@ -23,11 +23,11 @@ public class XboxController {
         while(true) {
             ControllerState currState = controllerManager.getState(0);
 
-            xPos = getServoPos(currState.rightStickX);
-            yPos = getServoPos(currState.rightStickY);
+            xPos = getServoPos(-1*currState.rightStickX);
+            yPos = getServoPos(-1*currState.rightStickY);
             if(Math.abs(xPos - oldXPos) > 5  || Math.abs(yPos - oldYPos) > 5){
-                System.out.println("x: " + currState.rightStickX + " y: " + currState.rightStickY);
-                System.out.println("x: " + getServoPos(currState.rightStickX) + " y: " + getServoPos(currState.rightStickY));
+//                System.out.println("x: " + currState.rightStickX + " y: " + currState.rightStickY);
+//                System.out.println("x: " + getServoPos(currState.rightStickX) + " y: " + getServoPos(currState.rightStickY));
                 oldXPos = xPos;
                 oldYPos = yPos;
                 sendCommand(xPos, yPos);
