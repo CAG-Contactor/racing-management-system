@@ -31,3 +31,6 @@ mongodb/
 
 #leapmotion
 !leapmotion/lib/LeapJava.jar
+
+#Xbox
+!xbox/lib/Jamepad.jar
