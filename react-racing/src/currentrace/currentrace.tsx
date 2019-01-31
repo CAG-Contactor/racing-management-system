@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from "react-redux"
 import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
-import { getRaceStatus, setRunningTime, setFinishTime, setSplitTime, setUsername, getLastRace } from './currentrace.actions';
+import { getRaceStatus, setRunningTime, setFinishTime, setSplitTime, setUsername, getLastRace, setRaceEvent } from './currentrace.actions';
 import { AppContextConsumer, IAppContext } from 'src';
 import Moment from 'react-moment';
 
@@ -13,6 +13,8 @@ export interface CurrentraceStateProps {
     onSetSplitTime: (splitTime: any) => void;
     onSetUsername: (username: any) => void;
     onGetLastRace: (lastRace: any) => void;
+    onSetRaceEvent: (event: any) => void;
+
 
     context: IAppContext;
     currentrace: any;
@@ -24,6 +26,7 @@ export interface CurrentraceStateProps {
     splitTime: any;
     username: any;
     lastRace: any;
+    raceEvent: any;
 }
 
 export interface RaceStatus {
@@ -74,6 +77,10 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
     
     handleRaceStatusUpdate = (backendEvent: any) => {
         const tzOffset = new Date(0).getTimezoneOffset() * 1000 * 60;
+
+        if (backendEvent.data.state === "INACTIVE" && backendEvent.data.event === "FINISH") {
+            this.props.onSetRaceEvent(backendEvent.data.event)
+        }
 
         if (backendEvent.data.state === "ACTIVE") {
             const username = backendEvent.data.user.displayName;
@@ -201,12 +208,13 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
             && backendEvent.uuid !== this.props.uuid) {
                 this.fetchRaceStatus(backendEvent.uuid)
                 this.handleRaceStatusUpdate(backendEvent)
+                
             }
         }
 
-        const currentrace = this.props.currentrace
+        
         const isRaceActive = this.props.currentrace.state === 'ACTIVE';
-
+        const raceEvent = this.props.raceEvent
         return(
             <div>
                 <div className="center">
@@ -215,7 +223,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                 </div>
                 <div className="center" style={{fontSize: 20}}>
                     {(() => {
-                        switch(currentrace.event) {
+                        switch(raceEvent) {
                         case 'DISQUALIFIED':
                             return "Sucker! diskad!"
                         case 'NONE':
@@ -288,7 +296,8 @@ function mapStateToProps(state: any) {
         finishTime: state.currentraceState.finishTime,
         splitTime: state.currentraceState.splitTime,
         username: state.currentraceState.username,
-        lastRace: state.currentraceState.lastRace
+        lastRace: state.currentraceState.lastRace,
+        raceEvent: state.currentraceState.event
     };
   }
 
@@ -299,7 +308,8 @@ function mapStateToProps(state: any) {
         onSetFinishTime: (finishTime: any) => dispatch(setFinishTime(finishTime)),
         onSetSplitTime: (splitTime: any) => dispatch(setSplitTime(splitTime)),
         onSetUsername: (username: any) => dispatch(setUsername(username)),
-        onGetLastRace: (lastRace: any) => dispatch(getLastRace(lastRace))
+        onGetLastRace: (lastRace: any) => dispatch(getLastRace(lastRace)),
+        onSetRaceEvent: (event: any) => dispatch(setRaceEvent(event))
     };
   }
 

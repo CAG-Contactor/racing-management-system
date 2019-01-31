@@ -12,3 +12,6 @@ export const setSplitTime = createStandardAction('SetSplitTime')<string>();
 export const setUsername = createStandardAction('SetUsername')<string>(); 
 
 export const getLastRace = createStandardAction('GetLastRace')<string>(); 
+
+export const setRaceEvent = createStandardAction('SetRaceEvent')<string>(); 
+
