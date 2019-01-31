@@ -37,7 +37,7 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
 
   render() {
     if (this.props.backendEventChannelState.lastReceivedEvent) {
-      const backendEvent: BackendEvent = this.props.backendEventChannelState.lastReceivedEvent as BackendEvent
+      const backendEvent: BackendEvent = this.props.backendEventChannelState.lastReceivedEvent;
 
       if (this.isNewResult(backendEvent)) {
         this.fetchMyRaces(this.props.currentUser.userId);

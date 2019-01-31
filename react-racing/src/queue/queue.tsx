@@ -5,8 +5,10 @@ import { getUserQueue } from "./queue.actions";
 import { User } from "../backend-event-channel/user";
 import { ActionType } from "typesafe-actions";
 import { AppContextConsumer, IAppContext } from "../index";
+import { BackendEventChannelState } from "../backend-event-channel/backend-event-channel.state";
 
 export interface UserQueueStateProps {
+  backendEventChannelState: BackendEventChannelState;
   userQueue: User[];
   onGetUserQueue: (resp: User[]) => void;
   currentUser: User;
@@ -20,6 +22,11 @@ export class Queue extends React.Component<UserQueueStateProps, {}> {
   }
 
   render() {
+    if (this.props.backendEventChannelState.lastReceivedEvent && this.props.backendEventChannelState.lastReceivedEvent.eventType === 'QUEUE_UPDATED') {
+      this.loadUserQueue();
+    }
+
+    let position = 1;
 
     return (
       <div className="container">
@@ -33,16 +40,16 @@ export class Queue extends React.Component<UserQueueStateProps, {}> {
         <table className="center table table-striped">
           <thead>
           <tr>
+            <th>Queue Number</th>
             <th>Name</th>
-            <th>Id</th>
           </tr>
           </thead>
           <tbody>
 
           {this.props.userQueue.map(user =>
             <tr key={user.userId}>
+              <td>{position++}</td>
               <td>{user.displayName}</td>
-              <td>{user.userId}</td>
             </tr>
           )}
           </tbody>
@@ -85,6 +92,7 @@ function AppContextWithQueue(state: any) {
 
 function mapStateToProps(state: any) {
   return {
+    backendEventChannelState: state.backendEventChannelState,
     userQueue: state.userQueueState.userQueue,
     currentUser: state.appState.user,
   };
