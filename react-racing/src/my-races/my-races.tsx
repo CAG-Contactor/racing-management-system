@@ -20,8 +20,7 @@ export interface MyRacesStateProps {
 export class MyRaces extends React.Component<MyRacesStateProps> {
 
   componentDidMount = () => {
-    this.fetchMyRaces(this.props.currentUser.userId)
-    this.props.context.store.subscribe(() => console.log('BE channel: ', this.props.context.store.getState().backendEventChannelState))
+    this.fetchMyRaces(this.props.currentUser.userId);
   };
 
   getResultText = (type: string) => {
@@ -44,7 +43,7 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
       }
     }
 
-    const myValidRaces = this.props.myRaces.filter(x => x.result !== 'WALKOVER');
+    const myValidRaces = this.props.myRaces.filter(x => x.result === 'FINISHED');
 
     let position = 1;
 
