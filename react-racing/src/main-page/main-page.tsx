@@ -20,7 +20,7 @@ interface MainPageState {
 
 export class MainPage extends React.Component<MainPageProps, MainPageState> {
   state: MainPageState = {
-    viewSelection: 'Queue'
+    viewSelection: 'Overview'
   };
 
   constructor(props: MainPageProps) {
