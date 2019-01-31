@@ -168,6 +168,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                             <tr>
                                 <td className="col-xs-2 center">{user}</td>
                                 <td className="col-xs-2 center">
+                                
                                     { finishTime && <Moment format="HH:mm:ss.SSS">{finishTime}</Moment> }
                                     { !finishTime && "--:--.---" }
                                 </td>
@@ -186,20 +187,6 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         )
     }
     
-    getResult = (event: any) => {
-        switch (event) {
-          case 'DISQUALIFIED':
-            return 'Diskad';
-          case 'TIME_OUT_NOT_STARTED':
-            return 'Walkover';
-          case 'TIME_OUT_NOT_FINISHED':
-            return 'Gick aldirg i mål';
-          default:
-            return 'Godkänd';
-        }
-    }
-
-
 
     render() {
         if (this.props.backendEventChannelState.lastReceivedEvent) {

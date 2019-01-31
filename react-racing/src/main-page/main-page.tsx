@@ -13,6 +13,7 @@ import { connect } from "react-redux"
 import { AppContextConsumer, IAppContext } from 'src';
 import { getCurrentStatus, setUser } from './main-page-action'
 import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
+import { Animated } from "react-animated-css";
 
 
 interface MainPageProps {
@@ -58,9 +59,11 @@ class MainPage extends React.Component<any, MainPageState> {
       
 
     return (
-      <div style={{color: 'white', fontSize: 25}} className="alert alert-danger">
-        <div>Time to go to start</div>
-      </div>
+      <Animated animationIn="flash" animationOut="fadeOut" isVisible={true}>
+        <div style={{color: 'white', fontSize: 25, backgroundColor: '#0c4c1a', borderColor: 'black'}} className="alert alert-danger">
+          <div>Time to go to start!</div>
+        </div>
+      </Animated>
     )
   }
 

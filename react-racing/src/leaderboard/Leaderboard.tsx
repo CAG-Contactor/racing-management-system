@@ -6,6 +6,7 @@ import { getLeaderboard } from "./leaderboard.actions";
 import { Dispatch } from 'redux';
 import { ActionType } from 'typesafe-actions';
 import { AppContextConsumer, IAppContext } from 'src';
+import { Animated } from "react-animated-css";
 
 export interface LeaderboardStateProps {
   backendEventChannelState: BackendEventChannelState;
@@ -73,36 +74,38 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
     let position = 1;
 
     return (
-      <div>
-        <h2>Resultattavla</h2>
-        {this.props.leaderboard.length === 0 && 'Det finns inga resultat än...'}
-        {this.props.leaderboard.length > 0 &&
-        <table className="center table table-striped">
-          <thead>
-          <tr>
-            <th>Plats</th>
-            <th>Namn</th>
-            <th>Tid</th>
-            <th>Mellantid</th>
-            <th>Resultat</th>
-          </tr>
-          </thead>
-          <tbody>
-          {this.props.leaderboard.map((userResult: UserResult, index: number) => {
-            return (
-              <tr key={index}>
-                <td>{position++}</td>
-                <td>{userResult.user.displayName}</td>
-                <td><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
-                <td><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
-                <td>{this.getResultText(userResult.result)}</td>
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        }
-      </div>
+      <Animated animationIn="fadeInDownBig" animationOut="fadeOut" isVisible={true}>
+        <div>
+          <h2>Resultattavla</h2>
+          {this.props.leaderboard.length === 0 && 'Det finns inga resultat än...'}
+          {this.props.leaderboard.length > 0 &&
+          <table className="center table table-striped">
+            <thead>
+            <tr>
+              <th>Plats</th>
+              <th>Namn</th>
+              <th>Tid</th>
+              <th>Mellantid</th>
+              <th>Resultat</th>
+            </tr>
+            </thead>
+            <tbody>
+            {this.props.leaderboard.map((userResult: UserResult, index: number) => {
+              return (
+                <tr key={index}>
+                  <td>{position++}</td>
+                  <td>{userResult.user.displayName}</td>
+                  <td><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
+                  <td><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
+                  <td>{this.getResultText(userResult.result)}</td>
+                </tr>
+              );
+            })}
+            </tbody>
+          </table>
+          }
+        </div>
+      </Animated>
     )
   }
 }
