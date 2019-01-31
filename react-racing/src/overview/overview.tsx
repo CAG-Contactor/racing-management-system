@@ -8,10 +8,7 @@ export class Overview extends React.Component {
         <h1>C.A.G Maze Runner</h1>
         <div className="text-justify">
           <p>
-            Tävlingen går ut på att köra Zumo-bandvagnen runt banan på snabbaste tid.
-          </p>
-          <p>
-            Mellanstationen är en måltavla som man måste träffa med lasern för att loppet skall godkännas.
+            Tävlingen kommer att avslöjas i C.A.Gs monter på JFokus 2019
           </p>
           <p>
             För att vara med skall man registrera en användare och sedan anmäla sig till tävlingen.

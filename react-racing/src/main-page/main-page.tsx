@@ -31,7 +31,7 @@ interface MainPageState {
 
 class MainPage extends React.Component<any, MainPageState> {
   state: MainPageState = {
-    viewSelection: 'Queue'
+    viewSelection: 'Overview'
   };
 
   constructor(props: MainPageProps) {
