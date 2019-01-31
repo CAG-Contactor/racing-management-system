@@ -80,26 +80,22 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
             this.props.onSetUsername(username)
             switch(backendEvent.data.event) {
                 case 'NONE':
-                    // this.startTime = undefined;
                     this.props.onSetSplitTime(undefined)
                     
                     this.props.onSetRunningTime(undefined)
                     this.props.onSetFinishTime(undefined)
                     break;
                 case 'START':
-                    // this.startTime = Date.now() - backendEvent.data.currentTime;
                     this.props.onSetSplitTime(undefined)
 
                     this.props.onSetFinishTime(undefined)
                     this.props.onSetRunningTime(undefined)
                     break;
                 case 'SPLIT':
-                    // this.startTime = Date.now() - backendEvent.data.currentTime;
                     this.props.onSetSplitTime(backendEvent.data.splitTime - backendEvent.data.startTime + tzOffset)
 
                     break;
                 case 'FINISH':
-                    // this.startTime = Date.now() - backendEvent.datacurrentTime;
                     const finishTime = backendEvent.data.finishTime - backendEvent.data.startTime + tzOffset;
                     this.props.onSetFinishTime(finishTime)
 
@@ -209,12 +205,13 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         }
 
         const currentrace = this.props.currentrace
+        const isRaceActive = this.props.currentrace.state === 'ACTIVE';
 
         return(
             <div>
                 <div className="center">
-                { this.isRaceActive &&  <h1>Lopp pågår</h1> }
-                { !this.isRaceActive && <h1 className="mb-3">Inget lopp pågår</h1> }
+                { isRaceActive &&  <h1>Lopp pågår</h1> }
+                { !isRaceActive && <h1 className="mb-3">Inget lopp pågår</h1> }
                 </div>
                 <div className="center" style={{fontSize: 20}}>
                     {(() => {

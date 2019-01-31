@@ -81,6 +81,7 @@
     </div>
   </nav>
   <div class="alert alert-danger start-message" ng-if="vm.startMessage">{{vm.startMessage}}</div>
+  
   <div ng-switch on="vm.selection" class="container">
     <div ng-switch-when="home">
       <overview></overview>

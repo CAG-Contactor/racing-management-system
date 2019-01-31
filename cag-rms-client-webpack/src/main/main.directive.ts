@@ -39,6 +39,7 @@ function Ctrl(registerModal, clientApiService, notificationService, APP_CONFIG, 
   vm.currentUser = clientApiService.getCurrentUser();
   clientApiService.setConnectionListener(connectionListener);
   clientApiService.addEventListener(handleEvent);
+  
 
   updateStartMessage();
 
