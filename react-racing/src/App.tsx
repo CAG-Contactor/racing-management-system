@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import { BackendEventChannel } from './backend-event-channel/backend-event-channel';
 import { LoginPage } from './login-page/login-page';
-import { MainPage } from './main-page/main-page';
+import AppContextWithMainPage from './main-page/main-page';
 import { RootState } from './state';
 import {
   appActionCreators,
@@ -28,7 +28,7 @@ const App = (props: AppProps) => {
           <a className='btn btn-outline-secondary float-right'
             href="javascript:void 0"
              onClick={logout}>Logout</a>
-          <MainPage websocket={websocket}/>
+          <AppContextWithMainPage websocket={websocket}/>
         </div> :
         <LoginPage loginStatusChanged={changeLoginStatus}/>
       }
