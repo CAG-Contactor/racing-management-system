@@ -84,6 +84,16 @@ export class ClientApi {
     return fetch(`${this.clientApiBaseUrl}/leaderboard`)
       .then(r => r.json());
   }
+  
+  fetchRaceStatus(): Promise<UserResult[]> {
+    return fetch(`${this.clientApiBaseUrl}/currentrace`)
+      .then(r => r.json());
+  }
+
+  getLastRace(): Promise<any[]> {
+    return fetch(`${this.clientApiBaseUrl}/lastrace`)
+      .then(r => r.json());
+  }
 
   fetchMyRaces(userId: string): Promise<UserResult[]> {
     const user = {

@@ -10,9 +10,10 @@ import { BackendEventChannelState } from "../backend-event-channel/backend-event
 export interface UserQueueStateProps {
   backendEventChannelState: BackendEventChannelState;
   userQueue: User[];
-  onGetUserQueue: (resp: User[]) => void;
+  onGetUserQueue: (resp: User[], uuid: any) => void;
   currentUser: User;
-  context: IAppContext
+  context: IAppContext;
+  uuid: string;
 }
 
 export class Queue extends React.Component<UserQueueStateProps, {}> {
@@ -22,8 +23,12 @@ export class Queue extends React.Component<UserQueueStateProps, {}> {
   }
 
   render() {
-    if (this.props.backendEventChannelState.lastReceivedEvent && this.props.backendEventChannelState.lastReceivedEvent.eventType === 'QUEUE_UPDATED') {
-      this.loadUserQueue();
+    if (this.props.backendEventChannelState.lastReceivedEvent 
+      && this.props.backendEventChannelState.lastReceivedEvent.eventType === 'QUEUE_UPDATED'
+      && this.props.uuid !== this.props.backendEventChannelState.lastReceivedEvent.uuid) {
+      const uuid = this.props.backendEventChannelState.lastReceivedEvent.uuid
+
+      this.loadUserQueue(uuid);
     }
 
     let position = 1;
@@ -58,10 +63,10 @@ export class Queue extends React.Component<UserQueueStateProps, {}> {
     )
   }
 
-  loadUserQueue = () => {
+  loadUserQueue = (uuid?: any) => {
     this.props.context.clientApi.loadUserQueue()
       .then((users: User[]) => {
-        this.props.onGetUserQueue(users)
+        this.props.onGetUserQueue(users, uuid)
       });
   };
 
@@ -95,12 +100,13 @@ function mapStateToProps(state: any) {
     backendEventChannelState: state.backendEventChannelState,
     userQueue: state.userQueueState.userQueue,
     currentUser: state.appState.user,
+    uuid: state.userQueueState.uuid
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<ActionType<typeof getUserQueue>>) {
   return {
-    onGetUserQueue: (userQueue: User[]) => dispatch(getUserQueue(userQueue))
+    onGetUserQueue: (userQueue: User[], uuid: string) => dispatch(getUserQueue(userQueue, uuid))
   };
 }
 

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { backendEventChannelReducer } from './backend-event-channel/backend-event-channel.state';
 import { leaderboardReducer } from "./leaderboard/leaderboard.state";
+import { currentraceReducer } from "./currentrace/currentrace.state";
 import { StateType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 import { appStateReducer } from './App.state';
@@ -12,7 +13,8 @@ export const rootReducer = combineReducers({
   backendEventChannelState: backendEventChannelReducer,
   leaderboardState: leaderboardReducer,
   userQueueState: userQueueReducer,
-  myRacesState: myRacesReducer
+  myRacesState: myRacesReducer,
+  currentraceState: currentraceReducer
 });
 
 export type RootState = DeepReadonly<StateType<typeof rootReducer>>;

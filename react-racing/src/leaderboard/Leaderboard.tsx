@@ -45,9 +45,8 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
 
   fetchLeaderboard = () => {
       this.props.context.clientApi.fetchLeaderboard().then((resp: UserResult[]) => {
-        this.props.onGetLeaderboard(resp)
-      })
-      
+         this.props.onGetLeaderboard(resp)
+      }) 
   }
     
   isNewResult = (backendEvent: BackendEvent): boolean => {
@@ -59,7 +58,7 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
       return x.created === backendEvent.data.created;
     });
 
-    return !existingResult;
+    return !existingResult
   };
 
   render() {

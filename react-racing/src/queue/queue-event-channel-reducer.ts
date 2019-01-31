@@ -8,11 +8,13 @@ import {User} from "../backend-event-channel/user";
 export type UserQueueActions = ActionType<typeof actions>
 
 export interface UserQueueState {
-    userQueue: User[]
+    userQueue: User[],
+    uuid: any
 }
 
 const INIT_STATE: UserQueueState = {
-    userQueue: []
+    userQueue: [],
+    uuid: undefined
 };
 
 export function userQueueReducer(oldState: UserQueueState = INIT_STATE, action: UserQueueActions): UserQueueState {
@@ -20,7 +22,8 @@ export function userQueueReducer(oldState: UserQueueState = INIT_STATE, action: 
         case getType(actions.getUserQueue):
             return {
                 ...oldState,
-                userQueue: action.payload
+                userQueue: action.payload,
+                uuid: action.meta
             }
         case getType(actions.addToUserQueue):
             return {
