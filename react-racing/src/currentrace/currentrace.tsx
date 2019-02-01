@@ -78,9 +78,8 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
     handleRaceStatusUpdate = (backendEvent: any) => {
         const tzOffset = new Date(0).getTimezoneOffset() * 1000 * 60;
 
-        if (backendEvent.data.state === "INACTIVE" && backendEvent.data.event === "FINISH") {
             this.props.onSetRaceEvent(backendEvent.data.event)
-        }
+
 
         if (backendEvent.data.state === "ACTIVE") {
             const username = backendEvent.data.user.displayName;
