@@ -25,7 +25,7 @@ const App = (props: AppProps) => {
     <div>
       {isLoggedIn ?
         <div>
-          <a className='btn btn-outline-secondary float-right'
+          <a className='btn btn-outline-secondary float-right mt-2'
             href="javascript:void 0"
              onClick={logout}>Logout</a>
           <AppContextWithMainPage websocket={websocket}/>
