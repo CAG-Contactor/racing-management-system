@@ -71,41 +71,42 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
       }
     }
 
-    let position = 1;
 
     return (
+      <div className="container">
       <Animated animationIn="fadeInDownBig" animationOut="fadeOut" isVisible={true}>
-        <div>
+        <div style={{  fontSize: 12}}>
           <h2>Resultattavla</h2>
+          <div className="row">
           {this.props.leaderboard.length === 0 && 'Det finns inga resultat än...'}
           {this.props.leaderboard.length > 0 &&
           <table className="center table table-striped">
             <thead>
             <tr>
-              <th>Plats</th>
-              <th>Namn</th>
-              <th>Tid</th>
-              <th>Mellantid</th>
-              <th>Resultat</th>
+              <th className="col-xs-2">Namn</th>
+              <th className="col-xs-2">Tid</th>
+              <th className="col-xs-2">Mellantid</th>
+              <th className="col-xs-2">Resultat</th>
             </tr>
             </thead>
             <tbody>
             {this.props.leaderboard.map((userResult: UserResult, index: number) => {
               return (
                 <tr key={index}>
-                  <td>{position++}</td>
-                  <td>{userResult.user.displayName}</td>
-                  <td><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
-                  <td><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
-                  <td>{this.getResultText(userResult.result)}</td>
+                  <td className="col-xs-2">{userResult.user.displayName}</td>
+                  <td className="col-xs-2"><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
+                  <td className="col-xs-2"><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
+                  <td className="col-xs-2">{this.getResultText(userResult.result)}</td>
                 </tr>
               );
             })}
             </tbody>
           </table>
           }
+          </div>
         </div>
       </Animated>
+      </div>
     )
   }
 }

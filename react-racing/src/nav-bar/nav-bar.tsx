@@ -13,11 +13,11 @@ export const NavBar = (props: NavBarProps) => {
   return (
     <nav className="navbar navbar-expand-md navbar-dark mb-3">
 
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <button style={{marginBottom: 10}} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span className="navbar-toggler-icon"/>
       </button>
 
-      <div className="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+      <div style={{textAlign:"left"}} className="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
         <ul className="navbar-nav">
           <li className="nav-item">
             <a className={navAnchorClass(currentSelection === 'Overview')}

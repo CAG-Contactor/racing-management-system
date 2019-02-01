@@ -45,32 +45,28 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
 
     const myValidRaces = this.props.myRaces.filter(x => x.result === 'FINISHED');
 
-    let position = 1;
-
     return (
-      <div className="container">
+      <div style={{  fontSize: 12}} className="container">
         <h2>Mina Lopp</h2>
         {myValidRaces.length === 0 && 'Det finns inga godkända resultat än...'}
         {myValidRaces.length > 0 &&
         <table className="center table table-striped">
           <thead>
           <tr>
-            <th>Plats</th>
-            <th>Namn</th>
-            <th>Tid</th>
-            <th>Mellantid</th>
-            <th>Resultat</th>
+            <th className="col-xs-2">Namn</th>
+            <th className="col-xs-2">Tid</th>
+            <th className="col-xs-2">Mellantid</th>
+            <th className="col-xs-2">Resultat</th>
           </tr>
           </thead>
           <tbody>
           {myValidRaces.map((myRace: UserResult, index: number) => {
             return (
               <tr key={index}>
-                <td>{position++}</td>
-                <td>{myRace.user.displayName}</td>
-                <td><Moment format="mm:ss:SSS">{myRace.time}</Moment></td>
-                <td><Moment format="mm:ss:SSS">{myRace.splitTime}</Moment></td>
-                <td>{this.getResultText(myRace.result)}</td>
+                <td className="col-xs-2">{myRace.user.displayName}</td>
+                <td className="col-xs-2"><Moment format="mm:ss:SSS">{myRace.time}</Moment></td>
+                <td className="col-xs-2"><Moment format="mm:ss:SSS">{myRace.splitTime}</Moment></td>
+                <td className="col-xs-2">{this.getResultText(myRace.result)}</td>
               </tr>
             );
           })}

@@ -60,7 +60,7 @@ class MainPage extends React.Component<any, MainPageState> {
 
     return (
       <Animated animationIn="flash" animationOut="fadeOut" isVisible={true}>
-        <div style={{color: 'white', fontSize: 25, backgroundColor: '#0c4c1a', borderColor: 'black'}} className="alert alert-danger">
+        <div style={{color: 'white', fontSize: 25, backgroundColor: '#359a29', borderColor: 'black'}} className="alert alert-danger">
           <div>Time to go to start!</div>
         </div>
       </Animated>
@@ -80,7 +80,7 @@ class MainPage extends React.Component<any, MainPageState> {
       <div>
         <NavBar currentSelection={this.state.viewSelection} onChangedSelection={this.changeSelectedView}/>
         {this.getStartMessage()} 
-        <main role="main" className="inner main-content">
+        <main style={{display: 'contents'}} role="main" className="inner main-content">
           {viewFor(this.state.viewSelection)}
         </main>
       </div>

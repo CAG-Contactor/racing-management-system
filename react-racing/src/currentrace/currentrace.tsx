@@ -151,7 +151,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         const text = this.getTextLastRace(lastRace.event)
 
         return (
-           <div className="">
+           <div>
                  <hr />
                     <div className="col-xs-12"><h3>Föregående lopp</h3></div>
                     <br />
@@ -203,7 +203,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         const isRaceActive = this.props.currentrace.state === 'ACTIVE';
         const raceEvent = this.props.raceEvent
         return(
-            <div>
+            <div className="container">
                 <div className="center">
                 { isRaceActive &&  <h1>Lopp pågår</h1> }
                 { !isRaceActive && <h1 className="mb-3">Inget lopp pågår</h1> }
