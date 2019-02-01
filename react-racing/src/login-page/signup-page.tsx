@@ -30,7 +30,7 @@ export class SignupPage extends React.Component<RegisterPageProps, SignupPageSta
             <input type="text"
                    id="input-email"
                    className="form-control mb-3"
-                   placeholder="User name"
+                   placeholder="Username"
                    required={true}
                    autoFocus={true}
                    onChange={evt => this.setState({userName: evt.target.value})}/>

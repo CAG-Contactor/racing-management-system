@@ -122,13 +122,13 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
     getTextLastRace = (event: any) => {
         switch (event) {
             case 'DISQUALIFIED':
-            return 'Diskad';
+            return 'Disqualified';
             case 'TIME_OUT_NOT_STARTED':
             return 'Walkover';
             case 'TIME_OUT_NOT_FINISHED':
-            return 'Gick aldirg i mål';
+            return 'Never finished race';
             default:
-            return 'Godkänd';
+            return 'Finished';
         }
     }
 
@@ -152,15 +152,15 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         return (
            <div>
                  <hr />
-                    <div className="col-xs-12"><h3>Föregående lopp</h3></div>
+                    <div className="col-xs-12"><h3>Previous race</h3></div>
                     <br />
                     <div className="center col-xs-12">
                         <table className="center w-100">
                         <thead>
                             <tr>
-                                <th className="col-xs-2 center"><strong>Tävlande</strong></th>
-                                <th className="col-xs-2 center"><strong>Tid</strong></th>
-                                <th className="col-xs-2 center"><strong>Mellantid</strong></th>
+                                <th className="col-xs-2 center"><strong>Contestant</strong></th>
+                                <th className="col-xs-2 center"><strong>Time</strong></th>
+                                <th className="col-xs-2 center"><strong>Split</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,19 +168,19 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                                 <td className="col-xs-2 center">{user}</td>
                                 <td className="col-xs-2 center">
                                 
-                                    { finishTime && <Moment format="HH:mm:ss.SSS">{finishTime}</Moment> }
+                                    { finishTime && <Moment format="mm:ss:SSS">{finishTime}</Moment> }
                                     { !finishTime && "--:--.---" }
                                 </td>
 
                                 <td className="col-xs-2 center"> 
-                                    { splitTime && <Moment format="HH:mm:ss.SSS">{splitTime}</Moment> }
+                                    { splitTime && <Moment format="mm:ss:SSS">{splitTime}</Moment> }
                                     { !splitTime &&  "--:--.---"}
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                         <br/>
-                        <p className="col-xs-12"><strong><em>Resultat: {text}</em></strong></p>
+                        <p className="col-xs-12"><strong><em>Result: {text}</em></strong></p>
                     </div>
            </div>
         )
@@ -204,22 +204,22 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         return(
             <div className="container">
                 <div className="center">
-                { isRaceActive &&  <h1>Lopp pågår</h1> }
-                { !isRaceActive && <h1 className="mb-3">Inget lopp pågår</h1> }
+                { isRaceActive &&  <h1>Race in process</h1> }
+                { !isRaceActive && <h1 className="mb-3">No race in process</h1> }
                 </div>
                 <div className="center" style={{fontSize: 20}}>
                     {(() => {
                         switch(raceEvent) {
                         case 'DISQUALIFIED':
-                            return "Sucker! diskad!"
+                            return "Sucker! Disqualified!";
                         case 'NONE':
-                            return "Väntar på start..."
+                            return "Waiting for start...";
                         case 'START':
-                            return "Loppet har startat!"
+                            return "Race is underway!";
                         case 'SPLIT':
-                            return "Mellanstation passerad!"
+                            return "Staging passed!";
                         case 'FINISH':
-                            return "Målstation passerad!"
+                            return "Finish line passed!";
                         default:
                             return null;
                         }
@@ -227,7 +227,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                 </div>                
                 <div className="active-race">
                     <div>
-                        <span className="col-xs-6"><span className="pull-right mb-1" style={{fontSize: 25, paddingRight: 20}}>Tävlande</span></span>
+                        <span className="col-xs-6"><span className="pull-right mb-1" style={{fontSize: 25, paddingRight: 20}}>Contestant</span></span>
                         <span className="col-xs-6">
                             { this.props.username && <span style={{fontSize: 20}}>{this.props.username}</span> }
                             { !this.props.username && <span style={{fontSize: 20}}>----</span> }
@@ -236,22 +236,22 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                     <div>
                         <span className="col-xs-6">
                             <span className="pull-right">
-                                { !this.props.finishTime && <span className="mb-1" style={{fontSize: 25, paddingRight: 20}}>Tid</span>}
-                                { this.props.finishTime && <span className="mb-1"style={{fontSize: 25, paddingRight: 20}}>Sluttid</span>}
+                                { !this.props.finishTime && <span className="mb-1" style={{fontSize: 25, paddingRight: 20}}>Time</span>}
+                                { this.props.finishTime && <span className="mb-1"style={{fontSize: 25, paddingRight: 20}}>Finish time</span>}
                             </span>
                         </span>
                         <span className="col-xs-6">
-                            { this.props.runningTime && !this.props.finishTime && <span style={{fontSize: 20}}><Moment format="HH:mm:ss.SSS">{this.props.runningTime}</Moment></span>}
-                            { this.props.finishTime && <span style={{fontSize: 20}}><Moment format="HH:mm:ss.SSS">{this.props.finishTime}</Moment></span> }
+                            { this.props.runningTime && !this.props.finishTime && <span style={{fontSize: 20}}><Moment format="mm:ss:SSS">{this.props.runningTime}</Moment></span>}
+                            { this.props.finishTime && <span style={{fontSize: 20}}><Moment format="mm:ss:SSS">{this.props.finishTime}</Moment></span> }
                             { !this.props.runningTime && !this.props.finishTime && <span style={{fontSize: 20}}>--:--.---</span>}
                         </span>
                     </div>
                     <div>
                         <span className="col-xs-6">
-                            <span className="pull-right mb-1" style={{fontSize: 25, paddingRight: 20}}>Mellantid</span>
+                            <span className="pull-right mb-1" style={{fontSize: 25, paddingRight: 20}}>Split</span>
                         </span>
                         <span className="col-xs-6">
-                            { this.props.splitTime && <span style={{fontSize: 20}}><Moment format="HH:mm:ss.SSS">{this.props.splitTime}</Moment></span> }
+                            { this.props.splitTime && <span style={{fontSize: 20}}><Moment format="mm:ss:SSS">{this.props.splitTime}</Moment></span> }
                             { !this.props.splitTime && <span style={{fontSize: 20}}>--:--.---</span> }
                         </span>
                     </div>

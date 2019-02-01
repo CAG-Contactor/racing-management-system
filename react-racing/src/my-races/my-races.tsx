@@ -26,11 +26,11 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
   getResultText = (type: string) => {
     switch (type) {
       case 'FINISHED':
-        return 'Godkänd';
+        return 'Finished';
       case 'WALKOVER':
         return 'Walkover';
       default:
-        return 'Diskad'
+        return 'Disqualified'
     }
   };
 
@@ -48,16 +48,16 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
     return (
       <div style={{  fontSize: 12}} className="container">
         <div className="row">
-        <h2>Mina Lopp</h2>
-        {myValidRaces.length === 0 && 'Det finns inga godkända resultat än...'}
+        <h2>My Races</h2>
+        {myValidRaces.length === 0 && 'No valid results have been registered yet'}
         {myValidRaces.length > 0 &&
         <table className="center table table-striped">
           <thead>
           <tr>
-            <th className="col-xs-2">Namn</th>
-            <th className="col-xs-2">Tid</th>
-            <th className="col-xs-2">Mellantid</th>
-            <th className="col-xs-2">Resultat</th>
+            <th className="col-xs-2">Name</th>
+            <th className="col-xs-2">Time</th>
+            <th className="col-xs-2">Split</th>
+            <th className="col-xs-2">Result</th>
           </tr>
           </thead>
           <tbody>

@@ -36,11 +36,11 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
   getResultText = (type: string) => {
     switch (type) {
       case 'FINISHED':
-        return 'Godkänd';
+        return 'Finished';
       case 'WALKOVER':
         return 'Walkover';
       default:
-        return 'Diskad'
+        return 'Disqualified'
     }
   };
 
@@ -76,17 +76,17 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
       <div className="container">
       <Animated animationIn="fadeInDownBig" animationOut="fadeOut" isVisible={true}>
         <div style={{  fontSize: 12}}>
-          <h2>Resultattavla</h2>
+          <h2>Leaderboard</h2>
           <div className="row">
-          {this.props.leaderboard.length === 0 && 'Det finns inga resultat än...'}
+          {this.props.leaderboard.length === 0 && 'No results have been registered yet'}
           {this.props.leaderboard.length > 0 &&
           <table className="center table table-striped">
             <thead>
             <tr>
-              <th className="col-xs-2">Namn</th>
-              <th className="col-xs-2">Tid</th>
-              <th className="col-xs-2">Mellantid</th>
-              <th className="col-xs-2">Resultat</th>
+              <th className="col-xs-2">Name</th>
+              <th className="col-xs-2">Time</th>
+              <th className="col-xs-2">Split</th>
+              <th className="col-xs-2">Result</th>
             </tr>
             </thead>
             <tbody>
