@@ -47,6 +47,7 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
 
     return (
       <div style={{  fontSize: 12}} className="container">
+        <div className="row">
         <h2>Mina Lopp</h2>
         {myValidRaces.length === 0 && 'Det finns inga godkända resultat än...'}
         {myValidRaces.length > 0 &&
@@ -73,6 +74,7 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
           </tbody>
         </table>
         }
+        </div>
       </div>
     )
   }
