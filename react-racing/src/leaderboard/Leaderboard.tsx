@@ -76,9 +76,9 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
       <div className="container">
       <Animated animationIn="fadeInDownBig" animationOut="fadeOut" isVisible={true}>
         <div style={{  fontSize: 12}}>
-          <h2>Leaderboard</h2>
-          <div className="row">
-          {this.props.leaderboard.length === 0 && 'No results have been registered yet'}
+          <h1>Leaderboard</h1>
+          <div className="row" style={{display: 'unset'}}>
+          {this.props.leaderboard.length === 0 && <h2 className="alert alert-dismissible alert-info">No results have been registered yet..</h2>}
           {this.props.leaderboard.length > 0 &&
           <table className="center table table-striped">
             <thead>

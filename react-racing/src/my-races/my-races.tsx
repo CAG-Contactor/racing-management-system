@@ -47,9 +47,9 @@ export class MyRaces extends React.Component<MyRacesStateProps> {
 
     return (
       <div style={{  fontSize: 12}} className="container">
-        <div className="row">
-        <h2>My Races</h2>
-        {myValidRaces.length === 0 && 'No valid results have been registered yet'}
+        <h1>My Races</h1>
+        <div className="row" style={{display: 'unset'}}>
+        {myValidRaces.length === 0 && <h2 className="alert alert-dismissible alert-info">No results have been registered yet..</h2>}
         {myValidRaces.length > 0 &&
         <table className="center table table-striped">
           <thead>
