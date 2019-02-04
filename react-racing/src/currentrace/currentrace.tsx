@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from "react-redux"
 import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
-import { getRaceStatus, setRunningTime, setFinishTime, setSplitTime, setUsername, getLastRace, setRaceEvent } from './currentrace.actions';
+import { getRaceStatus, setRunningTime, setFinishTime, setSplitTime, setUsername, getLastRace, setRaceEvent, setStartTime } from './currentrace.actions';
 import { AppContextConsumer, IAppContext } from 'src';
 import Moment from 'react-moment';
 
@@ -14,7 +14,7 @@ export interface CurrentraceStateProps {
     onSetUsername: (username: any) => void;
     onGetLastRace: (lastRace: any) => void;
     onSetRaceEvent: (event: any) => void;
-
+    onSetStartTime: (starttime: any) => void;
 
     context: IAppContext;
     currentrace: any;
@@ -54,7 +54,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
     componentWillMount () {
         this.timer()
         this.updateLastRace()
-        
+        this.fetchRaceStatus('0')
     }
 
     timer = () => {
@@ -70,16 +70,18 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
 
 
     fetchRaceStatus = (uuid: string) => {
+
         this.props.context.clientApi.fetchRaceStatus().then((resp: any) => {
           this.props.onGetRaceStatus(resp, uuid)
-        }) 
+          if (resp.user && resp.user.displayName) {
+            this.props.onSetUsername(resp.user.displayName)
+          }
+        })
     }
     
     handleRaceStatusUpdate = (backendEvent: any) => {
         const tzOffset = new Date(0).getTimezoneOffset() * 1000 * 60;
-
-            this.props.onSetRaceEvent(backendEvent.data.event)
-
+        this.props.onSetRaceEvent(backendEvent.data.event)
 
         if (backendEvent.data.state === "ACTIVE") {
             const username = backendEvent.data.user.displayName;
@@ -118,6 +120,7 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                 setTimeout( () => this.updateLastRace(), 1000);
             }
     }
+
 
     getTextLastRace = (event: any) => {
         switch (event) {
@@ -295,7 +298,8 @@ function mapStateToProps(state: any) {
         onSetSplitTime: (splitTime: any) => dispatch(setSplitTime(splitTime)),
         onSetUsername: (username: any) => dispatch(setUsername(username)),
         onGetLastRace: (lastRace: any) => dispatch(getLastRace(lastRace)),
-        onSetRaceEvent: (event: any) => dispatch(setRaceEvent(event))
+        onSetRaceEvent: (event: any) => dispatch(setRaceEvent(event)),
+        onSetStartTime: (startTime: any) => dispatch(setStartTime(startTime))
     };
   }
 

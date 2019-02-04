@@ -15,7 +15,8 @@ export interface RaceStatusState {
   splitTime: any,
   username: any,
   lastRace: any,
-  event: any
+  event: any,
+  startTime: any
 }
 
 const INIT_STATE: RaceStatusState = {
@@ -27,7 +28,8 @@ const INIT_STATE: RaceStatusState = {
   splitTime: undefined,
   username: undefined,
   lastRace: undefined,
-  event: undefined
+  event: undefined,
+  startTime: undefined
 };
 
 export function currentraceReducer(oldState: RaceStatusState = INIT_STATE, action: RaceStatusActions): RaceStatusState {
@@ -67,6 +69,11 @@ export function currentraceReducer(oldState: RaceStatusState = INIT_STATE, actio
       return {
         ...oldState,
         event: action.payload
+      };
+      case getType(actions.setStartTime):
+      return {
+        ...oldState,
+        startTime: action.payload
       };
     default:
       return oldState;

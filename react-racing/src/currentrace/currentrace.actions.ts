@@ -15,3 +15,5 @@ export const getLastRace = createStandardAction('GetLastRace')<string>();
 
 export const setRaceEvent = createStandardAction('SetRaceEvent')<string>(); 
 
+export const setStartTime = createStandardAction('SetStartTime')<string>(); 
+
