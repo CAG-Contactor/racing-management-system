@@ -204,8 +204,8 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         return(
             <div className="container">
                 <div className="center">
-                { isRaceActive &&  <h1>Race in process</h1> }
-                { !isRaceActive && <h1 className="mb-3">No race in process</h1> }
+                { isRaceActive &&  <h1>Race in progress</h1> }
+                { !isRaceActive && <h1 className="mb-3">No race in progress</h1> }
                 </div>
                 <div className="center" style={{fontSize: 20}}>
                     {(() => {

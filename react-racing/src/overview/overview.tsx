@@ -11,17 +11,29 @@ export class Overview extends React.Component {
             <h1>C.A.G Maze Runner</h1>
             <div className="text-justify">
               <p>
-                Tävlingen kommer att avslöjas i C.A.Gs monter på JFokus 2019
+                In this game you will try to get through a modified, classic Brio labyrinth as fast as possible by using
+                an Xbox controller.
+                The time will start to run as soon as you advance through the first passage. Thereafter you will receive
+                a split time when you pass the 2nd passage.
+                The third passage is the finishing line, after passing it you will see your finishing time.
               </p>
               <p>
-                För att vara med skall man registrera en användare och sedan anmäla sig till tävlingen.
-                När det är dags att köra får man en notis i appen.
+                To participate in the competition you need to register a user, log in and finally register yourself to
+                the racing queue. When it is your turn to race, you will see a notification on the top of the page.
               </p>
+              This game is built using technologies we have been learning at our techdays through the last year.
+              For more information, visit us at the booth.
+              You can find more information about us here: <a href=""
+                                                              onClick={this.openCagWebpage}>C.A.G Contactor</a>
             </div>
           </Animated>
         </div>
       </div>
     )
+  }
+
+  openCagWebpage = () => {
+    window.open("https://www.cag.se/c-a-g-contactor/", "_blank");
   }
 }
 
