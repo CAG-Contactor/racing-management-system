@@ -38,8 +38,8 @@ export class Queue extends React.Component<UserQueueStateProps, {}> {
         <h1>Queue to next race</h1>
         <div className="margin-bottom-sm">
           {!this.isRegistered() ?
-            <button disabled={this.props.userQueue[0] && this.props.userQueue[0].userId === this.props.currentUser.userId} className="btn btn-success mb-3" onClick={this.registerForRace}>Anmäl mig</button> :
-            <button className="btn btn-danger mb-3" onClick={this.unRegisterForRace}>Fega ur</button>}
+            <button disabled={this.props.userQueue[0] && this.props.userQueue[0].userId === this.props.currentUser.userId} className="btn btn-success mb-3" onClick={this.registerForRace}>Register to queue</button> :
+            <button className="btn btn-danger mb-3" onClick={this.unRegisterForRace}>Chicken out</button>}
 
         </div>
         <table className="center table table-striped">

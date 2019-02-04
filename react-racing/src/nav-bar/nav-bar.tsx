@@ -32,17 +32,17 @@ export const NavBar = (props: NavBarProps) => {
           <li className="nav-item">
             <a className={navAnchorClass(currentSelection === 'Leaderboard')}
                href="javascript:void 0"
-               onClick={changeSelection('Leaderboard')}>Leader board</a>
+               onClick={changeSelection('Leaderboard')}>Leaderboard</a>
           </li>
           <li>
             <a className={navAnchorClass(currentSelection === 'CurrentRace')}
                href="javascript:void 0"
-               onClick={changeSelection('CurrentRace')}>Current race</a>
+               onClick={changeSelection('CurrentRace')}>Current Race</a>
           </li>
           <li>
             <a className={navAnchorClass(currentSelection === 'MyRaces')}
                href="javascript:void 0"
-               onClick={changeSelection('MyRaces')}>My races</a>
+               onClick={changeSelection('MyRaces')}>My Races</a>
           </li>
         </ul>
       </div>
