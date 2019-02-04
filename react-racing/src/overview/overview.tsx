@@ -24,7 +24,7 @@ export class Overview extends React.Component {
               This game is built using technologies we have been learning at our techdays through the last year.
               For more information, visit us at the booth.
               You can find more information about us here: <a href=""
-                                                              onClick={this.openCagWebpage}>C.A.G Contactor</a>
+                                                              onClick={this.openCagWebpage}>https://www.cag.se/c-a-g-contactor/</a>
             </div>
           </Animated>
         </div>
