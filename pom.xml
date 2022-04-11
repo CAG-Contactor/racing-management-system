@@ -31,11 +31,11 @@
         <module>leaderboard</module>
         <module>current-race</module>
         <module>client-api</module>
-        <module>cag-rms-client-webpack</module>
+<!--        <module>cag-rms-client-webpack</module>-->
         <module>pi-sensor</module>
         <module>requirements</module>
-        <module>admin-backend</module>
-        <module>leapmotion</module>
+<!--        <module>admin-backend</module>-->
+<!--        <module>leapmotion</module>-->
         <module>react-racing</module>
         <!--<module>xbox</module>-->
         <!--<module>admin-frontend</module>-->
