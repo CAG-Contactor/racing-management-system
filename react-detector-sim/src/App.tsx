@@ -23,7 +23,7 @@ class App extends React.Component<{}, AppState> {
     tStart: 0,
     tSplit: 0,
     tFinish: 0,
-    serverAddress: getFromLocalStorage('serverAddress', 'http://localhost:10080')
+    serverAddress: getFromLocalStorage('serverAddress', 'http://localhost:10480')
   };
 
   public render() {

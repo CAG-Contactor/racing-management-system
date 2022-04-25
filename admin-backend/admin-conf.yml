@@ -21,7 +21,7 @@ jerseyClient:
   chunkedEncodingEnabled: true
 
 # URL:s to the different services
-urlCurrentRaceBaseURI : ${SERVER_CURRENTRACE_BASE_URI:-http://localhost:10080}
+urlCurrentRaceBaseURI : ${SERVER_CURRENTRACE_BASE_URI:-http://localhost:10480}
 urlLeaderboardBaseURI : ${SERVER_LEADERBOARD_BASE_URI:-http://localhost:10180}
 urlUserManagerBaseURI : ${SERVER_USERMANAGER_BASE_URI:-http://localhost:10280}
 urlRaceAdministratorBaseURI : ${SERVER_RACE_ADMINISTRATOR_BASE_URI:-http://localhost:10380}

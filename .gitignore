@@ -34,3 +34,6 @@ mongodb/
 
 #Xbox
 !xbox/lib/Jamepad.jar
+
+# mongodb volumes for docker
+mongodb/
