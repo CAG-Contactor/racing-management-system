@@ -2,6 +2,7 @@ package se.cag.labs.currentrace.apicontroller;
 
 import io.swagger.annotations.*;
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import se.cag.labs.currentrace.services.StatusService;
 @Api(basePath = "*", value = "Current race", description = "Current race services", produces = "application/json")
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@Log4j
+@Slf4j
 public class CurrentRaceController {
   public static final String START_RACE_URL = "/startRace";
   public static final String CANCEL_RACE_URL = "/cancelRace";

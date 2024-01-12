@@ -1,6 +1,7 @@
 package se.cag.labs.currentrace;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,7 +12,7 @@ import se.cag.labs.currentrace.services.CancelRaceService;
 @SpringBootApplication
 @EnableMongoRepositories
 @EnableScheduling
-@Log4j
+@Slf4j
 public class CurrentRaceApplication {
   public static void main(String[] args) {
     ConfigurableApplicationContext app = SpringApplication.run(CurrentRaceApplication.class, args);

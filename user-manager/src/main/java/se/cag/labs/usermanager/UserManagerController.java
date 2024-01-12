@@ -120,14 +120,14 @@ public class UserManagerController {
 
   @RequestMapping(path = "/users", method = RequestMethod.GET)
   public ResponseEntity<User> getUserForToken(@RequestParam Token token) {
-    Session s = sessionRepository.findByToken(token.getToken());
-    if (s == null) {
+    Session session = sessionRepository.findByToken(token.getToken());
+    if (session == null) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    if (LocalDateTime.now().isAfter(s.getTimeout())) {
+    if (LocalDateTime.now().isAfter(session.getTimeout())) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    User u = userRepository.findOne(s.getUserId());
+    User u = userRepository.findByUserId(session.getUserId());
     if (u == null) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

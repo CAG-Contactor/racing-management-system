@@ -1,6 +1,7 @@
 package se.cag.labs.cagrms.clientapi.eventbus;
 
 import lombok.extern.log4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.*;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.*;
@@ -10,7 +11,7 @@ import java.util.*;
 
 import static com.google.common.collect.Maps.*;
 
-@Log4j
+@Slf4j
 @Component
 public class EventChannelSocketHandler extends TextWebSocketHandler {
 

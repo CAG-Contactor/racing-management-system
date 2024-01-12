@@ -22,7 +22,7 @@ import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {CurrentRaceApplication.class, CurrentRaceControllerTest.MongoConfiguration.class},
+@SpringBootTest(classes = {CurrentRaceApplication.class},
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
   properties = {"classpath:application-test.properties"})
 // NOTE!! order is important

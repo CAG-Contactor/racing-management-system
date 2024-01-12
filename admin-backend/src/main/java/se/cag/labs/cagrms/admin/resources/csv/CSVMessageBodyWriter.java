@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * MessageBodyWriter that allows to output a List of objects as CSV from a JAX-RS webservice.
  */
-@Log4j
+@Slf4j
 @Provider
 @Produces("text/csv")
 public class CSVMessageBodyWriter implements MessageBodyWriter {

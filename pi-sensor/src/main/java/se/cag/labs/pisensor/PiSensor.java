@@ -1,6 +1,7 @@
 package se.cag.labs.pisensor;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 @SpringBootApplication
 @EnableScheduling
-@Log4j
+@Slf4j
 public class PiSensor {
     public static void main(String[] args) throws InterruptedException, IOException {
 

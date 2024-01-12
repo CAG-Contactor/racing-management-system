@@ -3,6 +3,7 @@ package se.cag.labs.cagrms.clientapi.eventbus;
 import com.fasterxml.jackson.databind.*;
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.io.*;
 )
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@Log4j
+@Slf4j
 public class EventChannelController {
   @Autowired
   private EventChannelSocketHandler eventChannelSocketHandler;

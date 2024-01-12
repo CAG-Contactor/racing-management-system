@@ -13,7 +13,7 @@ import java.util.Queue;
 
 import static java.util.stream.Collectors.toList;
 
-@Log4j
+@Slf4j
 @RestController
 @Api(basePath = "*",
   value = "Race Administrator",

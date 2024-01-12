@@ -1,6 +1,7 @@
 package se.cag.labs.currentrace.services;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Component
 @Scope("singleton")
-@Log4j
+@Slf4j
 public class UserManagerService {
   @Value("${server.usermanager.base.uri}")
   private String userManagerBaseUri;

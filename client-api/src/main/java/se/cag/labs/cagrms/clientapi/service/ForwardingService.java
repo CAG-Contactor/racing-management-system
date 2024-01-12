@@ -1,6 +1,7 @@
 package se.cag.labs.cagrms.clientapi.service;
 
 import lombok.extern.log4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.*;
@@ -14,7 +15,7 @@ import java.util.*;
 
 @Component
 @Scope("singleton")
-@Log4j
+@Slf4j
 public class ForwardingService {
   @Value("${server.usermanager.base.uri}")
   private String userManagerBaseUri;

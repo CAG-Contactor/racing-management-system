@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Log4j
+@Slf4j
 @Path("/admin")
 public class RaceResource {
 

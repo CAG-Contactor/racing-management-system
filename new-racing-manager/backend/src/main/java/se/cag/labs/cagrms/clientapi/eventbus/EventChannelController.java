@@ -16,7 +16,7 @@ import java.io.*;
 )
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@Log4j
+@Slf4j
 public class EventChannelController {
   @Autowired
   private EventChannelSocketHandler eventChannelSocketHandler;

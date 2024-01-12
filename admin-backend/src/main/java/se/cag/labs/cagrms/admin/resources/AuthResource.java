@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-@Log4j
+@Slf4j
 @Path("/admin/")
 public class AuthResource {
 

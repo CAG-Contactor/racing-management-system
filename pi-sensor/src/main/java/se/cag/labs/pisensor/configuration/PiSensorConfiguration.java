@@ -1,6 +1,7 @@
 package se.cag.labs.pisensor.configuration;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import se.cag.labs.pisensor.service.DroidRaceApiService;
 
 @Configuration
-@Log4j
+@Slf4j
 public class PiSensorConfiguration {
 
     @Value("${server.current.race.base.uri}")

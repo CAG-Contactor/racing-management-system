@@ -14,7 +14,7 @@ import java.util.*;
 
 @Component
 @Scope("singleton")
-@Log4j
+@Slf4j
 public class ForwardingService {
   @Value("${server.usermanager.base.uri}")
   private String userManagerBaseUri;

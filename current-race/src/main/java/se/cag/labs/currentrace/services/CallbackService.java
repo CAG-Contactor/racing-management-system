@@ -1,6 +1,7 @@
 package se.cag.labs.currentrace.services;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -10,7 +11,7 @@ import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 
 @Component
 @Scope("singleton")
-@Log4j
+@Slf4j
 public class CallbackService {
   private RestTemplate restTemplate = new RestTemplate();
 

@@ -2,6 +2,7 @@ package se.cag.labs.raceadmin;
 
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.*;
 
 import static java.util.stream.Collectors.*;
 
-@Log4j
+@Slf4j
 @RestController
 @Api(basePath = "*",
   value = "Race Administrator",
@@ -81,7 +82,7 @@ public class RaceAdministratorController {
   public void unregisterForRace(@RequestBody User user) {
     log.debug("DELETE /userqueue:" + user);
     final User existingUser = userQueueRepository.findUserByUserId(user.getUserId());
-    userQueueRepository.delete(existingUser.getId());
+    userQueueRepository.delete(existingUser);
     clientApiService.sendEvent(Event.builder().eventType("QUEUE_UPDATED").data(user).build());
   }
 
@@ -130,7 +131,7 @@ public class RaceAdministratorController {
         lastRaceRepository.deleteAll();
         lastRaceRepository.save(status);
 
-        activeRaceRepository.delete(activeRaceStatus.getId());
+        activeRaceRepository.delete(activeRaceStatus);
         startNextRace();
       } else {
         activeRaceStatus.setEvent(status.getEvent());
@@ -155,7 +156,7 @@ public class RaceAdministratorController {
     if (user != null) {
       activeRaceRepository.save(new RaceStatus(user));
       currentRaceService.startRace();
-      userQueueRepository.delete(user.getId());
+      userQueueRepository.delete(user);
       clientApiService.sendEvent(Event.builder().eventType("QUEUE_UPDATED").data(user).build());
     }
   }

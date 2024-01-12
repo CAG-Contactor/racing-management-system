@@ -26,7 +26,9 @@ public class SensorService {
 
     if (sensorModel != null) {
       List<SensorModel> sensorModels = sensorRepository.findBySensorId(sensor.getSensorId());
-      sensorRepository.delete(sensorModels);
+      sensorModels.stream()
+        .map(SensorModel::getSensorId)
+        .forEach(sensorId -> sensorRepository.deleteById(sensorId));
       sensorRepository.save(sensorModel);
       return ReturnStatus.REGISTERED;
     } else {
@@ -37,7 +39,9 @@ public class SensorService {
   @Scheduled(fixedDelay = ONE_HOUR)
   public void deleteOldSensors() {
     List<SensorModel> sensorModels = sensorRepository.findByRegisteredTimestampLessThan(System.currentTimeMillis() - ONE_HOUR);
-    sensorRepository.delete(sensorModels);
+    sensorModels.stream()
+      .map(SensorModel::getSensorId)
+      .forEach(sensorId -> sensorRepository.deleteById(sensorId));
   }
 
   public List<SensorResponse> getSensorList() {

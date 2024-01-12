@@ -1,6 +1,7 @@
 package se.cag.labs.pisensor.utils;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -17,7 +18,7 @@ import java.util.List;
  *
  * @author Joacim Breiler
  */
-@Log4j
+@Slf4j
 public class KeyStoreUtils {
 
     private static final String SSL_CONTEXT = "SSL";

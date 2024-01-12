@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Path("/admin/")
-@Log4j
+@Slf4j
 public class StatusResource {
 
     private Client client;

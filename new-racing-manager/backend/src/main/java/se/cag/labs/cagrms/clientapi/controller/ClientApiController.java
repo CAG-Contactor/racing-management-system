@@ -28,7 +28,7 @@ import java.util.List;
 )
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
-@Log4j
+@Slf4j
 public class ClientApiController {
 
     public static final String LOGIN_URL = "/login";

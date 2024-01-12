@@ -10,7 +10,7 @@ import java.util.*;
 
 import static com.google.common.collect.Maps.*;
 
-@Log4j
+@Slf4j
 @Component
 public class EventChannelSocketHandler extends TextWebSocketHandler {
 

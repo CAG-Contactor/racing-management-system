@@ -2,6 +2,7 @@ package se.cag.labs.currentrace.timer;
 
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
@@ -12,7 +13,7 @@ import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 import java.util.TimerTask;
 
 @Component
-@Log4j
+@Slf4j
 public class VerifyRacePassagesTimerTask extends TimerTask {
 
   public static final long TIME_INTERVAL = 10 * 1000;

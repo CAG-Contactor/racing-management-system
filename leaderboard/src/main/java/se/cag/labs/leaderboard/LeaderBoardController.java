@@ -3,6 +3,7 @@ package se.cag.labs.leaderboard;
 
 import io.swagger.annotations.*;
 import lombok.extern.log4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 import static java.util.Comparator.comparingLong;
 import static java.util.Objects.nonNull;
 
-@Log4j
+@Slf4j
 @Api(basePath = "*",
   value = "Leaderboard",
   description = "This service keeps track of the results from the races."
@@ -80,7 +81,7 @@ public class LeaderBoardController {
   })
   public ResponseEntity deleteRace(@PathVariable("id") String id) {
     log.debug("DELETE /results/:" + id);
-    repository.delete(id);
+    repository.deleteById(id);
 
     return new ResponseEntity(HttpStatus.OK);
   }
