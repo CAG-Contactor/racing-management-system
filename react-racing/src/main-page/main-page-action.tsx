@@ -1,4 +1,4 @@
-import { createStandardAction } from "typesafe-actions";
+import {createStandardAction} from "typesafe-actions";
 
 export const getCurrentStatus = createStandardAction('GetCurrentStatus')<string, string>();
 

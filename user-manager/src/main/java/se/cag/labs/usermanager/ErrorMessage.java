@@ -1,6 +1,6 @@
 package se.cag.labs.usermanager;
 
-import lombok.*;
+import lombok.Data;
 
 /**
  * Created by dawi on 2015-11-20.

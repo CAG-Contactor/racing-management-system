@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {DropdownModule, ModalModule} from "ng2-bootstrap";
 
-import {TopNavComponent, SidebarComponent} from "../shared";
+import {SidebarComponent, TopNavComponent} from "../shared";
 import {HomeModule} from "./home";
 import {ResultModule} from "./result";
 import {UsersModule} from "./users";

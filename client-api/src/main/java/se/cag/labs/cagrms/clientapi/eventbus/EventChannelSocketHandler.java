@@ -1,15 +1,16 @@
 package se.cag.labs.cagrms.clientapi.eventbus;
 
-import lombok.extern.log4j.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.*;
-import org.springframework.web.socket.*;
-import org.springframework.web.socket.handler.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Map;
 
-import static com.google.common.collect.Maps.*;
+import static com.google.common.collect.Maps.newConcurrentMap;
 
 @Slf4j
 @Component

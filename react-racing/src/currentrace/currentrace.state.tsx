@@ -1,8 +1,5 @@
 import * as actions from './currentrace.actions';
-import {
-  ActionType,
-  getType
-} from "typesafe-actions";
+import {ActionType, getType} from "typesafe-actions";
 
 export type RaceStatusActions = ActionType<typeof actions>
 

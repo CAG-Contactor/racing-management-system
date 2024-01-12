@@ -1,9 +1,5 @@
-import {
-  ActionType,
-  createStandardAction,
-  getType
-} from 'typesafe-actions';
-import { User } from './backend-event-channel/user';
+import {ActionType, createStandardAction, getType} from 'typesafe-actions';
+import {User} from './backend-event-channel/user';
 
 export interface LoginStatus {
   loggedIn: boolean;

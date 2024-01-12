@@ -1,10 +1,10 @@
 package se.cag.labs.raceadmin.peerservices;
 
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.web.client.*;
-import se.cag.labs.raceadmin.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import se.cag.labs.raceadmin.UserResult;
 
 @Service
 public class LeaderBoardService {

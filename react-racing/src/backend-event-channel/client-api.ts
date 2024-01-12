@@ -1,8 +1,8 @@
 import * as md5 from 'md5';
-import { User } from './user';
+import {User} from './user';
 import * as cookies from 'browser-cookies';
 import * as fetchIntercept from 'fetch-intercept';
-import { UserResult } from '../leaderboard/Leaderboard';
+import {UserResult} from '../leaderboard/Leaderboard';
 
 fetchIntercept.register({
   request: (url: string, init: RequestInit) => {

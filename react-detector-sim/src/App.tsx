@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChangeEvent } from 'react';
+import {ChangeEvent} from 'react';
 import './App.css';
 
 enum Sensor {

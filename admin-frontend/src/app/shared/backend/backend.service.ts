@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http, Response, Headers, RequestOptionsArgs} from "@angular/http";
+import {Headers, Http, RequestOptionsArgs, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Errors} from "../errors";

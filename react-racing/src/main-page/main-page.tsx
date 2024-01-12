@@ -1,19 +1,16 @@
 import * as React from 'react';
-import {
-  NavBar,
-  NavBarSelections
-} from '../nav-bar/nav-bar';
-import { BackendEventChannel } from '../backend-event-channel/backend-event-channel';
+import {NavBar, NavBarSelections} from '../nav-bar/nav-bar';
+import {BackendEventChannel} from '../backend-event-channel/backend-event-channel';
 import Queue from '../queue/queue';
 import MyRaces from '../my-races/my-races';
 import Leaderboard from '../leaderboard/Leaderboard';
-import { Overview } from "../overview/overview";
+import {Overview} from "../overview/overview";
 import CurrentRace from '../currentrace/currentrace';
-import { connect } from "react-redux"
-import { AppContextConsumer, IAppContext } from 'src';
-import { getCurrentStatus, setUser } from './main-page-action'
-import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
-import { Animated } from "react-animated-css";
+import {connect} from "react-redux"
+import {AppContextConsumer, IAppContext} from 'src';
+import {getCurrentStatus, setUser} from './main-page-action'
+import {BackendEventChannelState} from '../backend-event-channel/backend-event-channel.state'
+import {Animated} from "react-animated-css";
 
 
 interface MainPageProps {

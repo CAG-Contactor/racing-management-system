@@ -1,9 +1,10 @@
 package se.cag.labs.cagrms.clientapi.config;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.annotation.*;
-import org.springframework.web.socket.config.annotation.*;
-import se.cag.labs.cagrms.clientapi.eventbus.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import se.cag.labs.cagrms.clientapi.eventbus.EventChannelSocketHandler;
 
 @Configuration
 public class WebsocketConfig implements WebSocketConfigurer {

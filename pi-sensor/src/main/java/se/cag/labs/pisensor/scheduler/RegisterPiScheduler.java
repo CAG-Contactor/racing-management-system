@@ -1,7 +1,6 @@
 package se.cag.labs.pisensor.scheduler;
 
 import com.pi4j.system.SystemInfo;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -1,9 +1,6 @@
-import { UserResult } from "./Leaderboard";
+import {UserResult} from "./Leaderboard";
 import * as actions from './leaderboard.actions';
-import {
-  ActionType,
-  getType
-} from "typesafe-actions";
+import {ActionType, getType} from "typesafe-actions";
 
 export type LeaderboardActions = ActionType<typeof actions>
 

@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {CarouselModule, DropdownModule, AlertModule} from "ng2-bootstrap";
+import {AlertModule, CarouselModule, DropdownModule} from "ng2-bootstrap";
 
 import {HomeComponent, NotificationComponent} from "./home.component";
 

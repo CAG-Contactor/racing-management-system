@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { AppContextConsumer } from '../index';
-import { ClientApi } from '../backend-event-channel/client-api';
-import { FormEvent } from 'react';
+import {FormEvent} from 'react';
+import {AppContextConsumer} from '../index';
+import {ClientApi} from '../backend-event-channel/client-api';
 
 export interface RegisterPageProps {
   onSignupCompleted: () => void

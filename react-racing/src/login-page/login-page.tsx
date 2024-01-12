@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { LoginStatus } from '../App.state';
-import { SigninPage } from './signin-page';
-import { SignupPage } from './signup-page';
+import {LoginStatus} from '../App.state';
+import {SigninPage} from './signin-page';
+import {SignupPage} from './signup-page';
 
 export interface LoginPageProps {
   loginStatusChanged: (loginStatus: LoginStatus) => void

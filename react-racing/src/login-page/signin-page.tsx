@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { FormEvent } from 'react';
-import { AppContextConsumer } from '../index';
-import { ClientApi } from '../backend-event-channel/client-api';
-import { LoginStatus } from '../App.state';
+import {FormEvent} from 'react';
+import {AppContextConsumer} from '../index';
+import {ClientApi} from '../backend-event-channel/client-api';
+import {LoginStatus} from '../App.state';
 
 export interface SigninPageProps {
   loginStatusChanged: (loginStatus: LoginStatus) => void;

@@ -1,8 +1,17 @@
 import * as React from 'react'
-import { connect } from "react-redux"
-import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
-import { getRaceStatus, setRunningTime, setFinishTime, setSplitTime, setUsername, getLastRace, setRaceEvent, setStartTime } from './currentrace.actions';
-import { AppContextConsumer, IAppContext } from 'src';
+import {connect} from "react-redux"
+import {BackendEventChannelState} from '../backend-event-channel/backend-event-channel.state'
+import {
+    getLastRace,
+    getRaceStatus,
+    setFinishTime,
+    setRaceEvent,
+    setRunningTime,
+    setSplitTime,
+    setStartTime,
+    setUsername
+} from './currentrace.actions';
+import {AppContextConsumer, IAppContext} from 'src';
 import Moment from 'react-moment';
 
 export interface CurrentraceStateProps {

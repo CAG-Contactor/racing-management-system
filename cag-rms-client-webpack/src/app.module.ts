@@ -1,4 +1,5 @@
 import * as ng1 from "angular";
+import "./main";
 
 export const appModule = ng1
   .module('app.module', [
@@ -22,7 +23,5 @@ export const appModule = ng1
             clientApiService.loginWithToken(params.token);
         }
     }]);
-
-import "./main";
 
 console.debug('appModule is initialized:', appModule, ', with clientApi:', CLIENT_API, ' and buildInfo:', BUILD_INFO);

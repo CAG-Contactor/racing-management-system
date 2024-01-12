@@ -1,18 +1,26 @@
 package se.cag.labs.raceadmin;
 
-import io.swagger.annotations.*;
-import lombok.extern.log4j.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.*;
-import se.cag.labs.raceadmin.peerservices.*;
+import org.springframework.web.client.RestTemplate;
+import se.cag.labs.raceadmin.peerservices.ClientApiService;
+import se.cag.labs.raceadmin.peerservices.CurrentRaceService;
+import se.cag.labs.raceadmin.peerservices.Event;
+import se.cag.labs.raceadmin.peerservices.LeaderBoardService;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Queue;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RestController

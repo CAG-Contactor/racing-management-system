@@ -1,9 +1,6 @@
-import { UserResult } from "../leaderboard/Leaderboard";
+import {UserResult} from "../leaderboard/Leaderboard";
 import * as actions from './my-races.actions';
-import {
-  ActionType,
-  getType
-} from "typesafe-actions";
+import {ActionType, getType} from "typesafe-actions";
 
 export type MyRacesActions = ActionType<typeof actions>
 

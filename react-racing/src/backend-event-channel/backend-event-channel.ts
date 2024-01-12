@@ -1,11 +1,11 @@
 import * as SockJS from "sockjs-client";
 import {
-  backendEventChannelGotError,
-  backendEventChannelHasClosed,
-  backendEventChannelHasOpened,
-  backendEventChannelReceivedMessage
+    backendEventChannelGotError,
+    backendEventChannelHasClosed,
+    backendEventChannelHasOpened,
+    backendEventChannelReceivedMessage
 } from "./backend-event-channel.actions";
-import { Store } from "redux";
+import {Store} from "redux";
 
 
 export class BackendEventChannel {

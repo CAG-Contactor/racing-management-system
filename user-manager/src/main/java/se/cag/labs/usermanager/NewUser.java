@@ -1,6 +1,7 @@
 package se.cag.labs.usermanager;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor

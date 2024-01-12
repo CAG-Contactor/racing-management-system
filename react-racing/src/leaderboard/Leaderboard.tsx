@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { connect } from "react-redux"
+import {connect} from "react-redux"
 import Moment from 'react-moment';
-import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
-import { getLeaderboard } from "./leaderboard.actions";
-import { Dispatch } from 'redux';
-import { ActionType } from 'typesafe-actions';
-import { AppContextConsumer, IAppContext } from 'src';
-import { Animated } from "react-animated-css";
+import {BackendEventChannelState} from '../backend-event-channel/backend-event-channel.state'
+import {getLeaderboard} from "./leaderboard.actions";
+import {Dispatch} from 'redux';
+import {ActionType} from 'typesafe-actions';
+import {AppContextConsumer, IAppContext} from 'src';
+import {Animated} from "react-animated-css";
 
 export interface LeaderboardStateProps {
   backendEventChannelState: BackendEventChannelState;

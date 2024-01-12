@@ -1,13 +1,13 @@
 import * as React from "react"
-import { UserResult } from "../leaderboard/Leaderboard";
-import { BackendEventChannelState } from "../backend-event-channel/backend-event-channel.state";
+import {UserResult} from "../leaderboard/Leaderboard";
+import {BackendEventChannelState} from "../backend-event-channel/backend-event-channel.state";
 import Moment from "react-moment";
-import { connect } from "react-redux";
-import { ActionType } from "typesafe-actions";
-import { Dispatch } from "redux";
-import { getMyRaces } from "./my-races.actions";
-import { User } from "../backend-event-channel/user";
-import { AppContextConsumer, IAppContext } from "../index";
+import {connect} from "react-redux";
+import {ActionType} from "typesafe-actions";
+import {Dispatch} from "redux";
+import {getMyRaces} from "./my-races.actions";
+import {User} from "../backend-event-channel/user";
+import {AppContextConsumer, IAppContext} from "../index";
 
 export interface MyRacesStateProps {
   backendEventChannelState: BackendEventChannelState;

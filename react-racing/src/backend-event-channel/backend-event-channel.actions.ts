@@ -1,4 +1,4 @@
-import { createStandardAction } from "typesafe-actions";
+import {createStandardAction} from "typesafe-actions";
 
 export const backendEventChannelHasOpened = createStandardAction('BackendEventChannelHasOpened')<void>();
 export const backendEventChannelHasClosed = createStandardAction('BackendEventChannelClosed')<void>();

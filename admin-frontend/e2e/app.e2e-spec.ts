@@ -1,4 +1,4 @@
-import { AdminFrontendPage } from './app.po';
+import {AdminFrontendPage} from './app.po';
 
 describe('admin-frontend App', function() {
   let page: AdminFrontendPage;

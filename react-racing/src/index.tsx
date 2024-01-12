@@ -4,21 +4,13 @@ import App from './App';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import { Provider } from 'react-redux';
-import {
-  createStore,
-  Store
-} from 'redux';
-import { BackendEventChannel } from './backend-event-channel/backend-event-channel';
-import { composeWithDevTools, } from 'redux-devtools-extension';
-import {
-  rootReducer,
-  RootState
-} from './state';
-import { ClientApi } from './backend-event-channel/client-api';
-import {
-  changeLoginStatus
-} from './App.state';
+import {Provider} from 'react-redux';
+import {createStore, Store} from 'redux';
+import {BackendEventChannel} from './backend-event-channel/backend-event-channel';
+import {composeWithDevTools,} from 'redux-devtools-extension';
+import {rootReducer, RootState} from './state';
+import {ClientApi} from './backend-event-channel/client-api';
+import {changeLoginStatus} from './App.state';
 
 const store: Store<RootState> = createStore(
   rootReducer,

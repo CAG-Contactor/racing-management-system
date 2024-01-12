@@ -1,6 +1,6 @@
 package se.cag.labs.raceadmin;
 
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.Id;
 
 public class ActiveRace {
   @Id

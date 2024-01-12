@@ -1,5 +1,6 @@
 import * as ng1 from "angular";
 import * as _ from "lodash";
+
 export const appModule: ng1.IModule = ng1.module('app.module');
 const htmlTemplate = require("./queue.tpl.html");
 

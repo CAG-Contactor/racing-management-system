@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import './App.css';
-import { BackendEventChannel } from './backend-event-channel/backend-event-channel';
-import { LoginPage } from './login-page/login-page';
+import {BackendEventChannel} from './backend-event-channel/backend-event-channel';
+import {LoginPage} from './login-page/login-page';
 import AppContextWithMainPage from './main-page/main-page';
-import { RootState } from './state';
-import {
-  appActionCreators,
-  LoginStatus
-} from './App.state';
+import {RootState} from './state';
+import {appActionCreators, LoginStatus} from './App.state';
 import * as cookies from 'browser-cookies';
 
 

@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { FC } from 'react'
-import { Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import { getUserQueue } from './queue.actions'
-import { User } from '../backend-event-channel/user'
-import { ActionType } from 'typesafe-actions'
-import { AppContextConsumer, IAppContext } from '../index'
-import { BackendEventChannelState } from '../backend-event-channel/backend-event-channel.state'
+import {FC} from 'react'
+import {Dispatch} from 'redux'
+import {connect} from 'react-redux'
+import {getUserQueue} from './queue.actions'
+import {User} from '../backend-event-channel/user'
+import {ActionType} from 'typesafe-actions'
+import {AppContextConsumer, IAppContext} from '../index'
+import {BackendEventChannelState} from '../backend-event-channel/backend-event-channel.state'
 
 export interface UserQueueStateProps {
   backendEventChannelState: BackendEventChannelState;

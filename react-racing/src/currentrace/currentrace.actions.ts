@@ -1,5 +1,5 @@
-import { createStandardAction } from "typesafe-actions";
-import { RaceStatus } from './currentrace'
+import {createStandardAction} from "typesafe-actions";
+import {RaceStatus} from './currentrace'
 
 export const getRaceStatus = createStandardAction('GetRaceStatus')<RaceStatus, string>();
 

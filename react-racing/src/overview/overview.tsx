@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Animated } from "react-animated-css";
+import {Animated} from "react-animated-css";
 
 export class Overview extends React.Component {
 

@@ -1,9 +1,9 @@
 package se.cag.labs.usermanager;
 
-import lombok.*;
-import org.springframework.data.annotation.*;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
 
-import java.time.*;
+import java.time.LocalDateTime;
 
 
 /**

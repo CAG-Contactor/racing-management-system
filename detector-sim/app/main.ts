@@ -4,25 +4,8 @@ import 'bootstrap/css/bootstrap.css!';
 import 'zone'; // See https://gist.github.com/robwormald/429e01c6d802767441ec
 import 'reflect-metadata';
 
-import {
-  Component,
-  View,
-  NgZone,
-  bootstrap,
-  FormBuilder,
-  ControlGroup,
-  AbstractControl,
-  FORM_DIRECTIVES,
-  NgIf
-} from "angular2/angular2";
-import {
-  HTTP_PROVIDERS,
-  Http,
-  Response,
-  RequestOptions,
-  RequestMethods
-} from "angular2/http";
-import {NgClass} from "../jspm_packages/npm/angular2@2.0.0-alpha.44/ts/src/core/directives/ng_class";
+import {bootstrap, Component, ControlGroup, FORM_DIRECTIVES, FormBuilder, NgIf, View} from "angular2/angular2";
+import {Http, HTTP_PROVIDERS} from "angular2/http";
 
 @Component({
   selector: 'myapp',

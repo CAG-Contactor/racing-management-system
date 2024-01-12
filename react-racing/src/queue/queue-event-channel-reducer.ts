@@ -1,7 +1,4 @@
-import {
-    ActionType,
-    getType
-} from "typesafe-actions";
+import {ActionType, getType} from "typesafe-actions";
 import * as actions from './queue.actions';
 import {User} from "../backend-event-channel/user";
 

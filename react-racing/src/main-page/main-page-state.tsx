@@ -1,8 +1,5 @@
 import * as actions from './main-page-action';
-import {
-  ActionType,
-  getType
-} from "typesafe-actions";
+import {ActionType, getType} from "typesafe-actions";
 
 export type MainPageActions = ActionType<typeof actions>
 

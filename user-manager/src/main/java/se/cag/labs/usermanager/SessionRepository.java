@@ -1,7 +1,7 @@
 package se.cag.labs.usermanager;
 
-import org.springframework.data.mongodb.repository.*;
-import org.springframework.stereotype.*;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SessionRepository extends MongoRepository<Session, String> {

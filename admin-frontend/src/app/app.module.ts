@@ -6,7 +6,7 @@ import {RouterModule} from "@angular/router";
 import {AlertModule, DropdownModule, ModalModule, PaginationModule} from "ng2-bootstrap";
 
 import {ChartModule} from "angular2-highcharts";
-import {SharedModule, Backend, Errors} from "./shared";
+import {Backend, Errors, SharedModule} from "./shared";
 import {LoginModule} from "./login";
 import {DashboardModule} from "./dashboard";
 

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Response} from "@angular/http";
-import {ReplaySubject, Subject, Observable} from "rxjs";
+import {Observable, ReplaySubject, Subject} from "rxjs";
 
 import {FailureInfo} from "./FailureInfo";
 

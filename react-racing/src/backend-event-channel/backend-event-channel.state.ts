@@ -1,7 +1,4 @@
-import {
-  ActionType,
-  getType
-} from "typesafe-actions";
+import {ActionType, getType} from "typesafe-actions";
 import * as actions from './backend-event-channel.actions';
 
 export type ClientApiWebsocketActions = ActionType<typeof actions>

@@ -1,7 +1,8 @@
 package se.cag.labs.cagrms.clientapi.config;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Provides build version.

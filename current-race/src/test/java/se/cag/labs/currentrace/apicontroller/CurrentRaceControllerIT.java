@@ -1,48 +1,5 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import com.jayway.restassured.RestAssured;
-import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.client.RestTemplate;
-import se.cag.labs.currentrace.CurrentRaceApplication;
-import se.cag.labs.currentrace.apicontroller.apimodel.RaceStatus;
-import se.cag.labs.currentrace.apicontroller.apimodel.User;
-import se.cag.labs.currentrace.services.CallbackService;
-import se.cag.labs.currentrace.services.UserManagerService;
-import se.cag.labs.currentrace.services.repository.CurrentRaceRepository;
-import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
-
-import java.util.Collections;
-import java.util.List;
-
-import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.RestAssured.when;
-import static com.lordofthejars.nosqlunit.mongodb.MongoDbConfigurationBuilder.mongoDb;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
-
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(classes = {CurrentRaceApplication.class},
 //  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
