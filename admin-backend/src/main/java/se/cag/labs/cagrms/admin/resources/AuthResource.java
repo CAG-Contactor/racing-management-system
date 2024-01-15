@@ -1,7 +1,6 @@
 package se.cag.labs.cagrms.admin.resources;
 
-
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

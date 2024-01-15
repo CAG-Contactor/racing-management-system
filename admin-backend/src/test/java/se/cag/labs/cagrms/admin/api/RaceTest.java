@@ -1,7 +1,6 @@
 package se.cag.labs.cagrms.admin.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.dropwizard.jackson.Jackson;
 import org.junit.Before;
 import org.junit.Test;
 import se.cag.labs.leaderboard.ResultType;
@@ -10,13 +9,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class RaceTest {
 
-    private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private Race race;
 
     @Before
     public void setup() {
-        race = Race.builder().id("56bb20bae4b043f180920c26")
+        race = Race.builder()
+                .id("56bb20bae4b043f180920c26")
                 .userId("askiajonsson@hotmail.com")
                 .time(108892)
                 .splitTime(41857)
@@ -26,7 +26,6 @@ public class RaceTest {
 
     @Test
     public void serializesToJSON() throws Exception {
-
         final String expected = MAPPER.writeValueAsString(
                 MAPPER.readValue(fixture("fixtures/race.json"), Race.class));
 

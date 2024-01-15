@@ -1,7 +1,7 @@
 package se.cag.labs.cagrms.admin.resources;
 
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.resources.apimodel.Service;
 
@@ -40,7 +40,7 @@ public class StatusResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Service> getServiceStatus() {
 
-        List services = new ArrayList();
+        List<Service> services = new ArrayList<>();
         services.add(Service.builder().name("CurrentRace").alive(isAlive(urlCurrentRaceBaseURI)).build());
         services.add(Service.builder().name("LeaderBoard").alive(isAlive(urlLeaderboardBaseURI)).build());
         services.add(Service.builder().name("UserManager").alive(isAlive(urlUserManagerBaseURI)).build());

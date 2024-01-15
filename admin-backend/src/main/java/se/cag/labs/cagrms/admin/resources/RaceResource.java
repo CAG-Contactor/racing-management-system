@@ -2,7 +2,7 @@ package se.cag.labs.cagrms.admin.resources;
 
 
 import io.dropwizard.jersey.errors.ErrorMessage;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.api.Race;
 import se.cag.labs.cagrms.admin.resources.apimodel.UserResult;

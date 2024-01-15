@@ -1,7 +1,7 @@
 package se.cag.labs.cagrms.admin.resources;
 
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import se.cag.labs.cagrms.admin.AdminConfiguration;
 import se.cag.labs.cagrms.admin.resources.apimodel.User;
 import se.cag.labs.cagrms.admin.resources.mapper.ModelMapper;

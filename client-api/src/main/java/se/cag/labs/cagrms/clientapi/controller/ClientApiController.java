@@ -230,7 +230,7 @@ public class ClientApiController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "The service is up and running"),
     })
-    public ResponseEntity ping() {
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<Void> ping() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

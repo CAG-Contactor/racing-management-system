@@ -2,7 +2,7 @@ package se.cag.labs.cagrms.admin.resources.csv;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;

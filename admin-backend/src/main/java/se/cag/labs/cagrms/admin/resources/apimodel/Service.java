@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder(toBuilder = true)
 @Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = Service.ServiceBuilder.class)
 public final class Service {
