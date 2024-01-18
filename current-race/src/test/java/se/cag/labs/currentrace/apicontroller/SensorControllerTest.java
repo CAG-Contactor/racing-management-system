@@ -1,7 +1,7 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import se.cag.labs.currentrace.CurrentRaceApplication;
 import se.cag.labs.currentrace.services.repository.SensorRepository;
 import se.cag.labs.currentrace.services.repository.datamodel.SensorModel;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)

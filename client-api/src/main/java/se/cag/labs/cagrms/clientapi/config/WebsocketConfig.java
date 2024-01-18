@@ -14,7 +14,7 @@ public class WebsocketConfig implements WebSocketConfigurer {
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(eventBus, EventChannelSocketHandler.CHANNEL_NAME)
-      .setAllowedOrigins("*")
+      .setAllowedOrigins("http://localhost:3000")
       .withSockJS()
     ;
   }

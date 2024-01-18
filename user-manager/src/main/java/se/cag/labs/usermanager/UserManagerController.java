@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowCredentials = "true")
 public class UserManagerController {
   public static final String X_AUTH_TOKEN = "X-AuthToken";
 
@@ -48,13 +49,13 @@ public class UserManagerController {
     if (u == null) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
-    Session s = sessionRepository.findByUserId(u.getId());
+    Session s = sessionRepository.findByUserId(u.getUserId());
     if (s == null) {
       // Ny Session
       s = new Session();
       s.setToken(UUID.randomUUID().toString());
       s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
-      s.setUserId(u.getId());
+      s.setUserId(u.getUserId());
       sessionRepository.save(s);
     } else {
       if (LocalDateTime.now().isAfter(s.getTimeout())) {
@@ -85,13 +86,13 @@ public class UserManagerController {
       // Use registered
       u = existing;
     }
-    Session s = sessionRepository.findByUserId(u.getId());
+    Session s = sessionRepository.findByUserId(u.getUserId());
     if (s == null) {
       // Ny Session
       s = new Session();
       s.setToken(UUID.randomUUID().toString());
       s.setTimeout(LocalDateTime.now().plusMinutes(SESSION_TIME_MINUTES));
-      s.setUserId(u.getId());
+      s.setUserId(u.getUserId());
       sessionRepository.save(s);
     } else {
       if (LocalDateTime.now().isAfter(s.getTimeout())) {

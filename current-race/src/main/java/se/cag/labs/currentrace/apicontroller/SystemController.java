@@ -5,7 +5,7 @@ import se.cag.labs.currentrace.apicontroller.apimodel.VersionResponse;
 import se.cag.labs.currentrace.config.BuildInfo;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET})
+@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET}, allowCredentials = "true")
 public class SystemController {
   @RequestMapping(value = "/version", method = RequestMethod.GET)
   public VersionResponse getVersion(@RequestHeader(required = false) String authorization) {

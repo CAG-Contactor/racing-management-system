@@ -1,6 +1,5 @@
 package se.cag.labs.currentrace.apicontroller;
 
-import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +12,8 @@ import se.cag.labs.currentrace.services.PassageDetectedService;
 import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
 
-@Api(basePath = "*", value = "Current race", description = "Current race services", produces = "application/json")
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3010" }, methods = {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
 @Slf4j
 public class CurrentRaceController {
   public static final String START_RACE_URL = "/startRace";
@@ -33,19 +31,15 @@ public class CurrentRaceController {
   private StatusService statusService;
 
   @RequestMapping(value = START_RACE_URL, method = RequestMethod.POST)
-  @ApiOperation(value = "Start new race", notes = "Start new race")
-  @ApiResponses(value = {
-    @ApiResponse(code = 202, message = "Race is starting"),
-    @ApiResponse(code = 302, message = "Race is already started"),
-    @ApiResponse(code = 404, message = "ASD"),
-    @ApiResponse(code = 418, message = "Something went terribly wrong")
-  })
+//  @ApiOperation(value = "Start new race", notes = "Start new race")
+//  @ApiResponses(value = {
+//    @ApiResponse(code = 202, message = "Race is starting"),
+//    @ApiResponse(code = 302, message = "Race is already started"),
+//    @ApiResponse(code = 404, message = "ASD"),
+//    @ApiResponse(code = 418, message = "Something went terribly wrong")
+//  })
   public ResponseEntity startRace(
-    @RequestParam
-    @ApiParam(value = "The callback to use to report status changes when the race starts",
-      defaultValue = "http://localhost:10380/onracestatusupdate",
-      required = true)
-      String callbackUrl) {
+    @RequestParam String callbackUrl) {
 
     switch (startRaceService.startRace(callbackUrl)) {
       case FOUND:

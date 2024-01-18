@@ -1,9 +1,5 @@
 package se.cag.labs.raceadmin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,11 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RestController
-@Api(basePath = "*",
-  value = "Race Administrator",
-  description = "This service administrates the races.",
-  produces = "application/json")
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
 public class RaceAdministratorController {
   @Autowired
   private UserQueueRepository userQueueRepository;
@@ -46,10 +38,6 @@ public class RaceAdministratorController {
   private RestTemplate restTemplate = new RestTemplate();
 
   @RequestMapping(value = "/userqueue", method = RequestMethod.POST)
-  @ApiOperation(value = "Registers a user as a competitor in a race.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 201, message = "User is registered for race.")
-  })
   public void registerForRace(@RequestBody User user) {
     log.debug("POST /userqueue:" + user);
     user.setTimestamp(System.currentTimeMillis());
@@ -73,20 +61,12 @@ public class RaceAdministratorController {
   }
 
   @RequestMapping(value = "/userqueue", method = RequestMethod.GET)
-  @ApiOperation(value = "Get the contents of the queue.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "The queued users.")
-  })
   public Queue<User> getQueue() {
     log.debug("GET /userqueue");
     return sortedQueue();
   }
 
   @RequestMapping(value = "/userqueue", method = RequestMethod.DELETE)
-  @ApiOperation(value = "Unegisters a user as a competitor in a race.")
-  @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "User is unregistered for race.")
-  })
   public void unregisterForRace(@RequestBody User user) {
     log.debug("DELETE /userqueue:" + user);
     final User existingUser = userQueueRepository.findUserByUserId(user.getUserId());
@@ -95,7 +75,6 @@ public class RaceAdministratorController {
   }
 
   @RequestMapping(value="/currentrace")
-  @ApiOperation(value = "Gets the status of the active race")
   public RaceStatus getCurrentRaceStatus() {
     RaceStatus currentRaceStatus = currentRaceService.status();
     Optional<RaceStatus> maybeActiveRace = activeRaceRepository.findAll().stream().findFirst();
@@ -105,14 +84,12 @@ public class RaceAdministratorController {
   }
 
   @RequestMapping(value="/lastrace")
-  @ApiOperation(value="Gets the status of the last race")
   public RaceStatus getLastRaceStatus() {
     Optional<LastRaceStatus> maybeLastRace = lastRaceRepository.findAll().stream().findFirst();
     return (RaceStatus) maybeLastRace.orElse(new RaceStatus(null));
   }
 
   @RequestMapping(value = "/on-race-status-update", method = RequestMethod.POST)
-  @ApiOperation(value = "Handle status updates for the current race.")
   public void onRaceStatusUpdate(@RequestBody RaceStatus status) {
     // TODO kontrollera att användaren finns och är aktiv
     // TODO ersätt med en builder?
@@ -153,7 +130,6 @@ public class RaceAdministratorController {
   }
 
   @RequestMapping(value = "/reset-race", method = RequestMethod.POST)
-  @ApiOperation(value = "Handle status updates for the current race.")
   public void resetRace() {
     log.debug("Canceling current race....");
     currentRaceService.cancelRace();

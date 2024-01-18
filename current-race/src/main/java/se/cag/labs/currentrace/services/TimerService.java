@@ -1,12 +1,12 @@
 package se.cag.labs.currentrace.services;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.cag.labs.currentrace.services.repository.datamodel.CurrentRaceStatus;
 import se.cag.labs.currentrace.timer.VerifyRacePassagesTimerTask;
 
-import javax.annotation.PostConstruct;
 import java.util.Timer;
 import java.util.TimerTask;
 

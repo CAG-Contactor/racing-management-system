@@ -15,7 +15,6 @@
         <artifactId>race-manager-system</artifactId>
         <groupId>se.cag.labs</groupId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../</relativePath>
     </parent>
 
     <properties>
@@ -34,7 +33,7 @@
         <dependency>
             <groupId>com.pi4j</groupId>
             <artifactId>pi4j-core</artifactId>
-            <version>1.2</version>
+            <version>1.4</version>
         </dependency>
 
         <!-- For avoiding boiler plate code -->
@@ -68,8 +67,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <executable>true</executable>
                     <classifier>exec</classifier>
                 </configuration>
             </plugin>
