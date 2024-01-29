@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-access
+type: Opaque
+#data:
+#  MONGO_USERNAME: dGVzdAo=
+#  MONGO_PASSWORD: cGFzc3dvcmQK
+#  MONGO_USER_MANAGER_URL: bW9uZ29kYjovL21vbmdvZGIubW9uZ29kYi5zdmMuY2x1c3Rlci5sb2NhbC91c2VybWFuYWdlcmRiCg==
+#  MONGO_CURRENT_RACE_URL: bW9uZ29kYjovL21vbmdvZGIubW9uZ29kYi5zdmMuY2x1c3Rlci5sb2NhbC9jdXJyZW50cmFjZWRiCg==
+#  MONGO_RACE_ADMIN_URL: bW9uZ29kYjovL21vbmdvZGIubW9uZ29kYi5zdmMuY2x1c3Rlci5sb2NhbC9yYWNlYWRtaW5kYgo=
+#  MONGO_LEADERBOARD_URL: bW9uZ29kYjovL21vbmdvZGIubW9uZ29kYi5zdmMuY2x1c3Rlci5sb2NhbC9sZWFkZXJib2FyZGRiCg==
+stringData:
+  MONGO_USERNAME: "test"
+  MONGO_PASSWORD: "password"
+  MONGO_USER_MANAGER_URL: "mongodb://test:password@mongodb.mongodb.svc.cluster.local/usermanagerdb"
+  MONGO_CURRENT_RACE_URL: "mongodb://test:password@mongodb.mongodb.svc.cluster.local/currentracedb"
+  MONGO_RACE_ADMIN_URL: "mongodb://test:password@mongodb.mongodb.svc.cluster.local/raceadmindb"
+  MONGO_LEADERBOARD_URL: "mongodb://test:password@mongodb.mongodb.svc.cluster.local/leaderboarddb"

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "http://192.168.0.50:30080"}, methods = {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
 @Slf4j
 public class EventChannelController {
   @Autowired

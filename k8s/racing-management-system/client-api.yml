@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-api
+  labels:
+    app: client-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-api
+  template:
+    metadata:
+      labels:
+        app: client-api
+    spec:
+      containers:
+        - name: client-api
+          image: 192.168.0.50:32000/cag/client-api:latest
+          ports:
+            - containerPort: 8080
+              name: ca-port
+      initContainers:
+        - name: check-mongo
+          image: busybox:1.31
+          command: [ 'sh', '-c', 'echo -e "Checking user-manager svc"; while ! nc -z user-manager 8080; do sleep 1; printf "-"; done; echo -e "  >> user-manager has started";' ]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-api
+spec:
+  selector:
+    app: client-api
+  type: NodePort
+  ports:
+    - name: service-port
+      protocol: TCP
+      port: 8080
+      nodePort: 30111
+      targetPort: ca-port

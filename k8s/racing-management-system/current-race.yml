@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: current-race
+  labels:
+    app: current-race
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: current-race
+  template:
+    metadata:
+      labels:
+        app: current-race
+    spec:
+      containers:
+        - name: current-race
+          image: 192.168.0.50:32000/cag/current-race:latest
+          ports:
+            - containerPort: 8080
+              name: cr-port
+          env:
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_CURRENT_RACE_URL
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_USERNAME
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_PASSWORD
+      initContainers:
+        - name: check-mongo
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking mongodb svc"; while ! nc -z mongodb.mongodb.svc.cluster.local 27017; do sleep 1; printf "-"; done; echo -e "  >> MongoDb has started";']
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: current-race
+spec:
+  selector:
+    app: current-race
+  ports:
+    - name: service-port
+      protocol: TCP
+      port: 8080
+      targetPort: cr-port

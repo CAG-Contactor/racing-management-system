@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET}, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "http://192.168.0.50:30080" }, methods = {RequestMethod.GET}, allowCredentials = "true")
 public class PingController {
 
     public static final String PING_URL = "/ping";

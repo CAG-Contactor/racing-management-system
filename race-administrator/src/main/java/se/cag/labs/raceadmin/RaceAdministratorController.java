@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "http://192.168.0.50:30080" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
 public class RaceAdministratorController {
   @Autowired
   private UserQueueRepository userQueueRepository;

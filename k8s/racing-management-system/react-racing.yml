@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-racing
+  labels:
+    app: react-racing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-racing
+  template:
+    metadata:
+      labels:
+        app: react-racing
+    spec:
+      containers:
+        - name: react-racing
+          image: 192.168.0.50:32000/cag/react-racing:latest
+          ports:
+            - containerPort: 80
+              name: ca-port
+      initContainers:
+        - name: check-client-api
+          image: busybox:1.31
+          command: [ 'sh', '-c', 'echo -e "Checking client-api svc"; while ! nc -z client-api 8080; do sleep 1; printf "-"; done; echo -e "  >> client-api has started";' ]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-racing
+spec:
+  selector:
+    app: react-racing
+  type: NodePort
+  ports:
+    - name: service-port
+      protocol: TCP
+      port: 80
+      nodePort: 30080
+      targetPort: ca-port
