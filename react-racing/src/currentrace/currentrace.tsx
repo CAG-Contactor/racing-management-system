@@ -159,6 +159,8 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
         const finishTime = lastRace.finishTime ? lastRace.finishTime - lastRace.startTime + tzOffset : undefined
         const splitTime = lastRace.splitTime ? lastRace.splitTime - lastRace.startTime + tzOffset : undefined
         const user = lastRace.user.displayName
+        const org = lastRace.user.organisation
+
         const text = this.getTextLastRace(lastRace.event)
 
         return (
@@ -169,24 +171,26 @@ class Currentrace extends React.Component<CurrentraceStateProps> {
                     <div className="center col-xs-12">
                         <table className="center w-100">
                         <thead>
-                            <tr>
-                                <th className="col-xs-2 center"><strong>Contestant</strong></th>
-                                <th className="col-xs-2 center"><strong>Time</strong></th>
-                                <th className="col-xs-2 center"><strong>Split</strong></th>
-                            </tr>
+                        <tr>
+                            <th className="col-xs-2 center"><strong>Contestant</strong></th>
+                            <th className="col-xs-2 center"><strong>Organisation</strong></th>
+                            <th className="col-xs-2 center"><strong>Time</strong></th>
+                            <th className="col-xs-2 center"><strong>Split</strong></th>
+                        </tr>
                         </thead>
-                        <tbody>
+                            <tbody>
                             <tr>
                                 <td className="col-xs-2 center">{user}</td>
+                                <td className="col-xs-2 center">{org}</td>
                                 <td className="col-xs-2 center">
-                                
-                                    { finishTime && <Moment format="mm:ss:SSS">{finishTime}</Moment> }
-                                    { !finishTime && "--:--.---" }
+
+                                    {finishTime && <Moment format="mm:ss:SSS">{finishTime}</Moment>}
+                                    {!finishTime && "--:--.---"}
                                 </td>
 
-                                <td className="col-xs-2 center"> 
-                                    { splitTime && <Moment format="mm:ss:SSS">{splitTime}</Moment> }
-                                    { !splitTime &&  "--:--.---"}
+                                <td className="col-xs-2 center">
+                                    {splitTime && <Moment format="mm:ss:SSS">{splitTime}</Moment>}
+                                    {!splitTime && "--:--.---"}
                                 </td>
                             </tr>
                             </tbody>
