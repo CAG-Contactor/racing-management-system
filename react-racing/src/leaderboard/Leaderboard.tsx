@@ -25,6 +25,7 @@ export interface UserResult {
 
 export interface User {
   displayName: string
+  organisation: string
 }
 
 class Leaderboard extends React.Component<LeaderboardStateProps> {
@@ -84,6 +85,7 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
             <thead>
             <tr>
               <th className="col-xs-2">Name</th>
+              <th className="col-xs-2">Organisation</th>
               <th className="col-xs-2">Time</th>
               <th className="col-xs-2">Split</th>
               <th className="col-xs-2">Result</th>
@@ -92,12 +94,13 @@ class Leaderboard extends React.Component<LeaderboardStateProps> {
             <tbody>
             {this.props.leaderboard.map((userResult: UserResult, index: number) => {
               return (
-                <tr key={index}>
-                  <td className="col-xs-2">{userResult.user.displayName}</td>
-                  <td className="col-xs-2"><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
-                  <td className="col-xs-2"><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
-                  <td className="col-xs-2">{this.getResultText(userResult.result)}</td>
-                </tr>
+                  <tr key={index}>
+                    <td className="col-xs-2">{userResult.user.displayName}</td>
+                    <td className="col-xs-2">{userResult.user.organisation}</td>
+                    <td className="col-xs-2"><Moment format="mm:ss:SSS">{userResult.time}</Moment></td>
+                    <td className="col-xs-2"><Moment format="mm:ss:SSS">{userResult.splitTime}</Moment></td>
+                    <td className="col-xs-2">{this.getResultText(userResult.result)}</td>
+                  </tr>
               );
             })}
             </tbody>

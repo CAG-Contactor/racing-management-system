@@ -19,4 +19,5 @@ public class User{
   private Long timestamp;
   private String userId;
   private String displayName;
+  private String organisation;
 }
