@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-manager
+  labels:
+    app: user-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-manager
+  template:
+    metadata:
+      labels:
+        app: user-manager
+    spec:
+      containers:
+        - name: user-manager
+          image: 192.168.0.50:32000/cag/user-manager:latest
+          ports:
+            - containerPort: 8080
+              name: um-port
+          env:
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_USER_MANAGER_URL
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_USERNAME
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_PASSWORD
+      initContainers:
+        - name: check-mongo
+          image: busybox:1.31
+          command: [ 'sh', '-c', 'echo -e "Checking mongodb svc"; while ! nc -z mongodb.mongodb.svc.cluster.local 27017; do sleep 1; printf "-"; done; echo -e "  >> MongoDb has started";' ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-manager
+spec:
+  selector:
+    app: user-manager
+  ports:
+    - name: service-port
+      protocol: TCP
+      port: 8080
+      targetPort: um-port

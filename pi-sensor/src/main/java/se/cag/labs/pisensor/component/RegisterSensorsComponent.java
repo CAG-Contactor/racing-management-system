@@ -1,11 +1,12 @@
 package se.cag.labs.pisensor.component;
 
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalInput;
-import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+import com.pi4j.Pi4J;
+import com.pi4j.context.Context;
+import com.pi4j.io.gpio.digital.DigitalInput;
+import com.pi4j.io.gpio.digital.DigitalState;
+import com.pi4j.io.gpio.digital.DigitalStateChangeEvent;
+import com.pi4j.io.gpio.digital.PullResistance;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -24,31 +25,40 @@ import java.io.IOException;
 public class RegisterSensorsComponent {
 
     private DroidRaceApiService droidRaceApiService;
+    private final Context pi4j;
 
     @Autowired
     public RegisterSensorsComponent(DroidRaceApiService droidRaceApiService) {
         this.droidRaceApiService = droidRaceApiService;
+        this.pi4j = Pi4J.newAutoContext();
     }
 
+    @PreDestroy
+    public void close() {
+        this.pi4j.shutdown();
+    }
     /**
      * Adds ourself as a listener for a GPIO port
      *
      * @param sensorId the sensor to listen to
      */
     private void registerListenerForSensor(final SensorId sensorId) {
-        final GpioController gpio = GpioFactory.getInstance();
-        final GpioPinDigitalInput pinDigitalInput = gpio.provisionDigitalInputPin(sensorId.getPin());
 
-        pinDigitalInput.addListener(new GpioPinListenerDigital() {
-            @Override
-            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-                if (shouldSendEvent(event, sensorId)) {
-                    long timestamp = System.currentTimeMillis();
-                    log.info(" --> CHANGE ON " + sensorId + " - TIME: " + timestamp);
-                    registerEvent(sensorId, timestamp);
-                }
+        var buttonConfig = DigitalInput.newConfigBuilder(pi4j)
+                .id(sensorId.toString())
+                .name(sensorId.toString())
+                .address(sensorId.getPin())
+                .pull(PullResistance.PULL_DOWN)
+                .provider("pigpio-digital-input");
+        var button = pi4j.create(buttonConfig);
+        button.addListener(event -> {
+            if (shouldSendEvent(event, sensorId)) {
+                long timestamp = System.currentTimeMillis();
+                log.info(" --> CHANGE ON " + sensorId + " - TIME: " + timestamp);
+                registerEvent(sensorId, timestamp);
             }
         });
+
     }
 
     /**
@@ -77,8 +87,9 @@ public class RegisterSensorsComponent {
      * @param sensorId the ID of the sensor that trigged
      * @return true if the event should be notified
      */
-    private boolean shouldSendEvent(GpioPinDigitalStateChangeEvent event, SensorId sensorId) {
-        return (sensorId.shouldTriggerOnHigh() && event.getState() == PinState.HIGH) || (!sensorId.shouldTriggerOnHigh() && event.getState() == PinState.LOW);
+    private boolean shouldSendEvent(DigitalStateChangeEvent event, SensorId sensorId) {
+        return (sensorId.shouldTriggerOnHigh() && event.state() == DigitalState.HIGH)
+                || (!sensorId.shouldTriggerOnHigh() && event.state() == DigitalState.LOW);
     }
 
     /**
@@ -92,7 +103,7 @@ public class RegisterSensorsComponent {
         try {
             for (SensorId sensorId : SensorId.values()) {
                 registerListenerForSensor(sensorId);
-                log.info("Listening for event " + sensorId.name() + " on pin " + sensorId.getPin().getName() + ", trigger when HIGH=" + sensorId.shouldTriggerOnHigh());
+                log.info("Listening for event " + sensorId.name() + " on BCM pin " + sensorId.getPin() + ", trigger when HIGH=" + sensorId.shouldTriggerOnHigh());
             }
         } catch (UnsatisfiedLinkError e) {
             log.error("Couldn't register GPIO:s for sensors, are we not running on a pi?");

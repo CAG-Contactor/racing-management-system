@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: race-administrator
+  labels:
+    app: race-administrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: race-administrator
+  template:
+    metadata:
+      labels:
+        app: race-administrator
+    spec:
+      containers:
+        - name: race-administrator
+          image: 192.168.0.50:32000/cag/race-administrator:latest
+          ports:
+            - containerPort: 8080
+              name: ra-port
+          env:
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_RACE_ADMIN_URL
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_USERNAME
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-access
+                  key: MONGO_PASSWORD
+      initContainers:
+        - name: check-mongo
+          image: busybox:1.31
+          command: [ 'sh', '-c', 'echo -e "Checking mongodb svc"; while ! nc -z mongodb.mongodb.svc.cluster.local 27017; do sleep 1; printf "-"; done; echo -e "  >> MongoDb has started";' ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: race-admin
+spec:
+  selector:
+    app: race-administrator
+  ports:
+    - name: service-port
+      protocol: TCP
+      port: 8080
+      targetPort: ra-port

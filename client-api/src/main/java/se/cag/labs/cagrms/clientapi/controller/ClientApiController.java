@@ -18,7 +18,7 @@ import se.cag.labs.cagrms.clientapi.service.UserResult;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "http://192.168.0.50:30080" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
 @Slf4j
 public class ClientApiController {
 

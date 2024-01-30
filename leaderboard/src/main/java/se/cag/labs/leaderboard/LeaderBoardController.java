@@ -16,7 +16,7 @@ import static java.util.Objects.nonNull;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "http://192.168.0.50:30080" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowCredentials = "true")
 public class LeaderBoardController {
   @Autowired
   private LeaderBoardRepository repository;

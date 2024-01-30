@@ -13,7 +13,7 @@ public class CurrentRaceService {
 
   @Value("${server.currentrace.base.uri}")
   private String currentRaceBaseUri;
-  @Value("${server.address}")
+  @Value("${self.address}")
   private String selfAddress;
   @Value("${server.port}")
   private String selfPort;

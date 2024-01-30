@@ -1,6 +1,5 @@
 package se.cag.labs.pisensor.scheduler;
 
-import com.pi4j.system.SystemInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,7 +10,6 @@ import se.cag.labs.pisensor.contract.Pi;
 import se.cag.labs.pisensor.service.DroidRaceApiService;
 import se.cag.labs.pisensor.utils.NetworkUtils;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Component
@@ -42,8 +40,8 @@ public class RegisterPiScheduler {
 
     private Pi createPiData() throws IOException, InterruptedException {
         try {
-            return new Pi("pi-sensor_" + SystemInfo.getSerial(), NetworkUtils.getIpAddress());
-        } catch (UnsupportedOperationException | FileNotFoundException e) {
+            return new Pi("pi-sensor", NetworkUtils.getIpAddress());
+        } catch (UnsupportedOperationException e) {
             log.warn("We are not running on a pi...");
             return new Pi("pi-sensor", NetworkUtils.getIpAddress());
         }

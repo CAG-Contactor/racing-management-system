@@ -13,7 +13,7 @@ import se.cag.labs.currentrace.services.StartRaceService;
 import se.cag.labs.currentrace.services.StatusService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3010" }, methods = {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3010", "http://192.168.0.50:30080" }, methods = {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
 @Slf4j
 public class CurrentRaceController {
   public static final String START_RACE_URL = "/startRace";
