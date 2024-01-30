@@ -49,4 +49,5 @@ $ docker buildx build -f ../src/main/docker/Dockerfile --platform linux/amd64,li
 * 192.168.0.50: Kubernetes master node, this is where all others point.
 * 192.168.0.40: Kubernetes
 * 192.168.0.41: Kubernetes
+* 192.168.0.42: Kubernetes
 * 192.168.0.43: Kubernetes worker (4GB ram)
