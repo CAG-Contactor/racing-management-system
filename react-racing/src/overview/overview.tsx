@@ -8,7 +8,7 @@ export class Overview extends React.Component {
       <div className="container">
         <div className="row justify-content-center">
           <Animated animationIn="bounceInLeft" animationOut="fadeOut" isVisible={true}>
-            <h1>C.A.G Maze Runner</h1>
+            <h1>CAG Racing System</h1>
             <div className="text-justify">
               <p>
                 In this game, you have to push three different bricks into three different gates with the help of a robot as fast as possible by using a PlayStation controller. The time will start as soon as you push the first brick through gate number 1. Thereafter you will receive a split time when you push the second brick through gate number 2. When you push the third brick through gate number 3,
